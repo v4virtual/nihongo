@@ -32,8 +32,33 @@ No build step, no dependencies, no network calls except Google Fonts.
 python3 -m http.server 8000 -d src
 ```
 
-Then open http://localhost:8000. On Android, open it in Chrome over HTTPS and
-choose "Add to Home screen" to install it as an offline app.
+Then open http://localhost:8000.
+
+## Deploy (GitHub Pages)
+
+Every push to `main` runs the tests, and if they pass, publishes `src/` to
+GitHub Pages at `https://<owner>.github.io/<repo>/`. One-time setup in the
+repository settings:
+
+1. **Settings → General → Default branch**: set it to `main`. The Pages
+   environment only accepts deploys from the default branch.
+2. **Settings → Pages → Build and deployment → Source**: choose
+   **GitHub Actions**.
+3. The repository must be public for Pages on GitHub's free plan (private
+   repositories need a paid plan, and the site is public either way).
+
+Then re-run the latest **Tests** workflow on `main` (Actions tab → Tests →
+Run workflow), or push to `main`.
+
+### Install on Android
+
+Open the Pages URL in Chrome, tap the ⋮ menu, then **Add to Home screen** (or
+**Install app**). Kaku then opens full screen and works offline. Progress is
+stored on the device and survives updates. Each new deploy is picked up the
+next time the app opens with a connection: app files are fetched network-first
+and the cache is renamed per deploy.
+
+On iPhone, open the URL in Safari and use **Share → Add to Home Screen**.
 
 ## Tests
 
@@ -80,6 +105,7 @@ src/
 tools/
   build-strokes.mjs     regenerates js/data/strokes.js from KanjiVG
   build-artifact.mjs    bundles everything into dist/kaku.html (single file)
+  build-icons.mjs       renders the PNG app icons from src/icon.svg
   smoke.mjs             screenshots of the main screens (Playwright)
 tests/
   unit/                 Node tests for grading logic and data
