@@ -50,10 +50,14 @@ export async function open(browser, base, route = "home", { width = 412, height 
     window.__said = [];
   }, { style, assist });
   await page.goto(base + "#" + route);
+  await settle(page);
   await page.evaluate(() => { NH.TTS.speak = (t) => { window.__said.push(t); return true; }; });
   page.errors = errors;
   return page;
 }
+
+// Waits two animation frames: the writer loads its character on the next frame.
+export const settle = (page) => page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
 
 // Reference strokes of the character in the cell, mapped to screen pixels.
 export async function strokesOnScreen(page) {

@@ -1,7 +1,7 @@
 import { test, describe, before, after } from "node:test";
 import assert from "node:assert/strict";
 import { execSync } from "node:child_process";
-import { chromium, serve, open, strokesOnScreen, drawPath, writeChar, feedback, saved } from "../helpers/browser.mjs";
+import { chromium, serve, open, settle, strokesOnScreen, drawPath, writeChar, feedback, saved } from "../helpers/browser.mjs";
 
 // Per-test limit; software-rendered neon glow makes some tests take ~30s.
 const T = { timeout: 120000 };
@@ -70,6 +70,8 @@ describe("explain", () => {
   test("combos explain themselves and open sequence practice", T, () => withPage("k-304d-3083", {}, async (page) => {
     assert.equal(await page.locator(".big-romaji").textContent(), "kya");
     await page.locator(".mode", { hasText: "Write" }).click();
+    await page.waitForURL(/#w-304d-3083$/);
+    await page.locator(".seq-c").first().waitFor();
     assert.equal(await page.locator(".seq-c").count(), 2);
   }));
 
@@ -178,6 +180,7 @@ describe("words and phrases", () => {
   test("phrases open in the writer", T, () => withPage("phrases", {}, async (page) => {
     await page.locator(".wcard-main").first().click();
     await page.waitForURL(/#phrase-/);
+    await page.locator(".seq-c").first().waitFor();
     assert.ok((await page.locator(".seq-c").count()) >= 2);
   }));
 });
@@ -268,6 +271,7 @@ describe("single-file build", () => {
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto(base + "dist/kaku-standalone.html#w-3044");
+    await settle(page);
     await writeChar(page);
     await page.locator(".result:not([hidden])").waitFor({ timeout: 5000 });
     assert.deepEqual(errors, []);
