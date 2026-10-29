@@ -35,6 +35,33 @@ python3 -m http.server 8000 -d src
 Then open http://localhost:8000. On Android, open it in Chrome over HTTPS and
 choose "Add to Home screen" to install it as an offline app.
 
+## Tests
+
+```bash
+npm test
+```
+
+- `npm run test:unit` runs in plain Node (no browser), in under a second. It
+  covers the stroke grader (path parsing, resampling, accuracy, reversed
+  strokes, stroke order, all 84 kana) and data integrity (charts, readings,
+  kana info, words, phrases, scene art, saved progress).
+- `npm run test:e2e` drives the real app in headless Chromium with a simulated
+  pen. It covers every screen, writing in all three styles and help levels,
+  stroke-order and direction feedback, words, the quiz, settings, layouts at
+  phone and desktop widths, and the single-file build.
+- GitHub Actions runs both on every pull request
+  (`.github/workflows/test.yml`).
+
+The e2e tests need Playwright with Chromium. If it isn't installed globally:
+
+```bash
+npm install --no-save playwright@1.63.0
+npx playwright install chromium
+```
+
+`npm run screenshots` saves screenshots of the main screens to a folder you pass
+as the second argument, for a quick visual check.
+
 ## Project layout
 
 ```
@@ -53,8 +80,11 @@ src/
 tools/
   build-strokes.mjs     regenerates js/data/strokes.js from KanjiVG
   build-artifact.mjs    bundles everything into dist/kaku.html (single file)
-  test-geometry.mjs     grader checks: node tools/test-geometry.mjs
-  smoke.mjs             browser smoke test with screenshots (Playwright)
+  smoke.mjs             screenshots of the main screens (Playwright)
+tests/
+  unit/                 Node tests for grading logic and data
+  e2e/                  browser tests of the whole app
+  helpers/              VM loader, static server, simulated pen
 ```
 
 ## Credits
