@@ -19,6 +19,7 @@ const head = html.slice(html.indexOf("<head>") + 6, html.indexOf("</head>"))
   .replace(/<meta charset[^>]*>\n?/, "")
   .replace(/<meta name="viewport"[^>]*>\n?/, "")
   .replace(/<link rel="manifest"[^>]*>\n?/, "")
+  .replace(/<link rel="apple-touch-icon"[^>]*>\n?/, "")
   .replace(/<link rel="icon"[^>]*>/, `<link rel="icon" href="data:image/svg+xml,${encodeURIComponent(icon)}">`)
   .replace(/<link rel="stylesheet" href="css\/app.css">/, `<style>\n${css}\n</style>`);
 let body = html.slice(html.indexOf("<body>") + 6, html.indexOf("</body>"));

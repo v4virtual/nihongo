@@ -52,6 +52,7 @@ release; order within a group is a rough priority.
 
 ## Platform
 
+- [x] Deploy to GitHub Pages on every green push to `main`; installable on Android/iOS, offline, auto-updating
 - [ ] Android app: wrap the PWA with Capacitor (or a Trusted Web Activity) for the Play Store
 - [ ] Optional sync across devices (account-free export/import first)
 - [ ] Offline neural TTS for consistent voices across devices. Candidates to evaluate:
