@@ -21,9 +21,10 @@ const head = html.slice(html.indexOf("<head>") + 6, html.indexOf("</head>"))
   .replace(/<link rel="manifest"[^>]*>\n?/, "")
   .replace(/<link rel="apple-touch-icon"[^>]*>\n?/, "")
   .replace(/<link rel="icon"[^>]*>/, `<link rel="icon" href="data:image/svg+xml,${encodeURIComponent(icon)}">`)
-  .replace(/<link rel="stylesheet" href="css\/app.css">/, `<style>\n${css}\n</style>`);
+  .replace(/<link rel="stylesheet" href="css\/app.css">/, () => `<style>\n${css}\n</style>`);
 let body = html.slice(html.indexOf("<body>") + 6, html.indexOf("</body>"));
-body = body.replace(/(<script src="[^"]+"><\/script>\n?)+/, `<script>\n${js.replace(/<\/script/gi, "<\\/script")}\n</script>\n`);
+// Replacer functions, so "$&" and friends in the code are kept as written.
+body = body.replace(/(<script src="[^"]+"><\/script>\n?)+/, () => `<script>\n${js.replace(/<\/script/gi, "<\\/script")}\n</script>\n`);
 
 await mkdir(join(root, "dist"), { recursive: true });
 await writeFile(join(root, "dist/kaku.html"), `${head.trim()}\n${body.trim()}\n`);

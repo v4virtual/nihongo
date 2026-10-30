@@ -4,7 +4,7 @@ Kaku teaches Japanese one script at a time, with handwriting at the centre.
 This file tracks what's shipped and what we might add. Items are grouped by
 release; order within a group is a rough priority.
 
-## v0.1 — Hiragana (this release)
+## v0.1 — Hiragana
 
 - [x] Home with the three scripts as station signs; katakana and kanji marked "coming soon"
 - [x] Hiragana chart: gojūon (46), dakuten/handakuten (25), small kana and yōon combos (33)
@@ -40,11 +40,12 @@ release; order within a group is a rough priority.
 
 ## v0.3 — Learning loop
 
-- [ ] Spaced repetition (FSRS) across writing and quiz, with a gentle "today" queue (no streaks or hearts)
-- [ ] Reading mode: short sentences and signs you'd see in Japan (station names, shop signs, menus)
-- [ ] Pronunciation check: speak the kana or word and get feedback (Web Speech recognition where available; on-device model later)
-- [ ] Mixed "write what you hear" drill: audio only, write the kana
-- [ ] Progress view per row (あ-row, か-row…) without gamification
+- [x] Spaced repetition (FSRS-4.5) across writing, quiz and reading, with a gentle Today queue (no streaks or hearts); new kana a few a day in chart order, voiced kana, combos, words and signs once their kana are learned
+- [x] Reading mode: station boards, shop curtains, road markings, menus and labels, and short spaced sentences; tap a kana to hear it, reading hidden until asked
+- [x] Pronunciation check for words, phrases and signs (Web Speech recognition in the browser, Android's recogniser in the app), asking before first use and accepting kanji answers
+- [ ] Pronunciation check for single kana: needs an on-device model, since cloud recognisers turn one syllable into a random word
+- [x] Mixed "write what you hear" drill: audio only, write the kana
+- [x] Progress view per row (あ-row, か-row…) without gamification
 
 ## v0.4 — Katakana
 
@@ -62,7 +63,7 @@ release; order within a group is a rough priority.
 
 - [x] Deploy to GitHub Pages on every green push to `main`; installable on Android/iOS, offline, auto-updating
 - [x] Android app (APK) with Capacitor: offline, native text-to-speech and haptics, built and published as a GitHub Release on every green push to `main`
-- [ ] Play Store listing (needs an .aab, store assets and a privacy note)
+- [ ] Play Store listing (needs an .aab, store assets and a privacy note covering the microphone)
 - [ ] Bundle the fonts in the APK (they load from Google Fonts today, so a first launch offline uses fallback fonts)
 - [ ] Optional sync across devices (account-free export/import first)
 - [ ] Offline neural TTS for consistent voices across devices. Candidates to evaluate:

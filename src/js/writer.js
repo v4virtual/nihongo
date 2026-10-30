@@ -76,6 +76,7 @@ window.NH = window.NH || {};
     // ── setup ──────────────────────────────────────────────
     setChar(ch, colorIndex = this.colorIndex) {
       this.ch = ch;
+      this.host.dataset.char = ch;
       this.colorIndex = colorIndex;
       this.color = NEON[colorIndex % NEON.length];
       this.strokes = Geo.strokesOf(ch);

@@ -38,7 +38,7 @@ export function serve() {
 
 /* Opens a fresh page (clean storage) and collects page errors. Speech is
  * replaced by a recorder so tests can check what would have been said. */
-export async function open(browser, base, route = "home", { width = 412, height = 860, style, assist, text, theme, hand, scheme = "dark" } = {}) {
+export async function open(browser, base, route = "home", { width = 412, height = 860, style, assist, text, theme, hand, scheme = "dark", init } = {}) {
   const context = await browser.newContext({ viewport: { width, height }, colorScheme: scheme });
   const page = await context.newPage();
   const errors = [];
@@ -50,6 +50,8 @@ export async function open(browser, base, route = "home", { width = 412, height 
     try { if (!localStorage.getItem("kaku.v1")) localStorage.setItem("kaku.v1", JSON.stringify({ settings, progress: {} })); } catch {}
     window.__said = [];
   }, { style, assist, text, theme, hand });
+  // Optional page setup that must run before the app, e.g. a fake recogniser.
+  if (init) await page.addInitScript(init);
   await page.goto(base + "#" + route);
   await settle(page);
   await page.evaluate(() => { NH.TTS.speak = (t) => { window.__said.push(t); return true; }; });
@@ -64,7 +66,7 @@ export const settle = (page) => page.evaluate(() => new Promise((r) => requestAn
 export async function strokesOnScreen(page) {
   return page.evaluate(() => {
     const r = document.querySelector(".cell .live").getBoundingClientRect();
-    const ch = document.querySelector(".seq-c.on span")?.textContent || document.querySelector(".bar-title b").textContent;
+    const ch = document.querySelector(".cell[data-char]")?.dataset.char || document.querySelector(".seq-c.on span")?.textContent || document.querySelector(".bar-title b").textContent;
     return NH.Geo.strokesOf(ch).map((st) => st.pts.map((p) => ({ x: r.left + (p.x / 109) * r.width, y: r.top + (p.y / 109) * r.height })));
   });
 }

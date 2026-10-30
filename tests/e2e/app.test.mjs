@@ -36,7 +36,7 @@ describe("home", () => {
     assert.match(await page.locator(".toast").textContent(), /coming soon/);
     assert.equal(new URL(page.url()).hash, "#home");
     await page.locator(".eki:not(.soon)").click();
-    await page.waitForURL(/#hiragana$/);
+    await page.waitForURL(/#today$/);
   }));
 });
 

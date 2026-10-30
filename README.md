@@ -1,11 +1,20 @@
 # Kaku 書く
 
-Learn Japanese by writing it. v0.1 covers **hiragana**: every kana has an
+Learn Japanese by writing it. Kaku covers **hiragana** so far: every kana has an
 explain page and a writing practice where each stroke is checked for shape,
 direction and order. Katakana and kanji are on the [roadmap](ROADMAP.md).
 
 ## What's inside
 
+- **Today**: a short daily queue scheduled with
+  [FSRS](https://github.com/open-spaced-repetition/fsrs4anki) (the scheduler
+  behind Anki's FSRS option) so each kana, word and sign comes back just before
+  you'd forget it. New kana arrive a few a day (3, 5 or 10) in chart order;
+  dakuten kana, combos, words and signs open up once their kana are learned.
+  Reviews rotate through writing from memory, reading and writing from sound.
+  No streaks, points or hearts. A progress view colours each kana in the chart
+  rows by how well it's held.
+- **Hear it, write it**: ten kana read aloud with no picture; write each one.
 - **Symbols**: gojūon, dakuten/handakuten and yōon charts. Each kana has an
   animated stroke order, the kanji it came from, a memory hook, quirks,
   lookalikes and example words.
@@ -19,13 +28,24 @@ direction and order. Katakana and kanji are on the [roadmap](ROADMAP.md).
     guide, start points) and **Memory** (blank square).
 - **Words & phrases** at three levels. Backgrounds follow the word: waves for
   うみ, Mount Fuji for ふじさん, Skytree for おしあげ.
+- **Read**: station boards, bathhouse curtains, road markings, sushi menus,
+  shop signs and short sentences (spaced between words, as in children's
+  books). Tap any kana to hear it; the reading stays hidden until you ask.
+- **Say it**: a pronunciation check for words, phrases and signs, using the
+  browser's speech recognition (Chrome, Edge, Safari) or Android's in the app.
+  It accepts the answer in kanji too (駅はどこですか for えきは どこですか).
 - **Quiz**: multiple choice, weighted toward the kana you miss.
 - **Voice**: the device's built-in Japanese text-to-speech (offline on
   Android and iOS). If no voice plays, install a Japanese TTS voice; Settings in
   the app explains how.
 
 The web app has no build step, no dependencies and no network calls except
-Google Fonts. The Android app wraps the same files with Capacitor.
+Google Fonts, plus speech recognition when you use **Say it**: the browser's
+provider turns your voice into text (Chrome and Edge send the audio to Google
+or Microsoft, Safari to Apple; in the Android app it's the phone's speech
+service, often Google's). Kaku asks before the first use and doesn't record or
+keep anything itself. Progress stays on the device. The Android app wraps the
+same files with Capacitor.
 
 ## Run it
 
@@ -65,8 +85,9 @@ On iPhone, open the URL in Safari and use **Share → Add to Home Screen**.
 
 The same app is packaged with [Capacitor](https://capacitorjs.com) in
 `android/`. It bundles every file, so it works offline from the first launch,
-speaks through Android's own text-to-speech engine and vibrates through the
-native haptics engine. Every green push to `main` builds the APK and publishes
+speaks through Android's own text-to-speech engine, listens through its speech
+recogniser (the microphone permission is asked for on first use) and vibrates
+through the native haptics engine. Every green push to `main` builds the APK and publishes
 it as a GitHub Release: download it on your phone from
 [releases/latest](https://github.com/v4virtual/nihongo/releases/latest) and
 open it to install (Android asks you to allow installs from your browser).
@@ -111,12 +132,15 @@ npm test
 - `npm run test:unit` runs in plain Node (no browser), in under a second. It
   covers the stroke grader (path parsing, resampling, accuracy, reversed
   strokes, stroke order, all 84 kana) and data integrity (charts, readings,
-  kana info, words, phrases, scene art, saved progress).
+  kana info, words, phrases, reading items, scene art, saved progress), the
+  FSRS scheduler and daily queue, and the pronunciation matcher.
 - `npm run test:e2e` drives the real app in headless Chromium with a simulated
   pen, and runs an [axe-core](https://github.com/dequelabs/axe-core)
   accessibility audit of every screen and style (any violation fails). It covers every screen, writing in all three styles and help levels,
-  stroke-order and direction feedback, words, the quiz, settings, layouts at
-  phone and desktop widths, and the single-file build.
+  stroke-order and direction feedback, words, the quiz, the Today queue and its
+  sessions, dictation, reading mode, the pronunciation check (with a fake
+  recogniser), settings, layouts at phone and desktop widths, and the
+  single-file build.
 - GitHub Actions runs both on every pull request
   (`.github/workflows/test.yml`).
 
@@ -138,13 +162,17 @@ src/
   css/app.css           all styles (app chrome + the three writing worlds)
   js/util.js            DOM helpers, settings/progress storage
   js/geometry.js        path parsing, resampling, stroke grading
+  js/srs.js             FSRS-4.5 scheduler, grades and the daily queue
   js/ink.js             pencil, brush and neon renderers
   js/writer.js          the writing engine (guides, input, grading, marks, particles)
   js/backdrops.js       notebook, neon city and washi backgrounds
   js/audio.js           synthesized sound effects (Web Audio)
   js/tts.js             Japanese speech (Web Speech API)
+  js/today.js           Today tab, sessions, dictation, progress by row
+  js/read.js            reading mode: signs, sentences, tap-a-kana
+  js/speak.js           pronunciation check (speech recognition + matching)
   js/app.js             screens and hash routing
-  js/data/              strokes (KanjiVG), kana info, tables, words, scene art
+  js/data/              strokes (KanjiVG), kana info, tables, words, reading, scene art
 tools/
   build-strokes.mjs     regenerates js/data/strokes.js from KanjiVG
   build-artifact.mjs    bundles everything into dist/kaku.html (single file)

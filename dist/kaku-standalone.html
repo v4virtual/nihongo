@@ -69,6 +69,7 @@ h1.bar-title, h1.brand { margin: 0; font: inherit; }
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html, body { height: 100%; }
 body {
   margin: 0;
@@ -183,7 +184,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* ── hub ─────────────────────────────────────────────── */
 .tabs {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+  /* six tabs: they share the width, and scroll sideways if the text is large */
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(58px, 1fr); gap: 2px; overflow-x: auto; scrollbar-width: none;
   max-width: 980px; margin: 0 auto;
   padding-block: 4px 0;
   padding-left: max(12px, env(safe-area-inset-left, 0px));
@@ -232,7 +234,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   min-height: 38px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--rule);
   background: transparent; cursor: pointer; font-weight: 700; font-size: calc(13px * var(--ts));
 }
-.chip[aria-pressed="true"] { background: var(--text); color: var(--night); border-color: var(--text); }
+.chip[aria-pressed="true"], .chip[aria-checked="true"] { background: var(--text); color: var(--night); border-color: var(--text); }
 .wlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 10px; }
 .wcard { display: flex; align-items: center; gap: 4px; background: var(--night-2); border: 1px solid var(--rule); border-radius: var(--r); padding-right: 6px; }
 /* Kana on its own line (long phrases wrap), meaning and romaji underneath. */
@@ -644,6 +646,181 @@ input[type="range"] { accent-color: var(--line-h); }
   .hub-body:has(> .ksec) ~ * , .tabs { max-width: 1240px; }
 }
 
+/* ── Today ─────────────────────────────────────────────── */
+:root { --st-learning: #b7791f; --st-due: #c0392b; --st-strong: #3a7a1a; --st-new: #9aa3b5; }
+.hub-body:has(> .today-card) { display: grid; gap: 14px; max-width: 760px; }
+.today-card { display: grid; gap: 10px; justify-items: start; }
+.today-card h2 { margin: 0; }
+.today-sum { margin: 0; font-size: calc(17px * var(--ts)); }
+.today-sum b { font-size: calc(24px * var(--ts)); font-variant-numeric: tabular-nums; }
+.today-preview { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.today-preview span { font-family: var(--f-kana); font-size: calc(18px * var(--ts)); padding: 2px 10px; border-radius: 8px; background: var(--sign); color: var(--sign-ink); box-shadow: 0 0 0 1px var(--sign-edge); }
+.today-limit { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.today-limit .chips { margin: 0; }
+.progress h3 { margin: 14px 0 6px; font-size: calc(13px * var(--ts)); font-weight: 700; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 0; font-size: calc(13px * var(--ts)); color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 6px; border-radius: 3px; background: var(--c); border: 1px dashed transparent; }
+.ptable { display: grid; gap: 6px; }
+.prow { display: grid; grid-template-columns: 56px 1fr; align-items: center; gap: 8px; }
+.prow-name { font-size: calc(12px * var(--ts)); color: var(--muted); font-family: var(--f-kana); }
+.prow-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.pchip {
+  position: relative; display: grid; place-items: center; width: 38px; height: 40px; border-radius: 8px; overflow: hidden; text-decoration: none;
+  font: 600 calc(20px * var(--ts))/1 var(--f-kana); background: var(--sign); color: var(--sign-ink); box-shadow: 0 0 0 1px var(--sign-edge);
+}
+.pchip::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: var(--c, transparent); }
+.s-new { --c: transparent; }
+.pchip.s-new { color: var(--sign-muted); }
+.legend .s-new { border-color: var(--st-new); }
+.s-learning { --c: var(--st-learning); }
+.s-due { --c: var(--st-due); }
+.s-strong { --c: var(--st-strong); }
+
+/* ── sessions (Today, dictation, reading) ──────────────── */
+.task-prompt { display: grid; justify-items: center; gap: 4px; text-align: center; padding: 4px 16px 0; color: var(--fg); }
+.task-label { font-size: calc(12px * var(--ts)); letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-muted); font-weight: 700; }
+.task-main { font: 900 calc(34px * var(--ts))/1.1 var(--f-ui); }
+.task-main:lang(ja), .task-main[lang="ja"] { font-family: var(--f-kana); font-weight: 600; }
+.task-sub { color: var(--fg-muted); font-size: calc(15px * var(--ts)); }
+.task-note { max-width: 34em; margin: 0 auto; padding: 0 16px; text-align: center; color: var(--fg); font-size: calc(14px * var(--ts)); }
+.task-card { width: min(100%, 520px); display: grid; gap: 14px; justify-items: stretch; }
+.task-card.summary { padding: 22px; border-radius: 20px; background: var(--panel-bg, #fff); color: var(--panel-fg, #111); justify-items: center; text-align: center; }
+.task-card.summary p { margin: 0; font-size: calc(17px * var(--ts)); }
+.task-so { width: min(100%, 440px); }
+.qprompt.word { font-size: clamp(40px, 12vw, 72px); padding: 12px; text-align: center; }
+.stage .qopt { background: var(--panel-bg, #fff); color: var(--panel-fg, #111); border-color: color-mix(in srgb, var(--fg) 25%, transparent); }
+.stage .qopt.right { background: var(--line-h); border-color: var(--line-h); color: #0b1a05; }
+.stage .qopt.wrong { background: #c0392b; border-color: #c0392b; color: #fff; }
+.session .seq-c i { display: none; }
+
+/* ── Reading: signs drawn the way you'd meet them ───────── */
+.cta-row.left { justify-content: flex-start; padding: 0 0 22px; }
+.rsec { margin-bottom: 30px; }
+.rgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 12px; }
+.rcard {
+  display: grid; grid-template-rows: 1fr auto; gap: 10px; padding: 14px 12px 12px; text-decoration: none;
+  background: var(--night-2); border: 1px solid var(--rule); border-radius: var(--r);
+}
+.rcard:hover { border-color: var(--accent-ink); }
+.rcard .sign { align-self: center; }
+.rmeta { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: calc(14px * var(--ts)); }
+.rmeta .wlv { padding: 0; }
+
+.sign { --sz: 1; margin: 0; display: grid; justify-items: center; gap: 10px; max-width: 100%; }
+.sign.mini { --sz: 0.5; gap: 0; }
+.sign-romaji { font-weight: 700; letter-spacing: 0.12em; color: var(--muted); font-size: calc(17px * var(--ts)); }
+.sign-text { font-family: var(--f-kana); font-weight: 600; word-break: keep-all; overflow-wrap: anywhere; }
+.sign-art { max-width: 100%; text-align: center; }
+
+.eki.eki-sign { width: min(100%, calc(420px * var(--sz) + 80px)); padding-top: calc(12px * var(--sz)); }
+.eki-kanji { text-align: center; font-weight: 700; font-size: calc(22px * var(--sz)); color: var(--sign-muted); letter-spacing: 0.3em; }
+.eki-sign .eki-name { font-size: calc(56px * var(--sz)); padding-top: calc(4px * var(--sz)); }
+.eki-sign .eki-band { color: var(--line-ink); margin-top: calc(14px * var(--sz)); font-size: calc(15px * var(--sz) + 3px); min-height: calc(38px * var(--sz)); padding: calc(6px * var(--sz)) 10px; font-family: var(--f-kana); }
+.mini .eki-name { font-size: calc(24px * var(--ts)); letter-spacing: 0; white-space: nowrap; padding-inline: 4px; }
+.mini .eki-band span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.noren { position: relative; display: grid; grid-template-rows: auto 1fr; width: calc(260px * var(--sz)); aspect-ratio: 1 / 1.05; }
+.noren-rod { height: calc(12px * var(--sz)); border-radius: 6px; background: linear-gradient(#a8743f, #6b4423); margin: 0 -6%; }
+.noren-cloth { display: grid; grid-template-columns: 1fr 1fr; gap: calc(6px * var(--sz)); }
+.noren-l, .noren-r { background: linear-gradient(#24386b, #1b2a52); border-radius: 0 0 4px 4px; box-shadow: inset 0 -10px 18px -12px #000a; }
+.noren-text {
+  position: absolute; inset: calc(12px * var(--sz)) 0 0; display: grid; place-items: center;
+  font: 700 calc(150px * var(--sz))/1 var(--f-brush); color: #f4efe4; pointer-events: none;
+}
+
+.look-road .sign-art {
+  width: calc(240px * var(--sz)); padding: calc(36px * var(--sz)) 0; border-radius: 6px;
+  background: radial-gradient(#0000 60%, #0003), repeating-radial-gradient(circle at 30% 40%, #4a4d54 0 1px, #3d4046 1px 3px);
+  box-shadow: inset 0 0 0 calc(4px * var(--sz)) #3a3c41;
+}
+.look-road .sign-text {
+  display: inline-block; font: 900 calc(48px * var(--sz))/1 var(--f-ui); color: #f2f2ee; letter-spacing: 0.08em;
+  transform: scaleY(2); text-shadow: 0 0 1px #fff8;
+}
+.look-notice .sign-art {
+  min-width: calc(220px * var(--sz)); padding: calc(18px * var(--sz)) calc(26px * var(--sz)); background: #fff; color: #15171c;
+  border-radius: 4px; box-shadow: 0 0 0 1px #0002, 0 10px 22px -12px #000a;
+  border-top: calc(8px * var(--sz)) solid #2d6fb7;
+}
+.look-notice .sign-text { font: 900 calc(40px * var(--sz))/1.2 var(--f-ui); letter-spacing: 0.06em; }
+.warning {
+  display: flex; align-items: center; gap: calc(14px * var(--sz)); padding: calc(16px * var(--sz)) calc(24px * var(--sz));
+  background: #ffd21c; color: #111; border: calc(6px * var(--sz)) solid #1b1b1b; border-radius: 6px;
+}
+.warn-mark {
+  display: grid; place-items: center; width: calc(52px * var(--sz)); aspect-ratio: 1.1; font: 900 calc(30px * var(--sz))/1 var(--f-ui);
+  background: #1b1b1b; color: #ffd21c; clip-path: polygon(50% 0, 100% 100%, 0 100%); padding-top: calc(10px * var(--sz));
+}
+.warning .sign-text { font: 900 calc(44px * var(--sz))/1 var(--f-ui); }
+.look-tag .sign-art {
+  writing-mode: vertical-rl; min-height: calc(210px * var(--sz)); padding: calc(18px * var(--sz)) calc(16px * var(--sz));
+  background: linear-gradient(90deg, #d9b77c, #ecd5a6 40%, #dcbb82); color: #1b130b; border-radius: 3px;
+  box-shadow: 0 0 0 1px #8a6a3a55, 0 8px 18px -10px #000b;
+}
+.look-tag .sign-text { font: 400 calc(54px * var(--sz))/1 var(--f-brush); letter-spacing: 0.12em; }
+.look-shop .sign-art {
+  padding: calc(16px * var(--sz)) calc(26px * var(--sz)); background: linear-gradient(#41291a, #2e1c11); color: #f2c76b;
+  border: calc(4px * var(--sz)) solid #6b4226; border-radius: 6px; box-shadow: 0 10px 22px -12px #000c;
+}
+.look-shop .sign-text { font: 400 calc(56px * var(--sz))/1.1 var(--f-brush); letter-spacing: 0.1em; }
+.look-label .sign-art {
+  min-width: calc(200px * var(--sz)); padding: calc(14px * var(--sz)) calc(22px * var(--sz)) calc(18px * var(--sz));
+  background: #fff; color: #15171c; border-radius: 10px; box-shadow: 0 0 0 1px #0002, 0 8px 18px -12px #000a;
+  border-bottom: calc(10px * var(--sz)) solid #e0473a;
+}
+.look-label .sign-text { font: 900 calc(40px * var(--sz))/1.2 var(--f-neon); }
+.look-book .sign-art {
+  max-width: min(100%, 560px); padding: calc(22px * var(--sz)) calc(24px * var(--sz)); background: #fbf6e9; color: #2a2320;
+  border-radius: 6px 14px 14px 6px; box-shadow: inset 8px 0 12px -8px #0003, 0 10px 22px -14px #000a;
+}
+.look-book .sign-text { font: 700 calc(34px * var(--sz))/1.6 var(--f-neon); word-spacing: 0.35em; }
+.mini.look-book .sign-text { font-size: calc(16px * var(--ts)); line-height: 1.4; }
+
+.readview { display: grid; gap: 16px; max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
+.read-stage { display: grid; place-items: center; padding: 26px 12px; border-radius: 18px; background: var(--night-3); overflow: hidden; }
+.readview > *, .read-stage > .sign { min-width: 0; max-width: 100%; }
+.read-hint { text-align: center; margin: 0; }
+.tapkana { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; }
+.tk-word { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: end; }
+.tk {
+  min-width: 48px; min-height: 52px; padding: 2px 6px; border-radius: 10px; border: 1.5px solid var(--rule);
+  background: var(--night-2); font: 600 calc(26px * var(--ts)) var(--f-kana); cursor: pointer;
+}
+.tk.on { border-color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px var(--accent-ink); }
+.tk-punct { font: 600 calc(26px * var(--ts)) var(--f-kana); color: var(--muted); }
+.tk-out { text-align: center; margin: 0; min-height: 1.6em; font-size: calc(16px * var(--ts)); }
+.readview .actions { order: 0; flex-wrap: wrap; padding: 0; }
+.readview .pager { gap: 8px; }
+.readview .pg { min-width: 0; max-width: 50%; font-size: calc(18px * var(--ts)); }
+.readview .pg span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.read-answer { display: grid; gap: 8px; }
+.read-answer .big-romaji { font-size: calc(36px * var(--ts)); }
+.read-meaning { font-size: calc(20px * var(--ts)); font-weight: 700; }
+
+.read-task { justify-items: center; }
+.read-task .qopts { width: 100%; }
+.stage .sign-romaji { color: var(--panel-fg, #111); background: var(--panel-bg, #fff); padding: 2px 12px; border-radius: 8px; }
+
+/* ── Say it ─────────────────────────────────────────────── */
+.say-target { display: grid; justify-items: center; gap: 2px; padding: 10px 0 4px; }
+.say-target b { font: 600 calc(36px * var(--ts))/1.3 var(--f-kana); text-align: center; word-spacing: 0.3em; }
+.say-target span { color: var(--muted); }
+.say-body { display: grid; justify-items: center; gap: 12px; text-align: center; }
+.say-body p { margin: 0; max-width: 30em; }
+.say-mic {
+  width: 84px; height: 84px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; background: var(--line-h); color: #0b1a05;
+}
+.say-mic .ic { width: 38px; height: 38px; }
+.say-mic.on { animation: listen 1.2s ease-in-out infinite; }
+@keyframes listen { 0%, 100% { box-shadow: 0 0 0 0 #7ac14366; } 50% { box-shadow: 0 0 0 16px #7ac14300; } }
+.say-status { min-height: 1.6em; padding: 4px 12px; border-radius: 10px; }
+.say-status.ok { color: var(--accent-ink); font-weight: 700; }
+.say-status.no { color: var(--no); }
+.say-status.tip { box-shadow: inset 0 0 0 1.5px var(--shu); }
+@media (prefers-reduced-motion: reduce) { .say-mic.on { animation: none; box-shadow: 0 0 0 6px #7ac14366; } }
+
 </style>
 </head>
 <body>
@@ -714,8 +891,9 @@ window.NH = window.NH || {};
   // Persistent settings and progress. Storage may be unavailable; the app works without it.
   const KEY = "kaku.v1";
   const defaults = {
-    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "", text: "normal", theme: "auto", hand: "right" },
+    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "", text: "normal", theme: "auto", hand: "right", dailyNew: 5, speechOk: false },
     progress: {}, // char → { best, last, tries, right, wrong }
+    srs: { cards: {}, day: null }, // spaced-repetition deck, see srs.js
   };
   let state = structuredClone(defaults);
   try {
@@ -724,6 +902,7 @@ window.NH = window.NH || {};
       const saved = JSON.parse(raw);
       state.settings = Object.assign({}, defaults.settings, saved.settings);
       state.progress = saved.progress || {};
+      state.srs = Object.assign({ cards: {}, day: null }, saved.srs);
     }
   } catch (_) {}
 
@@ -743,7 +922,9 @@ window.NH = window.NH || {};
       ok ? p.right++ : p.wrong++;
       save();
     },
-    reset() { state.progress = {}; save(); },
+    srs() { return state.srs; },
+    saveSrs() { save(); },
+    reset() { state.progress = {}; state.srs = { cards: {}, day: null }; save(); },
   };
 
   function save() {
@@ -767,6 +948,12 @@ window.NH = window.NH || {};
 
   // Splits a hiragana word into writable characters, keeping small kana as their own cells.
   const chars = (word) => [...word];
+
+  // Screens in other files register hub tabs ({ name: render(body) }) and
+  // routes ({ match: /^re$/, render(match) }) here; app.js shares its UI helpers in NH.UI.
+  NH.Tabs = NH.Tabs || {};
+  NH.Routes = NH.Routes || [];
+  NH.UI = NH.UI || {};
 
   Object.assign(NH, { h, s, SVGNS, store, clamp, lerp, rand, shuffle, reducedMotion, hex, unhex, chars });
 })();
@@ -2415,6 +2602,57 @@ window.NH.PHRASES = [
   { id: "shashin-totte-mo-ii", kana: "しゃしんをとってもいいですか", romaji: "shashin o totte mo ii desu ka", meaning: "May I take a photo?", level: 3, scene: ["torii", "pagoda"], note: "Ask before photographing people, and watch for no-photo signs at shrines and temples." }
 ];
 
+/* js/data/reading.js */
+/* Things to read: signs, menus and short sentences you'll meet in Japan.
+   `kana` is hiragana only; sentences put a space between words, the way
+   children's books do (分かち書き). `look` picks how the sign is drawn.
+   level: 1 = basic kana only, 2 = dakuten, 3 = yōon or small っ. */
+window.NH = window.NH || {};
+
+window.NH.READING = [
+  // ---- Stations: JR-style name boards with the stops either side ----
+  { id: "ueno", kind: "station", look: "station", kana: "うえの", kanji: "上野", romaji: "ueno", meaning: "Ueno (station)", level: 1, prev: "おかちまち", next: "うぐいすだに", line: "#7ac143", where: "Yamanote Line platform", note: "Ueno is the gateway to northern Japan: Shinkansen to Tōhoku leave from here." },
+  { id: "kamakura", kind: "station", look: "station", kana: "かまくら", kanji: "鎌倉", romaji: "kamakura", meaning: "Kamakura (station)", level: 1, prev: "きたかまくら", next: "ずし", line: "#0067c0", lineInk: "#fff", where: "Yokosuka Line platform", note: "The old samurai capital by the sea, an hour from Tokyo, with the Great Buddha." },
+  { id: "shibuya", kind: "station", look: "station", kana: "しぶや", kanji: "渋谷", romaji: "shibuya", meaning: "Shibuya (station)", level: 2, prev: "えびす", next: "はらじゅく", line: "#7ac143", where: "Yamanote Line platform", note: "Older JR boards print the hiragana biggest; newer ones put the kanji 渋谷 first. The hiragana is always there." },
+  { id: "akihabara", kind: "station", look: "station", kana: "あきはばら", kanji: "秋葉原", romaji: "akihabara", meaning: "Akihabara (station)", level: 2, prev: "かんだ", next: "おかちまち", line: "#7ac143", where: "Yamanote Line platform", note: "Everyone shortens it to あきば (Akiba)." },
+  { id: "ikebukuro", kind: "station", look: "station", kana: "いけぶくろ", kanji: "池袋", romaji: "ikebukuro", meaning: "Ikebukuro (station)", level: 2, prev: "おおつか", next: "めじろ", line: "#7ac143", where: "Yamanote Line platform", note: "ぶくろ is ふくろ (bag) with dakuten: sounds often turn voiced in the middle of a word." },
+  { id: "shinagawa", kind: "station", look: "station", kana: "しながわ", kanji: "品川", romaji: "shinagawa", meaning: "Shinagawa (station)", level: 2, prev: "たまち", next: "おおさき", line: "#7ac143", where: "Yamanote Line platform", note: "がわ is かわ (river) with dakuten, as in many place names." },
+  { id: "shinjuku", kind: "station", look: "station", kana: "しんじゅく", kanji: "新宿", romaji: "shinjuku", meaning: "Shinjuku (station)", level: 3, prev: "よよぎ", next: "しんおおくぼ", line: "#7ac143", where: "Yamanote Line platform", note: "じゅ is one beat: shin-ju-ku, not shin-ji-yu-ku. The busiest station in the world." },
+
+  // ---- Signs around town ----
+  { id: "yu", kind: "sign", look: "noren", kana: "ゆ", kanji: "湯", romaji: "yu", meaning: "hot water (bathhouse)", level: 1, where: "Curtain over the door of a public bath (せんとう) or hot spring", note: "A ゆ curtain means the bath is open. Inside, men's and women's sides are often marked 男 and 女." },
+  { id: "tomare", kind: "sign", look: "road", kana: "とまれ", kanji: "止まれ", romaji: "tomare", meaning: "stop", level: 1, where: "Painted on the road before a crossing", note: "The official marking is 止まれ; side streets and school routes often spell it all in hiragana. Painted tall and thin so drivers can read it at an angle." },
+  { id: "oshirase", kind: "sign", look: "notice", kana: "おしらせ", kanji: "お知らせ", romaji: "oshirase", meaning: "notice, announcement", level: 1, where: "Top of a notice on a shop door or apartment board", note: "Read the line below it for what's changed: holidays, closures, works." },
+  { id: "abunai", kind: "sign", look: "warning", kana: "あぶない", kanji: "危ない", romaji: "abunai", meaning: "danger!", level: 2, where: "Yellow signs by rivers, building sites and level crossings", note: "Written in hiragana so that young children can read it too." },
+  { id: "noriba", kind: "sign", look: "notice", kana: "のりば", kanji: "乗り場", romaji: "noriba", meaning: "boarding area (taxi, bus)", level: 2, where: "Taxi ranks and bus stops: タクシーのりば, バスのりば", note: "のり comes from のる (to ride); ば (場) means place." },
+  { id: "moerugomi", kind: "sign", look: "notice", kana: "もえる ごみ", kanji: "燃えるごみ", romaji: "moeru gomi", meaning: "burnable rubbish", level: 2, where: "Bins and rubbish collection points", note: "Each area collects burnable rubbish on fixed days; check your ward's calendar." },
+  { id: "irasshaimase", kind: "sign", look: "notice", kana: "いらっしゃいませ", romaji: "irasshaimase", meaning: "welcome (to the shop)", level: 3, where: "Door mats and shop entrances; you'll also hear it shouted as you walk in", note: "Small っ is a short pause: i-ras-shai-ma-se. No need to reply; a nod is fine." },
+
+  // ---- Food: menus, stalls and labels ----
+  { id: "ika", kind: "menu", look: "tag", kana: "いか", kanji: "烏賊", romaji: "ika", meaning: "squid", level: 1, where: "Sushi menu", note: "Traditional sushi bars write fish names in kanji; conveyor-belt menus usually use hiragana." },
+  { id: "tako", kind: "menu", look: "tag", kana: "たこ", kanji: "蛸", romaji: "tako", meaning: "octopus", level: 1, where: "Sushi menu, and たこやき stalls", note: "たこやき are octopus balls; やき means grilled." },
+  { id: "uni", kind: "menu", look: "tag", kana: "うに", kanji: "雲丹", romaji: "uni", meaning: "sea urchin", level: 1, where: "Sushi menu", note: "Often one of the most expensive plates." },
+  { id: "taiyaki", kind: "menu", look: "shop", kana: "たいやき", kanji: "鯛焼き", romaji: "taiyaki", meaning: "fish-shaped cake", level: 1, where: "Street stalls", note: "Shaped like a たい (sea bream), usually filled with sweet red bean paste." },
+  { id: "maguro", kind: "menu", look: "tag", kana: "まぐろ", kanji: "鮪", romaji: "maguro", meaning: "tuna", level: 2, where: "Sushi menu", note: "Fattier cuts are ちゅうとろ and おおとろ." },
+  { id: "ebi", kind: "menu", look: "tag", kana: "えび", kanji: "海老", romaji: "ebi", meaning: "shrimp, prawn", level: 2, where: "Sushi menu, tempura shops" },
+  { id: "tamago", kind: "menu", look: "tag", kana: "たまご", kanji: "玉子", romaji: "tamago", meaning: "egg (omelette sushi)", level: 2, where: "Sushi menu", note: "On sushi menus it's sweet rolled omelette; in shops 卵 (also たまご) is a raw egg." },
+  { id: "udon", kind: "menu", look: "shop", kana: "うどん", romaji: "udon", meaning: "udon noodles", level: 2, where: "Noodle shop sign or curtain" },
+  { id: "soba", kind: "menu", look: "shop", kana: "そば", kanji: "蕎麦", romaji: "soba", meaning: "buckwheat noodles", level: 2, where: "Noodle shop sign or curtain", note: "Old shops sometimes write そば in old cursive kana (変体仮名) that looks nothing like this. Station platforms often have a stand-up soba counter." },
+  { id: "dango", kind: "menu", look: "shop", kana: "だんご", kanji: "団子", romaji: "dango", meaning: "rice dumplings on a stick", level: 2, where: "Stalls at shrines and festivals" },
+  { id: "onigiri", kind: "menu", look: "label", kana: "おにぎり", romaji: "onigiri", meaning: "rice ball", level: 2, where: "Convenience store shelf", note: "The label below names the filling: しゃけ (salmon), うめ (pickled plum), こんぶ (kelp)." },
+  { id: "oden", kind: "menu", look: "label", kana: "おでん", romaji: "oden", meaning: "oden (simmered hotpot)", level: 2, where: "Convenience store counter in autumn and winter", note: "Pick pieces from the pot by the till: だいこん (radish), たまご (egg), ちくわ." },
+
+  // ---- Sentences, with spaces between words ----
+  { id: "neko-ga-imasu", kind: "sentence", look: "book", kana: "ねこが います。", romaji: "neko ga imasu.", meaning: "There's a cat.", level: 2, note: "が marks who or what: ねこが (a cat) います (is there)." },
+  { id: "eki-wa-doko", kind: "sentence", look: "book", kana: "えきは どこですか。", romaji: "eki wa doko desu ka?", meaning: "Where is the station?", level: 2, note: "は as a particle is read wa, not ha. か at the end makes it a question; Japanese uses 。 rather than ?." },
+  { id: "kore-o-kudasai", kind: "sentence", look: "book", kana: "これを ください。", romaji: "kore o kudasai.", meaning: "This one, please.", level: 2, note: "を is read o. Point at what you want and say it: it works in any shop." },
+  { id: "omizu-o-kudasai", kind: "sentence", look: "book", kana: "おみずを ください。", romaji: "omizu o kudasai.", meaning: "Water, please.", level: 2 },
+  { id: "sakura-ga-kirei", kind: "sentence", look: "book", kana: "さくらが きれいですね。", romaji: "sakura ga kirei desu ne.", meaning: "The cherry blossoms are beautiful, aren't they?", level: 2, note: "ね at the end invites the other person to agree." },
+  { id: "nihon-ni-sunde", kind: "sentence", look: "book", kana: "わたしは にほんに すんで います。", romaji: "watashi wa nihon ni sunde imasu.", meaning: "I live in Japan.", level: 2, note: "は is read wa again. に marks the place where you live." },
+  { id: "ame-ga-futte", kind: "sentence", look: "book", kana: "あめが ふって います。", romaji: "ame ga futte imasu.", meaning: "It's raining.", level: 3, note: "Small っ doubles the t: fut-te." },
+  { id: "mamonaku-densha", kind: "sentence", look: "book", kana: "まもなく でんしゃが まいります。", romaji: "mamonaku densha ga mairimasu.", meaning: "The train will arrive shortly.", level: 3, where: "Platform displays and announcements", note: "まいります is the polite form of きます (comes). Stand behind the yellow line!" },
+];
+
 /* js/data/scene-art.js */
 /* Scene illustrations for Kaku: inner SVG markup per id, styled only by the
  * classes ln (line art), fl (soft wash fill) and ac (accent). Each entry gives
@@ -2816,6 +3054,172 @@ window.NH = window.NH || {};
   }
 
   NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, describe, TOL };
+})();
+
+/* js/srs.js */
+/* Spaced repetition with FSRS-4.5 (the open-source scheduler behind Anki's
+ * FSRS option), using its published default parameters. Each item to learn is
+ * a card; every review grades it Again / Hard / Good / Easy, and the scheduler
+ * picks the next review for 90% recall. No streaks, no points: the only output
+ * is "what's due today".
+ *
+ * Card ids: "k:か" (a kana or combo), "w:mizu" (word), "p:ohayou" (phrase),
+ * "r:<id>" (reading item). Times are in days (ms / DAY). */
+window.NH = window.NH || {};
+
+(function () {
+  const DAY = 86400000;
+  const W = [0.4872, 1.4003, 3.7145, 13.8206, 5.1618, 1.2298, 0.8975, 0.031, 1.6474, 0.1367, 1.0461, 2.1072, 0.0793, 0.3246, 1.587, 0.2272, 2.8755];
+  const DECAY = -0.5, FACTOR = 19 / 81, RETENTION = 0.9;
+  const AGAIN = 1, HARD = 2, GOOD = 3, EASY = 4;
+  const RELEARN_MS = 10 * 60 * 1000; // a forgotten card comes back after 10 minutes
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const retrievability = (elapsedDays, s) => Math.pow(1 + (FACTOR * elapsedDays) / s, DECAY);
+  const interval = (s) => (s / FACTOR) * (Math.pow(RETENTION, 1 / DECAY) - 1); // = s at 90%
+  const initStability = (g) => W[g - 1];
+  const initDifficulty = (g) => clamp(W[4] - (g - 3) * W[5], 1, 10);
+  const nextDifficulty = (d, g) => clamp(W[7] * initDifficulty(GOOD) + (1 - W[7]) * (d - W[6] * (g - 3)), 1, 10);
+  function recallStability(d, s, r, g) {
+    const hard = g === HARD ? W[15] : 1, easy = g === EASY ? W[16] : 1;
+    return s * (Math.exp(W[8]) * (11 - d) * Math.pow(s, -W[9]) * (Math.exp(W[10] * (1 - r)) - 1) * hard * easy + 1);
+  }
+  const forgetStability = (d, s, r) => Math.min(s, W[11] * Math.pow(d, -W[12]) * (Math.pow(s + 1, W[13]) - 1) * Math.exp(W[14] * (1 - r)));
+
+  /* Pure scheduling step: returns the updated card. A card is
+   * { s, d, last, due, reps, lapses } with times in ms. */
+  function schedule(card, grade, now) {
+    const c = { ...card };
+    if (!c.reps) {
+      c.s = initStability(grade);
+      c.d = initDifficulty(grade);
+    } else {
+      const r = retrievability(Math.max(0, now - c.last) / DAY, c.s);
+      c.d = nextDifficulty(c.d, grade);
+      c.s = grade === AGAIN ? forgetStability(c.d, c.s, r) : recallStability(c.d, c.s, r, grade);
+    }
+    if (grade === AGAIN) c.lapses = (c.lapses || 0) + 1;
+    c.reps = (c.reps || 0) + 1;
+    c.last = now;
+    c.due = grade === AGAIN ? now + RELEARN_MS : now + Math.max(1, Math.round(interval(c.s))) * DAY;
+    return c;
+  }
+
+  // ── grades from what the learner did ─────────────────────
+  /* Writing: help level caps the grade, because tracing the model isn't
+   * recalling it. Trace ≤ Hard, Guide ≤ Good, Memory can reach Easy. */
+  function gradeWriting({ score, misses = 0, assist = "memory" }) {
+    let g = score < 60 ? AGAIN : score < 75 ? HARD : score < 90 || misses > 0 ? GOOD : EASY;
+    if (misses >= 3) g = Math.min(g, HARD);
+    const cap = { trace: HARD, guide: GOOD, memory: EASY }[assist] ?? GOOD;
+    return Math.min(g, cap);
+  }
+  // Choosing an answer: wrong is Again; a quick right answer is Easy.
+  const gradeChoice = (ok, ms = 4000) => (!ok ? AGAIN : ms < 2500 ? EASY : GOOD);
+
+  // ── the deck ─────────────────────────────────────────────
+  const dayKey = (t) => { const d = new Date(t); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
+
+  // Kana in the order they are taught: the chart, then voiced, then combos.
+  function kanaOrder() {
+    const out = [];
+    for (const key of ["basic", "voiced", "combos"]) for (const row of NH.TABLES[key].rows) for (const c of row.cells) if (c) out.push(c);
+    return out;
+  }
+
+  function deck() { return NH.store.srs(); }
+  const card = (id) => deck().cards[id] || null;
+  const isLearned = (ch) => !!card("k:" + ch);
+
+  // Can this item be introduced yet? Kana need their base kana; words and
+  // reading items need every kana in them.
+  function ready(id) {
+    const [kind, key] = [id[0], id.slice(2)];
+    if (kind === "k") {
+      const chars = [...key];
+      if (chars.length > 1) return chars.every((c) => isLearned(NH.SMALL.has(c) ? baseOfSmall(c) : c));
+      const base = NH.KANA_INFO[key]?.base;
+      return !base || isLearned(base);
+    }
+    const text = itemText(id);
+    return !!text && [...text].every((c) => isLearned(NH.SMALL.has(c) ? baseOfSmall(c) : c) || !/[ぁ-ゔ]/.test(c));
+  }
+  const baseOfSmall = (c) => NH.KANA_INFO[c]?.base || c;
+
+  function itemText(id) {
+    const key = id.slice(2);
+    if (id[0] === "w") return NH.WORDS.find((w) => w.id === key)?.kana;
+    if (id[0] === "p") return NH.PHRASES.find((w) => w.id === key)?.kana;
+    if (id[0] === "r") return (NH.READING || []).find((r) => r.id === key)?.kana.replace(/\s/g, "");
+    return key;
+  }
+
+  /* Today's work: due cards (most forgotten first), then new items up to the
+   * daily limit. Kana come first; words, phrases and signs open up as their
+   * kana are learned. */
+  function today(now = Date.now()) {
+    const dk = deck();
+    const due = Object.entries(dk.cards).filter(([, c]) => c.due <= now)
+      .sort((a, b) => retrievability((now - a[1].last) / DAY, a[1].s) - retrievability((now - b[1].last) / DAY, b[1].s))
+      .map(([id]) => id);
+    const day = dk.day && dk.day.key === dayKey(now) ? dk.day : { key: dayKey(now), kana: 0, other: 0 };
+    const limit = NH.store.settings.dailyNew ?? 5;
+    const fresh = [];
+    let kanaLeft = Math.max(0, limit - day.kana);
+    // Hold new kana back while a big review pile is waiting.
+    if (due.length > 30) kanaLeft = 0;
+    for (const ch of kanaOrder()) {
+      if (fresh.length >= kanaLeft) break;
+      const id = "k:" + ch;
+      // Combos and voiced kana wait until their parts have been reviewed once.
+      if (!dk.cards[id] && ready(id)) fresh.push(id);
+    }
+    let otherLeft = Math.max(0, 2 - day.other);
+    const others = [
+      ...NH.WORDS.map((w) => "w:" + w.id),
+      ...(NH.READING || []).map((r) => "r:" + r.id),
+      ...NH.PHRASES.map((w) => "p:" + w.id),
+    ].filter((id) => !dk.cards[id] && ready(id))
+      .sort((a, b) => levelOf(a) - levelOf(b));
+    for (const id of others) { if (otherLeft-- <= 0) break; fresh.push(id); }
+    return { due, fresh };
+  }
+  function levelOf(id) {
+    const key = id.slice(2);
+    const item = id[0] === "w" ? NH.WORDS.find((w) => w.id === key) : id[0] === "p" ? NH.PHRASES.find((w) => w.id === key) : (NH.READING || []).find((r) => r.id === key);
+    return item?.level || 2;
+  }
+
+  // Records a review (and introduces the card if new).
+  function review(id, grade, now = Date.now()) {
+    const dk = deck();
+    const isNew = !dk.cards[id];
+    dk.cards[id] = schedule(dk.cards[id] || {}, grade, now);
+    if (isNew) {
+      if (!dk.day || dk.day.key !== dayKey(now)) dk.day = { key: dayKey(now), kana: 0, other: 0 };
+      id[0] === "k" ? dk.day.kana++ : dk.day.other++;
+    }
+    NH.store.saveSrs();
+    return dk.cards[id];
+  }
+
+  // Practice outside the Today queue only updates cards already in the deck.
+  function practice(id, grade, now = Date.now()) {
+    if (!deck().cards[id]) return null;
+    return review(id, grade, now);
+  }
+
+  /* How well an item is held right now, for the progress view:
+   * "new" (not started), "learning" (seen, not yet stable), "due" (time to
+   * review), or "strong" (stable for a week or more). */
+  function strength(id, now = Date.now()) {
+    const c = card(id);
+    if (!c) return "new";
+    if (c.due <= now) return "due";
+    return c.s >= 7 ? "strong" : "learning";
+  }
+
+  NH.SRS = { DAY, AGAIN, HARD, GOOD, EASY, schedule, retrievability, interval, gradeWriting, gradeChoice, today, review, practice, strength, card, ready, itemText, kanaOrder, dayKey };
 })();
 
 /* js/ink.js */
@@ -3784,6 +4188,7 @@ window.NH = window.NH || {};
     // ── setup ──────────────────────────────────────────────
     setChar(ch, colorIndex = this.colorIndex) {
       this.ch = ch;
+      this.host.dataset.char = ch;
       this.colorIndex = colorIndex;
       this.color = NEON[colorIndex % NEON.length];
       this.strokes = Geo.strokesOf(ch);
@@ -4470,6 +4875,639 @@ window.NH = window.NH || {};
   NH.NEON = NEON;
 })();
 
+/* js/today.js */
+/* Today: the spaced-repetition queue, the sessions that work through it, the
+ * "hear it, write it" drill, and the progress-by-row view. Nothing here counts
+ * streaks or points; the only number that matters is what's due. */
+window.NH = window.NH || {};
+
+(function () {
+  const { h, store, SRS, Backdrop, hex, shuffle } = NH;
+  const UI = NH.UI;
+
+  // ── Today tab ────────────────────────────────────────────
+  NH.Tabs.today = function (body) {
+    const { due, fresh } = SRS.today();
+    const total = due.length + fresh.length;
+    const preview = [...due, ...fresh].slice(0, 12).map((id) => SRS.itemText(id));
+    const limit = store.settings.dailyNew ?? 5;
+    const limits = h("div.chips", { role: "radiogroup", "aria-label": "New kana per day" }, [3, 5, 10].map((n) =>
+      h("button.chip", { type: "button", role: "radio", "aria-checked": String(n === limit), onclick: () => { store.set("dailyNew", n); UI.go("today"); } }, `${n} a day`)));
+
+    body.append(
+      h("section.card.today-card",
+        h("h2", "Today"),
+        total
+          ? h("p.today-sum", h("b", `${due.length}`), ` to review · `, h("b", `${fresh.length}`), ` new`)
+          : h("p.today-sum", "All caught up. ", nextDueText()),
+        preview.length ? h("p.today-preview", { "aria-label": "Coming up" }, preview.map((t) => h("span", t))) : null,
+        total ? UI.btn("Start", () => UI.go("session"), "primary", "play") : null,
+        h("div.today-limit", h("span.muted", "New kana:"), limits)),
+      h("section.card.today-card",
+        h("h2", "Hear it, write it"),
+        h("p", "Ten kana read aloud, no picture. Write each one from memory."),
+        UI.btn("Start dictation", () => UI.go("dictation"), "ghost", "ear")),
+      progressByRow());
+  };
+
+  function nextDueText() {
+    const now = Date.now();
+    const next = Object.values(store.srs().cards).map((c) => c.due).filter((t) => t > now).sort((a, b) => a - b)[0];
+    if (!next) return "Start with the first kana whenever you like.";
+    const hrs = (next - now) / 3600e3;
+    return `Next review ${hrs < 1 ? "within the hour" : hrs < 20 ? `in about ${Math.round(hrs)} hours` : hrs < 44 ? "tomorrow" : `in ${Math.round(hrs / 24)} days`}.`;
+  }
+
+  // Each kana as a chip coloured by how well it's held; tap one to study it.
+  function progressByRow() {
+    const label = { new: "not started", learning: "learning", due: "due now", strong: "strong" };
+    const chip = (c) => {
+      const st = SRS.strength("k:" + c);
+      return h("a.pchip", { href: `#k-${hex(c)}`, class: "s-" + st, title: `${c} ${UI.romaji(c)}: ${label[st]}`, "aria-label": `${c}, ${label[st]}` }, c);
+    };
+    const table = (key) => h("div.ptable", NH.TABLES[key].rows.map((row) => {
+      const cells = row.cells.filter(Boolean);
+      return h("div.prow", h("span.prow-name", `${cells[0]}-row`), h("span.prow-chips", cells.map(chip)));
+    }));
+    const combos = NH.TABLES.combos.rows.flatMap((r) => r.cells);
+    const counts = { new: 0, learning: 0, due: 0, strong: 0 };
+    combos.forEach((c) => counts[SRS.strength("k:" + c)]++);
+    return h("section.card.progress",
+      h("h2", "Progress by row"),
+      h("p.legend", Object.entries(label).map(([k, v]) => h("span", h("i", { class: "s-" + k }), v))),
+      h("h3.muted", "Gojūon"), table("basic"),
+      h("h3.muted", "Dakuten & handakuten"), table("voiced"),
+      h("p.muted", `Combos: ${counts.strong} strong, ${counts.learning + counts.due} learning, ${counts.new} not started.`));
+  }
+
+  // ── sessions ─────────────────────────────────────────────
+  NH.Routes.push({ match: /^session$/, render: () => runSession(todayTasks(), { title: "今日 Today", back: "today" }) });
+  NH.Routes.push({ match: /^dictation$/, render: () => runSession(dictationTasks(), { title: "Hear it, write it", back: "today", practiceOnly: true }) });
+
+  function todayTasks() {
+    const { due, fresh } = SRS.today();
+    return [...due.slice(0, 40).map((id) => ({ id, type: reviewType(id) })), ...fresh.map((id) => ({ id, type: "intro" }))];
+  }
+  // Kana rotate through writing, recognising and dictation; words between writing and recognising.
+  function reviewType(id) {
+    const n = SRS.card(id)?.reps || 0;
+    if (id[0] === "r") return "read";
+    if (id[0] === "k") return ["write", "recognize", "hear"][n % 3];
+    return ["write", "recognize"][n % 2];
+  }
+  // Dictation draws on the kana you've started, weakest first; a beginner gets the first rows.
+  function dictationTasks() {
+    const now = Date.now();
+    let pool = Object.entries(store.srs().cards).filter(([id]) => id.startsWith("k:") && [...id.slice(2)].length === 1)
+      .sort((a, b) => SRS.retrievability((now - a[1].last) / SRS.DAY, a[1].s) - SRS.retrievability((now - b[1].last) / SRS.DAY, b[1].s))
+      .map(([id]) => id);
+    if (pool.length < 5) pool = SRS.kanaOrder().slice(0, 10).map((c) => "k:" + c);
+    return shuffle(pool.slice(0, 10)).map((id) => ({ id, type: "hear" }));
+  }
+
+  function runSession(tasks, { title, back, practiceOnly = false }) {
+    const app = document.getElementById("app");
+    const st = store.settings;
+    const style = st.style;
+    let i = 0, writer = null, alive = true, reviewed = 0, introduced = 0;
+    const retried = new Set();
+    const timers = [];
+    const later = (fn, ms) => timers.push(setTimeout(() => alive && fn(), ms));
+    UI.onLeave(() => { alive = false; timers.forEach(clearTimeout); writer?.destroy(); });
+
+    document.body.classList.add("scr-write");
+    document.body.dataset.style = style;
+    const stage = h("main.stage.session", { "data-style": style, "data-hand": st.hand || "right" });
+    const backdrop = h("div.backdrop");
+    const progress = h("span.session-count");
+    const panel = h("div.panel");
+    const cellWrap = h("div.cell-wrap");
+    stage.append(backdrop,
+      h("header.bar.stage-bar", UI.iconBtn("back", "Leave", () => UI.go(back)), h("h1.bar-title", h("b", title), h("small", progress)), UI.iconBtn("gear", "Settings", () => UI.settings())),
+      panel, cellWrap);
+    app.replaceChildren(stage);
+    Backdrop.render(backdrop, style, [], 7);
+    UI.syncBars();
+
+    function next() {
+      writer?.destroy();
+      writer = null;
+      panel.replaceChildren();
+      cellWrap.replaceChildren();
+      if (i >= tasks.length) return finish();
+      progress.textContent = `${i + 1} of ${tasks.length}`;
+      const t = tasks[i];
+      const render = RENDER[t.type];
+      if (!render || !SRS.itemText(t.id)) { i++; return next(); }
+      render(t, (grade) => {
+        if (practiceOnly) SRS.practice(t.id, grade);
+        else {
+          if (!SRS.card(t.id)) introduced++;
+          else reviewed++;
+          SRS.review(t.id, grade);
+        }
+        // Forgotten items come round once more before the session ends.
+        if (grade === SRS.AGAIN && !retried.has(t.id)) {
+          retried.add(t.id);
+          tasks.push({ id: t.id, type: t.type === "intro" ? "write" : t.type });
+        }
+        i++;
+        next();
+      });
+    }
+
+    // ── task types ──
+    const RENDER = { intro, write: (t, done) => writeTask(t, done, "memory"), hear: (t, done) => writeTask(t, done, "memory", true), recognize, read: (t, done) => NH.ReadTask(t, { panel, cellWrap, later, finish: finishTask, style }, done) };
+
+    function prompt(label, main, sub, speakText) {
+      return h("div.task-prompt",
+        h("span.task-label", label),
+        main ? h("div.task-main", main) : null,
+        sub ? h("div.task-sub", sub) : null,
+        speakText ? UI.speakBtn(speakText) : null);
+    }
+
+    function intro(t, done) {
+      const text = SRS.itemText(t.id);
+      const isKana = t.id[0] === "k";
+      if (t.id[0] === "r") return RENDER.read(t, done);
+      const item = itemOf(t.id);
+      const svg = UI.strokeOrderSvg(text);
+      panel.append(
+        prompt(isKana ? "New kana" : t.id[0] === "w" ? "New word" : "New phrase", text, isKana ? UI.romaji(text) : `${item.romaji} · ${item.meaning}`, text),
+        isKana && UI.info(text).mnemonic ? h("p.task-note", UI.info(text).mnemonic) : item?.note ? h("p.task-note", item.note) : null,
+        h("div.actions", UI.btn("Write it", () => writeTask(t, done, isKana ? "trace" : "guide"), "primary", "pen")));
+      cellWrap.append(h("div.so-wrap.task-so", svg, h("div.so-tools", UI.iconBtn("play", "Replay stroke order", () => UI.replay(svg)))));
+      requestAnimationFrame(() => UI.replay(svg));
+      UI.say(text, { quiet: true });
+    }
+
+    function writeTask(t, done, assist, hearOnly = false) {
+      panel.replaceChildren();
+      cellWrap.replaceChildren();
+      const text = SRS.itemText(t.id);
+      const chars = [...text];
+      const item = itemOf(t.id);
+      const isKana = t.id[0] === "k";
+      let pos = 0, scoreSum = 0, misses = 0, hinted = false;
+      const fb = h("p.feedback", { "aria-live": "polite" });
+      const seq = chars.length > 1 ? h("div.seq") : null;
+      const drawSeq = () => seq?.replaceChildren(...chars.map((c, k) =>
+        h("span.seq-c", { class: [k === pos ? "on" : "", k < pos ? "done" : ""].join(" ") }, h("span", k < pos ? c : "?"))));
+      const main = hearOnly ? null : isKana ? UI.romaji(text) : item.meaning;
+      const sub = hearOnly ? null : isKana ? null : item.romaji;
+      panel.append(
+        prompt(hearOnly ? "Hear it, write it" : assist === "memory" ? "Write it from memory" : "Write it", main, sub, null),
+        h("div.actions",
+          UI.btn("Listen", () => UI.say(text), "ghost", "speaker"),
+          UI.btn("Show me", () => { hinted = true; writer.demo(); }, "ghost", "play")),
+        seq, fb);
+      const cell = h("div.cell");
+      cellWrap.append(cell);
+      writer = new NH.Writer(cell, { style, assist, onEvent });
+      writer.setChar(chars[0], 0);
+      drawSeq();
+      fb.textContent = hearOnly ? "Listen, then write what you hear." : `${chars.length > 1 ? `${chars.length} kana. ` : ""}${assist === "memory" ? "Start whenever you're ready." : "Follow the guide."}`;
+      later(() => UI.say(text, { quiet: true }), 250);
+
+      function onEvent(e) {
+        if (e.type === "stroke" && !e.ok) { fb.textContent = e.message; fb.className = "feedback no"; }
+        if (e.type === "stroke" && e.ok) { fb.textContent = `Stroke ${e.index + 1} ✓`; fb.className = "feedback ok"; }
+        if (e.type !== "done") return;
+        scoreSum += e.score;
+        misses += e.misses;
+        pos++;
+        drawSeq();
+        if (pos < chars.length) return later(() => writer.setChar(chars[pos], pos), 900);
+        const score = Math.round(scoreSum / chars.length);
+        let grade = SRS.gradeWriting({ score, misses, assist });
+        if (hinted) grade = Math.min(grade, SRS.HARD);
+        const reading = isKana ? UI.romaji(text) : `${item.romaji} · ${item.meaning}`;
+        // Tracing caps the grade, but a clean trace still counts as a pass.
+        const pass = score >= 75 && misses < 3;
+        fb.className = pass ? "feedback ok" : "feedback tip";
+        fb.textContent = `${text} (${reading}) · ${score}%${hinted ? " · with a hint" : ""}`;
+        UI.say(text, { quiet: true });
+        finishTask(grade, done, pass);
+      }
+    }
+
+    function recognize(t, done) {
+      const text = SRS.itemText(t.id);
+      const isKana = t.id[0] === "k";
+      const item = itemOf(t.id);
+      const answer = isKana ? UI.romaji(text) : item.meaning;
+      const pool = isKana
+        ? SRS.kanaOrder().filter((c) => [...c].length === [...text].length && UI.romaji(c) !== answer)
+        : [...NH.WORDS, ...NH.PHRASES].filter((w) => w.meaning !== answer);
+      const looks = isKana ? (UI.info(text).lookalikes || []).filter((c) => UI.romaji(c) !== answer) : [];
+      const wrong = [...new Set([...shuffle(looks), ...shuffle(pool)].map((x) => (isKana ? UI.romaji(x) : x.meaning)))].filter((x) => x !== answer).slice(0, 3);
+      const options = shuffle([answer, ...wrong]);
+      const shownAt = performance.now();
+      const fb = h("p.feedback", { "aria-live": "polite" });
+      panel.append(prompt(isKana ? "How do you read this?" : "What does this mean?", null, null, null), fb);
+      const opts = h("div.qopts", { class: "latin" }, options.map((o) => h("button.qopt", { type: "button", onclick: (e) => choose(o, e.currentTarget) }, o)));
+      cellWrap.append(h("div.task-card", h("div.qprompt", { class: isKana ? "" : "word" }, text), opts));
+      function choose(o, el) {
+        if (opts.dataset.answered) return;
+        opts.dataset.answered = "1";
+        const ok = o === answer;
+        opts.querySelectorAll("button").forEach((b) => { b.disabled = true; if (b.textContent === answer) b.classList.add("right"); else if (b === el) b.classList.add("wrong"); });
+        ok ? NH.Audio.accept(style, 3, 5) : NH.Audio.reject(style);
+        fb.className = ok ? "feedback ok" : "feedback no";
+        fb.textContent = ok ? `Yes: ${text} is ${answer}.` : `${text} is ${answer}.`;
+        UI.announce(fb.textContent);
+        UI.say(text, { quiet: true });
+        finishTask(SRS.gradeChoice(ok, performance.now() - shownAt), done);
+      }
+    }
+
+    // Good answers move on by themselves; otherwise wait so there's time to look.
+    function finishTask(grade, done, pass = grade >= SRS.GOOD) {
+      if (pass) return later(() => done(grade), 1300);
+      panel.append(h("div.actions", UI.btn("Next", () => done(grade), "primary", "next")));
+      panel.querySelector(".actions:last-child button")?.focus();
+    }
+
+    function finish() {
+      progress.textContent = "";
+      const now = Date.now();
+      const upcoming = Object.values(store.srs().cards).filter((c) => c.due > now).sort((a, b) => a.due - b.due);
+      panel.append(prompt(practiceOnly ? "Dictation done" : "That's today's practice", null, null, null));
+      cellWrap.append(h("div.task-card.summary",
+        practiceOnly ? h("p", `${tasks.length} kana written from sound.`) : h("p", h("b", reviewed), " reviewed · ", h("b", introduced), " new"),
+        upcoming.length ? h("p.muted", nextDueText()) : null,
+        h("div.result-actions", UI.btn("Back to Today", () => UI.go("today"), "primary", "next"))));
+      NH.Audio.complete(style, 100);
+    }
+
+    next();
+  }
+
+  function itemOf(id) {
+    const key = id.slice(2);
+    if (id[0] === "w") return NH.WORDS.find((w) => w.id === key);
+    if (id[0] === "p") return NH.PHRASES.find((w) => w.id === key);
+    if (id[0] === "r") return (NH.READING || []).find((r) => r.id === key);
+    return null;
+  }
+
+  NH.Today = { todayTasks, dictationTasks, reviewType, itemOf, runSession };
+})();
+
+/* js/read.js */
+/* Reading mode: signs, menus and short sentences drawn the way you'd meet them
+ * in Japan. Tap any kana for its sound; the reading and meaning stay hidden
+ * until you ask, so you get to try first. */
+window.NH = window.NH || {};
+
+(function () {
+  const { h, hex, shuffle } = NH;
+  const UI = NH.UI;
+  const COMBINE = new Set(["ゃ", "ゅ", "ょ", "ぁ", "ぃ", "ぅ", "ぇ", "ぉ"]);
+  const KINDS = [
+    ["station", "駅", "Stations", "Name boards on the platform, with the stops either side."],
+    ["sign", "看板", "Signs", "Curtains, road markings and notices around town."],
+    ["menu", "食べ物", "Food", "Sushi menus, noodle shops, stalls and convenience-store labels."],
+    ["sentence", "文", "Sentences", "Short sentences with a space between words, as in children's books."],
+  ];
+
+  const byId = (id) => NH.READING.find((r) => r.id === id);
+
+  /* Splits text into readable units: a kana plus any small ゃ/ゅ/ょ after it,
+   * so きょ is one tap. Spaces separate words; punctuation is kept. */
+  function units(text) {
+    return text.split(/\s+/).filter(Boolean).map((word) => {
+      const out = [];
+      for (const c of word) {
+        if (COMBINE.has(c) && out.length && /[ぁ-ゔ]/.test(out[out.length - 1])) out[out.length - 1] += c;
+        else out.push(c);
+      }
+      return out;
+    });
+  }
+
+  function unitReading(u, { last = false, sentence = false } = {}) {
+    if (u === "っ") return "small tsu: a short pause that doubles the next sound";
+    if (!/[ぁ-ゔ]/.test(u)) return u === "。" ? "full stop" : u === "、" ? "comma" : u;
+    if (sentence && last && u === "は") return "ha, read wa when it's a particle";
+    if (u === "を") return "o (written wo, said o)";
+    return UI.romaji(u);
+  }
+
+  // The sign itself, drawn in CSS. `reveal` shows the romaji under it.
+  function sign(item, { reveal = false, mini = false } = {}) {
+    const cls = `sign look-${item.look}${mini ? " mini" : ""}`;
+    const romaji = h("figcaption.sign-romaji", { hidden: !reveal }, item.romaji);
+    let art;
+    if (item.look === "station") {
+      art = h("div.eki.eki-sign", { style: `--line:${item.line || "var(--line-h)"};--line-ink:${item.lineInk || "#0f1a07"}` },
+        item.kanji ? h("div.eki-kanji", item.kanji) : null,
+        h("div.eki-name", item.kana),
+        h("div.eki-band", h("span.prev", item.prev ? `← ${item.prev}` : ""), h("span.next", item.next ? `${item.next} →` : "")));
+    } else if (item.look === "noren") {
+      art = h("div.noren", h("span.noren-rod"), h("span.noren-cloth", h("span.noren-l"), h("span.noren-r")), h("span.noren-text", item.kana));
+    } else if (item.look === "warning") {
+      art = h("div.warning", h("span.warn-mark", { "aria-hidden": "true" }, "!"), h("span.sign-text", item.kana));
+    } else {
+      art = h("div.sign-art", h("span.sign-text", item.kana));
+    }
+    return h("figure", { class: cls }, art, romaji);
+  }
+
+  // ── Read tab ─────────────────────────────────────────────
+  NH.Tabs.read = function (body) {
+    body.append(
+      h("p.intro", "Things you'll see in Japan, in hiragana. Try reading each one before you peek."),
+      h("div.cta-row.left", UI.btn("Practice reading", () => UI.go("readquiz"), "primary", "play")));
+    for (const [kind, jp, title, blurb] of KINDS) {
+      const items = NH.READING.filter((r) => r.kind === kind);
+      body.append(h("section.rsec",
+        h("div.ksec-head", h("h2", title, h("span.jp", jp)), h("p", blurb)),
+        h("div.rgrid", items.map((r) => h("a.rcard", { href: `#sign-${r.id}` },
+          sign(r, { mini: true }),
+          h("span.rmeta", h("b", r.meaning), h("span.wlv", { title: `Level ${r.level}` }, "●".repeat(r.level) + "○".repeat(3 - r.level))))))));
+    }
+  };
+
+  // ── one sign, up close ───────────────────────────────────
+  NH.Routes.push({ match: /^sign-([a-z0-9-]+)$/, render: (m) => {
+    const item = byId(m[1]);
+    if (!item) return UI.go("read");
+    signView(item);
+  } });
+
+  function signView(item) {
+    const app = document.getElementById("app");
+    document.body.classList.add("scr-read");
+    const text = item.kana.replace(/\s/g, "");
+    const fig = sign(item, { reveal: false });
+    const out = h("p.tk-out", { "aria-live": "polite" }, "Tap a kana to hear it.");
+    const isSentence = item.kind === "sentence";
+    const tapRow = h("div.tapkana", { role: "group", "aria-label": "Kana in this sign" }, units(item.kana).map((word) =>
+      h("span.tk-word", word.map((u, k) => /[ぁ-ゔ]/.test(u)
+        ? h("button.tk", { type: "button", onclick: (e) => {
+            tapRow.querySelectorAll(".tk.on").forEach((b) => b.classList.remove("on"));
+            e.currentTarget.classList.add("on");
+            out.textContent = `${u}: ${unitReading(u, { last: k === word.length - 1 && word.length > 1, sentence: isSentence })}`;
+            UI.say(u, { quiet: true });
+          } }, u)
+        : h("span.tk-punct", u)))));
+    const answer = h("section.card.read-answer", { hidden: true },
+      h("div.big-romaji", item.romaji),
+      h("p.read-meaning", item.meaning),
+      item.kanji ? h("p.muted", "Usually written ", h("b", item.kanji), item.look === "station" ? " on the board above the hiragana." : ".") : null,
+      item.where ? h("p", h("b", "Where: "), item.where) : null,
+      item.note ? h("p", item.note) : null);
+    const revealBtn = UI.btn("Show reading", () => {
+      const show = answer.hidden;
+      answer.hidden = !show;
+      fig.querySelector(".sign-romaji").hidden = !show;
+      revealBtn.querySelector("span").textContent = show ? "Hide reading" : "Show reading";
+      revealBtn.setAttribute("aria-expanded", String(show));
+    }, "ghost", "book");
+    revealBtn.setAttribute("aria-expanded", "false");
+
+    const idx = NH.READING.indexOf(item);
+    const prev = NH.READING[idx - 1], next = NH.READING[idx + 1];
+    app.replaceChildren(
+      h("header.bar",
+        UI.iconBtn("back", "All reading", () => UI.go("read")),
+        h("h1.bar-title", h("b", "読む"), h("small", "Read")),
+        UI.iconBtn("gear", "Settings", () => UI.settings())),
+      h("main.readview",
+        h("div.read-stage", fig),
+        h("p.read-hint.muted", item.where || "Try reading it first."),
+        tapRow, out,
+        h("div.actions",
+          UI.btn("Listen", () => UI.say(text), "ghost", "speaker"),
+          revealBtn,
+          NH.Speak?.button ? NH.Speak.button(item) : null),
+        answer,
+        h("nav.pager",
+          prev ? h("a.pg", { href: `#sign-${prev.id}`, "aria-label": `Previous: ${prev.kana}` }, UI.icon("prev"), h("span", prev.kana.replace(/\s/g, ""))) : h("span"),
+          next ? h("a.pg", { href: `#sign-${next.id}`, "aria-label": `Next: ${next.kana}` }, h("span", next.kana.replace(/\s/g, "")), UI.icon("next")) : h("span"))));
+  }
+
+  // ── practice: "what does this say?" ──────────────────────
+  NH.Routes.push({ match: /^readquiz$/, render: () => {
+    // Signs whose kana you've started come first; the rest fill up to ten.
+    const ids = NH.READING.map((r) => "r:" + r.id);
+    const ready = shuffle(ids.filter((id) => NH.SRS.ready(id)));
+    const rest = shuffle(ids.filter((id) => !NH.SRS.ready(id))).sort((a, b) => byId(a.slice(2)).level - byId(b.slice(2)).level);
+    const tasks = [...ready, ...rest].slice(0, 10).map((id) => ({ id, type: "read" }));
+    NH.Today.runSession(tasks, { title: "読む Read", back: "read", practiceOnly: true });
+  } });
+
+  // A session task: pick the meaning of a sign. Used by Today and by practice.
+  NH.ReadTask = function (t, { panel, cellWrap, finish, style }, done) {
+    const item = byId(t.id.slice(2));
+    const isStation = item.kind === "station";
+    const same = NH.READING.filter((r) => r !== item && r.kind === item.kind);
+    const other = NH.READING.filter((r) => r !== item && r.kind !== item.kind);
+    const wrong = [...new Set([...shuffle(same), ...shuffle(other)].map((r) => r.meaning))].filter((m) => m !== item.meaning).slice(0, 3);
+    const options = shuffle([item.meaning, ...wrong]);
+    const fig = sign(item, { reveal: false });
+    const fb = h("p.feedback", { "aria-live": "polite" });
+    const shownAt = performance.now();
+    panel.append(h("div.task-prompt", h("span.task-label", isStation ? "Which station is this?" : item.kind === "sentence" ? "What does this sentence say?" : "What does this say?")), fb);
+    const opts = h("div.qopts", { class: "latin" }, options.map((o) => h("button.qopt", { type: "button", onclick: (e) => choose(o, e.currentTarget) }, o)));
+    cellWrap.append(h("div.task-card.read-task", fig, opts));
+    function choose(o, el) {
+      if (opts.dataset.answered) return;
+      opts.dataset.answered = "1";
+      const ok = o === item.meaning;
+      opts.querySelectorAll("button").forEach((b) => { b.disabled = true; if (b.textContent === item.meaning) b.classList.add("right"); else if (b === el) b.classList.add("wrong"); });
+      fig.querySelector(".sign-romaji").hidden = false;
+      ok ? NH.Audio.accept(style, 3, 5) : NH.Audio.reject(style);
+      fb.className = ok ? "feedback ok" : "feedback no";
+      fb.textContent = `${item.kana.replace(/\s/g, "")} is ${item.romaji}: ${item.meaning}`;
+      UI.announce(fb.textContent);
+      UI.say(item.kana.replace(/\s/g, ""), { quiet: true });
+      finish(NH.SRS.gradeChoice(ok, performance.now() - shownAt), done);
+    }
+  };
+
+  NH.Read = { units, unitReading, sign, byId };
+})();
+
+/* js/speak.js */
+/* Pronunciation check: say a word, phrase or sign and see what the speech
+ * recogniser heard.
+ * Web: the browser's Web Speech recognition (Chrome, Edge, Safari). The
+ * browser's provider does the listening (Chrome sends the audio to Google),
+ * so the first use asks before turning the microphone on.
+ * Android app: Android's speech service (@capacitor-community/speech-recognition).
+ * Single kana aren't offered: cloud recognisers turn one syllable into a
+ * random word, so they need an on-device model (see ROADMAP). */
+window.NH = window.NH || {};
+
+(function () {
+  const WebSR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const native = window.Capacitor?.isNativePlatform?.() && window.Capacitor.Plugins?.SpeechRecognition;
+  // Framed pages (like the Claude artifact) can't get the microphone.
+  let framed = false;
+  try { framed = window.self !== window.top; } catch (_) { framed = true; }
+  const supported = !!native || (!!WebSR && window.isSecureContext !== false && !framed);
+
+  // ── matching (pure, unit-tested) ─────────────────────────
+  const KANJI = /[㐀-鿿豈-﫿々]/;
+  // Katakana → hiragana; drop spaces, punctuation, long-vowel marks and digits.
+  function normalize(s) {
+    return [...(s || "")].map((c) => {
+      const n = c.codePointAt(0);
+      return n >= 0x30a1 && n <= 0x30f6 ? String.fromCodePoint(n - 0x60) : c;
+    }).join("").replace(/[\s。、，．,.!?！？「」『』・ー〜~0-9０-９]/g, "");
+  }
+  // The way it sounds: particle は/へ at the end of a word are wa/e, を is o.
+  function sounds(target) {
+    return target.split(/\s+/).map((w) => w.replace(/は$/, "わ").replace(/へ$/, "え").replace(/を/g, "お")).join("");
+  }
+  function lev(a, b) {
+    a = [...a]; b = [...b];
+    let row = b.map((_, j) => j + 1);
+    row.unshift(0);
+    for (let i = 1; i <= a.length; i++) {
+      let prev = row[0];
+      row[0] = i;
+      for (let j = 1; j <= b.length; j++) {
+        const tmp = row[j];
+        row[j] = Math.min(row[j] + 1, row[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+        prev = tmp;
+      }
+    }
+    return row[b.length];
+  }
+  // Recognisers write words in kanji (駅 for えき). Each run of kanji may stand
+  // for 1–4 kana; the kana around it must line up exactly.
+  function kanjiFits(heard, target) {
+    if (!KANJI.test(heard)) return false;
+    const kana = [...heard].filter((c) => !KANJI.test(c)).length;
+    if (kana < [...target].length / 2) return false; // mostly kanji: too loose to judge
+    const re = heard.split(/([㐀-鿿豈-﫿々]+)/).map((part, i) =>
+      i % 2 ? `.{${[...part].length},${[...part].length * 4}}` : part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("");
+    return new RegExp(`^${re}$`, "u").test(target);
+  }
+
+  /* Compares what was heard (the recogniser's alternatives) with the target
+   * kana. Returns { ok, close, heard }: ok when any alternative says it,
+   * close when the best one is near. */
+  function match(targetKana, alternatives, kanji = "") {
+    const raw = normalize(targetKana), sound = normalize(sounds(targetKana));
+    const k = normalize(kanji);
+    let best = null, bestScore = -1;
+    for (const alt of alternatives || []) {
+      const hd = normalize(alt);
+      if (!hd) continue;
+      if (hd === raw || hd === sound || (k && hd === k) || kanjiFits(hd, raw) || kanjiFits(hd, sound)) return { ok: true, close: true, heard: alt };
+      const score = 1 - Math.min(lev(hd, raw), lev(hd, sound)) / Math.max([...hd].length, [...raw].length);
+      if (score > bestScore) { bestScore = score; best = alt; }
+    }
+    return { ok: false, close: bestScore >= 0.6, heard: best };
+  }
+
+  // ── listening ────────────────────────────────────────────
+  // Resolves with the recogniser's alternatives, or rejects with a short reason.
+  async function listen() {
+    if (native) {
+      const p = await native.checkPermissions().catch(() => ({}));
+      if (p.speechRecognition !== "granted") {
+        const r = await native.requestPermissions();
+        if (r.speechRecognition !== "granted") throw new Error("not-allowed");
+      }
+      const res = await native.start({ language: "ja-JP", maxResults: 5, partialResults: false, popup: false });
+      return res.matches || [];
+    }
+    return new Promise((resolve, reject) => {
+      const r = new WebSR();
+      r.lang = "ja-JP";
+      r.maxAlternatives = 5;
+      r.interimResults = false;
+      r.continuous = false;
+      let done = false;
+      r.onresult = (e) => { done = true; resolve([...e.results[0]].map((a) => a.transcript)); };
+      r.onerror = (e) => { done = true; reject(new Error(e.error || "error")); };
+      r.onend = () => { if (!done) reject(new Error("no-speech")); };
+      listen.stop = () => { try { r.stop(); } catch (_) {} };
+      r.start();
+    });
+  }
+  const WHY = {
+    "not-allowed": "The microphone is blocked. Allow it for this site in your browser's settings, then try again.",
+    "service-not-allowed": "This browser won't run speech recognition here.",
+    "no-speech": "Didn't catch anything. Tap the microphone and speak after the tone.",
+    "audio-capture": "No microphone found.",
+    network: "Speech recognition in this browser needs an internet connection.",
+  };
+
+  // ── the "Say it" sheet ───────────────────────────────────
+  function button(item) {
+    if (!supported || !item) return null;
+    return NH.UI.btn("Say it", () => open(item), "ghost", "mic");
+  }
+
+  function open(item) {
+    const { h, btn, iconBtn, say, announce } = NH.UI;
+    const text = item.kana.replace(/\s/g, "");
+    const bg = h("div.sheet-bg", { onclick: (e) => e.target === bg && close() });
+    const opener = document.activeElement;
+    const keys = (e) => { if (e.key === "Escape") close(); };
+    const close = () => { listen.stop?.(); native?.stop?.().catch(() => {}); bg.remove(); document.removeEventListener("keydown", keys); opener?.focus?.(); };
+    document.addEventListener("keydown", keys);
+    NH.UI.onLeave(close); // a back gesture closes it too
+    const body = h("div.say-body");
+    const sheet = h("div.sheet.say-sheet", { role: "dialog", "aria-modal": "true", "aria-label": "Say it", tabindex: "-1" },
+      h("div.sheet-head", h("h2", "Say it"), iconBtn("close", "Close", close)),
+      h("div.say-target", h("b", item.kana), h("span", item.romaji)),
+      body);
+    bg.append(sheet);
+    document.body.append(bg);
+    sheet.focus();
+    NH.store.settings.speechOk ? ready() : consent();
+
+    function consent() {
+      body.replaceChildren(
+        h("p", native
+          ? "Kaku will use your phone's speech service to turn what you say into text. Depending on the phone, the audio may be sent to Google for this."
+          : "Your browser does the listening: Chrome and Edge send the audio to Google or Microsoft to turn it into text, Safari to Apple."),
+        h("p.muted", "Kaku itself doesn't record, keep or send anything."),
+        h("div.actions", btn("Use the microphone", () => { NH.store.set("speechOk", true); ready(); }, "primary", "mic"), btn("Not now", close, "ghost")));
+    }
+
+    function ready(msg) {
+      const status = h("p.say-status", { "aria-live": "polite" }, msg || "Listen first if you like, then tap the microphone and say it.");
+      const mic = h("button.say-mic", { type: "button", "aria-label": "Start listening", onclick: start }, NH.UI.icon("mic"));
+      body.replaceChildren(mic, status, h("div.actions", btn("Listen", () => say(text), "ghost", "speaker")));
+      mic.focus();
+
+      async function start() {
+        mic.classList.add("on");
+        mic.disabled = true;
+        status.className = "say-status";
+        status.textContent = "Listening…";
+        try {
+          const alts = await listen();
+          const r = match(item.kana, alts, item.kanji);
+          mic.classList.remove("on");
+          mic.disabled = false;
+          status.className = "say-status " + (r.ok ? "ok" : r.close ? "tip" : "no");
+          status.textContent = r.ok ? `Yes! Heard ${r.heard}.` : r.heard ? `${r.close ? "Close. " : ""}Heard ${r.heard}. Listen and try again.` : "Couldn't make that out. Try again.";
+          r.ok ? NH.Audio.accept(NH.store.settings.style, 3, 5) : NH.Audio.reject(NH.store.settings.style);
+          announce(status.textContent);
+        } catch (e) {
+          mic.classList.remove("on");
+          mic.disabled = false;
+          status.className = "say-status no";
+          status.textContent = WHY[e.message] || "Speech recognition stopped. Try again.";
+          announce(status.textContent);
+        }
+      }
+    }
+  }
+
+  NH.Speak = { supported, normalize, sounds, match, button, open };
+})();
+
 /* js/app.js */
 /* Screens and routing. Routes live in the hash (#hiragana, #k-3042, #w-3042,
  * #word-mizu …) so Android's back button and bookmarks work. */
@@ -4492,6 +5530,9 @@ window.NH = window.NH || {};
     pen: "M4 20l4-1 11-11-3-3L5 16l-1 4Zm10-13 3 3",
     book: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Zm0 14a2 2 0 0 1 2-2h13",
     close: "M6 6l12 12M18 6 6 18",
+    mic: "M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Zm-7 9a7 7 0 0 0 14 0M12 19v3",
+    ear: "M7 10a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-5 2M10 10a2 2 0 0 1 4 0",
+    sun: "M12 4V2m0 20v-2m8-8h2M2 12h2m13.7-5.7 1.4-1.4M4.9 19.1l1.4-1.4m11.4 0 1.4 1.4M4.9 4.9l1.4 1.4M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z",
   };
   const icon = (name) => s("svg.ic", { viewBox: "0 0 24 24", "aria-hidden": "true" }, s("path", { d: ICONS[name] }));
 
@@ -4518,6 +5559,10 @@ window.NH = window.NH || {};
   const info = (ch) => (NH.KANA_INFO && NH.KANA_INFO[ch]) || {};
   const romaji = (ch) => NH.romajiOf(ch);
 
+  // Shared with the screens in today.js, read.js and speak.js.
+  Object.assign(NH.UI, { h, s, icon, btn, iconBtn, speakBtn, say, toast, go, romaji, info, onLeave: (fn) => cleanup.push(fn),
+    strokeOrderSvg: (ch) => strokeOrderSvg(ch), replay: (svg) => replay(svg), announce: (m) => announce(m), settings: () => settings(), syncBars: () => syncBars() });
+
   // ── router ───────────────────────────────────────────────
   function render() {
     cleanup.forEach((fn) => fn());
@@ -4528,7 +5573,7 @@ window.NH = window.NH || {};
     window.scrollTo(0, 0);
     if (r === "home") return home();
     if (r === "hiragana" || r === "symbols") return hub("symbols");
-    if (r === "words" || r === "phrases" || r === "quiz") return hub(r);
+    if (r === "words" || r === "phrases" || r === "quiz" || NH.Tabs[r]) return hub(r);
     if ((m = r.match(/^k-([0-9a-f-]+)$/))) return explain(unhex(m[1]));
     if ((m = r.match(/^w-([0-9a-f-]+)$/))) return writeScreen({ chars: [...unhex(m[1])], key: unhex(m[1]), back: `k-${m[1]}` });
     if ((m = r.match(/^(word|phrase)-([a-z0-9-]+)$/))) {
@@ -4536,6 +5581,7 @@ window.NH = window.NH || {};
       const item = list.find((x) => x.id === m[2]);
       if (item) return writeScreen({ chars: [...item.kana], item, key: item.kana, back: m[1] === "word" ? "words" : "phrases" });
     }
+    for (const route of NH.Routes) if ((m = r.match(route.match))) return route.render(m);
     if ((m = r.match(/^p-([0-9a-f-]+)$/))) {
       const kana = unhex(m[1]);
       return writeScreen({ chars: [...kana], item: { kana, romaji: "", meaning: "" }, key: kana, back: "hiragana" });
@@ -4548,7 +5594,7 @@ window.NH = window.NH || {};
   function home() {
     document.body.classList.add("scr-home");
     const sign = (o) =>
-      h("a.eki", { href: o.soon ? null : "#hiragana", class: o.soon ? "soon" : "", style: `--line:${o.color}`, "aria-disabled": o.soon ? "true" : null, onclick: o.soon ? (e) => { e.preventDefault(); toast(`${o.en} is coming soon.`); } : null },
+      h("a.eki", { href: o.soon ? null : "#today", class: o.soon ? "soon" : "", style: `--line:${o.color}`, "aria-disabled": o.soon ? "true" : null, onclick: o.soon ? (e) => { e.preventDefault(); toast(`${o.en} is coming soon.`); } : null },
         h("div.eki-num", h("b", o.code), h("span", o.num)),
         h("div.eki-name", o.jp),
         h("div.eki-romaji", o.en),
@@ -4572,7 +5618,9 @@ window.NH = window.NH || {};
             h("li", h("b", "Explain. "), "Each kana with its stroke order, the kanji it grew from, a memory hook and its quirks."),
             h("li", h("b", "Write. "), "Draw it with your finger or a stylus. Every stroke is checked for shape, direction and order."),
             h("li", h("b", "Words & phrases. "), "Write real words you'll see around you, from えき to ありがとう."),
-            h("li", h("b", "Quiz. "), "Quick multiple choice that leans on the kana you miss most."))),
+            h("li", h("b", "Quiz. "), "Quick multiple choice that leans on the kana you miss most."),
+            h("li", h("b", "Read. "), "Station boards, shop curtains and menus, the way you'll meet them in Japan."),
+            h("li", h("b", "Today. "), "A short daily queue of what's due, scheduled so you review just before you'd forget."))),
         window.Capacitor?.isNativePlatform?.() ? null : h("p.credit", "Android app: ", h("a", { href: "https://github.com/v4virtual/nihongo/releases/latest", target: "_blank", rel: "noopener" }, "download the latest APK"), "."),
         h("p.credit", "Stroke data: ", h("a", { href: "https://kanjivg.tagaini.net", target: "_blank", rel: "noopener" }, "KanjiVG"), " (CC BY-SA 3.0)."))
     );
@@ -4581,7 +5629,7 @@ window.NH = window.NH || {};
   // ── hiragana hub ─────────────────────────────────────────
   function hub(tab) {
     document.body.classList.add("scr-hub");
-    const tabs = [["symbols", "文字", "Symbols"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], ["quiz", "試験", "Quiz"]];
+    const tabs = [["today", "今日", "Today"], ["symbols", "文字", "Kana"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], ["read", "読む", "Read"], ["quiz", "試験", "Quiz"]];
     const body = h("main.hub-body");
     app.replaceChildren(
       h("header.bar",
@@ -4592,7 +5640,8 @@ window.NH = window.NH || {};
         h("a.tab", { href: `#${id === "symbols" ? "hiragana" : id}`, role: "tab", "aria-selected": String(tab === id), class: tab === id ? "on" : "" }, h("span.tab-jp", jp), h("span", en))))),
       body
     );
-    if (tab === "symbols") symbols(body);
+    if (NH.Tabs[tab]) NH.Tabs[tab](body);
+    else if (tab === "symbols") symbols(body);
     else if (tab === "quiz") quizSetup(body);
     else wordList(body, tab);
   }
@@ -4761,7 +5810,7 @@ window.NH = window.NH || {};
 
   function writeScreen({ chars, item, key, back }) {
     const st = store.settings;
-    let style = st.style, assist = st.assist, pos = 0;
+    let style = st.style, assist = st.assist, pos = 0, missesTotal = 0;
     const results = [];
     const isWord = !!item;
     const single = !isWord && chars.length === 1;
@@ -4796,7 +5845,8 @@ window.NH = window.NH || {};
       feedback,
       h("div.actions",
         btn("Watch", () => { feedback.textContent = "Watch the stroke order…"; writer.demo(); }, "ghost", "play"),
-        btn("Redo", () => restartChar(), "ghost", "redo")));
+        btn("Redo", () => restartChar(), "ghost", "redo"),
+        isWord && item.romaji ? NH.Speak.button(item) : null));
     stage.dataset.hand = st.hand || "right";
     stage.append(
       backdrop,
@@ -4872,7 +5922,10 @@ window.NH = window.NH || {};
       } else if (e.type === "done") {
         const c = chars[pos];
         results[pos] = e.score;
+        missesTotal += e.misses;
         store.recordWrite(c, e.score);
+        // Free practice also counts toward spaced repetition, for kana already started.
+        if (single) NH.SRS.practice("k:" + c, NH.SRS.gradeWriting({ score: e.score, misses: e.misses, assist }));
         feedback.className = "feedback ok";
         feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}${e.haneMissed ? " · remember the hane flick" : ""}`;
         setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
@@ -4889,6 +5942,8 @@ window.NH = window.NH || {};
 
     function showResult(e) {
       const avg = Math.round(results.reduce((a, b) => a + b, 0) / results.length);
+      const cardId = isWord && item.id ? `${back === "words" ? "w" : "p"}:${item.id}` : !single ? "k:" + key : null;
+      if (cardId) NH.SRS.practice(cardId, NH.SRS.gradeWriting({ score: avg, misses: missesTotal, assist }));
       const idx = NH.ORDER.indexOf(key);
       const nextKana = single && idx >= 0 ? NH.ORDER[idx + 1] : null;
       let nextItem = null;
@@ -4904,7 +5959,7 @@ window.NH = window.NH || {};
           h("div.result-label", chars.length > 1 ? grade[2] : e.label),
           isWord ? h("p.result-word", item.kana, " — ", item.meaning) : null,
           h("div.result-actions",
-            btn("Again", () => { results.length = 0; loadChar(0); }, "ghost", "redo"),
+            btn("Again", () => { results.length = 0; missesTotal = 0; loadChar(0); }, "ghost", "redo"),
             nextKana ? btn(`Next: ${nextKana}`, () => go(`w-${hex(nextKana)}`), "primary", "next") : null,
             nextItem ? btn(`Next: ${nextItem.kana}`, () => go(`${back === "words" ? "word" : "phrase"}-${nextItem.id}`), "primary", "next") : null,
             !nextKana && !nextItem ? btn("Done", () => go(back), "primary") : null)));
@@ -5007,12 +6062,15 @@ window.NH = window.NH || {};
         h("p.qask", { k2r: "How do you read this?", r2k: "Which kana is this?", listen: "Which kana did you hear?", w2m: "What does this word mean?" }[q.type]),
         prompt, opts, h("div.qfoot"));
       if (q.type === "listen") setTimeout(() => say(q.speak), 250);
+      const shownAt = performance.now();
 
       function choose(o, el) {
         if (answered) return;
         answered = true;
         const ok = o === q.answer;
         if (q.type !== "w2m") store.recordQuiz(q.key, ok);
+        const word = q.type === "w2m" && NH.WORDS.find((w) => w.kana === q.key);
+        NH.SRS.practice(word ? "w:" + word.id : "k:" + q.key, NH.SRS.gradeChoice(ok, performance.now() - shownAt));
         const style = store.settings.style;
         ok ? Audio.accept(style, 3, 5) : Audio.reject(style);
         opts.querySelectorAll("button").forEach((b) => {
