@@ -313,17 +313,23 @@ window.NH = window.NH || {};
       ? h("h1.bar-title.word-title", h("b", item.kana), h("small", [item.romaji, item.meaning].filter(Boolean).join(" · ")))
       : h("h1.bar-title", h("b", key), h("small", romaji(key)));
 
-    stage.append(
-      backdrop,
-      h("header.bar.stage-bar", iconBtn("back", "Back", () => go(back)), title, speakBtn(key), iconBtn("gear", "Settings", settings)),
+    /* The controls live in one panel. On phones it dissolves into the column
+     * (hints above the square, where the writing hand doesn't cover them); on
+     * wide screens it becomes a side column opposite the writing hand. */
+    const panel = h("div.panel",
       !isWord && single ? h("nav.modes", { "aria-label": "Mode" }, h("a.mode", { href: `#k-${hex(key)}` }, icon("book"), "Explain"), h("a.mode.on", { href: location.hash, "aria-current": "page" }, icon("pen"), "Write")) : null,
       h("div.switches", styleSeg, assistSeg),
       chars.length > 1 ? seq : null,
-      cellWrap,
       feedback,
       h("div.actions",
         btn("Watch", () => { feedback.textContent = "Watch the stroke order…"; writer.demo(); }, "ghost", "play"),
-        btn("Redo", () => restartChar(), "ghost", "redo")),
+        btn("Redo", () => restartChar(), "ghost", "redo")));
+    stage.dataset.hand = st.hand || "right";
+    stage.append(
+      backdrop,
+      h("header.bar.stage-bar", iconBtn("back", "Back", () => go(back)), title, speakBtn(key), iconBtn("gear", "Settings", settings)),
+      panel,
+      cellWrap,
       result
     );
     app.replaceChildren(stage);
@@ -606,6 +612,13 @@ window.NH = window.NH || {};
         applyTextSize();
         sizeSeg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b === e.currentTarget)));
       } }, label)));
+    const hands = [["right", "Right"], ["left", "Left"]];
+    const handSeg = h("div.chips", { role: "radiogroup", "aria-labelledby": "hand-label" }, hands.map(([id, label]) =>
+      h("button.chip", { type: "button", role: "radio", "aria-checked": String((st.hand || "right") === id), onclick: (e) => {
+        store.set("hand", id);
+        document.querySelectorAll(".stage").forEach((el) => (el.dataset.hand = id));
+        handSeg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b === e.currentTarget)));
+      } }, label)));
     const themes = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"]];
     const themeSeg = h("div.chips", { role: "radiogroup", "aria-labelledby": "theme-label" }, themes.map(([id, label]) =>
       h("button.chip", { type: "button", role: "radio", "aria-checked": String((st.theme || "auto") === id), onclick: (e) => {
@@ -618,6 +631,8 @@ window.NH = window.NH || {};
       h("div.row.col", h("span#theme-label", "Theme"), themeSeg,
         h("p.muted", "Auto follows your phone. The writing styles keep their own look.")),
       h("div.row.col", h("span#ts-label", "Text size"), sizeSeg),
+      h("div.row.col", h("span#hand-label", "Writing hand"), handSeg,
+        h("p.muted", "On tablets and wide screens the controls move to the side your hand doesn't cover.")),
       h("label.row", h("span", "Sound effects"), h("input#sound", { type: "checkbox", checked: st.sound ? true : null, onchange: (e) => store.set("sound", e.target.checked) })),
       h("div.row.col", h("label", { for: "volume" }, "Effects volume"),
         h("input#volume", { type: "range", min: "0", max: "1", step: "0.05", value: String(st.volume ?? 0.8), oninput: (e) => Audio.setVolume(parseFloat(e.target.value)), onchange: () => Audio.accept(store.settings.style, 2, 5) })),

@@ -26,7 +26,10 @@ release; order within a group is a rough priority.
 - [x] Faster neon rendering while writing (no canvas blur on the live stroke or sparks; about 3× faster in tests)
 - [x] Word and phrase cards fit long phrases at phone widths
 - [x] Haptics on stroke accept/reject/complete (`navigator.vibrate`) on Android, with a setting
-- [ ] Left-handed mode and a "large cell" layout for tablets
+- [x] Writing hand setting: on wide screens the controls sit on the side the writing hand doesn't cover
+- [x] Tablet layouts: landscape two-column writing screen (square up to 760px), larger square in portrait, two-column kana chart on wide screens
+- [x] Hints above the square on phones, where the writing hand doesn't cover them
+- [x] Palm rejection for stylus users (iPad + Pencil, S Pen): touches are ignored while a pen is in use
 - [x] Stroke-ending feedback for **hane** (flicks): detected from the stroke data, checked on every stroke, shown on the explain page and played in the demo
 - [ ] Stroke-ending feedback for **tome / harai** (stop vs. sweep): needs hand-checked labels per stroke, since KanjiVG doesn't record them
 - [x] Effects volume control

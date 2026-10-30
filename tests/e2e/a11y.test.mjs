@@ -50,6 +50,12 @@ describe("axe audit", () => {
       assert.deepEqual(await audit(page), []);
     }));
   }
+  for (const hand of ["right", "left"]) {
+    test(`the landscape writing screen (${hand}-handed) has no violations`, T, () => withPage("w-3042", { width: 1280, height: 800, hand, style: "calligraphy" }, async (page) => {
+      await page.waitForTimeout(400);
+      assert.deepEqual(await audit(page), []);
+    }));
+  }
   test("the settings sheet has no violations", T, () => withPage("hiragana", {}, async (page) => {
     await page.locator(".bar .icon-btn[aria-label=Settings]").click();
     assert.deepEqual(await audit(page), []);

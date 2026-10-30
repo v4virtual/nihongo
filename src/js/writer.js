@@ -277,13 +277,35 @@ window.NH = window.NH || {};
         const r = el.getBoundingClientRect();
         return { x: e.clientX - r.left, y: e.clientY - r.top, t: e.timeStamp, p: e.pressure };
       };
+      // Palm rejection: while a stylus is in use (touching, or lifted less than
+      // PEN_GRACE ms ago) touches are a resting hand, not writing. A pen that
+      // lands while a touch "stroke" is in progress replaces it.
+      const PEN_GRACE = 1500;
+      const penBusy = (t) => this.penDown || t - (this.lastPen || -Infinity) < PEN_GRACE;
+      const isPalm = (e) => e.pointerType === "touch" && (penBusy(e.timeStamp) || (e.width > 40 && e.height > 40));
+      const notePen = (e) => { if (e.pointerType === "pen") this.lastPen = e.timeStamp; };
+      for (const type of ["pointermove", "pointerup"]) el.addEventListener(type, notePen);
+
       el.addEventListener("pointerdown", (e) => {
         if (this.finished || this.demoToken || this.next < 0) return;
+        if (e.pointerType === "pen") {
+          this.penDown = true;
+          this.lastPen = e.timeStamp;
+          if (this.pointer != null && this.pointerType === "touch") {
+            // the palm got there first: drop its stroke and write with the pen
+            Audio.drawEnd();
+            this.pointer = null;
+            this.cur = null;
+            this.renderLive();
+          }
+        }
+        if (isPalm(e)) { e.preventDefault(); return; }
         if (this.pointer != null) return;
         e.preventDefault();
         Audio.unlock();
-        el.setPointerCapture(e.pointerId);
+        try { el.setPointerCapture(e.pointerId); } catch (_) {}
         this.pointer = e.pointerId;
+        this.pointerType = e.pointerType;
         this.cur = [pos(e)];
         this.lastFx = 0;
         this.live.classList.remove("fade");
@@ -312,6 +334,7 @@ window.NH = window.NH || {};
         }
       });
       const up = (e) => {
+        if (e.pointerType === "pen") this.penDown = false;
         if (e.pointerId !== this.pointer) return;
         this.pointer = null;
         Audio.drawEnd();
@@ -321,6 +344,7 @@ window.NH = window.NH || {};
       };
       el.addEventListener("pointerup", up);
       el.addEventListener("pointercancel", (e) => {
+        if (e.pointerType === "pen") this.penDown = false;
         if (e.pointerId !== this.pointer) return;
         this.pointer = null;
         this.cur = null;

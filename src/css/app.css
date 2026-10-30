@@ -313,7 +313,13 @@ body.scr-write { overflow: hidden; }
   padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
   color: var(--fg);
 }
-.stage > :not(.backdrop):not(.result) { position: relative; z-index: 2; }
+.stage > :not(.backdrop):not(.result), .panel > * { position: relative; z-index: 2; }
+/* Phones: the panel dissolves into the column. Hints sit above the square,
+ * where the writing hand doesn't cover them; Watch/Redo stay below. */
+.panel { display: contents; }
+.stage-bar { order: -1; }
+.cell-wrap { order: 1; }
+.actions { order: 2; }
 .stage .bar { background: transparent; backdrop-filter: none; position: relative; top: 0; }
 .stage .bar-title small { color: var(--fg-muted); }
 .word-title b { font-size: calc(22px * var(--ts)); }
@@ -584,4 +590,40 @@ input[type="range"] { accent-color: var(--line-h); }
 /* Wide screens: the word's scene sits beside the sheet instead of behind it. */
 @media (min-aspect-ratio: 5/4) {
   .bd-calligraphy .sumi.hero { left: auto !important; right: 3% !important; top: auto !important; bottom: 20% !important; transform: none !important; width: min(34vw, 480px) !important; height: min(52vh, 420px) !important; }
+}
+
+/* Tablets in portrait: same column, a bigger square. */
+@media (min-width: 700px) and (max-aspect-ratio: 5/4) {
+  .cell { width: min(100%, 760px, max(240px, calc(100dvh - 360px))); }
+}
+/* Tablets in landscape and desktops: the square gets the height, the controls
+ * a side column on the side the writing hand doesn't cover. */
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .stage {
+    display: grid; grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: "bar bar" "panel cell";
+  }
+  .stage[data-hand="left"] { grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); grid-template-areas: "bar bar" "cell panel"; }
+  .stage-bar { grid-area: bar; }
+  .cell-wrap { grid-area: cell; padding: 8px 24px 24px; }
+  .panel {
+    grid-area: panel; display: flex; flex-direction: column; justify-content: center; gap: 14px; min-height: 0; overflow: auto;
+    padding-block: 0 24px;
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+  }
+  .stage[data-hand="left"] .panel { padding-left: 12px; padding-right: max(12px, env(safe-area-inset-right, 0px)); }
+  .panel .modes { margin: 0 auto; }
+  .panel .switches { flex-direction: column; align-items: center; padding: 0; }
+  .panel .feedback { margin: 0; max-width: none; }
+  .panel .actions { padding: 0; }
+  .cell { width: min(100%, 760px, max(240px, calc(100dvh - 110px))); }
+  .result { inset: auto auto 0 0; width: min(360px, 40vw); }
+  .stage[data-hand="left"] .result { inset: auto 0 0 auto; }
+}
+/* Wide screens: the chart shows the basic table beside the voiced and combo tables. */
+@media (min-width: 1100px) {
+  .hub-body:has(> .ksec) { max-width: 1240px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-items: start; }
+  .hub-body:has(> .ksec) > .ksec:first-child { grid-row: span 2; }
+  .hub-body:has(> .ksec) ~ * , .tabs { max-width: 1240px; }
 }
