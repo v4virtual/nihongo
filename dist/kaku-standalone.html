@@ -329,7 +329,13 @@ body.scr-write { overflow: hidden; }
   padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
   color: var(--fg);
 }
-.stage > :not(.backdrop):not(.result) { position: relative; z-index: 2; }
+.stage > :not(.backdrop):not(.result), .panel > * { position: relative; z-index: 2; }
+/* Phones: the panel dissolves into the column. Hints sit above the square,
+ * where the writing hand doesn't cover them; Watch/Redo stay below. */
+.panel { display: contents; }
+.stage-bar { order: -1; }
+.cell-wrap { order: 1; }
+.actions { order: 2; }
 .stage .bar { background: transparent; backdrop-filter: none; position: relative; top: 0; }
 .stage .bar-title small { color: var(--fg-muted); }
 .word-title b { font-size: calc(22px * var(--ts)); }
@@ -602,6 +608,42 @@ input[type="range"] { accent-color: var(--line-h); }
   .bd-calligraphy .sumi.hero { left: auto !important; right: 3% !important; top: auto !important; bottom: 20% !important; transform: none !important; width: min(34vw, 480px) !important; height: min(52vh, 420px) !important; }
 }
 
+/* Tablets in portrait: same column, a bigger square. */
+@media (min-width: 700px) and (max-aspect-ratio: 5/4) {
+  .cell { width: min(100%, 760px, max(240px, calc(100dvh - 360px))); }
+}
+/* Tablets in landscape and desktops: the square gets the height, the controls
+ * a side column on the side the writing hand doesn't cover. */
+@media (min-width: 900px) and (min-aspect-ratio: 5/4) {
+  .stage {
+    display: grid; grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: "bar bar" "panel cell";
+  }
+  .stage[data-hand="left"] { grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); grid-template-areas: "bar bar" "cell panel"; }
+  .stage-bar { grid-area: bar; }
+  .cell-wrap { grid-area: cell; padding: 8px 24px 24px; }
+  .panel {
+    grid-area: panel; display: flex; flex-direction: column; justify-content: center; gap: 14px; min-height: 0; overflow: auto;
+    padding-block: 0 24px;
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+  }
+  .stage[data-hand="left"] .panel { padding-left: 12px; padding-right: max(12px, env(safe-area-inset-right, 0px)); }
+  .panel .modes { margin: 0 auto; }
+  .panel .switches { flex-direction: column; align-items: center; padding: 0; }
+  .panel .feedback { margin: 0; max-width: none; }
+  .panel .actions { padding: 0; }
+  .cell { width: min(100%, 760px, max(240px, calc(100dvh - 110px))); }
+  .result { inset: auto auto 0 0; width: min(360px, 40vw); }
+  .stage[data-hand="left"] .result { inset: auto 0 0 auto; }
+}
+/* Wide screens: the chart shows the basic table beside the voiced and combo tables. */
+@media (min-width: 1100px) {
+  .hub-body:has(> .ksec) { max-width: 1240px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-items: start; }
+  .hub-body:has(> .ksec) > .ksec:first-child { grid-row: span 2; }
+  .hub-body:has(> .ksec) ~ * , .tabs { max-width: 1240px; }
+}
+
 </style>
 </head>
 <body>
@@ -672,7 +714,7 @@ window.NH = window.NH || {};
   // Persistent settings and progress. Storage may be unavailable; the app works without it.
   const KEY = "kaku.v1";
   const defaults = {
-    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "", text: "normal", theme: "auto" },
+    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "", text: "normal", theme: "auto", hand: "right" },
     progress: {}, // char → { best, last, tries, right, wrong }
   };
   let state = structuredClone(defaults);
@@ -3943,13 +3985,35 @@ window.NH = window.NH || {};
         const r = el.getBoundingClientRect();
         return { x: e.clientX - r.left, y: e.clientY - r.top, t: e.timeStamp, p: e.pressure };
       };
+      // Palm rejection: while a stylus is in use (touching, or lifted less than
+      // PEN_GRACE ms ago) touches are a resting hand, not writing. A pen that
+      // lands while a touch "stroke" is in progress replaces it.
+      const PEN_GRACE = 1500;
+      const penBusy = (t) => this.penDown || t - (this.lastPen || -Infinity) < PEN_GRACE;
+      const isPalm = (e) => e.pointerType === "touch" && (penBusy(e.timeStamp) || (e.width > 40 && e.height > 40));
+      const notePen = (e) => { if (e.pointerType === "pen") this.lastPen = e.timeStamp; };
+      for (const type of ["pointermove", "pointerup"]) el.addEventListener(type, notePen);
+
       el.addEventListener("pointerdown", (e) => {
         if (this.finished || this.demoToken || this.next < 0) return;
+        if (e.pointerType === "pen") {
+          this.penDown = true;
+          this.lastPen = e.timeStamp;
+          if (this.pointer != null && this.pointerType === "touch") {
+            // the palm got there first: drop its stroke and write with the pen
+            Audio.drawEnd();
+            this.pointer = null;
+            this.cur = null;
+            this.renderLive();
+          }
+        }
+        if (isPalm(e)) { e.preventDefault(); return; }
         if (this.pointer != null) return;
         e.preventDefault();
         Audio.unlock();
-        el.setPointerCapture(e.pointerId);
+        try { el.setPointerCapture(e.pointerId); } catch (_) {}
         this.pointer = e.pointerId;
+        this.pointerType = e.pointerType;
         this.cur = [pos(e)];
         this.lastFx = 0;
         this.live.classList.remove("fade");
@@ -3978,6 +4042,7 @@ window.NH = window.NH || {};
         }
       });
       const up = (e) => {
+        if (e.pointerType === "pen") this.penDown = false;
         if (e.pointerId !== this.pointer) return;
         this.pointer = null;
         Audio.drawEnd();
@@ -3987,6 +4052,7 @@ window.NH = window.NH || {};
       };
       el.addEventListener("pointerup", up);
       el.addEventListener("pointercancel", (e) => {
+        if (e.pointerType === "pen") this.penDown = false;
         if (e.pointerId !== this.pointer) return;
         this.pointer = null;
         this.cur = null;
@@ -4720,17 +4786,23 @@ window.NH = window.NH || {};
       ? h("h1.bar-title.word-title", h("b", item.kana), h("small", [item.romaji, item.meaning].filter(Boolean).join(" · ")))
       : h("h1.bar-title", h("b", key), h("small", romaji(key)));
 
-    stage.append(
-      backdrop,
-      h("header.bar.stage-bar", iconBtn("back", "Back", () => go(back)), title, speakBtn(key), iconBtn("gear", "Settings", settings)),
+    /* The controls live in one panel. On phones it dissolves into the column
+     * (hints above the square, where the writing hand doesn't cover them); on
+     * wide screens it becomes a side column opposite the writing hand. */
+    const panel = h("div.panel",
       !isWord && single ? h("nav.modes", { "aria-label": "Mode" }, h("a.mode", { href: `#k-${hex(key)}` }, icon("book"), "Explain"), h("a.mode.on", { href: location.hash, "aria-current": "page" }, icon("pen"), "Write")) : null,
       h("div.switches", styleSeg, assistSeg),
       chars.length > 1 ? seq : null,
-      cellWrap,
       feedback,
       h("div.actions",
         btn("Watch", () => { feedback.textContent = "Watch the stroke order…"; writer.demo(); }, "ghost", "play"),
-        btn("Redo", () => restartChar(), "ghost", "redo")),
+        btn("Redo", () => restartChar(), "ghost", "redo")));
+    stage.dataset.hand = st.hand || "right";
+    stage.append(
+      backdrop,
+      h("header.bar.stage-bar", iconBtn("back", "Back", () => go(back)), title, speakBtn(key), iconBtn("gear", "Settings", settings)),
+      panel,
+      cellWrap,
       result
     );
     app.replaceChildren(stage);
@@ -5013,6 +5085,13 @@ window.NH = window.NH || {};
         applyTextSize();
         sizeSeg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b === e.currentTarget)));
       } }, label)));
+    const hands = [["right", "Right"], ["left", "Left"]];
+    const handSeg = h("div.chips", { role: "radiogroup", "aria-labelledby": "hand-label" }, hands.map(([id, label]) =>
+      h("button.chip", { type: "button", role: "radio", "aria-checked": String((st.hand || "right") === id), onclick: (e) => {
+        store.set("hand", id);
+        document.querySelectorAll(".stage").forEach((el) => (el.dataset.hand = id));
+        handSeg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b === e.currentTarget)));
+      } }, label)));
     const themes = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"]];
     const themeSeg = h("div.chips", { role: "radiogroup", "aria-labelledby": "theme-label" }, themes.map(([id, label]) =>
       h("button.chip", { type: "button", role: "radio", "aria-checked": String((st.theme || "auto") === id), onclick: (e) => {
@@ -5025,6 +5104,8 @@ window.NH = window.NH || {};
       h("div.row.col", h("span#theme-label", "Theme"), themeSeg,
         h("p.muted", "Auto follows your phone. The writing styles keep their own look.")),
       h("div.row.col", h("span#ts-label", "Text size"), sizeSeg),
+      h("div.row.col", h("span#hand-label", "Writing hand"), handSeg,
+        h("p.muted", "On tablets and wide screens the controls move to the side your hand doesn't cover.")),
       h("label.row", h("span", "Sound effects"), h("input#sound", { type: "checkbox", checked: st.sound ? true : null, onchange: (e) => store.set("sound", e.target.checked) })),
       h("div.row.col", h("label", { for: "volume" }, "Effects volume"),
         h("input#volume", { type: "range", min: "0", max: "1", step: "0.05", value: String(st.volume ?? 0.8), oninput: (e) => Audio.setVolume(parseFloat(e.target.value)), onchange: () => Audio.accept(store.settings.style, 2, 5) })),
