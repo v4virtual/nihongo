@@ -274,6 +274,10 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @keyframes so-num { to { opacity: 1; } }
 .so-tools { position: absolute; right: 8px; bottom: 8px; display: flex; gap: 2px; color: var(--sign-ink); }
 .hero-meta { display: grid; gap: 12px; }
+.twin { display: inline-flex; align-items: baseline; gap: 8px; margin-top: 10px; padding: 6px 12px; border-radius: 10px; border: 1px solid var(--rule); background: var(--night-2); text-decoration: none; }
+.twin span:first-child { font-size: calc(12px * var(--ts)); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.twin b { font: 600 calc(26px * var(--ts))/1 var(--f-kana); }
+.twin:hover { border-color: var(--accent-ink); }
 .big-romaji { font-size: 54px; font-weight: 900; letter-spacing: 0.02em; line-height: 1; }
 .meta-row { display: flex; gap: 10px; align-items: center; color: var(--muted); }
 .tag { font-size: calc(12px * var(--ts)); padding: 2px 10px; border: 1px solid var(--rule); border-radius: 999px; text-transform: capitalize; }
@@ -754,6 +758,14 @@ input[type="range"] { accent-color: var(--line-h); }
   border-bottom: calc(10px * var(--sz)) solid #e0473a;
 }
 .look-label .sign-text { font: 900 calc(40px * var(--sz))/1.2 var(--f-neon); }
+.vend { display: grid; justify-items: center; gap: calc(8px * var(--sz)); padding: calc(14px * var(--sz)); background: #e9edf2; border-radius: 8px; box-shadow: inset 0 0 0 calc(3px * var(--sz)) #c9d0da; }
+.vend-can { width: calc(46px * var(--sz)); height: calc(84px * var(--sz)); border-radius: calc(8px * var(--sz)) calc(8px * var(--sz)) 4px 4px; background: linear-gradient(90deg, #8a5a2b, #c48a4c 45%, #8a5a2b); }
+.vend .sign-text { padding: calc(4px * var(--sz)) calc(16px * var(--sz)); border-radius: 999px; color: #fff; font: 900 calc(30px * var(--sz))/1.2 var(--f-neon); }
+.tone-cold .sign-text { background: #1d5fbf; }
+.tone-hot .sign-text { background: #c62f28; }
+.vend-price { font: 700 calc(18px * var(--sz)) var(--f-ui); color: #15171c; background: #fff; padding: 0 calc(8px * var(--sz)); border-radius: 3px; }
+.look-sale .sign-art { padding: calc(14px * var(--sz)) calc(30px * var(--sz)); background: #d32f2f; color: #fff; transform: rotate(-3deg); box-shadow: 0 10px 22px -12px #000c; }
+.look-sale .sign-text { font: 900 calc(52px * var(--sz))/1 var(--f-ui); letter-spacing: 0.1em; }
 .look-book .sign-art {
   max-width: min(100%, 560px); padding: calc(22px * var(--sz)) calc(24px * var(--sz)); background: #fbf6e9; color: #2a2320;
   border-radius: 6px 14px 14px 6px; box-shadow: inset 8px 0 12px -8px #0003, 0 10px 22px -14px #000a;

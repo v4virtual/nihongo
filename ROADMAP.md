@@ -49,9 +49,10 @@ release; order within a group is a rough priority.
 
 ## v0.4 — Katakana
 
-- [ ] Katakana chart, explain mode (with the kanji fragments they came from), writing in all three styles
-- [ ] Loanword practice (ラーメン, コンビニ, スイカ) with matching scenes
-- [ ] Long-vowel mark ー and small ァ ィ ゥ ェ ォ combos (ファ, ティ)
+- [x] Katakana chart, explain mode (with the kanji fragments they came from and the hiragana twin), writing in all three styles
+- [x] Loanword practice (ラーメン, コンビニ, スイカ) with matching scenes: 45 words in three levels, new ramen, konbini, IC card, coffee and vending-machine art
+- [x] Long-vowel mark ー and small ァ ィ ゥ ェ ォ combos (ファ, ティ), plus ヴ
+- [x] Katakana in Today (hiragana first, katakana first or both together), reading (signs, menus, mixed sentences, vending-machine labels) and the quiz (Katakana → hiragana)
 
 ## v0.5 — Kanji, first steps
 

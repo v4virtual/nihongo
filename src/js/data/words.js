@@ -1,5 +1,6 @@
-/* Practice vocabulary and phrases. `kana` is hiragana only (no spaces or punctuation).
-   level: 1 = basic kana only, 2 = dakuten / longer, 3 = yōon, small っ, long vowels. */
+/* Practice vocabulary and phrases. `kana` is all hiragana or all katakana (no spaces or punctuation).
+   level: 1 = basic kana only, 2 = dakuten / longer (katakana: or ー), 3 = yōon, small っ, long vowels
+   (katakana: any small kana). */
 window.NH = window.NH || {};
 
 window.NH.WORDS = [
@@ -86,7 +87,58 @@ window.NH.WORDS = [
   { id: "ryokan", kana: "りょかん", romaji: "ryokan", meaning: "traditional Japanese inn", kanji: "旅館", level: 3, scene: ["house", "mountain"], note: "Expect tatami rooms, futons, a yukata to wear and often an onsen bath." },
   { id: "koban", kana: "こうばん", romaji: "kōban", meaning: "police box", kanji: "交番", level: 3, scene: ["city"], note: "Officers at the neighbourhood こうばん will happily give you directions." },
   { id: "gakko", kana: "がっこう", romaji: "gakkō", meaning: "school", kanji: "学校", level: 3, scene: ["book"] },
-  { id: "toshokan", kana: "としょかん", romaji: "toshokan", meaning: "library", kanji: "図書館", level: 3, scene: ["book"] }
+  { id: "toshokan", kana: "としょかん", romaji: "toshokan", meaning: "library", kanji: "図書館", level: 3, scene: ["book"] },
+
+  // ---- Katakana loanwords. Level 1: basic katakana only ----
+  { id: "kamera", kana: "カメラ", romaji: "kamera", meaning: "camera", level: 1, scene: ["city"] },
+  { id: "toire", kana: "トイレ", romaji: "toire", meaning: "toilet", level: 1, scene: ["house"], note: "On signs you'll also see お手洗い (otearai); both are polite enough to ask for." },
+  { id: "hoteru", kana: "ホテル", romaji: "hoteru", meaning: "hotel", level: 1, scene: ["city"] },
+  { id: "anime", kana: "アニメ", romaji: "anime", meaning: "animation, anime", level: 1, scene: ["star"], note: "Short for アニメーション (animēshon)." },
+  { id: "naifu", kana: "ナイフ", romaji: "naifu", meaning: "knife (table knife)", level: 1, scene: ["food"] },
+  { id: "miruku", kana: "ミルク", romaji: "miruku", meaning: "milk (for coffee)", level: 1, scene: ["coffee"], note: "In shops, a carton of milk is more often ぎゅうにゅう (牛乳)." },
+  { id: "tomato", kana: "トマト", romaji: "tomato", meaning: "tomato", level: 1, scene: ["food"] },
+  { id: "suika", kana: "スイカ", romaji: "suika", meaning: "Suica card; watermelon", level: 1, scene: ["iccard", "train"], note: "Suica is JR East's tap card for trains, buses and konbini; the name plays on すいか, watermelon." },
+  { id: "aisu", kana: "アイス", romaji: "aisu", meaning: "ice cream", level: 1, scene: ["sun"], note: "Short for アイスクリーム. アイスコーヒー is iced coffee." },
+  { id: "nekutai", kana: "ネクタイ", romaji: "nekutai", meaning: "necktie", level: 1, scene: ["city"] },
+  { id: "karaoke", kana: "カラオケ", romaji: "karaoke", meaning: "karaoke", level: 1, scene: ["lantern", "star"], note: "A Japanese coinage: から (empty) + オケ, short for オーケストラ (orchestra)." },
+  { id: "sumaho", kana: "スマホ", romaji: "sumaho", meaning: "smartphone", level: 1, scene: ["city"], note: "Short for スマートフォン (sumātofon)." },
+  { id: "eakon", kana: "エアコン", romaji: "eakon", meaning: "air conditioner", level: 1, scene: ["sun", "house"], note: "Short for air conditioner. The remote's だんぼう is heating, れいぼう is cooling." },
+
+  // ---- Level 2: dakuten or the long-vowel mark ー ----
+  { id: "ramen", kana: "ラーメン", romaji: "rāmen", meaning: "ramen", level: 2, scene: ["ramen"], note: "Many shops sell a ticket from a machine by the door; hand it over at the counter." },
+  { id: "kohi", kana: "コーヒー", romaji: "kōhī", meaning: "coffee", level: 2, scene: ["coffee"], note: "Two ー marks: both vowels are long, kō-hī." },
+  { id: "konbini", kana: "コンビニ", romaji: "konbini", meaning: "convenience store", level: 2, scene: ["konbini"], note: "Short for コンビニエンスストア. Open all night; you can pay bills and pick up parcels there too." },
+  { id: "takushi", kana: "タクシー", romaji: "takushī", meaning: "taxi", level: 2, scene: ["city"], note: "The back door opens and closes by itself, so don't slam it." },
+  { id: "basu", kana: "バス", romaji: "basu", meaning: "bus", level: 2, scene: ["city"] },
+  { id: "pan", kana: "パン", romaji: "pan", meaning: "bread", level: 2, scene: ["food"], note: "From Portuguese pão, one of the oldest loanwords (16th century)." },
+  { id: "terebi", kana: "テレビ", romaji: "terebi", meaning: "television", level: 2, scene: ["house"] },
+  { id: "biru", kana: "ビール", romaji: "bīru", meaning: "beer", level: 2, scene: ["lantern"], note: "とりあえず ビール (toriaezu bīru): 'a beer for now', the classic first order at an izakaya." },
+  { id: "kare", kana: "カレー", romaji: "karē", meaning: "curry", level: 2, scene: ["food"], note: "Japanese curry is thick and mild, usually カレーライス with rice." },
+  { id: "keki", kana: "ケーキ", romaji: "kēki", meaning: "cake", level: 2, scene: ["heart"] },
+  { id: "gemu", kana: "ゲーム", romaji: "gēmu", meaning: "game, video game", level: 2, scene: ["star"] },
+  { id: "supa", kana: "スーパー", romaji: "sūpā", meaning: "supermarket", level: 2, scene: ["konbini"], note: "Short for スーパーマーケット. Prepared food is often discounted in the evening." },
+  { id: "depato", kana: "デパート", romaji: "depāto", meaning: "department store", level: 2, scene: ["city"], note: "The food hall in the basement is the デパちか (depachika)." },
+  { id: "homu", kana: "ホーム", romaji: "hōmu", meaning: "(station) platform", level: 2, scene: ["train"], note: "From 'platform'. Announcements say 1ばんせん for track 1." },
+  { id: "baito", kana: "バイト", romaji: "baito", meaning: "part-time job", level: 2, scene: ["konbini"], note: "Short for アルバイト, from German Arbeit (work)." },
+  { id: "botan", kana: "ボタン", romaji: "botan", meaning: "button", level: 2, scene: ["vending"] },
+  { id: "gomi", kana: "ゴミ", romaji: "gomi", meaning: "rubbish, trash", level: 2, scene: ["house"], note: "A native word, often written in katakana on bins to stand out. ごみ is just as common." },
+  { id: "pasokon", kana: "パソコン", romaji: "pasokon", meaning: "computer (PC)", level: 2, scene: ["book"], note: "Short for パーソナルコンピューター (personal computer)." },
+  { id: "benchi", kana: "ベンチ", romaji: "benchi", meaning: "bench", level: 2, scene: ["tree"] },
+  { id: "konsento", kana: "コンセント", romaji: "konsento", meaning: "power socket", level: 2, scene: ["house"], note: "Made in Japan from 'concentric plug'; English speakers won't recognise it." },
+
+  // ---- Level 3: small kana (ャ ュ ョ ッ ァ ィ ゥ ェ ォ) ----
+  { id: "jusu", kana: "ジュース", romaji: "jūsu", meaning: "juice, soft drink", level: 3, scene: ["vending"], note: "Any sweet soft drink can be called ジュース, not just fruit juice." },
+  { id: "chiketto", kana: "チケット", romaji: "chiketto", meaning: "ticket (event)", level: 3, scene: ["train"], note: "A train ticket is usually きっぷ (切符)." },
+  { id: "koppu", kana: "コップ", romaji: "koppu", meaning: "glass, cup", level: 3, scene: ["tea"], note: "From Dutch kop." },
+  { id: "menyu", kana: "メニュー", romaji: "menyū", meaning: "menu", level: 3, scene: ["food"] },
+  { id: "shatsu", kana: "シャツ", romaji: "shatsu", meaning: "shirt", level: 3, scene: ["house"] },
+  { id: "famiresu", kana: "ファミレス", romaji: "famiresu", meaning: "family restaurant", level: 3, scene: ["food"], note: "Short for ファミリーレストラン: casual chains with drink bars and big picture menus." },
+  { id: "pati", kana: "パーティー", romaji: "pātī", meaning: "party", level: 3, scene: ["heart", "star"] },
+  { id: "foku", kana: "フォーク", romaji: "fōku", meaning: "fork", level: 3, scene: ["food"] },
+  { id: "chokoreto", kana: "チョコレート", romaji: "chokorēto", meaning: "chocolate", level: 3, scene: ["heart"], note: "Usually just チョコ. On Valentine's Day it's the women who give it." },
+  { id: "shoppingu", kana: "ショッピング", romaji: "shoppingu", meaning: "shopping", level: 3, scene: ["city"] },
+  { id: "beddo", kana: "ベッド", romaji: "beddo", meaning: "bed", level: 3, scene: ["house"] },
+  { id: "waifai", kana: "ワイファイ", romaji: "waifai", meaning: "Wi-Fi", level: 3, scene: ["city"], note: "Ask フリーWi-Fi ありますか? for free Wi-Fi; the sign itself usually says Wi-Fi in Latin letters." }
 ];
 
 window.NH.PHRASES = [

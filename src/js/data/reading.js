@@ -1,7 +1,8 @@
 /* Things to read: signs, menus and short sentences you'll meet in Japan.
-   `kana` is hiragana only; sentences put a space between words, the way
+   `kana` is hiragana and katakana (items with katakana show on the katakana
+   line); sentences put a space between words, the way
    children's books do (分かち書き). `look` picks how the sign is drawn.
-   level: 1 = basic kana only, 2 = dakuten, 3 = yōon or small っ. */
+   level: 1 = basic kana only, 2 = dakuten or ー, 3 = yōon or any small kana. */
 window.NH = window.NH || {};
 
 window.NH.READING = [
@@ -46,4 +47,27 @@ window.NH.READING = [
   { id: "nihon-ni-sunde", kind: "sentence", look: "book", kana: "わたしは にほんに すんで います。", romaji: "watashi wa nihon ni sunde imasu.", meaning: "I live in Japan.", level: 2, note: "は is read wa again. に marks the place where you live." },
   { id: "ame-ga-futte", kind: "sentence", look: "book", kana: "あめが ふって います。", romaji: "ame ga futte imasu.", meaning: "It's raining.", level: 3, note: "Small っ doubles the t: fut-te." },
   { id: "mamonaku-densha", kind: "sentence", look: "book", kana: "まもなく でんしゃが まいります。", romaji: "mamonaku densha ga mairimasu.", meaning: "The train will arrive shortly.", level: 3, where: "Platform displays and announcements", note: "まいります is the polite form of きます (comes). Stand behind the yellow line!" },
+
+  // ---- Vending machines: the labels under each drink ----
+  { id: "tsumetai", kind: "sign", look: "vend", tone: "cold", kana: "つめた〜い", kanji: "冷たい", romaji: "tsumetai", meaning: "cold (drinks)", level: 1, where: "Blue label under a drink in a vending machine", note: "The 〜 stretches the sound, like a friendly 'co-o-old'. In winter some rows switch to hot." },
+  { id: "attakai", kind: "sign", look: "vend", tone: "hot", kana: "あったか〜い", kanji: "温かい", romaji: "attakai", meaning: "hot (drinks)", level: 3, where: "Red label under a drink in a vending machine", note: "A casual form of あたたかい (warm). Hot cans of tea, coffee and soup appear from autumn." },
+
+  // ---- Katakana around town ----
+  { id: "toire", kind: "sign", look: "notice", kana: "トイレ", romaji: "toire", meaning: "toilets", level: 1, where: "Station, shop and park signs, usually with pictograms", note: "Polite signs also say お手洗い (otearai). Many toilets have a panel of buttons: 止 (stop) ends the bidet." },
+  { id: "reji", kind: "sign", look: "label", kana: "レジ", romaji: "reji", meaning: "checkout, till", level: 2, where: "Hanging over the tills in shops and supermarkets", note: "From 'register'. The staff will ask if you need a bag: ふくろ いりますか?" },
+  { id: "seru", kind: "sign", look: "sale", kana: "セール", romaji: "sēru", meaning: "sale", level: 2, where: "Shop windows and posters", note: "Often next to a percentage: 30% OFF. Big seasonal sales are in January and July." },
+  { id: "erebeta", kind: "sign", look: "notice", kana: "エレベーター", romaji: "erebētā", meaning: "lift, elevator", level: 2, where: "Station and department store signs", note: "Escalators are エスカレーター. In Tokyo people stand on the left; in Osaka, on the right." },
+  { id: "takushi-noriba", kind: "sign", look: "notice", kana: "タクシー のりば", kanji: "タクシー乗り場", romaji: "takushī noriba", meaning: "taxi rank", level: 2, where: "Outside stations", note: "Katakana and hiragana side by side: タクシー is the loanword, のりば the Japanese word for a boarding place." },
+  { id: "koinrokka", kind: "sign", look: "notice", kana: "コインロッカー", romaji: "koin rokkā", meaning: "coin lockers", level: 3, where: "Stations, for leaving luggage", note: "Many now take a Suica or similar card as well as coins." },
+
+  // ---- Katakana food ----
+  { id: "ramen-shop", kind: "menu", look: "shop", kana: "ラーメン", romaji: "rāmen", meaning: "ramen (shop sign)", level: 2, where: "Shop signs, curtains and red lanterns", note: "If there's a ticket machine by the door, pay there first and hand the ticket over at the counter." },
+  { id: "kohi-label", kind: "menu", look: "label", kana: "コーヒー", romaji: "kōhī", meaning: "coffee (label)", level: 2, where: "Cafe menus, cans in vending machines", note: "ホット is hot and アイス is iced. ブラック means black, no sugar." },
+  { id: "karerais", kind: "menu", look: "tag", kana: "カレーライス", romaji: "karē raisu", meaning: "curry and rice", level: 2, where: "Cafeteria and family restaurant menus" },
+  { id: "menyu-board", kind: "menu", look: "book", kana: "メニュー", romaji: "menyū", meaning: "the menu", level: 3, where: "Restaurant doors and tables", note: "Ask メニューを ください for the menu. Many places have an English one too." },
+
+  // ---- Sentences with katakana ----
+  { id: "kohi-o-kudasai", kind: "sentence", look: "book", kana: "コーヒーを ください。", romaji: "kōhī o kudasai.", meaning: "A coffee, please.", level: 2, note: "Katakana for the loanword, hiragana for the grammar: that's how most Japanese text mixes them." },
+  { id: "toire-wa-doko", kind: "sentence", look: "book", kana: "トイレは どこですか。", romaji: "toire wa doko desu ka?", meaning: "Where is the toilet?", level: 2, note: "Swap in any place: えきは どこですか, コンビニは どこですか." },
+  { id: "ramen-ga-suki", kind: "sentence", look: "book", kana: "ラーメンが すきです。", romaji: "rāmen ga suki desu.", meaning: "I like ramen.", level: 2, note: "すき (like) takes が: what you like comes before it." }
 ];

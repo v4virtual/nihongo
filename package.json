@@ -1,8 +1,8 @@
 {
   "name": "kaku",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
-  "description": "Learn Japanese by writing it: hiragana with stroke-checked practice.",
+  "description": "Learn Japanese by writing it: hiragana and katakana with stroke-checked practice.",
   "type": "module",
   "scripts": {
     "start": "python3 -m http.server 8000 -d src",

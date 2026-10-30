@@ -6,7 +6,7 @@ window.NH = window.NH || {};
 (function () {
   const { h, hex, shuffle } = NH;
   const UI = NH.UI;
-  const COMBINE = new Set(["ゃ", "ゅ", "ょ", "ぁ", "ぃ", "ぅ", "ぇ", "ぉ"]);
+  const COMBINE = new Set(["ゃ", "ゅ", "ょ", "ぁ", "ぃ", "ぅ", "ぇ", "ぉ", "ャ", "ュ", "ョ", "ァ", "ィ", "ゥ", "ェ", "ォ"]);
   const KINDS = [
     ["station", "駅", "Stations", "Name boards on the platform, with the stops either side."],
     ["sign", "看板", "Signs", "Curtains, road markings and notices around town."],
@@ -15,6 +15,8 @@ window.NH = window.NH || {};
   ];
 
   const byId = (id) => NH.READING.find((r) => r.id === id);
+  // Signs with any katakana live on the katakana line; the rest are hiragana.
+  const itemsOf = (S) => NH.READING.filter((r) => NH.scriptOf(r.kana) === S);
 
   /* Splits text into readable units: a kana plus any small ゃ/ゅ/ょ after it,
    * so きょ is one tap. Spaces separate words; punctuation is kept. */
@@ -22,7 +24,7 @@ window.NH = window.NH || {};
     return text.split(/\s+/).filter(Boolean).map((word) => {
       const out = [];
       for (const c of word) {
-        if (COMBINE.has(c) && out.length && /[ぁ-ゔ]/.test(out[out.length - 1])) out[out.length - 1] += c;
+        if (COMBINE.has(c) && out.length && NH.KANA_RE.test(out[out.length - 1])) out[out.length - 1] += c;
         else out.push(c);
       }
       return out;
@@ -30,10 +32,11 @@ window.NH = window.NH || {};
   }
 
   function unitReading(u, { last = false, sentence = false } = {}) {
-    if (u === "っ") return "small tsu: a short pause that doubles the next sound";
-    if (!/[ぁ-ゔ]/.test(u)) return u === "。" ? "full stop" : u === "、" ? "comma" : u;
+    if (u === "っ" || u === "ッ") return "small tsu: a short pause that doubles the next sound";
+    if (u === "ー") return "long-vowel mark: stretch the sound before it";
+    if (!NH.KANA_RE.test(u)) return u === "。" ? "full stop" : u === "、" ? "comma" : u;
     if (sentence && last && u === "は") return "ha, read wa when it's a particle";
-    if (u === "を") return "o (written wo, said o)";
+    if (u === "を" || u === "ヲ") return "o (written wo, said o)";
     return UI.romaji(u);
   }
 
@@ -49,6 +52,8 @@ window.NH = window.NH || {};
         h("div.eki-band", h("span.prev", item.prev ? `← ${item.prev}` : ""), h("span.next", item.next ? `${item.next} →` : "")));
     } else if (item.look === "noren") {
       art = h("div.noren", h("span.noren-rod"), h("span.noren-cloth", h("span.noren-l"), h("span.noren-r")), h("span.noren-text", item.kana));
+    } else if (item.look === "vend") {
+      art = h("div.vend", { class: "tone-" + (item.tone || "cold") }, h("span.vend-can"), h("span.sign-text", item.kana), h("span.vend-price", "¥130"));
     } else if (item.look === "warning") {
       art = h("div.warning", h("span.warn-mark", { "aria-hidden": "true" }, "!"), h("span.sign-text", item.kana));
     } else {
@@ -58,12 +63,15 @@ window.NH = window.NH || {};
   }
 
   // ── Read tab ─────────────────────────────────────────────
-  NH.Tabs.read = function (body) {
+  NH.Tabs.read = function (body, S = NH.SCRIPTS.hiragana) {
     body.append(
-      h("p.intro", "Things you'll see in Japan, in hiragana. Try reading each one before you peek."),
-      h("div.cta-row.left", UI.btn("Practice reading", () => UI.go("readquiz"), "primary", "play")));
+      h("p.intro", S.id === "katakana"
+        ? "Katakana around you: menus, shop signs and station notices, often mixed with hiragana. Try reading each one before you peek."
+        : "Things you'll see in Japan, in hiragana. Try reading each one before you peek."),
+      h("div.cta-row.left", UI.btn("Practice reading", () => UI.go(S.id === "katakana" ? "katakana-readquiz" : "readquiz"), "primary", "play")));
     for (const [kind, jp, title, blurb] of KINDS) {
-      const items = NH.READING.filter((r) => r.kind === kind);
+      const items = itemsOf(S).filter((r) => r.kind === kind);
+      if (!items.length) continue;
       body.append(h("section.rsec",
         h("div.ksec-head", h("h2", title, h("span.jp", jp)), h("p", blurb)),
         h("div.rgrid", items.map((r) => h("a.rcard", { href: `#sign-${r.id}` },
@@ -87,7 +95,7 @@ window.NH = window.NH || {};
     const out = h("p.tk-out", { "aria-live": "polite" }, "Tap a kana to hear it.");
     const isSentence = item.kind === "sentence";
     const tapRow = h("div.tapkana", { role: "group", "aria-label": "Kana in this sign" }, units(item.kana).map((word) =>
-      h("span.tk-word", word.map((u, k) => /[ぁ-ゔ]/.test(u)
+      h("span.tk-word", word.map((u, k) => NH.KANA_RE.test(u)
         ? h("button.tk", { type: "button", onclick: (e) => {
             tapRow.querySelectorAll(".tk.on").forEach((b) => b.classList.remove("on"));
             e.currentTarget.classList.add("on");
@@ -110,11 +118,13 @@ window.NH = window.NH || {};
     }, "ghost", "book");
     revealBtn.setAttribute("aria-expanded", "false");
 
-    const idx = NH.READING.indexOf(item);
-    const prev = NH.READING[idx - 1], next = NH.READING[idx + 1];
+    const S = NH.scriptOf(item.kana);
+    const list = itemsOf(S);
+    const idx = list.indexOf(item);
+    const prev = list[idx - 1], next = list[idx + 1];
     app.replaceChildren(
       h("header.bar",
-        UI.iconBtn("back", "All reading", () => UI.go("read")),
+        UI.iconBtn("back", "All reading", () => UI.go(UI.tabRoute("read", S))),
         h("h1.bar-title", h("b", "読む"), h("small", "Read")),
         UI.iconBtn("gear", "Settings", () => UI.settings())),
       h("main.readview",
@@ -132,13 +142,14 @@ window.NH = window.NH || {};
   }
 
   // ── practice: "what does this say?" ──────────────────────
-  NH.Routes.push({ match: /^readquiz$/, render: () => {
+  NH.Routes.push({ match: /^(katakana-)?readquiz$/, render: (m) => {
+    const S = m[1] ? NH.SCRIPTS.katakana : NH.SCRIPTS.hiragana;
     // Signs whose kana you've started come first; the rest fill up to ten.
-    const ids = NH.READING.map((r) => "r:" + r.id);
+    const ids = itemsOf(S).map((r) => "r:" + r.id);
     const ready = shuffle(ids.filter((id) => NH.SRS.ready(id)));
     const rest = shuffle(ids.filter((id) => !NH.SRS.ready(id))).sort((a, b) => byId(a.slice(2)).level - byId(b.slice(2)).level);
     const tasks = [...ready, ...rest].slice(0, 10).map((id) => ({ id, type: "read" }));
-    NH.Today.runSession(tasks, { title: "読む Read", back: "read", practiceOnly: true });
+    NH.Today.runSession(tasks, { title: "読む Read", back: UI.tabRoute("read", S), practiceOnly: true });
   } });
 
   // A session task: pick the meaning of a sign. Used by Today and by practice.
@@ -170,5 +181,5 @@ window.NH = window.NH || {};
     }
   };
 
-  NH.Read = { units, unitReading, sign, byId };
+  NH.Read = { units, unitReading, sign, byId, itemsOf };
 })();

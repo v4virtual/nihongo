@@ -1,8 +1,8 @@
 # Kaku 書く
 
-Learn Japanese by writing it. Kaku covers **hiragana** so far: every kana has an
-explain page and a writing practice where each stroke is checked for shape,
-direction and order. Katakana and kanji are on the [roadmap](ROADMAP.md).
+Learn Japanese by writing it. Kaku covers **hiragana** and **katakana**: every
+kana has an explain page and a writing practice where each stroke is checked
+for shape, direction and order. Kanji is next on the [roadmap](ROADMAP.md).
 
 ## What's inside
 
@@ -15,6 +15,14 @@ direction and order. Katakana and kanji are on the [roadmap](ROADMAP.md).
   No streaks, points or hearts. A progress view colours each kana in the chart
   rows by how well it's held.
 - **Hear it, write it**: ten kana read aloud with no picture; write each one.
+- **Katakana** has its own line from the home screen, with everything below:
+  the chart plus loanword sounds (ファ, ティ, ウィ, ヴ) and the long-vowel mark
+  ー; explain pages showing the piece of kanji each katakana was cut from (ア
+  from the 阝 of 阿) and its hiragana twin; 45 loanwords from カメラ to
+  チョコレート with their own scenes (a ramen bowl, a konbini, a Suica card, a
+  vending machine); katakana signs and menus; and a Katakana → hiragana quiz.
+  Today teaches hiragana first by default; Today → Learn switches to katakana
+  first or both together.
 - **Symbols**: gojūon, dakuten/handakuten and yōon charts. Each kana has an
   animated stroke order, the kanji it came from, a memory hook, quirks,
   lookalikes and example words.
@@ -172,7 +180,7 @@ src/
   js/read.js            reading mode: signs, sentences, tap-a-kana
   js/speak.js           pronunciation check (speech recognition + matching)
   js/app.js             screens and hash routing
-  js/data/              strokes (KanjiVG), kana info, tables, words, reading, scene art
+  js/data/              strokes (KanjiVG), kana info (hiragana, katakana), tables, words, reading, scene art
 tools/
   build-strokes.mjs     regenerates js/data/strokes.js from KanjiVG
   build-artifact.mjs    bundles everything into dist/kaku.html (single file)

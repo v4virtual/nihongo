@@ -7,7 +7,8 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const cacheDir = process.argv[2];
-const FIRST = 0x3041, LAST = 0x3094; // ぁ .. ゔ
+// Hiragana ぁ..ゔ, katakana ァ..ヴ and the long-vowel mark ー.
+const RANGES = [[0x3041, 0x3094], [0x30a1, 0x30f4], [0x30fc, 0x30fc]];
 
 async function load(hex) {
   if (cacheDir) return readFile(join(cacheDir, `${hex}.svg`), "utf8");
@@ -17,7 +18,7 @@ async function load(hex) {
 }
 
 const out = {};
-for (let cp = FIRST; cp <= LAST; cp++) {
+for (const cp of RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i))) {
   const hex = cp.toString(16).padStart(5, "0");
   const svg = await load(hex);
   const paths = [...svg.matchAll(/<path[^>]*\sd="([^"]+)"/g)].map((m) => m[1]);
