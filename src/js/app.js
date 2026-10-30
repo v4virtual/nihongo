@@ -19,6 +19,9 @@ window.NH = window.NH || {};
     pen: "M4 20l4-1 11-11-3-3L5 16l-1 4Zm10-13 3 3",
     book: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Zm0 14a2 2 0 0 1 2-2h13",
     close: "M6 6l12 12M18 6 6 18",
+    mic: "M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Zm-7 9a7 7 0 0 0 14 0M12 19v3",
+    ear: "M7 10a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-5 2M10 10a2 2 0 0 1 4 0",
+    sun: "M12 4V2m0 20v-2m8-8h2M2 12h2m13.7-5.7 1.4-1.4M4.9 19.1l1.4-1.4m11.4 0 1.4 1.4M4.9 4.9l1.4 1.4M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z",
   };
   const icon = (name) => s("svg.ic", { viewBox: "0 0 24 24", "aria-hidden": "true" }, s("path", { d: ICONS[name] }));
 
@@ -45,6 +48,10 @@ window.NH = window.NH || {};
   const info = (ch) => (NH.KANA_INFO && NH.KANA_INFO[ch]) || {};
   const romaji = (ch) => NH.romajiOf(ch);
 
+  // Shared with the screens in today.js, read.js and speak.js.
+  Object.assign(NH.UI, { h, s, icon, btn, iconBtn, speakBtn, say, toast, go, romaji, info, onLeave: (fn) => cleanup.push(fn),
+    strokeOrderSvg: (ch) => strokeOrderSvg(ch), replay: (svg) => replay(svg), announce: (m) => announce(m), settings: () => settings(), syncBars: () => syncBars() });
+
   // ── router ───────────────────────────────────────────────
   function render() {
     cleanup.forEach((fn) => fn());
@@ -55,7 +62,7 @@ window.NH = window.NH || {};
     window.scrollTo(0, 0);
     if (r === "home") return home();
     if (r === "hiragana" || r === "symbols") return hub("symbols");
-    if (r === "words" || r === "phrases" || r === "quiz") return hub(r);
+    if (r === "words" || r === "phrases" || r === "quiz" || NH.Tabs[r]) return hub(r);
     if ((m = r.match(/^k-([0-9a-f-]+)$/))) return explain(unhex(m[1]));
     if ((m = r.match(/^w-([0-9a-f-]+)$/))) return writeScreen({ chars: [...unhex(m[1])], key: unhex(m[1]), back: `k-${m[1]}` });
     if ((m = r.match(/^(word|phrase)-([a-z0-9-]+)$/))) {
@@ -63,6 +70,7 @@ window.NH = window.NH || {};
       const item = list.find((x) => x.id === m[2]);
       if (item) return writeScreen({ chars: [...item.kana], item, key: item.kana, back: m[1] === "word" ? "words" : "phrases" });
     }
+    for (const route of NH.Routes) if ((m = r.match(route.match))) return route.render(m);
     if ((m = r.match(/^p-([0-9a-f-]+)$/))) {
       const kana = unhex(m[1]);
       return writeScreen({ chars: [...kana], item: { kana, romaji: "", meaning: "" }, key: kana, back: "hiragana" });
@@ -75,7 +83,7 @@ window.NH = window.NH || {};
   function home() {
     document.body.classList.add("scr-home");
     const sign = (o) =>
-      h("a.eki", { href: o.soon ? null : "#hiragana", class: o.soon ? "soon" : "", style: `--line:${o.color}`, "aria-disabled": o.soon ? "true" : null, onclick: o.soon ? (e) => { e.preventDefault(); toast(`${o.en} is coming soon.`); } : null },
+      h("a.eki", { href: o.soon ? null : "#today", class: o.soon ? "soon" : "", style: `--line:${o.color}`, "aria-disabled": o.soon ? "true" : null, onclick: o.soon ? (e) => { e.preventDefault(); toast(`${o.en} is coming soon.`); } : null },
         h("div.eki-num", h("b", o.code), h("span", o.num)),
         h("div.eki-name", o.jp),
         h("div.eki-romaji", o.en),
@@ -99,7 +107,9 @@ window.NH = window.NH || {};
             h("li", h("b", "Explain. "), "Each kana with its stroke order, the kanji it grew from, a memory hook and its quirks."),
             h("li", h("b", "Write. "), "Draw it with your finger or a stylus. Every stroke is checked for shape, direction and order."),
             h("li", h("b", "Words & phrases. "), "Write real words you'll see around you, from えき to ありがとう."),
-            h("li", h("b", "Quiz. "), "Quick multiple choice that leans on the kana you miss most."))),
+            h("li", h("b", "Quiz. "), "Quick multiple choice that leans on the kana you miss most."),
+            h("li", h("b", "Read. "), "Station boards, shop curtains and menus, the way you'll meet them in Japan."),
+            h("li", h("b", "Today. "), "A short daily queue of what's due, scheduled so you review just before you'd forget."))),
         window.Capacitor?.isNativePlatform?.() ? null : h("p.credit", "Android app: ", h("a", { href: "https://github.com/v4virtual/nihongo/releases/latest", target: "_blank", rel: "noopener" }, "download the latest APK"), "."),
         h("p.credit", "Stroke data: ", h("a", { href: "https://kanjivg.tagaini.net", target: "_blank", rel: "noopener" }, "KanjiVG"), " (CC BY-SA 3.0)."))
     );
@@ -108,7 +118,7 @@ window.NH = window.NH || {};
   // ── hiragana hub ─────────────────────────────────────────
   function hub(tab) {
     document.body.classList.add("scr-hub");
-    const tabs = [["symbols", "文字", "Symbols"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], ["quiz", "試験", "Quiz"]];
+    const tabs = [["today", "今日", "Today"], ["symbols", "文字", "Kana"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], ["read", "読む", "Read"], ["quiz", "試験", "Quiz"]];
     const body = h("main.hub-body");
     app.replaceChildren(
       h("header.bar",
@@ -119,7 +129,8 @@ window.NH = window.NH || {};
         h("a.tab", { href: `#${id === "symbols" ? "hiragana" : id}`, role: "tab", "aria-selected": String(tab === id), class: tab === id ? "on" : "" }, h("span.tab-jp", jp), h("span", en))))),
       body
     );
-    if (tab === "symbols") symbols(body);
+    if (NH.Tabs[tab]) NH.Tabs[tab](body);
+    else if (tab === "symbols") symbols(body);
     else if (tab === "quiz") quizSetup(body);
     else wordList(body, tab);
   }
@@ -288,7 +299,7 @@ window.NH = window.NH || {};
 
   function writeScreen({ chars, item, key, back }) {
     const st = store.settings;
-    let style = st.style, assist = st.assist, pos = 0;
+    let style = st.style, assist = st.assist, pos = 0, missesTotal = 0;
     const results = [];
     const isWord = !!item;
     const single = !isWord && chars.length === 1;
@@ -323,7 +334,8 @@ window.NH = window.NH || {};
       feedback,
       h("div.actions",
         btn("Watch", () => { feedback.textContent = "Watch the stroke order…"; writer.demo(); }, "ghost", "play"),
-        btn("Redo", () => restartChar(), "ghost", "redo")));
+        btn("Redo", () => restartChar(), "ghost", "redo"),
+        isWord && item.romaji ? NH.Speak.button(item) : null));
     stage.dataset.hand = st.hand || "right";
     stage.append(
       backdrop,
@@ -399,7 +411,10 @@ window.NH = window.NH || {};
       } else if (e.type === "done") {
         const c = chars[pos];
         results[pos] = e.score;
+        missesTotal += e.misses;
         store.recordWrite(c, e.score);
+        // Free practice also counts toward spaced repetition, for kana already started.
+        if (single) NH.SRS.practice("k:" + c, NH.SRS.gradeWriting({ score: e.score, misses: e.misses, assist }));
         feedback.className = "feedback ok";
         feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}${e.haneMissed ? " · remember the hane flick" : ""}`;
         setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
@@ -416,6 +431,8 @@ window.NH = window.NH || {};
 
     function showResult(e) {
       const avg = Math.round(results.reduce((a, b) => a + b, 0) / results.length);
+      const cardId = isWord && item.id ? `${back === "words" ? "w" : "p"}:${item.id}` : !single ? "k:" + key : null;
+      if (cardId) NH.SRS.practice(cardId, NH.SRS.gradeWriting({ score: avg, misses: missesTotal, assist }));
       const idx = NH.ORDER.indexOf(key);
       const nextKana = single && idx >= 0 ? NH.ORDER[idx + 1] : null;
       let nextItem = null;
@@ -431,7 +448,7 @@ window.NH = window.NH || {};
           h("div.result-label", chars.length > 1 ? grade[2] : e.label),
           isWord ? h("p.result-word", item.kana, " — ", item.meaning) : null,
           h("div.result-actions",
-            btn("Again", () => { results.length = 0; loadChar(0); }, "ghost", "redo"),
+            btn("Again", () => { results.length = 0; missesTotal = 0; loadChar(0); }, "ghost", "redo"),
             nextKana ? btn(`Next: ${nextKana}`, () => go(`w-${hex(nextKana)}`), "primary", "next") : null,
             nextItem ? btn(`Next: ${nextItem.kana}`, () => go(`${back === "words" ? "word" : "phrase"}-${nextItem.id}`), "primary", "next") : null,
             !nextKana && !nextItem ? btn("Done", () => go(back), "primary") : null)));
@@ -534,12 +551,15 @@ window.NH = window.NH || {};
         h("p.qask", { k2r: "How do you read this?", r2k: "Which kana is this?", listen: "Which kana did you hear?", w2m: "What does this word mean?" }[q.type]),
         prompt, opts, h("div.qfoot"));
       if (q.type === "listen") setTimeout(() => say(q.speak), 250);
+      const shownAt = performance.now();
 
       function choose(o, el) {
         if (answered) return;
         answered = true;
         const ok = o === q.answer;
         if (q.type !== "w2m") store.recordQuiz(q.key, ok);
+        const word = q.type === "w2m" && NH.WORDS.find((w) => w.kana === q.key);
+        NH.SRS.practice(word ? "w:" + word.id : "k:" + q.key, NH.SRS.gradeChoice(ok, performance.now() - shownAt));
         const style = store.settings.style;
         ok ? Audio.accept(style, 3, 5) : Audio.reject(style);
         opts.querySelectorAll("button").forEach((b) => {

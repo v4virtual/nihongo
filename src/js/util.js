@@ -55,8 +55,9 @@ window.NH = window.NH || {};
   // Persistent settings and progress. Storage may be unavailable; the app works without it.
   const KEY = "kaku.v1";
   const defaults = {
-    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "", text: "normal", theme: "auto", hand: "right" },
+    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "", text: "normal", theme: "auto", hand: "right", dailyNew: 5, speechOk: false },
     progress: {}, // char → { best, last, tries, right, wrong }
+    srs: { cards: {}, day: null }, // spaced-repetition deck, see srs.js
   };
   let state = structuredClone(defaults);
   try {
@@ -65,6 +66,7 @@ window.NH = window.NH || {};
       const saved = JSON.parse(raw);
       state.settings = Object.assign({}, defaults.settings, saved.settings);
       state.progress = saved.progress || {};
+      state.srs = Object.assign({ cards: {}, day: null }, saved.srs);
     }
   } catch (_) {}
 
@@ -84,7 +86,9 @@ window.NH = window.NH || {};
       ok ? p.right++ : p.wrong++;
       save();
     },
-    reset() { state.progress = {}; save(); },
+    srs() { return state.srs; },
+    saveSrs() { save(); },
+    reset() { state.progress = {}; state.srs = { cards: {}, day: null }; save(); },
   };
 
   function save() {
@@ -108,6 +112,12 @@ window.NH = window.NH || {};
 
   // Splits a hiragana word into writable characters, keeping small kana as their own cells.
   const chars = (word) => [...word];
+
+  // Screens in other files register hub tabs ({ name: render(body) }) and
+  // routes ({ match: /^re$/, render(match) }) here; app.js shares its UI helpers in NH.UI.
+  NH.Tabs = NH.Tabs || {};
+  NH.Routes = NH.Routes || [];
+  NH.UI = NH.UI || {};
 
   Object.assign(NH, { h, s, SVGNS, store, clamp, lerp, rand, shuffle, reducedMotion, hex, unhex, chars });
 })();

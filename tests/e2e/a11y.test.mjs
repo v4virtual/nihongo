@@ -37,6 +37,8 @@ describe("axe audit", () => {
   const screens = [
     ["home", "accuracy"], ["hiragana", "accuracy"], ["words", "accuracy"], ["phrases", "accuracy"], ["quiz", "accuracy"],
     ["k-3042", "accuracy"], ["k-304c", "accuracy"], ["w-3042", "accuracy"], ["w-3042", "neon"], ["w-3042", "calligraphy"], ["word-umi", "calligraphy"],
+    ["today", "accuracy"], ["read", "accuracy"], ["sign-shibuya", "accuracy"], ["sign-yu", "accuracy"], ["sign-eki-wa-doko", "accuracy"],
+    ["session", "accuracy"], ["session", "neon"], ["session", "calligraphy"], ["dictation", "neon"], ["readquiz", "calligraphy"],
   ];
   for (const [route, style] of screens) {
     test(`#${route} (${style}) has no violations`, T, () => withPage(route, { style }, async (page) => {
@@ -44,7 +46,7 @@ describe("axe audit", () => {
       assert.deepEqual(await audit(page), []);
     }));
   }
-  for (const route of ["home", "hiragana", "words", "phrases", "quiz", "k-3042", "k-304c"]) {
+  for (const route of ["home", "hiragana", "words", "phrases", "quiz", "k-3042", "k-304c", "today", "read", "sign-tomare"]) {
     test(`#${route} in the light theme has no violations`, T, () => withPage(route, { scheme: "light" }, async (page) => {
       await page.waitForTimeout(400);
       assert.deepEqual(await audit(page), []);
@@ -58,6 +60,10 @@ describe("axe audit", () => {
   }
   test("the settings sheet has no violations", T, () => withPage("hiragana", {}, async (page) => {
     await page.locator(".bar .icon-btn[aria-label=Settings]").click();
+    assert.deepEqual(await audit(page), []);
+  }));
+  test("the Say it sheet has no violations", T, () => withPage("sign-shibuya", {}, async (page) => {
+    await page.locator(".btn", { hasText: "Say it" }).click();
     assert.deepEqual(await audit(page), []);
   }));
   test("a quiz question has no violations", T, () => withPage("quiz", {}, async (page) => {
