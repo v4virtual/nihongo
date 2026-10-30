@@ -61,11 +61,25 @@ window.NH = window.NH || {};
   // ── the deck ─────────────────────────────────────────────
   const dayKey = (t) => { const d = new Date(t); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
 
-  // Kana in the order they are taught: the chart, then voiced, then combos.
-  function kanaOrder() {
+  /* Kana in the order they are taught: the chart, then voiced, then combos.
+   * Katakana teaches ー right after the chart (loanwords need it early) and
+   * ends with the loanword sounds. */
+  function kanaOrder(script = "hiragana") {
+    const S = NH.SCRIPTS[script];
     const out = [];
-    for (const key of ["basic", "voiced", "combos"]) for (const row of NH.TABLES[key].rows) for (const c of row.cells) if (c) out.push(c);
+    for (const key of S.sections) {
+      for (const row of S.tables[key].rows) for (const c of row.cells) if (c) out.push(c);
+      if (key === "basic" && script === "katakana") out.push("ー");
+    }
     return out;
+  }
+  // New kana come from one script after the other, or from both in turn.
+  function learnOrder() {
+    const h = kanaOrder("hiragana"), k = kanaOrder("katakana");
+    const mode = NH.store.settings.learn || "hiragana";
+    if (mode === "katakana") return [...k, ...h];
+    if (mode === "both") return h.flatMap((c, i) => [c, k[i]]).concat(k.slice(h.length)).filter(Boolean);
+    return [...h, ...k];
   }
 
   function deck() { return NH.store.srs(); }
@@ -83,7 +97,7 @@ window.NH = window.NH || {};
       return !base || isLearned(base);
     }
     const text = itemText(id);
-    return !!text && [...text].every((c) => isLearned(NH.SMALL.has(c) ? baseOfSmall(c) : c) || !/[ぁ-ゔ]/.test(c));
+    return !!text && [...text].every((c) => isLearned(NH.SMALL.has(c) ? baseOfSmall(c) : c) || !NH.KANA_RE.test(c));
   }
   const baseOfSmall = (c) => NH.KANA_INFO[c]?.base || c;
 
@@ -109,7 +123,7 @@ window.NH = window.NH || {};
     let kanaLeft = Math.max(0, limit - day.kana);
     // Hold new kana back while a big review pile is waiting.
     if (due.length > 30) kanaLeft = 0;
-    for (const ch of kanaOrder()) {
+    for (const ch of learnOrder()) {
       if (fresh.length >= kanaLeft) break;
       const id = "k:" + ch;
       // Combos and voiced kana wait until their parts have been reviewed once.
@@ -160,5 +174,5 @@ window.NH = window.NH || {};
     return c.s >= 7 ? "strong" : "learning";
   }
 
-  NH.SRS = { DAY, AGAIN, HARD, GOOD, EASY, schedule, retrievability, interval, gradeWriting, gradeChoice, today, review, practice, strength, card, ready, itemText, kanaOrder, dayKey };
+  NH.SRS = { DAY, AGAIN, HARD, GOOD, EASY, schedule, retrievability, interval, gradeWriting, gradeChoice, today, review, practice, strength, card, ready, itemText, kanaOrder, learnOrder, dayKey };
 })();

@@ -168,6 +168,8 @@ describe("stroke endings (hane)", () => {
     assert.deepEqual(marked.sort(), [
       "い1", "か1", "が1", "き3", "ぎ3", "け1", "げ1", "さ2", "ざ2", "せ2", "ぜ2", "に1", "は1", "ば1", "ぱ1",
       "ほ1", "ぼ1", "ぽ1", "む2", "り1", "ぃ1", "ゑ1",
+      // katakana: オ's and ホ's verticals and カ's turn end in a flick
+      "オ2", "ォ2", "カ1", "ガ1", "ホ2", "ボ2", "ポ2",
     ].sort());
   });
 

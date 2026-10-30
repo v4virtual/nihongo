@@ -137,3 +137,58 @@ describe("the daily queue", () => {
     assert.ok(NH.store.srs().cards["k:あ"].s > 0);
   });
 });
+
+describe("katakana in the queue", () => {
+  const firstNew = (NH, now = T0) => [...NH.SRS.today(now).fresh].filter((id) => id.startsWith("k:"));
+  // Starts every hiragana card, a few a day so the daily limit isn't in the way.
+  const learnAllHiragana = (NH) => { for (const c of NH.SRS.kanaOrder("hiragana")) NH.store.srs().cards["k:" + c] = { s: 5, d: 5, reps: 1, last: T0, due: T0 + 5 * DAY }; };
+
+  test("by default katakana starts once every hiragana card has been started", () => {
+    const NH = fresh();
+    assert.deepEqual(firstNew(NH), ["k:あ", "k:い", "k:う", "k:え", "k:お"]);
+    learnAllHiragana(NH);
+    assert.deepEqual(firstNew(NH), ["k:ア", "k:イ", "k:ウ", "k:エ", "k:オ"]);
+  });
+
+  test("Katakana first and Both together change where new kana come from", () => {
+    const NH = fresh();
+    NH.store.set("learn", "katakana");
+    assert.deepEqual(firstNew(NH), ["k:ア", "k:イ", "k:ウ", "k:エ", "k:オ"]);
+    NH.store.set("learn", "both");
+    assert.deepEqual(firstNew(NH), ["k:あ", "k:ア", "k:い", "k:イ", "k:う"]);
+  });
+
+  test("the teaching order puts ー after the chart and ends with loanword sounds", () => {
+    const NH = fresh();
+    const k = NH.SRS.kanaOrder("katakana");
+    assert.equal(k[46], "ー");
+    assert.equal(k.at(-1), "ジェ");
+    assert.equal(new Set(k).size, k.length);
+  });
+
+  test("loanwords need their kana and ー; loanword sounds need their parts", () => {
+    const NH = fresh();
+    const { ready, review } = NH.SRS;
+    for (const c of ["ラ", "メ", "ン"]) review("k:" + c, GOOD, T0);
+    assert.equal(ready("w:ramen"), false, "ー not learned yet");
+    review("k:ー", GOOD, T0);
+    assert.equal(ready("w:ramen"), true);
+    assert.equal(ready("k:ファ"), false);
+    review("k:フ", GOOD, T0);
+    assert.equal(ready("k:ファ"), false, "small ァ needs ア");
+    review("k:ア", GOOD, T0);
+    assert.equal(ready("k:ファ"), true);
+    assert.equal(ready("k:ヴ"), false);
+    review("k:ウ", GOOD, T0);
+    assert.equal(ready("k:ヴ"), true);
+  });
+
+  test("signs mixing both scripts need both", () => {
+    const NH = fresh();
+    const { ready, review } = NH.SRS;
+    for (const c of "タクシー") review("k:" + c, GOOD, T0);
+    assert.equal(ready("r:takushi-noriba"), false, "のりば not learned");
+    for (const c of "のりば") review("k:" + c, GOOD, T0);
+    assert.equal(ready("r:takushi-noriba"), true);
+  });
+});

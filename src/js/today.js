@@ -8,13 +8,22 @@ window.NH = window.NH || {};
   const UI = NH.UI;
 
   // ── Today tab ────────────────────────────────────────────
-  NH.Tabs.today = function (body) {
+  const LEARN = [["hiragana", "Hiragana first"], ["katakana", "Katakana first"], ["both", "Both together"]];
+
+  NH.Tabs.today = function (body, S = NH.SCRIPTS.hiragana) {
     const { due, fresh } = SRS.today();
+    const here = UI.tabRoute("today", S);
+    const prefix = S.id === "katakana" ? "katakana-" : "";
     const total = due.length + fresh.length;
     const preview = [...due, ...fresh].slice(0, 12).map((id) => SRS.itemText(id));
     const limit = store.settings.dailyNew ?? 5;
     const limits = h("div.chips", { role: "radiogroup", "aria-label": "New kana per day" }, [3, 5, 10].map((n) =>
-      h("button.chip", { type: "button", role: "radio", "aria-checked": String(n === limit), onclick: () => { store.set("dailyNew", n); UI.go("today"); } }, `${n} a day`)));
+      h("button.chip", { type: "button", role: "radio", "aria-checked": String(n === limit), onclick: () => { store.set("dailyNew", n); UI.go(here); } }, `${n} a day`)));
+    const mode = store.settings.learn || "hiragana";
+    const order = h("div.chips", { role: "radiogroup", "aria-label": "Which kana to learn first" }, LEARN.map(([id, label]) =>
+      h("button.chip", { type: "button", role: "radio", "aria-checked": String(id === mode), onclick: () => { store.set("learn", id); UI.go(here); } }, label)));
+    // On the katakana line, say why no katakana are coming yet.
+    const waiting = S.id === "katakana" && mode === "hiragana" && SRS.kanaOrder("hiragana").some((c) => !SRS.card("k:" + c));
 
     body.append(
       h("section.card.today-card",
@@ -23,13 +32,15 @@ window.NH = window.NH || {};
           ? h("p.today-sum", h("b", `${due.length}`), ` to review · `, h("b", `${fresh.length}`), ` new`)
           : h("p.today-sum", "All caught up. ", nextDueText()),
         preview.length ? h("p.today-preview", { "aria-label": "Coming up" }, preview.map((t) => h("span", t))) : null,
-        total ? UI.btn("Start", () => UI.go("session"), "primary", "play") : null,
-        h("div.today-limit", h("span.muted", "New kana:"), limits)),
+        total ? UI.btn("Start", () => UI.go(prefix + "session"), "primary", "play") : null,
+        h("div.today-limit", h("span.muted", "New kana:"), limits),
+        h("div.today-limit", h("span.muted", "Learn:"), order),
+        waiting ? h("p.muted.today-note", "New kana come from hiragana until you've started all of it. Pick Katakana first or Both together to begin katakana now.") : null),
       h("section.card.today-card",
         h("h2", "Hear it, write it"),
         h("p", "Ten kana read aloud, no picture. Write each one from memory."),
-        UI.btn("Start dictation", () => UI.go("dictation"), "ghost", "ear")),
-      progressByRow());
+        UI.btn("Start dictation", () => UI.go(prefix + "dictation"), "ghost", "ear")),
+      progressByRow(S));
   };
 
   function nextDueText() {
@@ -41,30 +52,36 @@ window.NH = window.NH || {};
   }
 
   // Each kana as a chip coloured by how well it's held; tap one to study it.
-  function progressByRow() {
+  function progressByRow(S) {
     const label = { new: "not started", learning: "learning", due: "due now", strong: "strong" };
     const chip = (c) => {
       const st = SRS.strength("k:" + c);
       return h("a.pchip", { href: `#k-${hex(c)}`, class: "s-" + st, title: `${c} ${UI.romaji(c)}: ${label[st]}`, "aria-label": `${c}, ${label[st]}` }, c);
     };
-    const table = (key) => h("div.ptable", NH.TABLES[key].rows.map((row) => {
+    const table = (key) => h("div.ptable", S.tables[key].rows.map((row) => {
       const cells = row.cells.filter(Boolean);
       return h("div.prow", h("span.prow-name", `${cells[0]}-row`), h("span.prow-chips", cells.map(chip)));
     }));
-    const combos = NH.TABLES.combos.rows.flatMap((r) => r.cells);
-    const counts = { new: 0, learning: 0, due: 0, strong: 0 };
-    combos.forEach((c) => counts[SRS.strength("k:" + c)]++);
+    const summary = (key, name) => {
+      const counts = { new: 0, learning: 0, due: 0, strong: 0 };
+      S.tables[key].rows.flatMap((r) => r.cells).filter(Boolean).forEach((c) => counts[SRS.strength("k:" + c)]++);
+      return h("p.muted", `${name}: ${counts.strong} strong, ${counts.learning + counts.due} learning, ${counts.new} not started.`);
+    };
     return h("section.card.progress",
-      h("h2", "Progress by row"),
+      h("h2", `${S.en} by row`),
       h("p.legend", Object.entries(label).map(([k, v]) => h("span", h("i", { class: "s-" + k }), v))),
       h("h3.muted", "Gojūon"), table("basic"),
+      S.id === "katakana" ? h("div.prow", h("span.prow-name", "long"), h("span.prow-chips", chip("ー"))) : null,
       h("h3.muted", "Dakuten & handakuten"), table("voiced"),
-      h("p.muted", `Combos: ${counts.strong} strong, ${counts.learning + counts.due} learning, ${counts.new} not started.`));
+      summary("combos", "Combos"),
+      S.tables.extended ? summary("extended", "Loanword sounds") : null);
   }
 
   // ── sessions ─────────────────────────────────────────────
-  NH.Routes.push({ match: /^session$/, render: () => runSession(todayTasks(), { title: "今日 Today", back: "today" }) });
-  NH.Routes.push({ match: /^dictation$/, render: () => runSession(dictationTasks(), { title: "Hear it, write it", back: "today", practiceOnly: true }) });
+  // #session and #dictation; #katakana-session… come back to the katakana hub.
+  const backOf = (m) => (m[1] ? "katakana-today" : "today");
+  NH.Routes.push({ match: /^(katakana-)?session$/, render: (m) => runSession(todayTasks(), { title: "今日 Today", back: backOf(m) }) });
+  NH.Routes.push({ match: /^(katakana-)?dictation$/, render: (m) => runSession(dictationTasks(m[1] ? "katakana" : "hiragana"), { title: "Hear it, write it", back: backOf(m), practiceOnly: true }) });
 
   function todayTasks() {
     const { due, fresh } = SRS.today();
@@ -74,16 +91,17 @@ window.NH = window.NH || {};
   function reviewType(id) {
     const n = SRS.card(id)?.reps || 0;
     if (id[0] === "r") return "read";
+    if (id === "k:ー") return "write"; // a mark has no sound of its own to hear or name
     if (id[0] === "k") return ["write", "recognize", "hear"][n % 3];
     return ["write", "recognize"][n % 2];
   }
   // Dictation draws on the kana you've started, weakest first; a beginner gets the first rows.
-  function dictationTasks() {
+  function dictationTasks(script = "hiragana") {
     const now = Date.now();
-    let pool = Object.entries(store.srs().cards).filter(([id]) => id.startsWith("k:") && [...id.slice(2)].length === 1)
+    let pool = Object.entries(store.srs().cards).filter(([id]) => id.startsWith("k:") && [...id.slice(2)].length === 1 && id !== "k:ー" && NH.scriptOf(id.slice(2)).id === script)
       .sort((a, b) => SRS.retrievability((now - a[1].last) / SRS.DAY, a[1].s) - SRS.retrievability((now - b[1].last) / SRS.DAY, b[1].s))
       .map(([id]) => id);
-    if (pool.length < 5) pool = SRS.kanaOrder().slice(0, 10).map((c) => "k:" + c);
+    if (pool.length < 5) pool = SRS.kanaOrder(script).slice(0, 10).map((c) => "k:" + c);
     return shuffle(pool.slice(0, 10)).map((id) => ({ id, type: "hear" }));
   }
 
@@ -157,7 +175,7 @@ window.NH = window.NH || {};
       const svg = UI.strokeOrderSvg(text);
       panel.append(
         prompt(isKana ? "New kana" : t.id[0] === "w" ? "New word" : "New phrase", text, isKana ? UI.romaji(text) : `${item.romaji} · ${item.meaning}`, text),
-        isKana && UI.info(text).mnemonic ? h("p.task-note", UI.info(text).mnemonic) : item?.note ? h("p.task-note", item.note) : null,
+        isKana && (UI.info(text).mnemonic || UI.info(text).notes) ? h("p.task-note", UI.info(text).mnemonic || UI.info(text).notes[0]) : item?.note ? h("p.task-note", item.note) : null,
         h("div.actions", UI.btn("Write it", () => writeTask(t, done, isKana ? "trace" : "guide"), "primary", "pen")));
       cellWrap.append(h("div.so-wrap.task-so", svg, h("div.so-tools", UI.iconBtn("play", "Replay stroke order", () => UI.replay(svg)))));
       requestAnimationFrame(() => UI.replay(svg));
@@ -220,7 +238,7 @@ window.NH = window.NH || {};
       const item = itemOf(t.id);
       const answer = isKana ? UI.romaji(text) : item.meaning;
       const pool = isKana
-        ? SRS.kanaOrder().filter((c) => [...c].length === [...text].length && UI.romaji(c) !== answer)
+        ? SRS.kanaOrder(NH.scriptOf(text).id).filter((c) => [...c].length === [...text].length && UI.romaji(c) !== answer)
         : [...NH.WORDS, ...NH.PHRASES].filter((w) => w.meaning !== answer);
       const looks = isKana ? (UI.info(text).lookalikes || []).filter((c) => UI.romaji(c) !== answer) : [];
       const wrong = [...new Set([...shuffle(looks), ...shuffle(pool)].map((x) => (isKana ? UI.romaji(x) : x.meaning)))].filter((x) => x !== answer).slice(0, 3);
@@ -259,7 +277,7 @@ window.NH = window.NH || {};
       cellWrap.append(h("div.task-card.summary",
         practiceOnly ? h("p", `${tasks.length} kana written from sound.`) : h("p", h("b", reviewed), " reviewed · ", h("b", introduced), " new"),
         upcoming.length ? h("p.muted", nextDueText()) : null,
-        h("div.result-actions", UI.btn("Back to Today", () => UI.go("today"), "primary", "next"))));
+        h("div.result-actions", UI.btn("Back to Today", () => UI.go(back), "primary", "next"))));
       NH.Audio.complete(style, 100);
     }
 

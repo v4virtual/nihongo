@@ -28,14 +28,14 @@ async function withPage(route, opts, fn) {
 }
 
 describe("home", () => {
-  test("shows three station signs; only hiragana is open", T, () => withPage("home", {}, async (page) => {
+  test("shows three station signs; kanji is still coming", T, () => withPage("home", {}, async (page) => {
     assert.equal(await page.locator(".eki").count(), 3);
-    assert.equal(await page.locator(".eki.soon").count(), 2);
+    assert.equal(await page.locator(".eki.soon").count(), 1);
     await page.locator(".eki.soon").first().click();
     await page.locator(".toast").waitFor();
     assert.match(await page.locator(".toast").textContent(), /coming soon/);
     assert.equal(new URL(page.url()).hash, "#home");
-    await page.locator(".eki:not(.soon)").click();
+    await page.locator(".eki:not(.soon)").first().click();
     await page.waitForURL(/#today$/);
   }));
 });
@@ -159,7 +159,7 @@ describe("writing", () => {
 
 describe("words and phrases", () => {
   test("difficulty chips filter the list", T, () => withPage("words", {}, async (page) => {
-    const counts = await page.evaluate(() => [1, 2, 3].map((l) => NH.WORDS.filter((w) => w.level === l).length));
+    const counts = await page.evaluate(() => [1, 2, 3].map((l) => NH.WORDS.filter((w) => w.level === l && NH.scriptOf(w.kana).id === "hiragana").length));
     assert.equal(await page.locator(".wcard").count(), counts.reduce((a, b) => a + b));
     await page.locator(".chip", { hasText: "Beginner" }).click();
     assert.equal(await page.locator(".wcard").count(), counts[0]);

@@ -127,6 +127,26 @@ window.NH.SCENE_ART = {
     vb: "0 0 160 110",
     svg: `<path class="fl" d="M58 14 H118 C116 34 116 50 120 66 H62 C64 50 62 32 58 14 Z"/><path class="ln" d="M58 14 H118 C116 34 116 50 120 66 H62 C64 50 62 32 58 14 Z"/><path class="ln" d="M73 14 C75 32 76 50 76 66 M88 14 V66 M103 14 C101 32 100 50 101 66"/><path class="ln" d="M88 8 V74 M54 14 H122"/><path class="ac" d="M88 8 L102 4 L98 10 L88 12"/><path class="ln" d="M8 66 C20 80 40 88 80 88 C116 88 138 82 150 70 L130 74 H30 C20 72 14 70 8 66 Z"/><path class="ln" d="M30 74 C40 80 60 82 80 82 C104 82 124 80 136 76"/><path class="ln" d="M130 74 L140 54 M140 54 l-4 -2"/><path class="ln" d="M4 96 q12 -4 24 0 q12 4 24 0 M70 100 q12 -4 24 0 q12 4 24 0 M116 94 q10 -3 20 0 q10 3 20 0"/>`
   },
+  ramen: {
+    vb: "0 0 140 120",
+    svg: `<path class="ln" d="M52 36 q-6 -8 0 -16 q6 -8 0 -16 M70 34 q-6 -8 0 -16 q6 -8 0 -16 M88 36 q-6 -8 0 -16 q6 -8 0 -16"/><path class="ln" d="M96 8 L56 58 M110 12 L64 60"/><path class="fl" d="M14 58 H126 C124 84 104 102 70 102 C36 102 16 84 14 58 Z"/><path class="ln" d="M10 58 H130 M14 58 C16 84 36 102 70 102 C104 102 124 84 126 58"/><path class="ln" d="M52 102 L56 112 H84 L88 102"/><path class="ln" d="M24 66 C30 62 36 70 42 66 S54 62 60 66 M30 74 C36 70 42 78 48 74 S60 70 66 74"/><circle class="ln" cx="92" cy="51" r="9"/><path class="ac" d="M92 51 m-4 0 a4 4 0 1 1 4 4 a2.5 2.5 0 1 1 1.5 -3"/><ellipse class="fl" cx="64" cy="50" rx="11" ry="7"/><ellipse class="ln" cx="64" cy="50" rx="11" ry="7"/><circle class="ac" cx="64" cy="50" r="3.6"/><path class="ln" d="M104 40 L114 50 L108 56 L98 46 Z"/><path class="ln" d="M30 86 l6 -6 l6 6 l6 -6 l6 6 l6 -6 l6 6 l6 -6 l6 6 l6 -6 l6 6 l6 -6 l6 6"/>`
+  },
+  konbini: {
+    vb: "0 0 160 120",
+    svg: `<path class="fl" d="M14 30 H146 V108 H14 Z"/><path class="ln" d="M14 30 H146 V108 H14 Z"/><path class="ac" d="M14 30 H146 V38 H14 Z M14 46 H146 V52 H14 Z"/><path class="ln" d="M14 38 H146 M14 46 H146"/><rect class="ln" x="52" y="14" width="56" height="14" rx="2"/><path class="ln" d="M60 21 h40"/><path class="ln" d="M30 60 H130 V108 M30 108 V60 M80 60 V108 M55 60 V108 M105 60 V108"/><path class="ln" d="M74 84 v6 M86 84 v6"/><path class="ln" d="M36 66 h12 v14 h-12 Z M112 66 h12 v10 h-12 Z"/><circle class="ac" cx="118" cy="71" r="2.4"/><path class="ln" d="M4 108 H156 M40 114 h20 M100 114 h20"/><path class="ln" d="M148 108 V74 h8 v6 h-8"/>`
+  },
+  iccard: {
+    vb: "0 0 140 110",
+    svg: `<path class="ln" d="M10 104 V58 Q10 50 18 50 H40 V104 M40 72 H54"/><path class="ac" d="M24 50 q6 -8 12 0 M20 44 q10 -14 20 0 M16 38 q14 -20 28 0"/><path class="fl" d="M58 20 H126 Q132 20 132 26 V74 Q132 80 126 80 H58 Q52 80 52 74 V26 Q52 20 58 20 Z"/><path class="ln" d="M58 20 H126 Q132 20 132 26 V74 Q132 80 126 80 H58 Q52 80 52 74 V26 Q52 20 58 20 Z"/><rect class="ln" x="62" y="34" width="16" height="12" rx="2"/><path class="ln" d="M62 40 h16 M70 34 v12"/><path class="ac" d="M86 62 C96 52 106 72 116 62 S126 56 128 58"/><path class="ln" d="M62 70 h30 M100 30 h24 M108 38 h16"/><path class="ln" d="M4 104 H136"/>`
+  },
+  coffee: {
+    vb: "0 0 120 120",
+    svg: `<path class="ln" d="M46 34 q-6 -8 0 -16 q6 -8 0 -14 M60 32 q-6 -8 0 -16 q6 -8 0 -14 M74 34 q-6 -8 0 -16 q6 -8 0 -14"/><path class="fl" d="M26 44 H94 L88 92 Q86 100 78 100 H42 Q34 100 32 92 Z"/><path class="ln" d="M26 44 H94 L88 92 Q86 100 78 100 H42 Q34 100 32 92 Z"/><path class="ln" d="M92 54 Q108 54 106 68 Q104 82 88 80"/><path class="ac" d="M28 52 H92"/><path class="ln" d="M10 104 Q60 116 110 104 M18 104 Q60 110 102 104"/><path class="ln" d="M48 66 q6 6 12 0 q6 -6 12 0"/>`
+  },
+  vending: {
+    vb: "0 0 100 160",
+    svg: `<path class="fl" d="M14 8 H86 V152 H14 Z"/><path class="ln" d="M14 8 H86 V152 H14 Z"/><path class="ln" d="M20 14 H80 V86 H20 Z M20 38 H80 M20 62 H80"/><path class="ln" d="M26 18 h6 v16 h-6 Z M38 18 h6 v16 h-6 Z M50 18 h6 v16 h-6 Z M62 18 h6 v16 h-6 Z M26 42 h6 v16 h-6 Z M38 42 h6 v16 h-6 Z M50 42 h6 v16 h-6 Z M62 42 h6 v16 h-6 Z M26 66 h6 v16 h-6 Z M38 66 h6 v16 h-6 Z M50 66 h6 v16 h-6 Z M62 66 h6 v16 h-6 Z"/><path class="ac" d="M26 18 h6 v16 h-6 Z M50 42 h6 v16 h-6 Z M62 66 h6 v16 h-6 Z"/><path class="ln" d="M24 94 H76 M24 98 H76"/><circle class="ac" cx="29" cy="96" r="1.6"/><circle class="ac" cx="41" cy="96" r="1.6"/><circle class="ac" cx="53" cy="96" r="1.6"/><circle class="ac" cx="65" cy="96" r="1.6"/><rect class="ln" x="62" y="106" width="16" height="12" rx="1.5"/><path class="ln" d="M68 110 v4 M24 108 h28 v8 h-28 Z"/><path class="ln" d="M22 130 H78 V144 H22 Z"/><path class="ln" d="M4 152 H96"/>`
+  },
   seigaiha: {
     vb: "0 0 40 20",
     svg: `<path class="ln" d="M4.1 10.6A18.5 18.5 0 0 1 35.9 10.6M8.9 12.3A13.5 13.5 0 0 1 31.1 12.3M13.1 15.1A8.5 8.5 0 0 1 26.9 15.1M16.6 19.2A3.5 3.5 0 0 1 23.4 19.2M14.2 -1.9A18.5 18.5 0 0 1 15.9 0.6M6.2 -2A13.5 13.5 0 0 1 11.1 2.3M-2 1.7A8.5 8.5 0 0 1 6.9 5.1M-2 7.1A3.5 3.5 0 0 1 3.4 9.2M24.1 0.6A18.5 18.5 0 0 1 25.8 -1.9M28.9 2.3A13.5 13.5 0 0 1 33.8 -2M33.1 5.1A8.5 8.5 0 0 1 42 1.7M36.6 9.2A3.5 3.5 0 0 1 42 7.1M-1.9 11.6A18.5 18.5 0 0 1 15.9 20.6M-2 16.6A13.5 13.5 0 0 1 10.9 22M-2 21.7A8.5 8.5 0 0 1 2.8 22M24.1 20.6A18.5 18.5 0 0 1 41.9 11.6M29.1 22A13.5 13.5 0 0 1 42 16.6M37.2 22A8.5 8.5 0 0 1 42 21.7"/>`

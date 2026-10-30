@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import { load, ALL_DATA } from "../helpers/load.mjs";
 
 const NH = load([...ALL_DATA, "read.js", "speak.js"]);
-const PUNCT = new Set([" ", "。", "、"]);
-const YOON = /[ゃゅょぁぃぅぇぉっ]/;
-const VOICED = /[がぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽ]/;
+const PUNCT = new Set([" ", "。", "、", "〜"]);
+const YOON = /[ゃゅょぁぃぅぇぉっャュョァィゥェォッ]/;
+const VOICED = /[がぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヴー]/;
 
 describe("reading data", () => {
   test("ids are unique and URL-safe; every item has a reading and meaning", () => {
@@ -15,11 +15,11 @@ describe("reading data", () => {
       assert.match(r.id, /^[a-z0-9-]+$/, r.id);
       assert.ok(r.romaji && r.meaning, r.id);
       assert.ok(["station", "sign", "menu", "sentence"].includes(r.kind), r.id);
-      assert.ok(["station", "noren", "road", "notice", "warning", "tag", "shop", "label", "book"].includes(r.look), `${r.id} look ${r.look}`);
+      assert.ok(["station", "noren", "road", "notice", "warning", "tag", "shop", "label", "book", "vend", "sale"].includes(r.look), `${r.id} look ${r.look}`);
     }
   });
 
-  test("kana is hiragana only and every character is writable", () => {
+  test("kana is hiragana or katakana and every character is writable", () => {
     for (const r of NH.READING) {
       for (const c of r.kana) assert.ok(PUNCT.has(c) || NH.STROKES[c], `${r.id}: ${c}`);
     }

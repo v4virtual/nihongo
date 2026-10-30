@@ -44,12 +44,15 @@ window.NH = window.NH || {};
     setTimeout(() => t.remove(), 3100);
   }
 
+  // Hub tab routes: hiragana keeps the short ones (#today, #words…); katakana's are #katakana-words…
+  const tabRoute = (tab, S = NH.SCRIPTS.hiragana) =>
+    S.id === "hiragana" ? (tab === "symbols" ? "hiragana" : tab) : tab === "symbols" ? "katakana" : `katakana-${tab}`;
   const go = (route) => { if (location.hash.slice(1) === route) render(); else location.hash = route; };
   const info = (ch) => (NH.KANA_INFO && NH.KANA_INFO[ch]) || {};
   const romaji = (ch) => NH.romajiOf(ch);
 
   // Shared with the screens in today.js, read.js and speak.js.
-  Object.assign(NH.UI, { h, s, icon, btn, iconBtn, speakBtn, say, toast, go, romaji, info, onLeave: (fn) => cleanup.push(fn),
+  Object.assign(NH.UI, { h, s, icon, btn, iconBtn, speakBtn, say, toast, go, tabRoute, romaji, info, onLeave: (fn) => cleanup.push(fn),
     strokeOrderSvg: (ch) => strokeOrderSvg(ch), replay: (svg) => replay(svg), announce: (m) => announce(m), settings: () => settings(), syncBars: () => syncBars() });
 
   // ── router ───────────────────────────────────────────────
@@ -62,18 +65,20 @@ window.NH = window.NH || {};
     window.scrollTo(0, 0);
     if (r === "home") return home();
     if (r === "hiragana" || r === "symbols") return hub("symbols");
+    if (r === "katakana") return hub("symbols", "katakana");
+    if ((m = r.match(/^katakana-(today|words|read|quiz)$/))) return hub(m[1], "katakana");
     if (r === "words" || r === "phrases" || r === "quiz" || NH.Tabs[r]) return hub(r);
     if ((m = r.match(/^k-([0-9a-f-]+)$/))) return explain(unhex(m[1]));
     if ((m = r.match(/^w-([0-9a-f-]+)$/))) return writeScreen({ chars: [...unhex(m[1])], key: unhex(m[1]), back: `k-${m[1]}` });
     if ((m = r.match(/^(word|phrase)-([a-z0-9-]+)$/))) {
       const list = m[1] === "word" ? NH.WORDS : NH.PHRASES;
       const item = list.find((x) => x.id === m[2]);
-      if (item) return writeScreen({ chars: [...item.kana], item, key: item.kana, back: m[1] === "word" ? "words" : "phrases" });
+      if (item) return writeScreen({ chars: [...item.kana], item, key: item.kana, back: tabRoute(m[1] === "word" ? "words" : "phrases", NH.scriptOf(item.kana)) });
     }
     for (const route of NH.Routes) if ((m = r.match(route.match))) return route.render(m);
     if ((m = r.match(/^p-([0-9a-f-]+)$/))) {
       const kana = unhex(m[1]);
-      return writeScreen({ chars: [...kana], item: { kana, romaji: "", meaning: "" }, key: kana, back: "hiragana" });
+      return writeScreen({ chars: [...kana], item: { kana, romaji: "", meaning: "" }, key: kana, back: NH.scriptOf(kana).id });
     }
     return home();
   }
@@ -83,14 +88,16 @@ window.NH = window.NH || {};
   function home() {
     document.body.classList.add("scr-home");
     const sign = (o) =>
-      h("a.eki", { href: o.soon ? null : "#today", class: o.soon ? "soon" : "", style: `--line:${o.color}`, "aria-disabled": o.soon ? "true" : null, onclick: o.soon ? (e) => { e.preventDefault(); toast(`${o.en} is coming soon.`); } : null },
+      h("a.eki", { href: o.soon ? null : o.href, class: o.soon ? "soon" : "", style: `--line:${o.color}`, "aria-disabled": o.soon ? "true" : null, onclick: o.soon ? (e) => { e.preventDefault(); toast(`${o.en} is coming soon.`); } : null },
         h("div.eki-num", h("b", o.code), h("span", o.num)),
         h("div.eki-name", o.jp),
         h("div.eki-romaji", o.en),
         h("div.eki-band", h("span.prev", o.prev ? `← ${o.prev}` : ""), h("span.next", o.next ? `${o.next} →` : "")),
         o.soon ? h("div.eki-tape", "工事中 · coming soon") : h("div.eki-go", o.count)
       );
-    const studied = Object.keys(NH.KANA_INFO || {}).filter((c) => store.progress(c)?.best >= 60).length;
+    // Kana written well, out of the 71 in each chart's basic and voiced rows.
+    const studied = (S) => ["basic", "voiced"].flatMap((k) => S.tables[k].rows.flatMap((r) => r.cells)).filter((c) => c && store.progress(c)?.best >= 60).length;
+    const count = (S) => (studied(S) ? `${studied(S)} of 71 kana written well →` : "Start here →");
     app.replaceChildren(
       h("header.home-head",
         h("h1.brand", h("span.brand-kana", "書く"), h("span.brand-name", "Kaku")),
@@ -98,8 +105,8 @@ window.NH = window.NH || {};
       h("main.home",
         h("p.lede", "Learn Japanese the way kids in Japan do: one script at a time, writing every stroke by hand."),
         h("div.ekis",
-          sign({ code: "H", num: "01", jp: "ひらがな", en: "Hiragana", color: "var(--line-h)", next: "カタカナ", count: studied ? `${studied} of 71 kana written well →` : "Start here →" }),
-          sign({ code: "K", num: "02", jp: "カタカナ", en: "Katakana", color: "var(--line-k)", prev: "ひらがな", next: "漢字", soon: true }),
+          sign({ code: "H", num: "01", jp: "ひらがな", en: "Hiragana", color: "var(--line-h)", next: "カタカナ", href: "#today", count: count(NH.SCRIPTS.hiragana) }),
+          sign({ code: "K", num: "02", jp: "カタカナ", en: "Katakana", color: "var(--line-k)", prev: "ひらがな", next: "漢字", href: "#katakana-today", count: count(NH.SCRIPTS.katakana) }),
           sign({ code: "J", num: "03", jp: "漢字", en: "Kanji", color: "var(--line-j)", prev: "カタカナ", soon: true })),
         h("section.how",
           h("h2", "How it works"),
@@ -115,29 +122,32 @@ window.NH = window.NH || {};
     );
   }
 
-  // ── hiragana hub ─────────────────────────────────────────
-  function hub(tab) {
+  // ── script hub (hiragana or katakana) ───────────────────
+  function hub(tab, scriptId = "hiragana") {
+    const S = NH.SCRIPTS[scriptId];
     document.body.classList.add("scr-hub");
-    const tabs = [["today", "今日", "Today"], ["symbols", "文字", "Kana"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], ["read", "読む", "Read"], ["quiz", "試験", "Quiz"]];
+    // Phrases are everyday hiragana; katakana has loanwords instead.
+    const tabs = [["today", "今日", "Today"], ["symbols", "文字", "Kana"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], ["read", "読む", "Read"], ["quiz", "試験", "Quiz"]]
+      .filter(([id]) => S.id === "hiragana" || id !== "phrases");
     const body = h("main.hub-body");
     app.replaceChildren(
       h("header.bar",
         iconBtn("back", "Home", () => go("home")),
-        h("h1.bar-title", h("span.line-dot", { style: "--line:var(--line-h)", "aria-hidden": "true" }, "H"), h("b", "ひらがな"), h("small", "Hiragana")),
+        h("h1.bar-title", h("span.line-dot", { style: `--line:${S.line}`, "aria-hidden": "true" }, S.code), h("b", S.jp), h("small", S.en)),
         iconBtn("gear", "Settings", settings)),
-      h("nav", { "aria-label": "Hiragana sections" }, h("div.tabs", { role: "tablist" }, tabs.map(([id, jp, en]) =>
-        h("a.tab", { href: `#${id === "symbols" ? "hiragana" : id}`, role: "tab", "aria-selected": String(tab === id), class: tab === id ? "on" : "" }, h("span.tab-jp", jp), h("span", en))))),
+      h("nav", { "aria-label": `${S.en} sections` }, h("div.tabs", { role: "tablist" }, tabs.map(([id, jp, en]) =>
+        h("a.tab", { href: `#${tabRoute(id, S)}`, role: "tab", "aria-selected": String(tab === id), class: tab === id ? "on" : "" }, h("span.tab-jp", jp), h("span", en))))),
       body
     );
-    if (NH.Tabs[tab]) NH.Tabs[tab](body);
-    else if (tab === "symbols") symbols(body);
-    else if (tab === "quiz") quizSetup(body);
-    else wordList(body, tab);
+    if (NH.Tabs[tab]) NH.Tabs[tab](body, S);
+    else if (tab === "symbols") symbols(body, S);
+    else if (tab === "quiz") quizSetup(body, S);
+    else wordList(body, tab, S);
   }
 
-  function symbols(body) {
-    for (const key of ["basic", "voiced", "combos"]) {
-      const T = NH.TABLES[key];
+  function symbols(body, S) {
+    for (const key of S.sections) {
+      const T = S.tables[key];
       const grid = h("div.kgrid", { style: `--cols:${T.cols.length}` });
       grid.append(h("span.kh"), ...T.cols.map((c) => h("span.kh", c)));
       for (const row of T.rows) {
@@ -151,14 +161,14 @@ window.NH = window.NH || {};
       }
       const sec = h("section.ksec", h("div.ksec-head", h("h2", T.title, h("span.jp", T.jp)), h("p", T.blurb)), grid);
       if (T.extras) {
-        sec.append(h("div.extras", h("span.extras-label", "Small kana"), T.extras.map((c) => h("a.kcell.mini", { href: `#k-${hex(c)}` }, h("span.kc", c), h("span.kr", romaji(c).replace(" (small)", ""))))));
+        sec.append(h("div.extras", h("span.extras-label", T.extrasLabel || "Small kana"), T.extras.map((c) => h("a.kcell.mini", { href: `#k-${hex(c)}` }, h("span.kc", c), h("span.kr", romaji(c).replace(" (small)", ""))))));
       }
       body.append(sec);
     }
   }
 
-  function wordList(body, kind) {
-    const list = kind === "words" ? NH.WORDS : NH.PHRASES;
+  function wordList(body, kind, S) {
+    const list = (kind === "words" ? NH.WORDS : NH.PHRASES).filter((w) => NH.scriptOf(w.kana) === S);
     const levels = [[0, "All"], [1, "初級 Beginner"], [2, "中級 Intermediate"], [3, "上級 Advanced"]];
     let level = 0;
     const out = h("div.wlist");
@@ -178,7 +188,7 @@ window.NH = window.NH || {};
       }));
     };
     draw();
-    body.append(h("p.intro", kind === "words" ? "Write each word kana by kana. The background follows the word: waves for the sea, Skytree for Oshiage." : "Everyday phrases for life in Japan, written the way you'll see them."), chips, out);
+    body.append(h("p.intro", S.id === "katakana" ? "Loanwords you'll see every day, from ラーメン to コンビニ. Write them kana by kana; the long-vowel mark ー is a single stroke." : kind === "words" ? "Write each word kana by kana. The background follows the word: waves for the sea, Skytree for Oshiage." : "Everyday phrases for life in Japan, written the way you'll see them."), chips, out);
   }
 
   // ── explain ──────────────────────────────────────────────
@@ -186,15 +196,17 @@ window.NH = window.NH || {};
     document.body.classList.add("scr-explain");
     const I = info(ch);
     const isCombo = [...ch].length > 1;
-    const idx = NH.ORDER.indexOf(ch);
-    const prev = NH.ORDER[idx - 1], next = NH.ORDER[idx + 1];
+    const S = NH.scriptOf(ch);
+    const idx = S.order.indexOf(ch);
+    const prev = S.order[idx - 1], next = S.order[idx + 1];
+    const twin = S.id === "katakana" ? NH.toHira(ch) : NH.toKata(ch);
     const svg = strokeOrderSvg(ch);
     const parts = isCombo ? [...ch] : I.base ? [I.base, I.mark === "handakuten" ? "゜" : I.mark === "dakuten" ? "゛" : "small"] : null;
 
     const notes = [...(isCombo ? comboNotes(ch) : I.notes || []), ...haneNotes(ch)];
     app.replaceChildren(
       h("header.bar",
-        iconBtn("back", "All hiragana", () => go("hiragana")),
+        iconBtn("back", `All ${S.en.toLowerCase()}`, () => go(S.id)),
         h("h1.bar-title", h("b", ch), h("small", romaji(ch))),
         iconBtn("gear", "Settings", settings)),
       h("nav.modes", { "aria-label": "Mode" }, h("a.mode.on", { href: `#k-${hex(ch)}`, "aria-current": "page" }, icon("book"), "Explain"), h("a.mode", { href: `#w-${hex(ch)}` }, icon("pen"), "Write")),
@@ -207,7 +219,10 @@ window.NH = window.NH || {};
             h("div.big-romaji", romaji(ch)),
             h("div.meta-row", h("span", `${strokeCount(ch)} stroke${strokeCount(ch) === 1 ? "" : "s"}`), I.mark ? h("span.tag", I.mark) : isCombo ? h("span.tag", "yōon") : null),
             parts && parts[1] !== "small" ? h("div.equation", parts.map((p, i) => [i ? h("span.op", "+") : null, h("a.eq", { href: p.length === 1 && NH.STROKES[p] ? `#k-${hex(p)}` : null }, p)]), h("span.op", "="), h("b.eq", ch)) : null,
-            I.origin ? h("div.origin", h("span.origin-k", I.origin), h("span.origin-arrow", "→"), h("span.origin-h", ch), h("p", "Grew from the kanji ", h("b", I.origin), I.originMeaning ? ` (“${I.originMeaning}”)` : "", ", written fast in cursive until it became ", ch, ".")) : null)),
+            I.origin ? h("div.origin", h("span.origin-k", I.origin), h("span.origin-arrow", "→"), h("span.origin-h", ch), S.id === "katakana"
+              ? h("p", "Taken from the kanji ", h("b", I.origin), I.originMeaning ? ` (“${I.originMeaning}”)` : "", I.originPart ? `: ${I.originPart}` : "", ". Katakana were made from pieces of kanji, so they're straight and angular.")
+              : h("p", "Grew from the kanji ", h("b", I.origin), I.originMeaning ? ` (“${I.originMeaning}”)` : "", ", written fast in cursive until it became ", ch, ".")) : null,
+            twin !== ch && NH.KANA_INFO[twin] ? h("a.twin", { href: `#k-${hex(twin)}` }, h("span", S.id === "katakana" ? "Hiragana twin" : "Katakana twin"), h("b", twin), h("span", romaji(twin))) : null)),
         I.mnemonic ? h("section.card.mnemonic", h("h2", "Remember it"), h("p", I.mnemonic)) : null,
         notes.length ? h("section.card", h("h2", "Good to know"), h("ul.notes", notes.map((n) => h("li", n)))) : null,
         I.lookalikes && I.lookalikes.length ? h("section.card", h("h2", "Don't mix it up with"), h("div.looks", I.lookalikes.map((c) => h("a.look", { href: NH.KANA_INFO[c] ? `#k-${hex(c)}` : null }, h("span.kc", c), h("span.kr", romaji(c)))))) : null,
@@ -431,13 +446,15 @@ window.NH = window.NH || {};
 
     function showResult(e) {
       const avg = Math.round(results.reduce((a, b) => a + b, 0) / results.length);
-      const cardId = isWord && item.id ? `${back === "words" ? "w" : "p"}:${item.id}` : !single ? "k:" + key : null;
+      const isPhrase = isWord && NH.PHRASES.includes(item);
+      const cardId = isWord && item.id ? `${isPhrase ? "p" : "w"}:${item.id}` : !single ? "k:" + key : null;
       if (cardId) NH.SRS.practice(cardId, NH.SRS.gradeWriting({ score: avg, misses: missesTotal, assist }));
-      const idx = NH.ORDER.indexOf(key);
-      const nextKana = single && idx >= 0 ? NH.ORDER[idx + 1] : null;
+      const order = NH.scriptOf(key).order;
+      const idx = order.indexOf(key);
+      const nextKana = single && idx >= 0 ? order[idx + 1] : null;
       let nextItem = null;
       if (isWord && item.id) {
-        const list = back === "words" ? NH.WORDS : NH.PHRASES;
+        const list = (isPhrase ? NH.PHRASES : NH.WORDS).filter((w) => NH.scriptOf(w.kana) === NH.scriptOf(item.kana));
         const i = list.findIndex((x) => x.id === item.id);
         nextItem = list[i + 1];
       }
@@ -450,7 +467,7 @@ window.NH = window.NH || {};
           h("div.result-actions",
             btn("Again", () => { results.length = 0; missesTotal = 0; loadChar(0); }, "ghost", "redo"),
             nextKana ? btn(`Next: ${nextKana}`, () => go(`w-${hex(nextKana)}`), "primary", "next") : null,
-            nextItem ? btn(`Next: ${nextItem.kana}`, () => go(`${back === "words" ? "word" : "phrase"}-${nextItem.id}`), "primary", "next") : null,
+            nextItem ? btn(`Next: ${nextItem.kana}`, () => go(`${isPhrase ? "phrase" : "word"}-${nextItem.id}`), "primary", "next") : null,
             !nextKana && !nextItem ? btn("Done", () => go(back), "primary") : null)));
       result.hidden = false;
       if (isWord) say(item.kana, { quiet: true });
@@ -464,30 +481,30 @@ window.NH = window.NH || {};
   }
 
   // ── quiz ─────────────────────────────────────────────────
-  const QTYPES = [["k2r", "Kana → romaji"], ["r2k", "Romaji → kana"], ["listen", "Listen → kana"], ["w2m", "Word → meaning"]];
+  const QTYPES = [["k2r", "Kana → romaji"], ["r2k", "Romaji → kana"], ["listen", "Listen → kana"], ["k2h", "Katakana → hiragana"], ["w2m", "Word → meaning"]];
+  const POOLS = [["basic", "Basic"], ["voiced", "Dakuten"], ["combos", "Combos"], ["extended", "Loanword sounds"]];
+  const cellsOf = (T) => T.rows.flatMap((r) => r.cells).filter(Boolean);
 
-  function quizSetup(body) {
-    const pools = { basic: true, voiced: false, combos: false };
-    const types = { k2r: true, r2k: true, listen: TTS.supported, w2m: false };
+  function quizSetup(body, S = NH.SCRIPTS.hiragana) {
+    const pools = { basic: true, voiced: false, combos: false, extended: false };
+    const types = { k2r: true, r2k: true, listen: TTS.supported, k2h: false, w2m: false };
+    const qtypes = QTYPES.filter(([k]) => k !== "k2h" || S.id === "katakana");
     let len = 10;
     const toggle = (obj, k, label) => h("button.chip", { type: "button", "aria-pressed": String(!!obj[k]), onclick: (e) => { obj[k] = !obj[k]; e.currentTarget.setAttribute("aria-pressed", String(obj[k])); } }, label);
     const lens = h("div.chips", [10, 20, 30].map((n) =>
       h("button.chip", { type: "button", "aria-pressed": String(n === len), onclick: (e) => { len = n; lens.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b === e.currentTarget))); } }, `${n} questions`)));
     body.append(
       h("section.card.quiz-setup",
-        h("h2", "Kana to quiz"), h("div.chips", toggle(pools, "basic", "Basic 46"), toggle(pools, "voiced", "Dakuten 25"), toggle(pools, "combos", "Combos 33")),
-        h("h2", "Question types"), h("div.chips", QTYPES.map(([k, l]) => toggle(types, k, l))),
+        h("h2", "Kana to quiz"), h("div.chips", POOLS.filter(([k]) => S.tables[k]).map(([k, l]) => toggle(pools, k, `${l} ${cellsOf(S.tables[k]).length}`))),
+        h("h2", "Question types"), h("div.chips", qtypes.map(([k, l]) => toggle(types, k, l))),
         h("h2", "Length"), lens,
         h("p.muted", "Questions favour the kana you've missed before."),
         btn("Start quiz", () => {
-          const pool = [];
-          if (pools.basic) NH.TABLES.basic.rows.forEach((r) => r.cells.forEach((c) => c && pool.push(c)));
-          if (pools.voiced) NH.TABLES.voiced.rows.forEach((r) => r.cells.forEach((c) => c && pool.push(c)));
-          if (pools.combos) NH.TABLES.combos.rows.forEach((r) => pool.push(...r.cells));
-          const ts = Object.keys(types).filter((k) => types[k]);
+          const pool = POOLS.filter(([k]) => pools[k] && S.tables[k]).flatMap(([k]) => cellsOf(S.tables[k]));
+          const ts = Object.keys(types).filter((k) => types[k] && qtypes.some(([q]) => q === k));
           if (!pool.length && !types.w2m) return toast("Pick at least one set of kana.");
           if (!ts.length) return toast("Pick at least one question type.");
-          quizRun(body, pool, ts, len);
+          quizRun(body, pool, ts, len, S);
         }, "primary", "play"))
     );
   }
@@ -511,15 +528,16 @@ window.NH = window.NH || {};
     return out;
   }
 
-  function quizRun(body, pool, types, len) {
+  function quizRun(body, pool, types, len, S) {
+    const words = NH.WORDS.filter((w) => NH.scriptOf(w.kana) === S);
     const qs = [];
     const kanaTypes = types.filter((t) => t !== "w2m");
     const picks = pool.length && kanaTypes.length ? weighted(pool, len) : [];
     for (let i = 0; i < len; i++) {
       const t = types[(Math.random() * types.length) | 0];
       if (t === "w2m" || !picks.length) {
-        const w = NH.WORDS[(Math.random() * NH.WORDS.length) | 0];
-        const wrong = shuffle(NH.WORDS.filter((x) => x.meaning !== w.meaning)).slice(0, 3);
+        const w = words[(Math.random() * words.length) | 0];
+        const wrong = shuffle(words.filter((x) => x.meaning !== w.meaning)).slice(0, 3);
         qs.push({ type: "w2m", key: w.kana, prompt: w.kana, answer: w.meaning, options: shuffle([w.meaning, ...wrong.map((x) => x.meaning)]), speak: w.kana });
       } else {
         const c = picks[i];
@@ -528,7 +546,17 @@ window.NH = window.NH || {};
         const looks = (info(c).lookalikes || []).filter((x) => same.includes(x));
         const wrong = [...new Set([...shuffle(looks), ...shuffle(same)])].filter((x) => romaji(x) !== romaji(c)).slice(0, 3);
         const tt = kanaTypes[(Math.random() * kanaTypes.length) | 0];
-        if (tt === "k2r") qs.push({ type: tt, key: c, prompt: c, answer: romaji(c), options: shuffle([c, ...wrong].map(romaji)), speak: c });
+        if (tt === "k2h") {
+          // The same sound in the other script; loanword-only sounds have no hiragana twin.
+          const hira = (x) => NH.toHira(x);
+          const ok = (x) => NH.COMBO_ROMAJI[hira(x)] || NH.KANA_INFO[hira(x)];
+          if (ok(c)) {
+            const w2 = [...new Set([...shuffle(looks), ...shuffle(same)])].filter((x) => x !== c && ok(x) && romaji(x) !== romaji(c)).slice(0, 3);
+            qs.push({ type: tt, key: c, prompt: c, answer: hira(c), options: shuffle([c, ...w2].map(hira)), speak: c });
+            continue;
+          }
+        }
+        if (tt === "k2r" || tt === "k2h") qs.push({ type: tt, key: c, prompt: c, answer: romaji(c), options: shuffle([c, ...wrong].map(romaji)), speak: c });
         else qs.push({ type: tt, key: c, prompt: tt === "listen" ? null : romaji(c), answer: c, options: shuffle([c, ...wrong]), speak: c });
       }
     }
@@ -548,7 +576,7 @@ window.NH = window.NH || {};
         : h("div.qprompt", { class: q.type === "r2k" ? "latin" : "" }, q.prompt);
       wrap.replaceChildren(
         h("div.qhead", h("span", `${i + 1} / ${qs.length}`), h("div.qbar", h("i", { style: { width: `${(i / qs.length) * 100}%` } })), h("span", `${right} ✓`)),
-        h("p.qask", { k2r: "How do you read this?", r2k: "Which kana is this?", listen: "Which kana did you hear?", w2m: "What does this word mean?" }[q.type]),
+        h("p.qask", { k2r: "How do you read this?", r2k: "Which kana is this?", listen: "Which kana did you hear?", k2h: "Which hiragana makes the same sound?", w2m: "What does this word mean?" }[q.type]),
         prompt, opts, h("div.qfoot"));
       if (q.type === "listen") setTimeout(() => say(q.speak), 250);
       const shownAt = performance.now();
@@ -558,7 +586,7 @@ window.NH = window.NH || {};
         answered = true;
         const ok = o === q.answer;
         if (q.type !== "w2m") store.recordQuiz(q.key, ok);
-        const word = q.type === "w2m" && NH.WORDS.find((w) => w.kana === q.key);
+        const word = q.type === "w2m" && words.find((w) => w.kana === q.key);
         NH.SRS.practice(word ? "w:" + word.id : "k:" + q.key, NH.SRS.gradeChoice(ok, performance.now() - shownAt));
         const style = store.settings.style;
         ok ? Audio.accept(style, 3, 5) : Audio.reject(style);
@@ -587,10 +615,10 @@ window.NH = window.NH || {};
           h("div.result-score", h("b", String(right)), h("span", ` / ${qs.length}`)),
           h("p", right === qs.length ? "Every one right." : `${qs.length - right} to review.`),
           uniq.length ? h("div.looks", uniq.map((q) => {
-            const w = q.type === "w2m" ? NH.WORDS.find((x) => x.kana === q.key) : null;
+            const w = q.type === "w2m" ? words.find((x) => x.kana === q.key) : null;
             return h("a.look", { href: w ? `#word-${w.id}` : `#k-${hex(q.key)}` }, h("span.kc", q.key), h("span.kr", w ? w.meaning : romaji(q.key)));
           })) : null,
-          h("div.result-actions", btn("New quiz", () => { body.replaceChildren(); quizSetup(body); }, "primary", "redo"))));
+          h("div.result-actions", btn("New quiz", () => { body.replaceChildren(); quizSetup(body, S); }, "primary", "redo"))));
     };
     show();
   }

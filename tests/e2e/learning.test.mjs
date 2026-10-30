@@ -44,7 +44,7 @@ describe("Today", () => {
   test("a new learner gets the first five kana and a session that introduces them", T, () => withPage("today", {}, async (page) => {
     assert.match(await page.locator(".today-sum").textContent(), /0 to review · 5 new/);
     assert.deepEqual(await page.locator(".today-preview span").allTextContents(), ["あ", "い", "う", "え", "お"]);
-    assert.equal(await page.locator(".today-limit [aria-checked=true]").textContent(), "5 a day");
+    assert.deepEqual(await page.locator(".today-limit [aria-checked=true]").allTextContents(), ["5 a day", "Hiragana first"]);
     await page.getByRole("button", { name: "Start", exact: true }).click();
     await page.waitForURL(/#session$/);
     assert.equal(await count(page), "1 of 5");
@@ -128,7 +128,7 @@ describe("practice outside Today", () => {
 
 describe("reading", () => {
   test("the Read tab lists every sign, menu and sentence", T, () => withPage("read", {}, async (page) => {
-    const n = await page.evaluate(() => NH.READING.length);
+    const n = await page.evaluate(() => NH.READING.filter((r) => NH.scriptOf(r.kana).id === "hiragana").length);
     assert.ok(n >= 25);
     assert.equal(await page.locator(".rcard").count(), n);
     assert.equal(await page.locator(".rsec h2").count(), 4);
