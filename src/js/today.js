@@ -42,10 +42,10 @@ window.NH = window.NH || {};
         isKanji ? null : h("div.today-limit", h("span.muted", "Learn:"), order),
         waiting ? h("p.muted.today-note", "New kana come from hiragana until you've started all of it. Pick Katakana first or Both together to begin katakana now.") : null,
         kanjiWaiting ? h("p.muted.today-note", "Kanji start once you've started all 46 basic hiragana, since their readings are written in kana.") : null),
-      isKanji ? null : h("section.card.today-card",
+      ...(isKanji ? [] : [h("section.card.today-card",
         h("h2", "Hear it, write it"),
         h("p", "Ten kana read aloud, no picture. Write each one from memory."),
-        UI.btn("Start dictation", () => UI.go(prefix + "dictation"), "ghost", "ear")),
+        UI.btn("Start dictation", () => UI.go(prefix + "dictation"), "ghost", "ear"))]),
       isKanji ? kanjiProgress() : progressByRow(S));
   };
 

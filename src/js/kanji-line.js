@@ -62,8 +62,9 @@ window.NH = window.NH || {};
           h("div.ksec-head", h("h2", en, h("span.jp", jp))),
           h("div.jgrid", items.map((x) => {
             const st = NH.SRS.strength("j:" + x.k);
-            return h("a.jcell", { href: `#k-${hex(x.k)}`, class: "s-" + st, "aria-label": `${x.k}, ${x.meaning}, ${x.strokes} strokes, ${label[st]}` },
-              h("span.jc", x.k), h("span.jm", x.meaning.split(",")[0]), h("span.jn", String(x.strokes)));
+            return h("a.jcell", { href: `#k-${hex(x.k)}`, class: "s-" + st },
+              h("span.jc", x.k), h("span.jm", x.meaning.split(",")[0]), h("span.jn", { "aria-hidden": "true" }, String(x.strokes)),
+              h("span.vh", `, ${x.strokes} stroke${x.strokes === 1 ? "" : "s"}, ${label[st]}`));
           })));
       }));
     };
