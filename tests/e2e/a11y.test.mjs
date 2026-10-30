@@ -44,6 +44,12 @@ describe("axe audit", () => {
       assert.deepEqual(await audit(page), []);
     }));
   }
+  for (const route of ["home", "hiragana", "words", "phrases", "quiz", "k-3042", "k-304c"]) {
+    test(`#${route} in the light theme has no violations`, T, () => withPage(route, { scheme: "light" }, async (page) => {
+      await page.waitForTimeout(400);
+      assert.deepEqual(await audit(page), []);
+    }));
+  }
   test("the settings sheet has no violations", T, () => withPage("hiragana", {}, async (page) => {
     await page.locator(".bar .icon-btn[aria-label=Settings]").click();
     assert.deepEqual(await audit(page), []);
@@ -117,4 +123,47 @@ describe("text size", () => {
       });
     }
   });
+});
+
+describe("theme", () => {
+  const bg = (page) => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+  const bar = (page) => page.evaluate(() => document.querySelector('meta[name="theme-color"]').content);
+
+  test("Auto follows the phone's light or dark setting", T, async () => {
+    await withPage("hiragana", { scheme: "light" }, async (page) => {
+      assert.equal(await bg(page), "rgb(238, 241, 245)");
+      assert.equal(await bar(page), "#eef1f5");
+    });
+    await withPage("hiragana", { scheme: "dark" }, async (page) => {
+      assert.equal(await bg(page), "rgb(14, 20, 36)");
+      assert.equal(await bar(page), "#0e1424");
+    });
+  });
+
+  test("Light or Dark in Settings overrides the phone and is remembered", T, () => withPage("hiragana", { scheme: "light" }, async (page) => {
+    await page.locator(".bar .icon-btn[aria-label=Settings]").click();
+    await page.locator(".chip", { hasText: /^Dark$/ }).click();
+    assert.equal(await bg(page), "rgb(14, 20, 36)");
+    await page.reload();
+    assert.equal(await bg(page), "rgb(14, 20, 36)");
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), "dark");
+  }));
+
+  test("the writing styles keep their own look in either theme", T, async () => {
+    for (const scheme of ["light", "dark"]) {
+      await withPage("w-3042", { scheme, style: "neon" }, async (page) => {
+        assert.equal(await bar(page), "#05041a");
+        await page.locator(".styles .seg-b", { hasText: "Accuracy" }).click();
+        assert.equal(await bar(page), "#fbfbf7");
+        assert.equal(await page.locator(".stage").evaluate((el) => getComputedStyle(el).color), "rgb(31, 37, 51)");
+      });
+    }
+  });
+
+  test("leaving the writing screen restores the theme's bar colour", T, () => withPage("w-3042", { scheme: "light", style: "neon" }, async (page) => {
+    assert.equal(await bar(page), "#05041a");
+    await page.locator(".stage-bar .icon-btn[aria-label=Back]").click();
+    await page.waitForURL(/#k-3042$/);
+    assert.equal(await bar(page), "#eef1f5");
+  }));
 });

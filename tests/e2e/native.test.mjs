@@ -16,7 +16,7 @@ after(async () => {
 });
 
 async function nativePage(route, { japanese = true } = {}) {
-  const context = await browser.newContext({ viewport: { width: 412, height: 860 } });
+  const context = await browser.newContext({ viewport: { width: 412, height: 860 }, colorScheme: "dark" });
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
@@ -35,6 +35,7 @@ async function nativePage(route, { japanese = true } = {}) {
           stop: async () => {},
           openInstall: async () => { window.__installs++; },
         },
+        SystemBars: { setStyle: async (o) => { (window.__bars ||= []).push(o.style); } },
         Haptics: {
           impact: async (o) => { window.__haptics.push(`impact:${o.style}`); },
           notification: async (o) => { window.__haptics.push(`notification:${o.type}`); },
@@ -77,6 +78,18 @@ test("without Japanese voice data, settings offers to install it", { timeout: 60
   await page.locator(".bar .icon-btn[aria-label=Settings]").click();
   await page.locator(".btn", { hasText: "Install Japanese voice" }).click();
   assert.equal(await page.evaluate(() => window.__installs), 1);
+  assert.deepEqual(page.errors, []);
+  await page.context().close();
+});
+
+test("Android's status bar icons follow what's on screen", { timeout: 60000 }, async () => {
+  const page = await nativePage("w-3042");
+  await page.locator(".styles .seg-b", { hasText: "Neon" }).click();
+  await page.locator(".stage-bar .icon-btn[aria-label=Back]").click();
+  await page.waitForURL(/#k-3042$/);
+  const bars = await page.evaluate(() => window.__bars);
+  // notebook page: dark icons; neon night: light icons; dark app chrome: light icons
+  assert.deepEqual(bars.slice(-3), ["LIGHT", "DARK", "DARK"], JSON.stringify(bars));
   assert.deepEqual(page.errors, []);
   await page.context().close();
 });
