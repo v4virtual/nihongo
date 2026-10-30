@@ -31,7 +31,7 @@ release; order within a group is a rough priority.
 - [ ] Stroke-ending feedback for **tome / harai** (stop vs. sweep): needs hand-checked labels per stroke, since KanjiVG doesn't record them
 - [x] Effects volume control
 - [ ] Sound packs per style
-- [ ] Light/dark variants of the app chrome
+- [x] Light and dark themes for the app around the writing area (Auto follows the phone; Settings → Theme overrides), with the browser bar and Android status bar matched to what's on screen
 - [x] Accessibility pass: Text size setting (Normal / Large / Extra large); Japanese text tagged `lang="ja"` so screen readers pronounce it; every stroke described in words (writing area, explain page, next-stroke hints); quiz results announced; settings sheet keeps and returns keyboard focus; contrast fixes; headings and landmarks
 - [x] axe-core accessibility audit of every screen and style in CI
 

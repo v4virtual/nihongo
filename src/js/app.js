@@ -69,7 +69,7 @@ window.NH = window.NH || {};
     }
     return home();
   }
-  window.addEventListener("hashchange", render);
+  window.addEventListener("hashchange", () => { render(); syncBars(); });
 
   // ── home: station signs ──────────────────────────────────
   function home() {
@@ -340,6 +340,7 @@ window.NH = window.NH || {};
       store.set("style", id);
       stage.dataset.style = id;
       document.body.dataset.style = id;
+      syncBars();
       Backdrop.render(backdrop, id, scenes, [...key].reduce((a, c) => a + c.codePointAt(0), 0));
       writer.setStyle(id);
       drawSwitches();
@@ -605,8 +606,17 @@ window.NH = window.NH || {};
         applyTextSize();
         sizeSeg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b === e.currentTarget)));
       } }, label)));
+    const themes = [["auto", "Auto"], ["light", "Light"], ["dark", "Dark"]];
+    const themeSeg = h("div.chips", { role: "radiogroup", "aria-labelledby": "theme-label" }, themes.map(([id, label]) =>
+      h("button.chip", { type: "button", role: "radio", "aria-checked": String((st.theme || "auto") === id), onclick: (e) => {
+        store.set("theme", id);
+        applyTheme();
+        themeSeg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b === e.currentTarget)));
+      } }, label)));
     dlg.append(h("div.sheet", { role: "dialog", "aria-modal": "true", "aria-label": "Settings", tabindex: "-1" },
       h("div.sheet-head", h("h2", "Settings"), iconBtn("close", "Close", () => { off(); close(); })),
+      h("div.row.col", h("span#theme-label", "Theme"), themeSeg,
+        h("p.muted", "Auto follows your phone. The writing styles keep their own look.")),
       h("div.row.col", h("span#ts-label", "Text size"), sizeSeg),
       h("label.row", h("span", "Sound effects"), h("input#sound", { type: "checkbox", checked: st.sound ? true : null, onchange: (e) => store.set("sound", e.target.checked) })),
       h("div.row.col", h("label", { for: "volume" }, "Effects volume"),
@@ -632,12 +642,33 @@ window.NH = window.NH || {};
     setTimeout(() => (live.textContent = msg), 50);
   }
 
+  /* Theme of the app around the writing area: "auto" follows the phone. The
+   * browser bar and Android's status bar follow whatever is on screen (the
+   * writing styles have their own fixed light or dark worlds). */
+  const darkQuery = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+  function applyTheme() {
+    const t = store.settings.theme || "auto";
+    if (t === "auto") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.dataset.theme = t;
+    syncBars();
+  }
+  function syncBars() {
+    const style = document.body.classList.contains("scr-write") ? document.body.dataset.style : null;
+    const dark = style ? style === "neon" : getComputedStyle(document.documentElement).colorScheme.includes("dark");
+    const bg = style ? { neon: "#05041a", calligraphy: "#eadfc6", accuracy: "#fbfbf7" }[style] : getComputedStyle(document.documentElement).getPropertyValue("--night").trim();
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", bg);
+    const bars = window.Capacitor?.isNativePlatform?.() && window.Capacitor.Plugins?.SystemBars;
+    if (bars) bars.setStyle({ style: dark ? "DARK" : "LIGHT" }).catch(() => {});
+  }
+  darkQuery?.addEventListener?.("change", applyTheme);
+
   function applyTextSize() {
     const t = store.settings.text || "normal";
     if (t === "normal") document.documentElement.removeAttribute("data-text");
     else document.documentElement.dataset.text = t;
   }
   applyTextSize();
+  applyTheme();
 
   /* Tag Japanese text with lang="ja" so screen readers pronounce it in Japanese
    * (and pick Japanese glyph shapes). Any element whose own text is only kana,
@@ -664,4 +695,5 @@ window.NH = window.NH || {};
   }
 
   render();
+  syncBars();
 })();

@@ -1,6 +1,7 @@
-/* Kaku — layout: a night train platform. Chrome is deep indigo with white
- * station-sign panels; each script owns a train-line colour. The writing
- * stage swaps in its own world (notebook, neon Tokyo, washi). */
+/* Kaku — layout: a train platform. By night the chrome is deep indigo, by day
+ * pale platform concrete; the white station-sign panels and train-line
+ * colours stay the same. The writing stage swaps in its own world (notebook,
+ * neon Tokyo, washi) whatever the theme. */
 :root {
   --night: #0e1424;
   --night-2: #151d33;
@@ -23,9 +24,26 @@
   --f-brush: "Yuji Syuku", "Klee One", "Yu Mincho", serif;
   --f-neon: "M PLUS Rounded 1c", "Zen Kaku Gothic New", system-ui, sans-serif;
 
+  --accent-ink: #7ac143; /* the line colour when used as text */
+  --sign-edge: transparent;
+  --scrim: #0009;
+
   --r: 14px;
   --ts: 1; /* text size: set by Settings → Text size */
   color-scheme: dark;
+}
+/* Day: Auto follows the phone; Settings → Theme can force either. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --night: #eef1f5; --night-2: #ffffff; --night-3: #e2e7ef; --rule: #cfd6e2;
+    --text: #141a29; --muted: #546079; --accent-ink: #3a7a1a; --sign-edge: #d3d9e4;
+    --no: #c0392b; --scrim: #1a223a66; color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --night: #eef1f5; --night-2: #ffffff; --night-3: #e2e7ef; --rule: #cfd6e2;
+  --text: #141a29; --muted: #546079; --accent-ink: #3a7a1a; --sign-edge: #d3d9e4;
+  --no: #c0392b; --scrim: #1a223a66; color-scheme: light;
 }
 :root[data-text="large"] { --ts: 1.15; }
 :root[data-text="xl"] { --ts: 1.32; }
@@ -46,7 +64,7 @@ body {
 }
 a { color: inherit; }
 button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--line-h); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
 h1, h2, h3 { text-wrap: balance; line-height: 1.25; }
 .muted { color: var(--muted); }
 .small { font-size: calc(12px * var(--ts)); }
@@ -115,7 +133,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .eki {
   position: relative; display: flex; flex-direction: column; text-decoration: none;
   background: var(--sign); color: var(--sign-ink); border-radius: 6px; overflow: hidden;
-  box-shadow: 0 0 0 1px #0004, 0 14px 30px -12px #000a, inset 0 -1px 0 #0001;
+  box-shadow: 0 0 0 1px var(--sign-edge), 0 0 0 1px #0004, 0 14px 30px -12px #000a, inset 0 -1px 0 #0001;
   padding-top: 14px; transition: transform 0.18s ease;
 }
 .eki:not(.soon):hover { transform: translateY(-3px); }
@@ -159,9 +177,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   display: grid; justify-items: center; padding: 8px 4px 10px; text-decoration: none; color: var(--muted);
   border-bottom: 3px solid transparent; font-size: calc(13px * var(--ts)); font-weight: 700;
 }
-.tab-jp { font-size: calc(18px * var(--ts)); font-family: var(--f-kana); color: var(--text); opacity: 0.6; }
-.tab.on { color: var(--text); border-color: var(--line-h); }
-.tab.on .tab-jp { opacity: 1; }
+.tab-jp { font-size: calc(18px * var(--ts)); font-family: var(--f-kana); color: var(--muted); }
+.tab.on { color: var(--text); border-color: var(--accent-ink); }
+.tab.on .tab-jp { color: var(--text); }
 .hub-body {
   max-width: 980px; margin: 0 auto;
   padding-block: 18px 60px;
@@ -182,6 +200,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   transition: transform 0.12s ease;
 }
 .kcell:hover { transform: translateY(-2px); }
+.kcell, .look, .so-wrap, .qprompt { box-shadow: 0 0 0 1px var(--sign-edge); }
 .kcell .kc { font-family: var(--f-kana); font-size: clamp(22px, 6.4vw, 34px); line-height: 1.1; font-weight: 600; }
 .kcell .kr { font-size: calc(11px * var(--ts)); color: var(--sign-muted); font-weight: 700; }
 .kcell.empty { background: transparent; border: 1px dashed var(--rule); }
@@ -216,7 +235,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .wm > span { color: var(--muted); font-size: calc(12px * var(--ts)); overflow-wrap: anywhere; }
 .wkanji { margin-left: 8px; font-family: var(--f-kana); }
 .wk.long { font-size: calc(19px * var(--ts)); }
-.wlv { grid-area: lv; align-self: end; padding-bottom: 3px; color: var(--line-h); font-size: calc(9px * var(--ts)); letter-spacing: 2px; white-space: nowrap; }
+.wlv { grid-area: lv; align-self: end; padding-bottom: 3px; color: var(--accent-ink); font-size: calc(9px * var(--ts)); letter-spacing: 2px; white-space: nowrap; }
 
 /* ── explain ─────────────────────────────────────────── */
 .modes {
@@ -278,7 +297,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .examples li { display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; gap: 12px; padding: 4px 0; border-bottom: 1px solid var(--rule); }
 .examples li:last-child { border-bottom: 0; }
 .ex-w { font-family: var(--f-kana); font-size: calc(24px * var(--ts)); text-decoration: none; font-weight: 600; }
-.ex-w mark { background: none; color: var(--line-h); }
+.ex-w mark { background: none; color: var(--accent-ink); }
 .ex-r { color: var(--muted); font-size: calc(13px * var(--ts)); }
 .ex-m { font-size: calc(14px * var(--ts)); min-width: 0; }
 .cta-row { display: flex; justify-content: center; padding: 6px 0; }
@@ -528,7 +547,7 @@ body.scr-write { overflow: hidden; }
 .qsum { display: grid; gap: 14px; justify-items: center; text-align: center; padding: 20px 0; }
 
 /* ── sheet, toast ────────────────────────────────────── */
-.sheet-bg { position: fixed; inset: 0; z-index: 30; background: #0009; display: grid; align-items: end; justify-items: center; animation: fade 0.2s; }
+.sheet-bg { position: fixed; inset: 0; z-index: 30; background: var(--scrim); display: grid; align-items: end; justify-items: center; animation: fade 0.2s; }
 @keyframes fade { from { opacity: 0; } }
 .sheet {
   width: min(100%, 520px); max-height: 90vh; overflow: auto; background: var(--night-2); border-radius: 22px 22px 0 0;
@@ -552,7 +571,7 @@ input[type="range"] { accent-color: var(--line-h); }
 .confirm span { flex: 1 1 100%; }
 .toast {
   position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 40;
-  background: var(--sign); color: var(--sign-ink); padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: calc(14px * var(--ts));
+  background: var(--sign); color: var(--sign-ink); padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: calc(14px * var(--ts)); border: 1px solid var(--sign-edge);
   box-shadow: 0 10px 30px -8px #000a; max-width: calc(100vw - 32px); text-align: center; transition: opacity 0.4s, transform 0.4s;
 }
 .toast.out { opacity: 0; transform: translate(-50%, 10px); }
