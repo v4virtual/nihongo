@@ -57,11 +57,19 @@ window.NH = window.NH || {};
     if (master) master.gain.setTargetAtTime(volume(), ctx.currentTime, 0.02);
   }
 
-  // Short, distinct buzzes on phones that support it (Android; iOS ignores this).
+  // Short, distinct buzzes: the native haptics engine in the Android app,
+  // the Vibration API in browsers that have it (Android Chrome; iOS ignores it).
+  const haptics = window.Capacitor?.isNativePlatform?.() && window.Capacitor.Plugins?.Haptics;
   const BUZZ = { accept: 12, reject: [35, 50, 35], complete: [20, 40, 20, 40, 70] };
+  const canVibrate = !!haptics || "vibrate" in navigator;
   function vibrate(kind) {
-    if (!NH.store.settings.vibrate || !navigator.vibrate) return;
-    try { navigator.vibrate(BUZZ[kind] || 10); } catch (_) {}
+    if (!NH.store.settings.vibrate) return;
+    try {
+      if (haptics) {
+        if (kind === "accept") haptics.impact({ style: "LIGHT" });
+        else haptics.notification({ type: kind === "complete" ? "SUCCESS" : "WARNING" });
+      } else if (navigator.vibrate) navigator.vibrate(BUZZ[kind] || 10);
+    } catch (_) {}
   }
   const now = () => ctx.currentTime;
 
@@ -310,5 +318,5 @@ window.NH = window.NH || {};
     tone(1400, { d: 0.03, peak: 0.05 });
   }
 
-  NH.Audio = { unlock: ensure, drawStart, drawMove, drawEnd, accept, reject, complete, tap, setVolume, vibrate, pluck: (f) => on() && pluck(f) };
+  NH.Audio = { unlock: ensure, drawStart, drawMove, drawEnd, accept, reject, complete, tap, setVolume, vibrate, canVibrate, pluck: (f) => on() && pluck(f) };
 })();

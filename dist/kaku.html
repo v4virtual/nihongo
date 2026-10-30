@@ -3042,11 +3042,19 @@ window.NH = window.NH || {};
     if (master) master.gain.setTargetAtTime(volume(), ctx.currentTime, 0.02);
   }
 
-  // Short, distinct buzzes on phones that support it (Android; iOS ignores this).
+  // Short, distinct buzzes: the native haptics engine in the Android app,
+  // the Vibration API in browsers that have it (Android Chrome; iOS ignores it).
+  const haptics = window.Capacitor?.isNativePlatform?.() && window.Capacitor.Plugins?.Haptics;
   const BUZZ = { accept: 12, reject: [35, 50, 35], complete: [20, 40, 20, 40, 70] };
+  const canVibrate = !!haptics || "vibrate" in navigator;
   function vibrate(kind) {
-    if (!NH.store.settings.vibrate || !navigator.vibrate) return;
-    try { navigator.vibrate(BUZZ[kind] || 10); } catch (_) {}
+    if (!NH.store.settings.vibrate) return;
+    try {
+      if (haptics) {
+        if (kind === "accept") haptics.impact({ style: "LIGHT" });
+        else haptics.notification({ type: kind === "complete" ? "SUCCESS" : "WARNING" });
+      } else if (navigator.vibrate) navigator.vibrate(BUZZ[kind] || 10);
+    } catch (_) {}
   }
   const now = () => ctx.currentTime;
 
@@ -3295,37 +3303,56 @@ window.NH = window.NH || {};
     tone(1400, { d: 0.03, peak: 0.05 });
   }
 
-  NH.Audio = { unlock: ensure, drawStart, drawMove, drawEnd, accept, reject, complete, tap, setVolume, vibrate, pluck: (f) => on() && pluck(f) };
+  NH.Audio = { unlock: ensure, drawStart, drawMove, drawEnd, accept, reject, complete, tap, setVolume, vibrate, canVibrate, pluck: (f) => on() && pluck(f) };
 })();
 
 /* js/tts.js */
-/* Japanese speech through the browser's built-in speech synthesis (Web Speech
- * API). On Android this is Google's offline TTS, on iOS/macOS "Kyoko"/"O-ren",
- * on Windows "Nanami"/"Haruka". No network or API key needed. */
+/* Japanese speech.
+ * Web: the browser's built-in speech synthesis (Web Speech API). On Android
+ * this is Google's offline TTS, on iOS/macOS "Kyoko"/"O-ren", on Windows
+ * "Nanami"/"Haruka". No network or API key needed.
+ * Android app: the WebView has no speech synthesis, so speech goes through
+ * Android's own text-to-speech engine (@capacitor-community/text-to-speech). */
 window.NH = window.NH || {};
 
 (function () {
   const synth = window.speechSynthesis;
+  const native = window.Capacitor?.isNativePlatform?.() && window.Capacitor.Plugins?.TextToSpeech;
   let voices = [];
+  let nativeJapanese = false;
   const listeners = new Set();
+  const notify = () => listeners.forEach((fn) => fn(voices));
 
   // Natural-sounding voices first; fall back to any ja-JP voice.
   const PREFERRED = [/nanami/i, /google.*日本語|日本語.*google/i, /kyoko.*(enhanced|premium)/i, /o-ren/i, /kyoko/i, /haruka/i, /ayumi/i, /otoya/i];
-
-  function load() {
-    if (!synth) return;
-    voices = synth.getVoices().filter((v) => /^ja(-|_|$)/i.test(v.lang));
-    voices.sort((a, b) => rank(a) - rank(b));
-    listeners.forEach((fn) => fn(voices));
-  }
   const rank = (v) => {
     const i = PREFERRED.findIndex((re) => re.test(v.name));
     return i < 0 ? 99 : i;
   };
+  const isJa = (lang) => /^ja([-_]|$)/i.test(lang || "");
 
-  if (synth) {
-    load();
-    synth.addEventListener ? synth.addEventListener("voiceschanged", load) : (synth.onvoiceschanged = load);
+  function loadWeb() {
+    voices = synth.getVoices().filter((v) => isJa(v.lang));
+    voices.sort((a, b) => rank(a) - rank(b));
+    notify();
+  }
+
+  async function loadNative() {
+    try {
+      nativeJapanese = (await native.isLanguageSupported({ lang: "ja-JP" })).supported;
+      // `voice` in speak() is an index into the full list, so remember it.
+      const all = (await native.getSupportedVoices()).voices || [];
+      voices = all.map((v, index) => ({ name: v.name, lang: v.lang, localService: v.localService !== false, index })).filter((v) => isJa(v.lang));
+    } catch (_) {
+      voices = [];
+    }
+    notify();
+  }
+
+  if (native) loadNative();
+  else if (synth) {
+    loadWeb();
+    synth.addEventListener ? synth.addEventListener("voiceschanged", loadWeb) : (synth.onvoiceschanged = loadWeb);
   }
 
   function pick() {
@@ -3337,23 +3364,33 @@ window.NH = window.NH || {};
   const SAY = { "っ": "ちいさい つ", "ゃ": "ちいさい や", "ゅ": "ちいさい ゆ", "ょ": "ちいさい よ", "ぁ": "ちいさい あ", "ぃ": "ちいさい い", "ぅ": "ちいさい う", "ぇ": "ちいさい え", "ぉ": "ちいさい お", "ゎ": "ちいさい わ", "を": "を", "ゐ": "い", "ゑ": "え", "ぢ": "ぢ", "づ": "づ" };
 
   function speak(text, { rate } = {}) {
+    const say = SAY[text] || text;
+    const r = rate || NH.store.settings.rate || 0.85;
+    const v = pick();
+    if (native) {
+      native.stop().catch(() => {}).finally(() =>
+        native.speak({ text: say, lang: "ja-JP", rate: r, pitch: 1, volume: 1, ...(v ? { voice: v.index } : {}) }).catch(() => {}));
+      return true;
+    }
     if (!synth) return false;
     synth.cancel();
-    const u = new SpeechSynthesisUtterance(SAY[text] || text);
+    const u = new SpeechSynthesisUtterance(say);
     u.lang = "ja-JP";
-    const v = pick();
     if (v) u.voice = v;
-    u.rate = rate || NH.store.settings.rate || 0.85;
+    u.rate = r;
     u.pitch = 1;
     synth.speak(u);
     return true;
   }
 
   NH.TTS = {
-    get supported() { return !!synth; },
+    native: !!native,
+    get supported() { return !!(native || synth); },
     get voices() { return voices; },
-    get hasJapanese() { return voices.length > 0; },
+    get hasJapanese() { return native ? nativeJapanese || voices.length > 0 : voices.length > 0; },
     speak,
+    // Android app only: opens the system screen to download voice data.
+    installVoice() { return native ? native.openInstall().catch(() => {}) : null; },
     onVoices(fn) { listeners.add(fn); return () => listeners.delete(fn); },
   };
 })();
@@ -4392,6 +4429,7 @@ window.NH = window.NH || {};
             h("li", h("b", "Write. "), "Draw it with your finger or a stylus. Every stroke is checked for shape, direction and order."),
             h("li", h("b", "Words & phrases. "), "Write real words you'll see around you, from えき to ありがとう."),
             h("li", h("b", "Quiz. "), "Quick multiple choice that leans on the kana you miss most."))),
+        window.Capacitor?.isNativePlatform?.() ? null : h("p.credit", "Android app: ", h("a", { href: "https://github.com/v4virtual/nihongo/releases/latest", target: "_blank", rel: "noopener" }, "download the latest APK"), "."),
         h("p.credit", "Stroke data: ", h("a", { href: "https://kanjivg.tagaini.net", target: "_blank", rel: "noopener" }, "KanjiVG"), " (CC BY-SA 3.0)."))
     );
   }
@@ -4877,9 +4915,10 @@ window.NH = window.NH || {};
       h("label.row", h("span", "Sound effects"), h("input#sound", { type: "checkbox", checked: st.sound ? true : null, onchange: (e) => store.set("sound", e.target.checked) })),
       h("div.row.col", h("label", { for: "volume" }, "Effects volume"),
         h("input#volume", { type: "range", min: "0", max: "1", step: "0.05", value: String(st.volume ?? 0.8), oninput: (e) => Audio.setVolume(parseFloat(e.target.value)), onchange: () => Audio.accept(store.settings.style, 2, 5) })),
-      "vibrate" in navigator ? h("label.row", h("span", "Vibrate on each stroke"), h("input#vibrate", { type: "checkbox", checked: st.vibrate ? true : null, onchange: (e) => { store.set("vibrate", e.target.checked); Audio.vibrate("accept"); } })) : null,
+      Audio.canVibrate ? h("label.row", h("span", "Vibrate on each stroke"), h("input#vibrate", { type: "checkbox", checked: st.vibrate ? true : null, onchange: (e) => { store.set("vibrate", e.target.checked); Audio.vibrate("accept"); } })) : null,
       h("div.row.col", h("label", { for: "voice" }, "Japanese voice"), h("div.inline", voiceSel, btn("Test", () => say("こんにちは、ひらがなを かきましょう"), "ghost", "speaker")),
-        h("p.muted", TTS.hasJapanese ? "Uses your device's built-in speech, which works offline." : "Your device has no Japanese voice yet. Android: Settings → System → Text-to-speech → Google → install Japanese. iPhone: Settings → Accessibility → Spoken Content → Voices → Japanese.")),
+        h("p.muted", TTS.hasJapanese ? "Uses your device's built-in speech, which works offline." : "Your device has no Japanese voice yet. Android: Settings → System → Text-to-speech → Google → install Japanese. iPhone: Settings → Accessibility → Spoken Content → Voices → Japanese."),
+        TTS.native && !TTS.hasJapanese ? btn("Install Japanese voice", () => TTS.installVoice(), "ghost", "speaker") : null),
       h("div.row.col", h("label", { for: "rate" }, "Speaking speed"),
         h("input#rate", { type: "range", min: "0.5", max: "1.2", step: "0.05", value: String(st.rate), oninput: (e) => store.set("rate", parseFloat(e.target.value)) })),
       h("div.row", h("span", "Progress"), btn("Erase…", () => (confirmRow.hidden = false), "ghost")),
@@ -4892,7 +4931,9 @@ window.NH = window.NH || {};
   window.addEventListener("pointerdown", () => Audio.unlock(), { once: true });
 
   // Installable PWA when served over http(s) (ignored inside sandboxes).
-  if ("serviceWorker" in navigator && location.protocol.startsWith("http") && document.querySelector('link[rel="manifest"]')) {
+  // Not in the Android app, which already ships every file inside the APK.
+  const nativeApp = window.Capacitor?.isNativePlatform?.();
+  if (!nativeApp && "serviceWorker" in navigator && location.protocol.startsWith("http") && document.querySelector('link[rel="manifest"]')) {
     navigator.serviceWorker.register("sw.js").catch(() => {});
   }
 

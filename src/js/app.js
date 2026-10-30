@@ -100,6 +100,7 @@ window.NH = window.NH || {};
             h("li", h("b", "Write. "), "Draw it with your finger or a stylus. Every stroke is checked for shape, direction and order."),
             h("li", h("b", "Words & phrases. "), "Write real words you'll see around you, from えき to ありがとう."),
             h("li", h("b", "Quiz. "), "Quick multiple choice that leans on the kana you miss most."))),
+        window.Capacitor?.isNativePlatform?.() ? null : h("p.credit", "Android app: ", h("a", { href: "https://github.com/v4virtual/nihongo/releases/latest", target: "_blank", rel: "noopener" }, "download the latest APK"), "."),
         h("p.credit", "Stroke data: ", h("a", { href: "https://kanjivg.tagaini.net", target: "_blank", rel: "noopener" }, "KanjiVG"), " (CC BY-SA 3.0)."))
     );
   }
@@ -585,9 +586,10 @@ window.NH = window.NH || {};
       h("label.row", h("span", "Sound effects"), h("input#sound", { type: "checkbox", checked: st.sound ? true : null, onchange: (e) => store.set("sound", e.target.checked) })),
       h("div.row.col", h("label", { for: "volume" }, "Effects volume"),
         h("input#volume", { type: "range", min: "0", max: "1", step: "0.05", value: String(st.volume ?? 0.8), oninput: (e) => Audio.setVolume(parseFloat(e.target.value)), onchange: () => Audio.accept(store.settings.style, 2, 5) })),
-      "vibrate" in navigator ? h("label.row", h("span", "Vibrate on each stroke"), h("input#vibrate", { type: "checkbox", checked: st.vibrate ? true : null, onchange: (e) => { store.set("vibrate", e.target.checked); Audio.vibrate("accept"); } })) : null,
+      Audio.canVibrate ? h("label.row", h("span", "Vibrate on each stroke"), h("input#vibrate", { type: "checkbox", checked: st.vibrate ? true : null, onchange: (e) => { store.set("vibrate", e.target.checked); Audio.vibrate("accept"); } })) : null,
       h("div.row.col", h("label", { for: "voice" }, "Japanese voice"), h("div.inline", voiceSel, btn("Test", () => say("こんにちは、ひらがなを かきましょう"), "ghost", "speaker")),
-        h("p.muted", TTS.hasJapanese ? "Uses your device's built-in speech, which works offline." : "Your device has no Japanese voice yet. Android: Settings → System → Text-to-speech → Google → install Japanese. iPhone: Settings → Accessibility → Spoken Content → Voices → Japanese.")),
+        h("p.muted", TTS.hasJapanese ? "Uses your device's built-in speech, which works offline." : "Your device has no Japanese voice yet. Android: Settings → System → Text-to-speech → Google → install Japanese. iPhone: Settings → Accessibility → Spoken Content → Voices → Japanese."),
+        TTS.native && !TTS.hasJapanese ? btn("Install Japanese voice", () => TTS.installVoice(), "ghost", "speaker") : null),
       h("div.row.col", h("label", { for: "rate" }, "Speaking speed"),
         h("input#rate", { type: "range", min: "0.5", max: "1.2", step: "0.05", value: String(st.rate), oninput: (e) => store.set("rate", parseFloat(e.target.value)) })),
       h("div.row", h("span", "Progress"), btn("Erase…", () => (confirmRow.hidden = false), "ghost")),
@@ -600,7 +602,9 @@ window.NH = window.NH || {};
   window.addEventListener("pointerdown", () => Audio.unlock(), { once: true });
 
   // Installable PWA when served over http(s) (ignored inside sandboxes).
-  if ("serviceWorker" in navigator && location.protocol.startsWith("http") && document.querySelector('link[rel="manifest"]')) {
+  // Not in the Android app, which already ships every file inside the APK.
+  const nativeApp = window.Capacitor?.isNativePlatform?.();
+  if (!nativeApp && "serviceWorker" in navigator && location.protocol.startsWith("http") && document.querySelector('link[rel="manifest"]')) {
     navigator.serviceWorker.register("sw.js").catch(() => {});
   }
 

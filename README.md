@@ -24,7 +24,8 @@ direction and order. Katakana and kanji are on the [roadmap](ROADMAP.md).
   Android and iOS). If no voice plays, install a Japanese TTS voice; Settings in
   the app explains how.
 
-No build step, no dependencies, no network calls except Google Fonts.
+The web app has no build step, no dependencies and no network calls except
+Google Fonts. The Android app wraps the same files with Capacitor.
 
 ## Run it
 
@@ -59,6 +60,47 @@ next time the app opens with a connection: app files are fetched network-first
 and the cache is renamed per deploy.
 
 On iPhone, open the URL in Safari and use **Share → Add to Home Screen**.
+
+## Android app (APK)
+
+The same app is packaged with [Capacitor](https://capacitorjs.com) in
+`android/`. It bundles every file, so it works offline from the first launch,
+speaks through Android's own text-to-speech engine and vibrates through the
+native haptics engine. Every green push to `main` builds the APK and publishes
+it as a GitHub Release: download it on your phone from
+[releases/latest](https://github.com/v4virtual/nihongo/releases/latest) and
+open it to install (Android asks you to allow installs from your browser).
+Pull requests build the APK too, as a check, and attach it to the workflow run.
+
+### Signing (one-time)
+
+Android only installs an update over an app signed with the same key. Run this
+once on your computer (needs a Java JDK; the GitHub CLI is optional):
+
+```bash
+tools/make-release-key.sh
+```
+
+It writes `kaku-release.jks` and `kaku-release.password`, and stores four
+repository secrets (`ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`,
+`ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`) with `gh`, or prints how to add
+them by hand. Back up both files: without the key, installed copies can't be
+updated. Until the secrets exist, CI publishes debug-signed APKs, which have to
+be uninstalled (losing progress) before installing a newer one.
+
+### Build locally
+
+Needs Node 22, JDK 21 and the Android SDK (`ANDROID_HOME`):
+
+```bash
+npm ci
+npx cap sync android
+cd android && ./gradlew assembleDebug
+```
+
+The APK lands in `android/app/build/outputs/apk/debug/`. Run
+`node tools/build-icons.mjs` after changing `src/icon.svg` to regenerate the
+launcher icons and splash screens.
 
 ## Tests
 
@@ -105,7 +147,8 @@ src/
 tools/
   build-strokes.mjs     regenerates js/data/strokes.js from KanjiVG
   build-artifact.mjs    bundles everything into dist/kaku.html (single file)
-  build-icons.mjs       renders the PNG app icons from src/icon.svg
+  build-icons.mjs       renders the web and Android icons from src/icon.svg
+  make-release-key.sh   creates the Android signing key and GitHub secrets
   smoke.mjs             screenshots of the main screens (Playwright)
 tests/
   unit/                 Node tests for grading logic and data
