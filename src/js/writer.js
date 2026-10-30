@@ -57,6 +57,10 @@ window.NH = window.NH || {};
       document.body.append(this.fx);
       this.live.setAttribute("role", "img");
       this.live.setAttribute("aria-label", "Writing area. Draw the character with your finger, pen or mouse.");
+      // Screen readers get every stroke described in words.
+      this.desc = h("div.vh", { id: `${this.id}-desc` });
+      this.host.append(this.desc);
+      this.live.setAttribute("aria-describedby", this.desc.id);
       this.bindPointer();
     }
 
@@ -75,6 +79,8 @@ window.NH = window.NH || {};
       this.colorIndex = colorIndex;
       this.color = NEON[colorIndex % NEON.length];
       this.strokes = Geo.strokesOf(ch);
+      this.desc.textContent = `${ch}, ${this.strokes.length} stroke${this.strokes.length === 1 ? "" : "s"}. ` +
+        this.strokes.map((st, i) => `Stroke ${i + 1} ${Geo.describe(st)}.`).join(" ");
       this.reset();
     }
 
@@ -107,6 +113,8 @@ window.NH = window.NH || {};
       this.drawGhost();
       this.drawHints();
     }
+
+    describeStroke(i) { return this.strokes[i] ? `Stroke ${i + 1} ${Geo.describe(this.strokes[i])}.` : ""; }
 
     get next() {
       if (!this.strokes) return -1;

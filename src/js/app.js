@@ -85,7 +85,7 @@ window.NH = window.NH || {};
     const studied = Object.keys(NH.KANA_INFO || {}).filter((c) => store.progress(c)?.best >= 60).length;
     app.replaceChildren(
       h("header.home-head",
-        h("div.brand", h("span.brand-kana", "書く"), h("span.brand-name", "Kaku")),
+        h("h1.brand", h("span.brand-kana", "書く"), h("span.brand-name", "Kaku")),
         iconBtn("gear", "Settings", settings)),
       h("main.home",
         h("p.lede", "Learn Japanese the way kids in Japan do: one script at a time, writing every stroke by hand."),
@@ -113,10 +113,10 @@ window.NH = window.NH || {};
     app.replaceChildren(
       h("header.bar",
         iconBtn("back", "Home", () => go("home")),
-        h("div.bar-title", h("span.line-dot", { style: "--line:var(--line-h)" }, "H"), h("b", "ひらがな"), h("small", "Hiragana")),
+        h("h1.bar-title", h("span.line-dot", { style: "--line:var(--line-h)", "aria-hidden": "true" }, "H"), h("b", "ひらがな"), h("small", "Hiragana")),
         iconBtn("gear", "Settings", settings)),
-      h("nav.tabs", { role: "tablist" }, tabs.map(([id, jp, en]) =>
-        h("a.tab", { href: `#${id === "symbols" ? "hiragana" : id}`, role: "tab", "aria-selected": String(tab === id), class: tab === id ? "on" : "" }, h("span.tab-jp", jp), h("span", en)))),
+      h("nav", { "aria-label": "Hiragana sections" }, h("div.tabs", { role: "tablist" }, tabs.map(([id, jp, en]) =>
+        h("a.tab", { href: `#${id === "symbols" ? "hiragana" : id}`, role: "tab", "aria-selected": String(tab === id), class: tab === id ? "on" : "" }, h("span.tab-jp", jp), h("span", en))))),
       body
     );
     if (tab === "symbols") symbols(body);
@@ -184,20 +184,22 @@ window.NH = window.NH || {};
     app.replaceChildren(
       h("header.bar",
         iconBtn("back", "All hiragana", () => go("hiragana")),
-        h("div.bar-title", h("b", ch), h("small", romaji(ch))),
+        h("h1.bar-title", h("b", ch), h("small", romaji(ch))),
         iconBtn("gear", "Settings", settings)),
-      h("div.modes", h("a.mode.on", { href: `#k-${hex(ch)}`, "aria-current": "page" }, icon("book"), "Explain"), h("a.mode", { href: `#w-${hex(ch)}` }, icon("pen"), "Write")),
+      h("nav.modes", { "aria-label": "Mode" }, h("a.mode.on", { href: `#k-${hex(ch)}`, "aria-current": "page" }, icon("book"), "Explain"), h("a.mode", { href: `#w-${hex(ch)}` }, icon("pen"), "Write")),
       h("main.explain",
         h("section.hero-card",
-          h("div.so-wrap", svg, h("div.so-tools", iconBtn("play", "Replay stroke order", () => replay(svg)), speakBtn(ch))),
+          h("div.so-wrap", svg, h("div.so-tools", iconBtn("play", "Replay stroke order", () => replay(svg)), speakBtn(ch)),
+            h("ol.vh", { "aria-label": `How to write ${ch}` }, [...ch].flatMap((c) => NH.Geo.strokesOf(c).map((st, i) =>
+              h("li", `${[...ch].length > 1 ? c + ", " : ""}stroke ${i + 1} ${NH.Geo.describe(st)}.`))))),
           h("div.hero-meta",
             h("div.big-romaji", romaji(ch)),
             h("div.meta-row", h("span", `${strokeCount(ch)} stroke${strokeCount(ch) === 1 ? "" : "s"}`), I.mark ? h("span.tag", I.mark) : isCombo ? h("span.tag", "yōon") : null),
             parts && parts[1] !== "small" ? h("div.equation", parts.map((p, i) => [i ? h("span.op", "+") : null, h("a.eq", { href: p.length === 1 && NH.STROKES[p] ? `#k-${hex(p)}` : null }, p)]), h("span.op", "="), h("b.eq", ch)) : null,
             I.origin ? h("div.origin", h("span.origin-k", I.origin), h("span.origin-arrow", "→"), h("span.origin-h", ch), h("p", "Grew from the kanji ", h("b", I.origin), I.originMeaning ? ` (“${I.originMeaning}”)` : "", ", written fast in cursive until it became ", ch, ".")) : null)),
-        I.mnemonic ? h("section.card.mnemonic", h("h3", "Remember it"), h("p", I.mnemonic)) : null,
-        notes.length ? h("section.card", h("h3", "Good to know"), h("ul.notes", notes.map((n) => h("li", n)))) : null,
-        I.lookalikes && I.lookalikes.length ? h("section.card", h("h3", "Don't mix it up with"), h("div.looks", I.lookalikes.map((c) => h("a.look", { href: NH.KANA_INFO[c] ? `#k-${hex(c)}` : null }, h("span.kc", c), h("span.kr", romaji(c)))))) : null,
+        I.mnemonic ? h("section.card.mnemonic", h("h2", "Remember it"), h("p", I.mnemonic)) : null,
+        notes.length ? h("section.card", h("h2", "Good to know"), h("ul.notes", notes.map((n) => h("li", n)))) : null,
+        I.lookalikes && I.lookalikes.length ? h("section.card", h("h2", "Don't mix it up with"), h("div.looks", I.lookalikes.map((c) => h("a.look", { href: NH.KANA_INFO[c] ? `#k-${hex(c)}` : null }, h("span.kc", c), h("span.kr", romaji(c)))))) : null,
         examplesCard(ch, I),
         h("div.cta-row", btn("Practice writing", () => go(`w-${hex(ch)}`), "primary", "pen")),
         h("nav.pager",
@@ -230,7 +232,7 @@ window.NH = window.NH || {};
     // Add matching words from the word list.
     for (const w of NH.WORDS) if (ex.length < 4 && w.kana.includes(ch) && !ex.some((e) => e.w === w.kana)) ex.push({ w: w.kana, r: w.romaji, m: w.meaning, id: w.id });
     if (!ex.length) return null;
-    return h("section.card", h("h3", "In words"), h("ul.examples", ex.map((e) => {
+    return h("section.card", h("h2", "In words"), h("ul.examples", ex.map((e) => {
       const known = e.id || (NH.WORDS.find((w) => w.kana === e.w) || {}).id;
       return h("li",
         h("a.ex-w", { href: known ? `#word-${known}` : `#p-${hex(e.w)}`, title: "Practice writing this word" }, highlight(e.w, ch)),
@@ -293,7 +295,7 @@ window.NH = window.NH || {};
     const scenes = (item && item.scene) || [];
 
     document.body.classList.add("scr-write");
-    const stage = h("div.stage");
+    const stage = h("main.stage");
     const backdrop = h("div.backdrop");
     const seq = h("div.seq", { "aria-label": "Characters" });
     const cell = h("div.cell");
@@ -308,13 +310,13 @@ window.NH = window.NH || {};
     const assistSeg = h("div.seg.assists", { role: "radiogroup", "aria-label": "Help level" });
 
     const title = isWord
-      ? h("div.bar-title.word-title", h("b", item.kana), h("small", [item.romaji, item.meaning].filter(Boolean).join(" · ")))
-      : h("div.bar-title", h("b", key), h("small", romaji(key)));
+      ? h("h1.bar-title.word-title", h("b", item.kana), h("small", [item.romaji, item.meaning].filter(Boolean).join(" · ")))
+      : h("h1.bar-title", h("b", key), h("small", romaji(key)));
 
     stage.append(
       backdrop,
       h("header.bar.stage-bar", iconBtn("back", "Back", () => go(back)), title, speakBtn(key), iconBtn("gear", "Settings", settings)),
-      !isWord && single ? h("div.modes", h("a.mode", { href: `#k-${hex(key)}` }, icon("book"), "Explain"), h("a.mode.on", { href: location.hash, "aria-current": "page" }, icon("pen"), "Write")) : null,
+      !isWord && single ? h("nav.modes", { "aria-label": "Mode" }, h("a.mode", { href: `#k-${hex(key)}` }, icon("book"), "Explain"), h("a.mode.on", { href: location.hash, "aria-current": "page" }, icon("pen"), "Write")) : null,
       h("div.switches", styleSeg, assistSeg),
       chars.length > 1 ? seq : null,
       cellWrap,
@@ -360,6 +362,8 @@ window.NH = window.NH || {};
       result.hidden = true;
       writer.setChar(chars[i], i);
       feedback.textContent = startMessage();
+      feedback.className = "feedback";
+      feedback.append(h("span.vh", ` ${writer.describeStroke(0)}`));
       drawSeq();
     }
     function restartChar() { writer.stopDemo(); loadChar(pos); }
@@ -379,9 +383,11 @@ window.NH = window.NH || {};
           else if (e.hane === "ok") feedback.textContent = `Stroke ${n} ✓ with a clean hane flick.${n < e.total ? ` Next: stroke ${n + 1}.` : ""}`;
           else feedback.textContent = n < e.total ? `Stroke ${n} ✓ ${style === "accuracy" ? e.accuracy + "% " : ""}· next: stroke ${n + 1} of ${e.total}` : "";
           feedback.className = e.hane === "missing" ? "feedback tip" : "feedback ok";
+          if (n < e.total) feedback.append(h("span.vh", ` ${writer.describeStroke(n)}`));
         } else {
           feedback.textContent = e.message;
           feedback.className = "feedback no";
+          feedback.append(h("span.vh", ` ${writer.describeStroke(e.index)}`));
         }
       } else if (e.type === "done") {
         const c = chars[pos];
@@ -445,9 +451,9 @@ window.NH = window.NH || {};
       h("button.chip", { type: "button", "aria-pressed": String(n === len), onclick: (e) => { len = n; lens.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b === e.currentTarget))); } }, `${n} questions`)));
     body.append(
       h("section.card.quiz-setup",
-        h("h3", "Kana to quiz"), h("div.chips", toggle(pools, "basic", "Basic 46"), toggle(pools, "voiced", "Dakuten 25"), toggle(pools, "combos", "Combos 33")),
-        h("h3", "Question types"), h("div.chips", QTYPES.map(([k, l]) => toggle(types, k, l))),
-        h("h3", "Length"), lens,
+        h("h2", "Kana to quiz"), h("div.chips", toggle(pools, "basic", "Basic 46"), toggle(pools, "voiced", "Dakuten 25"), toggle(pools, "combos", "Combos 33")),
+        h("h2", "Question types"), h("div.chips", QTYPES.map(([k, l]) => toggle(types, k, l))),
+        h("h2", "Length"), lens,
         h("p.muted", "Questions favour the kana you've missed before."),
         btn("Start quiz", () => {
           const pool = [];
@@ -514,7 +520,7 @@ window.NH = window.NH || {};
       const opts = h("div.qopts", { class: q.type === "k2r" || q.type === "w2m" ? "latin" : "kana" }, q.options.map((o) =>
         h("button.qopt", { type: "button", onclick: (e) => choose(o, e.currentTarget) }, o)));
       const prompt = q.type === "listen"
-        ? h("button.qprompt.listen", { type: "button", onclick: () => say(q.speak), "aria-label": "Play the sound again" }, icon("speaker"), h("span", "Tap to listen"))
+        ? h("button.qprompt.listen", { type: "button", onclick: () => say(q.speak) }, icon("speaker"), h("span", "Tap to listen"))
         : h("div.qprompt", { class: q.type === "r2k" ? "latin" : "" }, q.prompt);
       wrap.replaceChildren(
         h("div.qhead", h("span", `${i + 1} / ${qs.length}`), h("div.qbar", h("i", { style: { width: `${(i / qs.length) * 100}%` } })), h("span", `${right} ✓`)),
@@ -536,6 +542,7 @@ window.NH = window.NH || {};
         });
         if (ok) right++;
         else missed.push(q);
+        announce(ok ? `Correct: ${q.answer}.` : `Not quite. The answer is ${q.answer}.`);
         say(q.speak);
         const foot = wrap.querySelector(".qfoot");
         if (ok) setTimeout(() => { i++; show(); }, 900);
@@ -565,9 +572,19 @@ window.NH = window.NH || {};
   function settings() {
     const st = store.settings;
     const dlg = h("div.sheet-bg", { onclick: (e) => e.target === dlg && close() });
-    const close = () => { dlg.remove(); document.removeEventListener("keydown", esc); };
-    const esc = (e) => e.key === "Escape" && close();
-    document.addEventListener("keydown", esc);
+    const opener = document.activeElement;
+    const close = () => { dlg.remove(); document.removeEventListener("keydown", keys); opener?.focus?.(); };
+    // Escape closes; Tab cycles inside the sheet instead of escaping behind it.
+    const keys = (e) => {
+      if (e.key === "Escape") return close();
+      if (e.key !== "Tab") return;
+      const f = [...dlg.querySelectorAll("button, input, select, a[href]")].filter((el) => !el.disabled && el.offsetParent);
+      if (!f.length) return;
+      const [first, last] = [f[0], f[f.length - 1]];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    document.addEventListener("keydown", keys);
 
     const voiceSel = h("select#voice", { onchange: (e) => store.set("voice", e.target.value) });
     const fillVoices = () => {
@@ -581,8 +598,16 @@ window.NH = window.NH || {};
       btn("Erase", () => { store.reset(); confirmRow.hidden = true; toast("Progress erased."); }, "danger"),
       btn("Keep", () => (confirmRow.hidden = true), "ghost"));
 
-    dlg.append(h("div.sheet", { role: "dialog", "aria-modal": "true", "aria-label": "Settings" },
+    const sizes = [["normal", "Normal"], ["large", "Large"], ["xl", "Extra large"]];
+    const sizeSeg = h("div.chips", { role: "radiogroup", "aria-labelledby": "ts-label" }, sizes.map(([id, label]) =>
+      h("button.chip", { type: "button", role: "radio", "aria-checked": String((st.text || "normal") === id), onclick: (e) => {
+        store.set("text", id);
+        applyTextSize();
+        sizeSeg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b === e.currentTarget)));
+      } }, label)));
+    dlg.append(h("div.sheet", { role: "dialog", "aria-modal": "true", "aria-label": "Settings", tabindex: "-1" },
       h("div.sheet-head", h("h2", "Settings"), iconBtn("close", "Close", () => { off(); close(); })),
+      h("div.row.col", h("span#ts-label", "Text size"), sizeSeg),
       h("label.row", h("span", "Sound effects"), h("input#sound", { type: "checkbox", checked: st.sound ? true : null, onchange: (e) => store.set("sound", e.target.checked) })),
       h("div.row.col", h("label", { for: "volume" }, "Effects volume"),
         h("input#volume", { type: "range", min: "0", max: "1", step: "0.05", value: String(st.volume ?? 0.8), oninput: (e) => Audio.setVolume(parseFloat(e.target.value)), onchange: () => Audio.accept(store.settings.style, 2, 5) })),
@@ -596,7 +621,37 @@ window.NH = window.NH || {};
       confirmRow,
       h("p.muted.small", "Stroke order data from KanjiVG by Ulrich Apel, CC BY-SA 3.0. Kaku v0.1.")));
     document.body.append(dlg);
+    dlg.querySelector(".sheet").focus();
   }
+
+  // A polite live region for things a screen reader should hear (quiz results).
+  const live = h("div.vh", { "aria-live": "polite", role: "status" });
+  document.body.append(live);
+  function announce(msg) {
+    live.textContent = "";
+    setTimeout(() => (live.textContent = msg), 50);
+  }
+
+  function applyTextSize() {
+    const t = store.settings.text || "normal";
+    if (t === "normal") document.documentElement.removeAttribute("data-text");
+    else document.documentElement.dataset.text = t;
+  }
+  applyTextSize();
+
+  /* Tag Japanese text with lang="ja" so screen readers pronounce it in Japanese
+   * (and pick Japanese glyph shapes). Any element whose own text is only kana,
+   * kanji and Japanese punctuation qualifies. */
+  const JA = /^[\s\u3000-\u30ff\u3400-\u9fff\uff01-\uff60゛゜]+$/;
+  function tagJapanese(root) {
+    const els = root.nodeType === 1 ? [root, ...root.querySelectorAll("*")] : [];
+    for (const el of els) {
+      if (el.closest("svg") && el.tagName !== "svg") continue;
+      const own = [...el.childNodes].filter((n) => n.nodeType === 3).map((n) => n.textContent).join("").trim();
+      if (own && JA.test(own) && !el.hasAttribute("lang")) el.setAttribute("lang", "ja");
+    }
+  }
+  new MutationObserver((muts) => muts.forEach((m) => m.addedNodes.forEach(tagJapanese))).observe(document.body, { childList: true, subtree: true });
 
   // Unlock audio on the first touch anywhere (browsers require a gesture).
   window.addEventListener("pointerdown", () => Audio.unlock(), { once: true });

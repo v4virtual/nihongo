@@ -216,5 +216,42 @@ window.NH = window.NH || {};
     return { x: NH.clamp(p0.x - dx * 6 - dy * 5, 5, BOX - 5), y: NH.clamp(p0.y - dy * 6 + dx * 5, 6, BOX - 3) };
   }
 
-  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, TOL };
+  // ── plain-language stroke descriptions (for screen readers) ─────────────
+  const DIRS = ["right", "down-right", "down", "down-left", "left", "up-left", "up", "up-right"];
+  const dirOf = (a, b) => DIRS[(Math.round(Math.atan2(b.y - a.y, b.x - a.x) / (Math.PI / 4)) + 8) % 8];
+  const third = (v) => (v < BOX / 3 ? 0 : v < (2 * BOX) / 3 ? 1 : 2);
+  function place(p) {
+    const row = ["top", "middle", "bottom"][third(p.y)], col = ["left", "centre", "right"][third(p.x)];
+    return row === "middle" && col === "centre" ? "the centre" : row === "middle" ? `the middle ${col}` : `the ${row} ${col}`;
+  }
+  // Total turning along the stroke, in degrees (sign ignored).
+  function turning(pts) {
+    let t = 0;
+    for (let i = 2; i < pts.length; i++) {
+      let d = Math.atan2(pts[i].y - pts[i - 1].y, pts[i].x - pts[i - 1].x) - Math.atan2(pts[i - 1].y - pts[i - 2].y, pts[i - 1].x - pts[i - 2].x);
+      while (d > Math.PI) d -= 2 * Math.PI;
+      while (d < -Math.PI) d += 2 * Math.PI;
+      t += Math.abs(d);
+    }
+    return (t * 180) / Math.PI;
+  }
+
+  /* e.g. "starts at the top left, a line going right" or
+   * "starts at the top centre, curves down then left, and ends with a flick". */
+  function describe(st) {
+    const p = resample(st.raw, 24);
+    const a = p[0], z = p[p.length - 1], mid = p[12];
+    const straight = dist(a, z) / Math.max(st.len, 1);
+    let shape;
+    if (st.len < 22) shape = `a short mark going ${dirOf(a, z)}`;
+    else if (turning(p) > 300) shape = `goes ${dirOf(a, mid)} and loops around`;
+    else if (straight > 0.92) shape = `a ${st.len > 60 ? "long " : ""}line going ${dirOf(a, z)}`;
+    else {
+      const d1 = dirOf(a, mid), d2 = dirOf(mid, z);
+      shape = d1 === d2 ? `a curve going ${d1}` : `curves ${d1}, then ${d2}`;
+    }
+    return `starts at ${place(a)}, ${shape}${st.hane ? ", and ends with a flick (hane)" : ""}`;
+  }
+
+  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, describe, TOL };
 })();

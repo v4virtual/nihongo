@@ -32,7 +32,8 @@ release; order within a group is a rough priority.
 - [x] Effects volume control
 - [ ] Sound packs per style
 - [ ] Light/dark variants of the app chrome
-- [ ] Accessibility pass: screen-reader descriptions of strokes, larger text option
+- [x] Accessibility pass: Text size setting (Normal / Large / Extra large); Japanese text tagged `lang="ja"` so screen readers pronounce it; every stroke described in words (writing area, explain page, next-stroke hints); quiz results announced; settings sheet keeps and returns keyboard focus; contrast fixes; headings and landmarks
+- [x] axe-core accessibility audit of every screen and style in CI
 
 ## v0.3 — Learning loop
 

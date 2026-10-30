@@ -195,3 +195,18 @@ describe("stroke endings (hane)", () => {
     assert.equal(hasHook(strokesOf("つ")[0].raw), false);
   });
 });
+
+describe("stroke descriptions", () => {
+  const { describe: say } = NH.Geo;
+  test("every stroke gets a plain-language description", () => {
+    for (const ch of chars) for (const st of strokesOf(ch)) assert.match(say(st), /^starts at the (top|middle|bottom|centre)/, ch);
+  });
+  test("they say where strokes go, loop and flick", () => {
+    const [a1, a2, a3] = strokesOf("あ").map(say);
+    assert.match(a1, /top left, a line going right/);
+    assert.match(a2, /long line going down/);
+    assert.match(a3, /loops around/);
+    assert.match(say(strokesOf("い")[0]), /ends with a flick \(hane\)/);
+    assert.doesNotMatch(say(strokesOf("い")[1]), /flick/);
+  });
+});
