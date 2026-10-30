@@ -100,6 +100,7 @@ window.NH = window.NH || {};
             h("li", h("b", "Write. "), "Draw it with your finger or a stylus. Every stroke is checked for shape, direction and order."),
             h("li", h("b", "Words & phrases. "), "Write real words you'll see around you, from えき to ありがとう."),
             h("li", h("b", "Quiz. "), "Quick multiple choice that leans on the kana you miss most."))),
+        window.Capacitor?.isNativePlatform?.() ? null : h("p.credit", "Android app: ", h("a", { href: "https://github.com/v4virtual/nihongo/releases/latest", target: "_blank", rel: "noopener" }, "download the latest APK"), "."),
         h("p.credit", "Stroke data: ", h("a", { href: "https://kanjivg.tagaini.net", target: "_blank", rel: "noopener" }, "KanjiVG"), " (CC BY-SA 3.0)."))
     );
   }
@@ -159,7 +160,7 @@ window.NH = window.NH || {};
         return h("article.wcard",
           h("a.wcard-main", { href: `#${kind === "words" ? "word" : "phrase"}-${w.id}` },
             sc ? h("span.wicon-wrap", sc) : null,
-            h("span.wk", w.kana),
+            h("span.wk", { class: [...w.kana].length > 8 ? "long" : "" }, w.kana),
             h("span.wm", h("b", w.meaning), h("span", w.romaji, w.kanji ? h("span.wkanji", w.kanji) : null)),
             h("span.wlv", { title: `Level ${w.level}` }, "●".repeat(w.level) + "○".repeat(3 - w.level))),
           speakBtn(w.kana, "small"));
@@ -179,7 +180,7 @@ window.NH = window.NH || {};
     const svg = strokeOrderSvg(ch);
     const parts = isCombo ? [...ch] : I.base ? [I.base, I.mark === "handakuten" ? "゜" : I.mark === "dakuten" ? "゛" : "small"] : null;
 
-    const notes = isCombo ? comboNotes(ch) : I.notes || [];
+    const notes = [...(isCombo ? comboNotes(ch) : I.notes || []), ...haneNotes(ch)];
     app.replaceChildren(
       h("header.bar",
         iconBtn("back", "All hiragana", () => go("hiragana")),
@@ -204,6 +205,16 @@ window.NH = window.NH || {};
           next ? h("a.pg", { href: `#k-${hex(next)}` }, h("span", next), icon("next")) : h("span")))
     );
     requestAnimationFrame(() => replay(svg));
+  }
+
+  // Which strokes end in a hane (flick), from the stroke data.
+  function haneNotes(ch) {
+    return [...ch].flatMap((c) => {
+      const ns = NH.Geo.strokesOf(c).map((st, i) => (st.hane ? i + 1 : 0)).filter(Boolean);
+      if (!ns.length) return [];
+      const which = ns.length === 1 ? `Stroke ${ns[0]}` : `Strokes ${ns.join(" and ")}`;
+      return [`${[...ch].length > 1 ? c + ": " : ""}${which} end${ns.length === 1 ? "s" : ""} with a hane (跳ね), a quick flick up and away as you lift the pen. It's marked with a red arrow above.`];
+    });
   }
 
   function comboNotes(ch) {
@@ -250,6 +261,11 @@ window.NH = window.NH || {};
         g.append(s("path.so-st", { d: st.d, pathLength: "1", class: i >= baseCount ? "mark" : "", style: `--i:${n}` }));
         const p = NH.Geo.labelPos(st);
         g.append(s("text.so-n", { x: p.x, y: p.y + 2, "text-anchor": "middle", style: `--i:${n}` }, String(i + 1)));
+        if (st.hane) {
+          const e = st.pts[st.pts.length - 1], q = st.pts[st.pts.length - 4];
+          const ang = (Math.atan2(e.y - q.y, e.x - q.x) * 180) / Math.PI;
+          g.append(s("path.so-hane", { d: "M-3.2,-3.2 L1.6,0 L-3.2,3.2", transform: `translate(${e.x.toFixed(1)} ${e.y.toFixed(1)}) rotate(${ang.toFixed(0)}) translate(4 0)`, style: `--i:${n}` }));
+        }
         n++;
       });
       svg.append(g);
@@ -358,8 +374,11 @@ window.NH = window.NH || {};
     function onEvent(e) {
       if (e.type === "stroke") {
         if (e.ok) {
-          feedback.textContent = e.index + 1 < e.total ? `Stroke ${e.index + 1} ✓ ${style === "accuracy" ? e.accuracy + "% " : ""}· next: stroke ${e.index + 2} of ${e.total}` : "";
-          feedback.className = "feedback ok";
+          const n = e.index + 1;
+          if (e.hane === "missing") feedback.textContent = `Stroke ${n} ✓, but it ends with a hane: flick up as you lift the pen.`;
+          else if (e.hane === "ok") feedback.textContent = `Stroke ${n} ✓ with a clean hane flick.${n < e.total ? ` Next: stroke ${n + 1}.` : ""}`;
+          else feedback.textContent = n < e.total ? `Stroke ${n} ✓ ${style === "accuracy" ? e.accuracy + "% " : ""}· next: stroke ${n + 1} of ${e.total}` : "";
+          feedback.className = e.hane === "missing" ? "feedback tip" : "feedback ok";
         } else {
           feedback.textContent = e.message;
           feedback.className = "feedback no";
@@ -369,7 +388,7 @@ window.NH = window.NH || {};
         results[pos] = e.score;
         store.recordWrite(c, e.score);
         feedback.className = "feedback ok";
-        feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}`;
+        feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}${e.haneMissed ? " · remember the hane flick" : ""}`;
         setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
         drawSeq();
         const nextIdx = results.findIndex((r, i) => r == null && i > pos);
@@ -565,8 +584,12 @@ window.NH = window.NH || {};
     dlg.append(h("div.sheet", { role: "dialog", "aria-modal": "true", "aria-label": "Settings" },
       h("div.sheet-head", h("h2", "Settings"), iconBtn("close", "Close", () => { off(); close(); })),
       h("label.row", h("span", "Sound effects"), h("input#sound", { type: "checkbox", checked: st.sound ? true : null, onchange: (e) => store.set("sound", e.target.checked) })),
+      h("div.row.col", h("label", { for: "volume" }, "Effects volume"),
+        h("input#volume", { type: "range", min: "0", max: "1", step: "0.05", value: String(st.volume ?? 0.8), oninput: (e) => Audio.setVolume(parseFloat(e.target.value)), onchange: () => Audio.accept(store.settings.style, 2, 5) })),
+      Audio.canVibrate ? h("label.row", h("span", "Vibrate on each stroke"), h("input#vibrate", { type: "checkbox", checked: st.vibrate ? true : null, onchange: (e) => { store.set("vibrate", e.target.checked); Audio.vibrate("accept"); } })) : null,
       h("div.row.col", h("label", { for: "voice" }, "Japanese voice"), h("div.inline", voiceSel, btn("Test", () => say("こんにちは、ひらがなを かきましょう"), "ghost", "speaker")),
-        h("p.muted", TTS.hasJapanese ? "Uses your device's built-in speech, which works offline." : "Your device has no Japanese voice yet. Android: Settings → System → Text-to-speech → Google → install Japanese. iPhone: Settings → Accessibility → Spoken Content → Voices → Japanese.")),
+        h("p.muted", TTS.hasJapanese ? "Uses your device's built-in speech, which works offline." : "Your device has no Japanese voice yet. Android: Settings → System → Text-to-speech → Google → install Japanese. iPhone: Settings → Accessibility → Spoken Content → Voices → Japanese."),
+        TTS.native && !TTS.hasJapanese ? btn("Install Japanese voice", () => TTS.installVoice(), "ghost", "speaker") : null),
       h("div.row.col", h("label", { for: "rate" }, "Speaking speed"),
         h("input#rate", { type: "range", min: "0.5", max: "1.2", step: "0.05", value: String(st.rate), oninput: (e) => store.set("rate", parseFloat(e.target.value)) })),
       h("div.row", h("span", "Progress"), btn("Erase…", () => (confirmRow.hidden = false), "ghost")),
@@ -579,7 +602,9 @@ window.NH = window.NH || {};
   window.addEventListener("pointerdown", () => Audio.unlock(), { once: true });
 
   // Installable PWA when served over http(s) (ignored inside sandboxes).
-  if ("serviceWorker" in navigator && location.protocol.startsWith("http") && document.querySelector('link[rel="manifest"]')) {
+  // Not in the Android app, which already ships every file inside the APK.
+  const nativeApp = window.Capacitor?.isNativePlatform?.();
+  if (!nativeApp && "serviceWorker" in navigator && location.protocol.startsWith("http") && document.querySelector('link[rel="manifest"]')) {
     navigator.serviceWorker.register("sw.js").catch(() => {});
   }
 

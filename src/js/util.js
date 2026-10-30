@@ -55,7 +55,7 @@ window.NH = window.NH || {};
   // Persistent settings and progress. Storage may be unavailable; the app works without it.
   const KEY = "kaku.v1";
   const defaults = {
-    settings: { style: "accuracy", assist: "trace", sound: true, rate: 0.85, voice: "" },
+    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "" },
     progress: {}, // char → { best, last, tries, right, wrong }
   };
   let state = structuredClone(defaults);

@@ -152,3 +152,46 @@ test("stroke number labels stay inside the box", () => {
     }
   }
 });
+
+describe("stroke endings (hane)", () => {
+  const { hasHook } = NH.Geo;
+  // Removes the last `cut` units of a stroke: the same stroke without its flick.
+  const trim = (raw, cut) => {
+    const pts = resample(raw, 200);
+    const keep = Math.round(200 * (1 - cut / length(pts)));
+    return pts.slice(0, keep);
+  };
+
+  test("the model marks exactly the textbook hooks", () => {
+    const marked = [];
+    for (const ch of chars) strokesOf(ch).forEach((st, i) => st.hane && marked.push(`${ch}${i + 1}`));
+    assert.deepEqual(marked.sort(), [
+      "い1", "か1", "が1", "き3", "ぎ3", "け1", "げ1", "さ2", "ざ2", "せ2", "ぜ2", "に1", "は1", "ば1", "ぱ1",
+      "ほ1", "ぼ1", "ぽ1", "む2", "り1", "ぃ1", "ゑ1",
+    ].sort());
+  });
+
+  test("a stroke written with its flick is recognised", () => {
+    const rnd = makeRng(21);
+    let ok = 0, n = 0;
+    for (const ch of chars) for (const st of strokesOf(ch)) {
+      if (!st.hane) continue;
+      for (let k = 0; k < 5; k++) { ok += hasHook(humanize(NH, st, rnd, { jitter: 1.5, shift: 6 })); n++; }
+    }
+    assert.ok(ok / n > 0.9, `${ok}/${n} flicks recognised`);
+  });
+
+  test("the same stroke stopped before the flick is not", () => {
+    for (const ch of ["い", "け", "は", "り", "に"]) {
+      const st = strokesOf(ch)[0];
+      assert.equal(hasHook(trim(st.raw, 15)), false, `${ch}: trimmed stroke still has a hook`);
+      assert.equal(hasHook(st.raw), true, `${ch}: model stroke has no hook`);
+    }
+  });
+
+  test("a straight or gently curved stroke has no hook", () => {
+    assert.equal(hasHook([{ x: 10, y: 10 }, { x: 10, y: 90 }]), false);
+    assert.equal(hasHook(strokesOf("し")[0].raw), false);
+    assert.equal(hasHook(strokesOf("つ")[0].raw), false);
+  });
+});

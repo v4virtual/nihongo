@@ -252,7 +252,7 @@ window.NH = window.NH || {};
     paint(ctx, pts, live) {
       const w = this.w;
       if (this.style === "calligraphy") Ink.brush(ctx, pts, { w, scale: 360 / this.size, live });
-      else if (this.style === "neon") Ink.neon(ctx, pts, { w, color: this.color, intensity: live ? 0.85 : 1 });
+      else if (this.style === "neon") Ink.neon(ctx, pts, { w, color: this.color, intensity: live ? 0.85 : 1, live });
       else Ink.pencil(ctx, pts, { w });
     }
 
@@ -325,15 +325,22 @@ window.NH = window.NH || {};
       const box = pxPts.map((p) => ({ x: p.x / this.k, y: p.y / this.k, t: p.t, p: p.p }));
       const expected = this.next;
       const res = Geo.judge(box, this.strokes, expected, this.done, this.assist);
-      if (res.status === "ok") this.accept(expected, box, pxPts, res.grade.accuracy);
+      if (res.status === "ok") {
+        // A hane stroke written without its flick still counts, with a tip and a small deduction.
+        const ref = this.strokes[expected];
+        const hane = ref.hane ? (Geo.hasHook(box) ? "ok" : "missing") : null;
+        const acc = hane === "missing" ? Math.max(0, res.grade.accuracy - 8) : res.grade.accuracy;
+        this.accept(expected, box, pxPts, acc, hane);
+      }
       else this.reject(res, pxPts);
     }
 
-    accept(idx, box, pxPts, acc) {
+    accept(idx, box, pxPts, acc, hane = null) {
       this.done.add(idx);
-      this.user.push({ idx, pts: box, acc });
+      this.user.push({ idx, pts: box, acc, hane });
       this.missesHere = 0;
       Audio.accept(this.style, this.done.size - 1, this.strokes.length);
+      Audio.vibrate("accept");
       const ref = this.strokes[idx];
       const end = pxPts[pxPts.length - 1];
       if (this.style === "neon") {
@@ -347,13 +354,14 @@ window.NH = window.NH || {};
         if (v > 1.4) this.splatter(a, Math.atan2(a.y - b.y, a.x - b.x), v);
       } else {
         this.badge(end, acc);
-        if (acc < 85) this.showRef(idx);
+        if (acc < 85 && hane !== "missing") this.showRef(idx);
       }
+      if (hane === "missing") this.showHane(idx);
       this.clearLive(false);
       this.renderInk();
       this.drawGhost();
       this.drawHints();
-      this.onEvent({ type: "stroke", ok: true, index: idx, total: this.strokes.length, accuracy: acc });
+      this.onEvent({ type: "stroke", ok: true, index: idx, total: this.strokes.length, accuracy: acc, hane });
       if (this.next < 0) setTimeout(() => this.finish(), this.style === "neon" ? 650 : 250);
     }
 
@@ -361,6 +369,7 @@ window.NH = window.NH || {};
       this.misses++;
       this.missesHere++;
       Audio.reject(this.style);
+      Audio.vibrate("reject");
       const n = this.next + 1;
       let msg;
       if (res.status === "order") msg = `That's stroke ${res.actual + 1}. Stroke order matters: write stroke ${n} first.`;
@@ -404,6 +413,7 @@ window.NH = window.NH || {};
       else this.neonSign(mark, score);
       if (!redraw) {
         Audio.complete(this.style, score);
+        Audio.vibrate("complete");
         if (this.style === "neon") {
           const t = performance.now();
           this.tubes.forEach((tb) => (tb.surge = t));
@@ -412,7 +422,7 @@ window.NH = window.NH || {};
         } else if (this.style === "calligraphy") {
           this.petals(26);
         }
-        this.onEvent({ type: "done", score, misses: this.misses, label, strokes: this.user.map((u) => u.acc) });
+        this.onEvent({ type: "done", score, misses: this.misses, label, strokes: this.user.map((u) => u.acc), haneMissed: this.user.filter((u) => u.hane === "missing").length });
       }
     }
 
@@ -487,6 +497,19 @@ window.NH = window.NH || {};
       setTimeout(() => p.remove(), 1300);
     }
 
+    // Shows where the flick should go: the model's last stretch, with an arrow.
+    showHane(idx) {
+      const st = this.strokes[idx];
+      const tail = st.pts.slice(-8);
+      const p = tail[tail.length - 1], q = tail[tail.length - 3];
+      const ang = (Math.atan2(p.y - q.y, p.x - q.x) * 180) / Math.PI;
+      const g = s("g.hane-flash",
+        s("polyline", { points: tail.map((t) => `${t.x.toFixed(1)},${t.y.toFixed(1)}`).join(" ") }),
+        s("path", { d: "M-3,-3 L1.5,0 L-3,3", transform: `translate(${p.x} ${p.y}) rotate(${ang})` }));
+      this.marks.append(g);
+      setTimeout(() => g.remove(), 1800);
+    }
+
     // ── demo ───────────────────────────────────────────────
     /* Plays the stroke order with the current style's ink, then restores the
      * learner's own strokes. Speed rises and falls like a real hand, which is
@@ -505,7 +528,7 @@ window.NH = window.NH || {};
       for (let i = 0; i < this.strokes.length; i++) {
         if (this.demoToken !== token) return;
         const st = this.strokes[i];
-        const pts = timed(Geo.resample(st.raw, Math.max(12, Math.round(st.len * 0.9))).map((p) => this.toPx(p)), st.len);
+        const pts = timed(Geo.resample(st.raw, Math.max(12, Math.round(st.len * 0.9))).map((p) => this.toPx(p)), st.len, st.hane);
         Audio.drawStart(this.style);
         const t0 = performance.now();
         const dur = pts[pts.length - 1].t - pts[0].t;
@@ -618,18 +641,20 @@ window.NH = window.NH || {};
         for (const q of this.particles) {
           if (q.kind === "spark") {
             q.vy += 0.08; q.vx *= 0.97;
+            // A soft wide streak under a bright thin one reads as a glowing spark.
             ctx.globalCompositeOperation = "lighter";
             ctx.strokeStyle = q.color;
-            ctx.globalAlpha = q.life;
-            ctx.lineWidth = q.size;
-            ctx.shadowColor = q.color;
-            ctx.shadowBlur = 8;
-            ctx.beginPath();
-            ctx.moveTo(q.x, q.y);
+            ctx.lineCap = "round";
+            const x0 = q.x, y0 = q.y;
             q.x += q.vx; q.y += q.vy;
-            ctx.lineTo(q.x, q.y);
-            ctx.stroke();
-            ctx.shadowBlur = 0;
+            for (const [width, alpha] of [[q.size * 4, 0.18], [q.size, 1]]) {
+              ctx.globalAlpha = q.life * alpha;
+              ctx.lineWidth = width;
+              ctx.beginPath();
+              ctx.moveTo(x0, y0);
+              ctx.lineTo(q.x, q.y);
+              ctx.stroke();
+            }
           } else if (q.kind === "ink") {
             q.vx *= q.drag; q.vy *= q.drag;
             q.x += q.vx; q.y += q.vy;
@@ -682,14 +707,20 @@ window.NH = window.NH || {};
   }
 
   // Gives demo points timestamps: ease in, cruise, ease out.
-  function timed(pts, len) {
+  function timed(pts, len, hane = false) {
     const dur = 160 + len * 3.4;
     const n = pts.length;
-    return pts.map((p, i) => {
+    const out = pts.map((p, i) => {
       const u = i / (n - 1);
       const e = 0.6 * u * u * (3 - 2 * u) + 0.4 * u; // press in, sweep, settle
       return { ...p, t: e * dur, p: 0 };
     });
+    if (hane) {
+      // Flick the last stretch quickly, so the brush tapers into the hook.
+      const k = Math.floor(n * 0.86), t0 = out[k].t;
+      for (let i = k + 1; i < n; i++) out[i].t = t0 + (out[i].t - t0) * 0.3;
+    }
+    return out;
   }
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));

@@ -23,10 +23,14 @@ release; order within a group is a rough priority.
 ## v0.2 — Polish and feel
 
 - [ ] Real-device tuning of grading tolerances and brush dynamics (Android phones, iPad + Pencil, S Pen)
-- [ ] Haptics on stroke accept/reject (`navigator.vibrate`) on Android
+- [x] Faster neon rendering while writing (no canvas blur on the live stroke or sparks; about 3× faster in tests)
+- [x] Word and phrase cards fit long phrases at phone widths
+- [x] Haptics on stroke accept/reject/complete (`navigator.vibrate`) on Android, with a setting
 - [ ] Left-handed mode and a "large cell" layout for tablets
-- [ ] Stroke-ending feedback: tome / hane / harai detection ("that stroke should flick up")
-- [ ] Sound packs and volume per style; mute music but keep feedback
+- [x] Stroke-ending feedback for **hane** (flicks): detected from the stroke data, checked on every stroke, shown on the explain page and played in the demo
+- [ ] Stroke-ending feedback for **tome / harai** (stop vs. sweep): needs hand-checked labels per stroke, since KanjiVG doesn't record them
+- [x] Effects volume control
+- [ ] Sound packs per style
 - [ ] Light/dark variants of the app chrome
 - [ ] Accessibility pass: screen-reader descriptions of strokes, larger text option
 
@@ -53,7 +57,9 @@ release; order within a group is a rough priority.
 ## Platform
 
 - [x] Deploy to GitHub Pages on every green push to `main`; installable on Android/iOS, offline, auto-updating
-- [ ] Android app: wrap the PWA with Capacitor (or a Trusted Web Activity) for the Play Store
+- [x] Android app (APK) with Capacitor: offline, native text-to-speech and haptics, built and published as a GitHub Release on every green push to `main`
+- [ ] Play Store listing (needs an .aab, store assets and a privacy note)
+- [ ] Bundle the fonts in the APK (they load from Google Fonts today, so a first launch offline uses fallback fonts)
 - [ ] Optional sync across devices (account-free export/import first)
 - [ ] Offline neural TTS for consistent voices across devices. Candidates to evaluate:
   - VOICEVOX (free, high-quality Japanese voices; check each voice's credit terms)

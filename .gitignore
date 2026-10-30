@@ -1,1 +1,5 @@
 node_modules/
+# Android signing material: never commit (see tools/make-release-key.sh)
+*.jks
+*.keystore
+*.password

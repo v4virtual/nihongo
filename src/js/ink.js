@@ -206,7 +206,7 @@ window.NH = window.NH || {};
   }
 
   // ── neon ─────────────────────────────────────────────────
-  function neon(ctx, pts, { w, color = "#ff3ea5", intensity = 1 }) {
+  function neon(ctx, pts, { w, color = "#ff3ea5", intensity = 1, live = false }) {
     if (!pts.length || intensity <= 0) return;
     const sm = chaikin(pts, 2);
     ctx.save();
@@ -214,6 +214,23 @@ window.NH = window.NH || {};
     ctx.lineJoin = "round";
     ctx.globalCompositeOperation = "lighter";
     ctx.strokeStyle = color;
+    if (live) {
+      // While the pen moves this is redrawn every frame, so fake the glow with
+      // wide translucent passes; shadowBlur is far too slow on phones.
+      for (const [width, alpha] of [[1.9, 0.08], [1.3, 0.14], [0.8, 0.3], [0.42, 0.9]]) {
+        ctx.globalAlpha = alpha * intensity;
+        ctx.lineWidth = w * width;
+        path(ctx, sm);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 0.9 * intensity;
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = w * 0.16;
+      path(ctx, sm);
+      ctx.stroke();
+      ctx.restore();
+      return;
+    }
     ctx.shadowColor = color;
     ctx.globalAlpha = 0.35 * intensity;
     ctx.shadowBlur = w * 1.8;

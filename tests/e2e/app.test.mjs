@@ -262,6 +262,38 @@ describe("layout", () => {
   }
 });
 
+describe("word and phrase cards", () => {
+  // Every piece of text stays inside its card and nothing overlaps (long phrases wrap).
+  for (const width of [360, 412]) {
+    test(`fit their content at ${width}px`, T, async () => {
+      for (const route of ["words", "phrases"]) {
+        await withPage(route, { width, height: 800 }, async (page) => {
+          const bad = await page.evaluate(() => {
+            const out = [];
+            const box = (el) => el.getBoundingClientRect();
+            const overlap = (a, b) => a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1;
+            for (const card of document.querySelectorAll(".wcard")) {
+              const c = box(card);
+              const parts = [".wk", ".wm b", ".wm > span", ".wlv", ".icon-btn"].map((q) => [q, card.querySelector(q)]).filter(([, el]) => el);
+              for (const [q, el] of parts) {
+                const r = box(el);
+                if (r.left < c.left - 1 || r.right > c.right + 1 || r.bottom > c.bottom + 1) out.push(`${card.querySelector(".wk").textContent} ${q} sticks out`);
+              }
+              for (let i = 0; i < parts.length; i++) for (let j = i + 1; j < parts.length; j++) {
+                if (overlap(box(parts[i][1]), box(parts[j][1]))) out.push(`${card.querySelector(".wk").textContent}: ${parts[i][0]} overlaps ${parts[j][0]}`);
+              }
+              const t = card.querySelector(".wm b");
+              if (t.scrollWidth > t.clientWidth + 1) out.push(`${card.querySelector(".wk").textContent}: meaning is cut off`);
+            }
+            return out;
+          });
+          assert.deepEqual(bad, []);
+        });
+      }
+    });
+  }
+});
+
 describe("single-file build", () => {
   test("dist/kaku-standalone.html works on its own", T, async () => {
     execSync("node tools/build-artifact.mjs", { stdio: "ignore" });
@@ -277,4 +309,43 @@ describe("single-file build", () => {
     assert.deepEqual(errors, []);
     await context.close();
   });
+});
+
+describe("stroke endings", () => {
+  test("a hane stroke without its flick is accepted with a tip", T, () => withPage("w-3044", {}, async (page) => {
+    const S = await strokesOnScreen(page);
+    await drawPath(page, S[0].slice(0, -6), { jitter: 0 });
+    assert.match(await feedback(page), /ends with a hane/);
+    assert.equal(await page.locator(".marks .hane-flash").count(), 1);
+    assert.equal(await page.locator(".feedback.tip").count(), 1);
+  }));
+
+  test("writing the flick gets confirmed", T, () => withPage("w-3044", {}, async (page) => {
+    const S = await strokesOnScreen(page);
+    await drawPath(page, S[0], { jitter: 0 });
+    assert.match(await feedback(page), /clean hane/);
+  }));
+
+  test("the explain page names the hane strokes", T, () => withPage("k-3051", {}, async (page) => {
+    assert.match(await page.locator(".notes").textContent(), /Stroke 1 ends with a hane/);
+    assert.equal(await page.locator(".so-hane").count(), 1);
+  }));
+});
+
+describe("settings: volume and vibration", () => {
+  test("volume and vibration are saved", T, () => withPage("hiragana", {}, async (page) => {
+    await page.locator(".bar .icon-btn[aria-label=Settings]").click();
+    await page.locator("#volume").fill("0.3");
+    assert.equal((await saved(page)).settings.volume, 0.3);
+    await page.locator("#vibrate").uncheck();
+    assert.equal((await saved(page)).settings.vibrate, false);
+  }));
+
+  test("strokes trigger vibration when it is on", T, () => withPage("w-304f", {}, async (page) => {
+    await page.evaluate(() => { window.__buzz = []; navigator.vibrate = (p) => { window.__buzz.push(p); return true; }; NH.store.set("vibrate", true); });
+    await writeChar(page);
+    await page.locator(".result:not([hidden])").waitFor({ timeout: 5000 });
+    const buzz = await page.evaluate(() => window.__buzz);
+    assert.ok(buzz.length >= 2, JSON.stringify(buzz)); // stroke accepted + character complete
+  }));
 });

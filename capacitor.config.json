@@ -1,0 +1,16 @@
+{
+  "appId": "io.github.v4virtual.kaku",
+  "appName": "Kaku",
+  "webDir": "src",
+  "backgroundColor": "#0e1424",
+  "android": {
+    "backgroundColor": "#0e1424"
+  },
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "css",
+      "initialViewportFitValueHint": "cover",
+      "style": "DARK"
+    }
+  }
+}
