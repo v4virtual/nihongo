@@ -28,14 +28,11 @@ async function withPage(route, opts, fn) {
 }
 
 describe("home", () => {
-  test("shows three station signs; kanji is still coming", T, () => withPage("home", {}, async (page) => {
+  test("shows three station signs, all open; hiragana leads to Today", T, () => withPage("home", {}, async (page) => {
     assert.equal(await page.locator(".eki").count(), 3);
-    assert.equal(await page.locator(".eki.soon").count(), 1);
-    await page.locator(".eki.soon").first().click();
-    await page.locator(".toast").waitFor();
-    assert.match(await page.locator(".toast").textContent(), /coming soon/);
-    assert.equal(new URL(page.url()).hash, "#home");
-    await page.locator(".eki:not(.soon)").first().click();
+    assert.equal(await page.locator(".eki.soon").count(), 0);
+    assert.deepEqual(await page.locator(".eki").evaluateAll((els) => els.map((e) => e.getAttribute("href"))), ["#today", "#katakana-today", "#kanji-today"]);
+    await page.locator(".eki").first().click();
     await page.waitForURL(/#today$/);
   }));
 });

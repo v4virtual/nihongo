@@ -56,7 +56,8 @@ describe("kana info", () => {
   const info = NH.KANA_INFO;
 
   test("covers every character with stroke data", () => {
-    assert.deepEqual([...Object.keys(info)].sort(), [...Object.keys(NH.STROKES)].sort());
+    const kana = Object.keys(NH.STROKES).filter((c) => /[ぁ-ゔァ-ヶー]/.test(c));
+    assert.deepEqual([...Object.keys(info)].sort(), kana.sort());
   });
 
   test("basic kana have an origin kanji and a mnemonic", () => {

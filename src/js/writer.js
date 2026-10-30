@@ -405,7 +405,12 @@ window.NH = window.NH || {};
       Audio.vibrate("reject");
       const n = this.next + 1;
       let msg;
-      if (res.status === "order") msg = `That's stroke ${res.actual + 1}. Stroke order matters: write stroke ${n} first.`;
+      // In a kanji, name the parts: "That's part of 木. Finish 亻 first."
+      const parts = NH.PARTS?.[this.ch] || [];
+      const partOf = (i) => parts.find((p) => p.strokes.includes(i));
+      const [want, got] = [partOf(this.next), partOf(res.actual)];
+      if (res.status === "order" && want && got && want !== got) msg = `That's part of ${got.el}. Finish ${want.el} first: stroke ${n} comes next.`;
+      else if (res.status === "order") msg = `That's stroke ${res.actual + 1}. Stroke order matters: write stroke ${n} first.`;
       else if (res.status === "reversed") msg = `Right shape, wrong direction. Start stroke ${n} from the other end.`;
       else msg = this.assist === "memory" && this.missesHere < 3 ? `Not quite. Think about where stroke ${n} starts.` : `Not quite. Follow stroke ${n}${ASSIST[this.assist].startDot ? " from the dot" : ""}.`;
       if (this.style === "accuracy") this.dust(pxPts);

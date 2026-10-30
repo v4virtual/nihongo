@@ -1,7 +1,7 @@
 {
   "name": "Kaku Hiragana",
   "short_name": "Kaku",
-  "description": "Learn hiragana and katakana by writing them, stroke by stroke.",
+  "description": "Learn hiragana, katakana and your first kanji by writing them, stroke by stroke.",
   "start_url": "./#home",
   "display": "standalone",
   "orientation": "portrait",

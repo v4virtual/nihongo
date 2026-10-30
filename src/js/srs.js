@@ -5,7 +5,8 @@
  * is "what's due today".
  *
  * Card ids: "k:か" (a kana or combo), "w:mizu" (word), "p:ohayou" (phrase),
- * "r:<id>" (reading item). Times are in days (ms / DAY). */
+ * "r:<id>" (reading item), "j:日" (kanji), "v:kw-nihon" (word written with
+ * kanji). Times are in days (ms / DAY). */
 window.NH = window.NH || {};
 
 (function () {
@@ -84,12 +85,15 @@ window.NH = window.NH || {};
 
   function deck() { return NH.store.srs(); }
   const card = (id) => deck().cards[id] || null;
-  const isLearned = (ch) => !!card("k:" + ch);
+  const isLearned = (ch) => !!card((NH.KANJI_INFO?.[ch] ? "j:" : "k:") + ch);
+  const IS_KANJI = /[\u3400-\u9fff々]/;
 
   // Can this item be introduced yet? Kana need their base kana; words and
   // reading items need every kana in them.
   function ready(id) {
     const [kind, key] = [id[0], id.slice(2)];
+    // Kanji start once every basic hiragana has been started: readings need them.
+    if (kind === "j") return kanaOrder("hiragana").slice(0, 46).every((c) => isLearned(c));
     if (kind === "k") {
       const chars = [...key];
       if (chars.length > 1) return chars.every((c) => isLearned(NH.SMALL.has(c) ? baseOfSmall(c) : c));
@@ -97,7 +101,7 @@ window.NH = window.NH || {};
       return !base || isLearned(base);
     }
     const text = itemText(id);
-    return !!text && [...text].every((c) => isLearned(NH.SMALL.has(c) ? baseOfSmall(c) : c) || !NH.KANA_RE.test(c));
+    return !!text && [...text].every((c) => isLearned(NH.SMALL.has(c) ? baseOfSmall(c) : c) || !(NH.KANA_RE.test(c) || IS_KANJI.test(c)));
   }
   const baseOfSmall = (c) => NH.KANA_INFO[c]?.base || c;
 
@@ -106,6 +110,7 @@ window.NH = window.NH || {};
     if (id[0] === "w") return NH.WORDS.find((w) => w.id === key)?.kana;
     if (id[0] === "p") return NH.PHRASES.find((w) => w.id === key)?.kana;
     if (id[0] === "r") return (NH.READING || []).find((r) => r.id === key)?.kana.replace(/\s/g, "");
+    if (id[0] === "v") return (NH.KANJI_WORDS || []).find((w) => w.id === key)?.text;
     return key;
   }
 
@@ -117,7 +122,7 @@ window.NH = window.NH || {};
     const due = Object.entries(dk.cards).filter(([, c]) => c.due <= now)
       .sort((a, b) => retrievability((now - a[1].last) / DAY, a[1].s) - retrievability((now - b[1].last) / DAY, b[1].s))
       .map(([id]) => id);
-    const day = dk.day && dk.day.key === dayKey(now) ? dk.day : { key: dayKey(now), kana: 0, other: 0 };
+    const day = dk.day && dk.day.key === dayKey(now) ? dk.day : { key: dayKey(now), kana: 0, other: 0, kanji: 0 };
     const limit = NH.store.settings.dailyNew ?? 5;
     const fresh = [];
     let kanaLeft = Math.max(0, limit - day.kana);
@@ -129,11 +134,19 @@ window.NH = window.NH || {};
       // Combos and voiced kana wait until their parts have been reviewed once.
       if (!dk.cards[id] && ready(id)) fresh.push(id);
     }
+    // New kanji have their own, smaller daily allowance.
+    let kanjiLeft = due.length > 30 ? 0 : Math.max(0, (NH.store.settings.dailyKanji ?? 2) - (day.kanji || 0));
+    for (const x of NH.KANJI || []) {
+      if (kanjiLeft <= 0) break;
+      const id = "j:" + x.k;
+      if (!dk.cards[id] && ready(id)) { fresh.push(id); kanjiLeft--; }
+    }
     let otherLeft = Math.max(0, 2 - day.other);
     const others = [
       ...NH.WORDS.map((w) => "w:" + w.id),
       ...(NH.READING || []).map((r) => "r:" + r.id),
       ...NH.PHRASES.map((w) => "p:" + w.id),
+      ...(NH.KANJI_WORDS || []).map((w) => "v:" + w.id),
     ].filter((id) => !dk.cards[id] && ready(id))
       .sort((a, b) => levelOf(a) - levelOf(b));
     for (const id of others) { if (otherLeft-- <= 0) break; fresh.push(id); }
@@ -141,7 +154,8 @@ window.NH = window.NH || {};
   }
   function levelOf(id) {
     const key = id.slice(2);
-    const item = id[0] === "w" ? NH.WORDS.find((w) => w.id === key) : id[0] === "p" ? NH.PHRASES.find((w) => w.id === key) : (NH.READING || []).find((r) => r.id === key);
+    const list = { w: NH.WORDS, p: NH.PHRASES, r: NH.READING, v: NH.KANJI_WORDS }[id[0]] || [];
+    const item = list.find((w) => w.id === key);
     return item?.level || 2;
   }
 
@@ -151,8 +165,10 @@ window.NH = window.NH || {};
     const isNew = !dk.cards[id];
     dk.cards[id] = schedule(dk.cards[id] || {}, grade, now);
     if (isNew) {
-      if (!dk.day || dk.day.key !== dayKey(now)) dk.day = { key: dayKey(now), kana: 0, other: 0 };
-      id[0] === "k" ? dk.day.kana++ : dk.day.other++;
+      if (!dk.day || dk.day.key !== dayKey(now)) dk.day = { key: dayKey(now), kana: 0, other: 0, kanji: 0 };
+      if (id[0] === "k") dk.day.kana++;
+      else if (id[0] === "j") dk.day.kanji = (dk.day.kanji || 0) + 1;
+      else dk.day.other++;
     }
     NH.store.saveSrs();
     return dk.cards[id];

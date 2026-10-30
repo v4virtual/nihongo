@@ -9,6 +9,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const cacheDir = process.argv[2];
 // Hiragana ぁ..ゔ, katakana ァ..ヴ and the long-vowel mark ー.
 const RANGES = [[0x3041, 0x3094], [0x30a1, 0x30f4], [0x30fc, 0x30fc]];
+// The 80 kanji of JLPT N5 (the classic list), in the order kanji.js teaches them.
+const KANJI = "一二三四五六七八九十百千万円日月火水木金土年時午前後今毎半間人子女男父母友先生名上下中左右外東西南北山川天気雨大小長高白本学校語電車国何見行来出入休食飲書読話聞";
 
 async function load(hex) {
   if (cacheDir) return readFile(join(cacheDir, `${hex}.svg`), "utf8");
@@ -17,13 +19,37 @@ async function load(hex) {
   return res.text();
 }
 
-const out = {};
-for (const cp of RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i))) {
+/* Walks the stroke groups: returns the strokes and the kanji's top-level
+ * parts, e.g. 休 → 亻 (strokes 0, 1) + 木 (2–5). */
+function parse(svg) {
+  const body = svg.slice(svg.indexOf("kvg:StrokePaths_"), svg.indexOf("kvg:StrokeNumbers_"));
+  const paths = [], parts = [], stack = [];
+  for (const m of body.matchAll(/<g\b([^>]*)>|<\/g>|<path\b([^>]*?)\/?>/g)) {
+    if (m[0].startsWith("</g")) {
+      const g = stack.pop();
+      if (stack.length !== 1 || !g.el || paths.length <= g.from) continue;
+      const strokes = Array.from({ length: paths.length - g.from }, (_, i) => g.from + i);
+      // A part split around others (囗 in 国, 二 in 五) is one part with a gap.
+      const same = g.part && parts.find((q) => q.el === g.el && q.split);
+      if (same) same.strokes.push(...strokes);
+      else parts.push({ el: g.el, strokes, ...(g.pos && { pos: g.pos }), ...(g.radical && { radical: true }), ...(g.part && { split: true }) });
+    } else if (m[0].startsWith("<g")) {
+      const a = (k) => (m[1].match(new RegExp(`kvg:${k}="([^"]+)"`)) || [])[1];
+      stack.push({ el: a("element"), pos: a("position"), radical: !!a("radical"), part: a("part"), from: paths.length });
+    } else paths.push(m[2].match(/\sd="([^"]+)"/)[1]);
+  }
+  return { paths, parts: parts.map(({ split, ...q }) => q) };
+}
+
+const out = {}, parts = {};
+const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI].map((c) => c.codePointAt(0))];
+for (const cp of cps) {
   const hex = cp.toString(16).padStart(5, "0");
-  const svg = await load(hex);
-  const paths = [...svg.matchAll(/<path[^>]*\sd="([^"]+)"/g)].map((m) => m[1]);
+  const { paths, parts: p } = parse(await load(hex));
   if (!paths.length) throw new Error(`${hex}: no strokes`);
-  out[String.fromCodePoint(cp)] = paths;
+  const ch = String.fromCodePoint(cp);
+  out[ch] = paths;
+  if (p.length > 1) parts[ch] = p;
 }
 
 const body = Object.entries(out)
@@ -41,6 +67,10 @@ window.NH = window.NH || {};
 NH.STROKES = {
 ${body}
 };
+// Top-level parts of each kanji that has more than one: the element and its stroke indexes.
+NH.PARTS = {
+${Object.entries(parts).map(([ch, p]) => `  ${JSON.stringify(ch)}: ${JSON.stringify(p)}`).join(",\n")}
+};
 `
 );
-console.log(`Wrote ${Object.keys(out).length} characters.`);
+console.log(`Wrote ${Object.keys(out).length} characters, ${Object.keys(parts).length} with parts.`);
