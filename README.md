@@ -113,7 +113,8 @@ npm test
   strokes, stroke order, all 84 kana) and data integrity (charts, readings,
   kana info, words, phrases, scene art, saved progress).
 - `npm run test:e2e` drives the real app in headless Chromium with a simulated
-  pen. It covers every screen, writing in all three styles and help levels,
+  pen, and runs an [axe-core](https://github.com/dequelabs/axe-core)
+  accessibility audit of every screen and style (any violation fails). It covers every screen, writing in all three styles and help levels,
   stroke-order and direction feedback, words, the quiz, settings, layouts at
   phone and desktop widths, and the single-file build.
 - GitHub Actions runs both on every pull request

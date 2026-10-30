@@ -38,17 +38,18 @@ export function serve() {
 
 /* Opens a fresh page (clean storage) and collects page errors. Speech is
  * replaced by a recorder so tests can check what would have been said. */
-export async function open(browser, base, route = "home", { width = 412, height = 860, style, assist } = {}) {
+export async function open(browser, base, route = "home", { width = 412, height = 860, style, assist, text } = {}) {
   const context = await browser.newContext({ viewport: { width, height } });
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   page.on("console", (m) => { if (m.type() === "error" && !/fonts\.(googleapis|gstatic)/.test(m.text())) errors.push(m.text()); });
-  await page.addInitScript(({ style, assist }) => {
-    const settings = { sound: false, ...(style && { style }), ...(assist && { assist }) };
-    try { localStorage.setItem("kaku.v1", JSON.stringify({ settings, progress: {} })); } catch {}
+  await page.addInitScript(({ style, assist, text }) => {
+    const settings = { sound: false, ...(style && { style }), ...(assist && { assist }), ...(text && { text }) };
+    // Seed only a fresh store, so a reload keeps what the test changed.
+    try { if (!localStorage.getItem("kaku.v1")) localStorage.setItem("kaku.v1", JSON.stringify({ settings, progress: {} })); } catch {}
     window.__said = [];
-  }, { style, assist });
+  }, { style, assist, text });
   await page.goto(base + "#" + route);
   await settle(page);
   await page.evaluate(() => { NH.TTS.speak = (t) => { window.__said.push(t); return true; }; });
