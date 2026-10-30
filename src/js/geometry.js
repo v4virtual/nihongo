@@ -112,11 +112,46 @@ window.NH = window.NH || {};
     const paths = (NH.STROKES && NH.STROKES[ch]) || [];
     const strokes = paths.map((d) => {
       const raw = flatten(d);
-      return { d, raw, pts: resample(raw), len: length(raw) };
+      const len = length(raw);
+      // A hane is a short upward flick at the end of a long stroke (い, け, は, り…).
+      return { d, raw, pts: resample(raw), len, hane: len >= 40 && endTurn(raw, 55) };
     });
     cache.set(ch, strokes);
     return strokes;
   }
+
+  // Point at arc length s back from the end of a polyline.
+  function fromEnd(pts, s) {
+    let acc = 0;
+    for (let i = pts.length - 1; i > 0; i--) {
+      const d = dist(pts[i], pts[i - 1]);
+      if (acc + d >= s) {
+        const t = (s - acc) / d;
+        return { x: pts[i].x + (pts[i - 1].x - pts[i].x) * t, y: pts[i].y + (pts[i - 1].y - pts[i].y) * t };
+      }
+      acc += d;
+    }
+    return pts[0];
+  }
+
+  /* True when the stroke ends with an upward flick: over its last few units the
+   * direction turns by more than `minDeg` from the body just before it. */
+  function endTurn(pts, minDeg, tails = [3, 4, 5, 6, 7, 8, 9]) {
+    const L = length(pts);
+    const end = pts[pts.length - 1];
+    for (const t of tails) {
+      if (L < t * 3) continue;
+      const a = fromEnd(pts, t), b = fromEnd(pts, t + 10);
+      let d = Math.abs(Math.atan2(end.y - a.y, end.x - a.x) - Math.atan2(a.y - b.y, a.x - b.x));
+      if (d > Math.PI) d = 2 * Math.PI - d;
+      if ((d * 180) / Math.PI > minDeg && end.y - a.y < -0.5) return true;
+    }
+    return false;
+  }
+
+  // Did the learner finish with a flick? Handwriting hooks are short and soft,
+  // so this looks at shorter tails and accepts a gentler turn than the model.
+  const hasHook = (userPts) => endTurn(smooth(userPts), 35, [2, 3, 4, 5, 6, 7, 8, 9]);
 
   // Tolerances in KanjiVG units (the box is 109 wide) per assist level.
   const TOL = { trace: 16, guide: 12.5, memory: 10.5 };
@@ -181,5 +216,5 @@ window.NH = window.NH || {};
     return { x: NH.clamp(p0.x - dx * 6 - dy * 5, 5, BOX - 5), y: NH.clamp(p0.y - dy * 6 + dx * 5, 6, BOX - 3) };
   }
 
-  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, TOL };
+  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, TOL };
 })();

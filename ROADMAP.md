@@ -23,10 +23,14 @@ release; order within a group is a rough priority.
 ## v0.2 — Polish and feel
 
 - [ ] Real-device tuning of grading tolerances and brush dynamics (Android phones, iPad + Pencil, S Pen)
-- [ ] Haptics on stroke accept/reject (`navigator.vibrate`) on Android
+- [x] Faster neon rendering while writing (no canvas blur on the live stroke or sparks; about 3× faster in tests)
+- [x] Word and phrase cards fit long phrases at phone widths
+- [x] Haptics on stroke accept/reject/complete (`navigator.vibrate`) on Android, with a setting
 - [ ] Left-handed mode and a "large cell" layout for tablets
-- [ ] Stroke-ending feedback: tome / hane / harai detection ("that stroke should flick up")
-- [ ] Sound packs and volume per style; mute music but keep feedback
+- [x] Stroke-ending feedback for **hane** (flicks): detected from the stroke data, checked on every stroke, shown on the explain page and played in the demo
+- [ ] Stroke-ending feedback for **tome / harai** (stop vs. sweep): needs hand-checked labels per stroke, since KanjiVG doesn't record them
+- [x] Effects volume control
+- [ ] Sound packs per style
 - [ ] Light/dark variants of the app chrome
 - [ ] Accessibility pass: screen-reader descriptions of strokes, larger text option
 

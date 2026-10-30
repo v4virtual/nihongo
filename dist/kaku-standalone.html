@@ -209,18 +209,23 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .chip[aria-pressed="true"] { background: var(--text); color: var(--night); border-color: var(--text); }
 .wlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 10px; }
 .wcard { display: flex; align-items: center; gap: 4px; background: var(--night-2); border: 1px solid var(--rule); border-radius: var(--r); padding-right: 6px; }
-.wcard-main { flex: 1; min-width: 0; display: grid; grid-template-columns: 44px auto 1fr auto; align-items: center; gap: 12px; padding: 12px 6px 12px 12px; text-decoration: none; }
-.wicon-wrap { width: 44px; height: 44px; display: grid; place-items: center; }
+/* Kana on its own line (long phrases wrap), meaning and romaji underneath. */
+.wcard-main {
+  flex: 1; min-width: 0; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-areas: "icon kana kana" "icon meta lv";
+  align-items: center; column-gap: 12px; row-gap: 2px; padding: 12px 6px 12px 12px; text-decoration: none;
+}
+.wicon-wrap { grid-area: icon; align-self: center; width: 44px; height: 44px; display: grid; place-items: center; }
 .wicon { width: 44px; height: 44px; }
 .wicon .ln, .wicon .ac { fill: none; stroke: var(--muted); stroke-width: 1.6px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
 .wicon .ac { stroke: var(--shu); }
 .wicon .fl { fill: none; }
-.wk { font-family: var(--f-kana); font-size: 24px; font-weight: 600; white-space: nowrap; }
-.wm { display: grid; min-width: 0; }
-.wm b { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.wm > span { color: var(--muted); font-size: 12px; }
+.wk { grid-area: kana; min-width: 0; font-family: var(--f-kana); font-size: 22px; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.wm { grid-area: meta; display: grid; min-width: 0; }
+.wm b { font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; }
+.wm > span { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
 .wkanji { margin-left: 8px; font-family: var(--f-kana); }
-.wlv { color: var(--line-h); font-size: 9px; letter-spacing: 2px; }
+.wk.long { font-size: 19px; }
+.wlv { grid-area: lv; align-self: end; padding-bottom: 3px; color: var(--line-h); font-size: 9px; letter-spacing: 2px; white-space: nowrap; }
 
 /* ── explain ─────────────────────────────────────────── */
 .modes {
@@ -251,6 +256,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .so-n { font: 700 6px var(--f-ui); fill: var(--shu); opacity: 1; }
 .so.play .so-st { stroke-dashoffset: 1; animation: so-draw 0.7s ease-in-out forwards; animation-delay: calc(var(--i) * 0.8s + 0.2s); }
 .so.play .so-n { opacity: 0; animation: so-num 0.2s forwards; animation-delay: calc(var(--i) * 0.8s + 0.1s); }
+.so-hane { fill: none; stroke: var(--shu); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.so.play .so-hane { opacity: 0; animation: so-num 0.2s forwards; animation-delay: calc(var(--i) * 0.8s + 0.8s); }
 @keyframes so-draw { to { stroke-dashoffset: 0; } }
 @keyframes so-num { to { opacity: 1; } }
 .so-tools { position: absolute; right: 8px; bottom: 8px; display: flex; gap: 2px; color: var(--sign-ink); }
@@ -348,6 +355,9 @@ body.scr-write { overflow: hidden; }
 @keyframes pulse { 50% { transform: scale(1.5); opacity: 0.55; } }
 .ref-overlay path, .ref-flash { fill: none; stroke: var(--shu); stroke-width: 0.9; stroke-linecap: round; opacity: 0.75; }
 .ref-flash { animation: flash 1.3s ease-out forwards; stroke-width: 1.4; }
+.hane-flash { animation: flash 1.8s ease-out forwards; }
+.hane-flash polyline, .hane-flash path { fill: none; stroke: var(--shu); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.stage[data-style="neon"] .hane-flash polyline, .stage[data-style="neon"] .hane-flash path { stroke: #ffe14d; filter: drop-shadow(0 0 2px #ffe14d); }
 @keyframes flash { from { opacity: 0.9; } to { opacity: 0; } }
 
 .badge {
@@ -363,6 +373,7 @@ body.scr-write { overflow: hidden; }
 }
 .feedback:empty { visibility: hidden; }
 .feedback.no { color: var(--no); }
+.feedback.tip { color: var(--fg); box-shadow: inset 0 0 0 1.5px var(--shu); }
 .actions { display: flex; justify-content: center; gap: 10px; padding-block: 2px 14px; }
 .stage .btn { background: var(--seg-bg); border-color: color-mix(in srgb, var(--fg) 25%, transparent); color: var(--fg); backdrop-filter: blur(6px); }
 .stage .btn.primary { background: var(--seg-on); color: var(--seg-on-fg); border-color: var(--seg-on); }
@@ -635,7 +646,7 @@ window.NH = window.NH || {};
   // Persistent settings and progress. Storage may be unavailable; the app works without it.
   const KEY = "kaku.v1";
   const defaults = {
-    settings: { style: "accuracy", assist: "trace", sound: true, rate: 0.85, voice: "" },
+    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "" },
     progress: {}, // char → { best, last, tries, right, wrong }
   };
   let state = structuredClone(defaults);
@@ -2595,11 +2606,46 @@ window.NH = window.NH || {};
     const paths = (NH.STROKES && NH.STROKES[ch]) || [];
     const strokes = paths.map((d) => {
       const raw = flatten(d);
-      return { d, raw, pts: resample(raw), len: length(raw) };
+      const len = length(raw);
+      // A hane is a short upward flick at the end of a long stroke (い, け, は, り…).
+      return { d, raw, pts: resample(raw), len, hane: len >= 40 && endTurn(raw, 55) };
     });
     cache.set(ch, strokes);
     return strokes;
   }
+
+  // Point at arc length s back from the end of a polyline.
+  function fromEnd(pts, s) {
+    let acc = 0;
+    for (let i = pts.length - 1; i > 0; i--) {
+      const d = dist(pts[i], pts[i - 1]);
+      if (acc + d >= s) {
+        const t = (s - acc) / d;
+        return { x: pts[i].x + (pts[i - 1].x - pts[i].x) * t, y: pts[i].y + (pts[i - 1].y - pts[i].y) * t };
+      }
+      acc += d;
+    }
+    return pts[0];
+  }
+
+  /* True when the stroke ends with an upward flick: over its last few units the
+   * direction turns by more than `minDeg` from the body just before it. */
+  function endTurn(pts, minDeg, tails = [3, 4, 5, 6, 7, 8, 9]) {
+    const L = length(pts);
+    const end = pts[pts.length - 1];
+    for (const t of tails) {
+      if (L < t * 3) continue;
+      const a = fromEnd(pts, t), b = fromEnd(pts, t + 10);
+      let d = Math.abs(Math.atan2(end.y - a.y, end.x - a.x) - Math.atan2(a.y - b.y, a.x - b.x));
+      if (d > Math.PI) d = 2 * Math.PI - d;
+      if ((d * 180) / Math.PI > minDeg && end.y - a.y < -0.5) return true;
+    }
+    return false;
+  }
+
+  // Did the learner finish with a flick? Handwriting hooks are short and soft,
+  // so this looks at shorter tails and accepts a gentler turn than the model.
+  const hasHook = (userPts) => endTurn(smooth(userPts), 35, [2, 3, 4, 5, 6, 7, 8, 9]);
 
   // Tolerances in KanjiVG units (the box is 109 wide) per assist level.
   const TOL = { trace: 16, guide: 12.5, memory: 10.5 };
@@ -2664,7 +2710,7 @@ window.NH = window.NH || {};
     return { x: NH.clamp(p0.x - dx * 6 - dy * 5, 5, BOX - 5), y: NH.clamp(p0.y - dy * 6 + dx * 5, 6, BOX - 3) };
   }
 
-  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, TOL };
+  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, TOL };
 })();
 
 /* js/ink.js */
@@ -2876,7 +2922,7 @@ window.NH = window.NH || {};
   }
 
   // ── neon ─────────────────────────────────────────────────
-  function neon(ctx, pts, { w, color = "#ff3ea5", intensity = 1 }) {
+  function neon(ctx, pts, { w, color = "#ff3ea5", intensity = 1, live = false }) {
     if (!pts.length || intensity <= 0) return;
     const sm = chaikin(pts, 2);
     ctx.save();
@@ -2884,6 +2930,23 @@ window.NH = window.NH || {};
     ctx.lineJoin = "round";
     ctx.globalCompositeOperation = "lighter";
     ctx.strokeStyle = color;
+    if (live) {
+      // While the pen moves this is redrawn every frame, so fake the glow with
+      // wide translucent passes; shadowBlur is far too slow on phones.
+      for (const [width, alpha] of [[1.9, 0.08], [1.3, 0.14], [0.8, 0.3], [0.42, 0.9]]) {
+        ctx.globalAlpha = alpha * intensity;
+        ctx.lineWidth = w * width;
+        path(ctx, sm);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 0.9 * intensity;
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = w * 0.16;
+      path(ctx, sm);
+      ctx.stroke();
+      ctx.restore();
+      return;
+    }
     ctx.shadowColor = color;
     ctx.globalAlpha = 0.35 * intensity;
     ctx.shadowBlur = w * 1.8;
@@ -2952,7 +3015,7 @@ window.NH = window.NH || {};
     if (!AC) return null;
     ctx = new AC();
     master = ctx.createGain();
-    master.gain.value = 0.8;
+    master.gain.value = volume();
     const comp = ctx.createDynamicsCompressor();
     master.connect(comp).connect(ctx.destination);
     // A short synthetic reverb shared by the softer sounds.
@@ -2978,6 +3041,20 @@ window.NH = window.NH || {};
   }
 
   const on = () => NH.store.settings.sound && ensure();
+  // Settings store 0–1; the curve gives finer control at the quiet end.
+  const volume = () => Math.pow(NH.clamp(NH.store.settings.volume ?? 0.8, 0, 1), 1.6);
+
+  function setVolume(v) {
+    NH.store.set("volume", v);
+    if (master) master.gain.setTargetAtTime(volume(), ctx.currentTime, 0.02);
+  }
+
+  // Short, distinct buzzes on phones that support it (Android; iOS ignores this).
+  const BUZZ = { accept: 12, reject: [35, 50, 35], complete: [20, 40, 20, 40, 70] };
+  function vibrate(kind) {
+    if (!NH.store.settings.vibrate || !navigator.vibrate) return;
+    try { navigator.vibrate(BUZZ[kind] || 10); } catch (_) {}
+  }
   const now = () => ctx.currentTime;
 
   function out(node, { reverb = 0 } = {}) {
@@ -3225,7 +3302,7 @@ window.NH = window.NH || {};
     tone(1400, { d: 0.03, peak: 0.05 });
   }
 
-  NH.Audio = { unlock: ensure, drawStart, drawMove, drawEnd, accept, reject, complete, tap, pluck: (f) => on() && pluck(f) };
+  NH.Audio = { unlock: ensure, drawStart, drawMove, drawEnd, accept, reject, complete, tap, setVolume, vibrate, pluck: (f) => on() && pluck(f) };
 })();
 
 /* js/tts.js */
@@ -3741,7 +3818,7 @@ window.NH = window.NH || {};
     paint(ctx, pts, live) {
       const w = this.w;
       if (this.style === "calligraphy") Ink.brush(ctx, pts, { w, scale: 360 / this.size, live });
-      else if (this.style === "neon") Ink.neon(ctx, pts, { w, color: this.color, intensity: live ? 0.85 : 1 });
+      else if (this.style === "neon") Ink.neon(ctx, pts, { w, color: this.color, intensity: live ? 0.85 : 1, live });
       else Ink.pencil(ctx, pts, { w });
     }
 
@@ -3814,15 +3891,22 @@ window.NH = window.NH || {};
       const box = pxPts.map((p) => ({ x: p.x / this.k, y: p.y / this.k, t: p.t, p: p.p }));
       const expected = this.next;
       const res = Geo.judge(box, this.strokes, expected, this.done, this.assist);
-      if (res.status === "ok") this.accept(expected, box, pxPts, res.grade.accuracy);
+      if (res.status === "ok") {
+        // A hane stroke written without its flick still counts, with a tip and a small deduction.
+        const ref = this.strokes[expected];
+        const hane = ref.hane ? (Geo.hasHook(box) ? "ok" : "missing") : null;
+        const acc = hane === "missing" ? Math.max(0, res.grade.accuracy - 8) : res.grade.accuracy;
+        this.accept(expected, box, pxPts, acc, hane);
+      }
       else this.reject(res, pxPts);
     }
 
-    accept(idx, box, pxPts, acc) {
+    accept(idx, box, pxPts, acc, hane = null) {
       this.done.add(idx);
-      this.user.push({ idx, pts: box, acc });
+      this.user.push({ idx, pts: box, acc, hane });
       this.missesHere = 0;
       Audio.accept(this.style, this.done.size - 1, this.strokes.length);
+      Audio.vibrate("accept");
       const ref = this.strokes[idx];
       const end = pxPts[pxPts.length - 1];
       if (this.style === "neon") {
@@ -3836,13 +3920,14 @@ window.NH = window.NH || {};
         if (v > 1.4) this.splatter(a, Math.atan2(a.y - b.y, a.x - b.x), v);
       } else {
         this.badge(end, acc);
-        if (acc < 85) this.showRef(idx);
+        if (acc < 85 && hane !== "missing") this.showRef(idx);
       }
+      if (hane === "missing") this.showHane(idx);
       this.clearLive(false);
       this.renderInk();
       this.drawGhost();
       this.drawHints();
-      this.onEvent({ type: "stroke", ok: true, index: idx, total: this.strokes.length, accuracy: acc });
+      this.onEvent({ type: "stroke", ok: true, index: idx, total: this.strokes.length, accuracy: acc, hane });
       if (this.next < 0) setTimeout(() => this.finish(), this.style === "neon" ? 650 : 250);
     }
 
@@ -3850,6 +3935,7 @@ window.NH = window.NH || {};
       this.misses++;
       this.missesHere++;
       Audio.reject(this.style);
+      Audio.vibrate("reject");
       const n = this.next + 1;
       let msg;
       if (res.status === "order") msg = `That's stroke ${res.actual + 1}. Stroke order matters: write stroke ${n} first.`;
@@ -3893,6 +3979,7 @@ window.NH = window.NH || {};
       else this.neonSign(mark, score);
       if (!redraw) {
         Audio.complete(this.style, score);
+        Audio.vibrate("complete");
         if (this.style === "neon") {
           const t = performance.now();
           this.tubes.forEach((tb) => (tb.surge = t));
@@ -3901,7 +3988,7 @@ window.NH = window.NH || {};
         } else if (this.style === "calligraphy") {
           this.petals(26);
         }
-        this.onEvent({ type: "done", score, misses: this.misses, label, strokes: this.user.map((u) => u.acc) });
+        this.onEvent({ type: "done", score, misses: this.misses, label, strokes: this.user.map((u) => u.acc), haneMissed: this.user.filter((u) => u.hane === "missing").length });
       }
     }
 
@@ -3976,6 +4063,19 @@ window.NH = window.NH || {};
       setTimeout(() => p.remove(), 1300);
     }
 
+    // Shows where the flick should go: the model's last stretch, with an arrow.
+    showHane(idx) {
+      const st = this.strokes[idx];
+      const tail = st.pts.slice(-8);
+      const p = tail[tail.length - 1], q = tail[tail.length - 3];
+      const ang = (Math.atan2(p.y - q.y, p.x - q.x) * 180) / Math.PI;
+      const g = s("g.hane-flash",
+        s("polyline", { points: tail.map((t) => `${t.x.toFixed(1)},${t.y.toFixed(1)}`).join(" ") }),
+        s("path", { d: "M-3,-3 L1.5,0 L-3,3", transform: `translate(${p.x} ${p.y}) rotate(${ang})` }));
+      this.marks.append(g);
+      setTimeout(() => g.remove(), 1800);
+    }
+
     // ── demo ───────────────────────────────────────────────
     /* Plays the stroke order with the current style's ink, then restores the
      * learner's own strokes. Speed rises and falls like a real hand, which is
@@ -3994,7 +4094,7 @@ window.NH = window.NH || {};
       for (let i = 0; i < this.strokes.length; i++) {
         if (this.demoToken !== token) return;
         const st = this.strokes[i];
-        const pts = timed(Geo.resample(st.raw, Math.max(12, Math.round(st.len * 0.9))).map((p) => this.toPx(p)), st.len);
+        const pts = timed(Geo.resample(st.raw, Math.max(12, Math.round(st.len * 0.9))).map((p) => this.toPx(p)), st.len, st.hane);
         Audio.drawStart(this.style);
         const t0 = performance.now();
         const dur = pts[pts.length - 1].t - pts[0].t;
@@ -4107,18 +4207,20 @@ window.NH = window.NH || {};
         for (const q of this.particles) {
           if (q.kind === "spark") {
             q.vy += 0.08; q.vx *= 0.97;
+            // A soft wide streak under a bright thin one reads as a glowing spark.
             ctx.globalCompositeOperation = "lighter";
             ctx.strokeStyle = q.color;
-            ctx.globalAlpha = q.life;
-            ctx.lineWidth = q.size;
-            ctx.shadowColor = q.color;
-            ctx.shadowBlur = 8;
-            ctx.beginPath();
-            ctx.moveTo(q.x, q.y);
+            ctx.lineCap = "round";
+            const x0 = q.x, y0 = q.y;
             q.x += q.vx; q.y += q.vy;
-            ctx.lineTo(q.x, q.y);
-            ctx.stroke();
-            ctx.shadowBlur = 0;
+            for (const [width, alpha] of [[q.size * 4, 0.18], [q.size, 1]]) {
+              ctx.globalAlpha = q.life * alpha;
+              ctx.lineWidth = width;
+              ctx.beginPath();
+              ctx.moveTo(x0, y0);
+              ctx.lineTo(q.x, q.y);
+              ctx.stroke();
+            }
           } else if (q.kind === "ink") {
             q.vx *= q.drag; q.vy *= q.drag;
             q.x += q.vx; q.y += q.vy;
@@ -4171,14 +4273,20 @@ window.NH = window.NH || {};
   }
 
   // Gives demo points timestamps: ease in, cruise, ease out.
-  function timed(pts, len) {
+  function timed(pts, len, hane = false) {
     const dur = 160 + len * 3.4;
     const n = pts.length;
-    return pts.map((p, i) => {
+    const out = pts.map((p, i) => {
       const u = i / (n - 1);
       const e = 0.6 * u * u * (3 - 2 * u) + 0.4 * u; // press in, sweep, settle
       return { ...p, t: e * dur, p: 0 };
     });
+    if (hane) {
+      // Flick the last stretch quickly, so the brush tapers into the hook.
+      const k = Math.floor(n * 0.86), t0 = out[k].t;
+      for (let i = k + 1; i < n; i++) out[i].t = t0 + (out[i].t - t0) * 0.3;
+    }
+    return out;
   }
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -4350,7 +4458,7 @@ window.NH = window.NH || {};
         return h("article.wcard",
           h("a.wcard-main", { href: `#${kind === "words" ? "word" : "phrase"}-${w.id}` },
             sc ? h("span.wicon-wrap", sc) : null,
-            h("span.wk", w.kana),
+            h("span.wk", { class: [...w.kana].length > 8 ? "long" : "" }, w.kana),
             h("span.wm", h("b", w.meaning), h("span", w.romaji, w.kanji ? h("span.wkanji", w.kanji) : null)),
             h("span.wlv", { title: `Level ${w.level}` }, "●".repeat(w.level) + "○".repeat(3 - w.level))),
           speakBtn(w.kana, "small"));
@@ -4370,7 +4478,7 @@ window.NH = window.NH || {};
     const svg = strokeOrderSvg(ch);
     const parts = isCombo ? [...ch] : I.base ? [I.base, I.mark === "handakuten" ? "゜" : I.mark === "dakuten" ? "゛" : "small"] : null;
 
-    const notes = isCombo ? comboNotes(ch) : I.notes || [];
+    const notes = [...(isCombo ? comboNotes(ch) : I.notes || []), ...haneNotes(ch)];
     app.replaceChildren(
       h("header.bar",
         iconBtn("back", "All hiragana", () => go("hiragana")),
@@ -4395,6 +4503,16 @@ window.NH = window.NH || {};
           next ? h("a.pg", { href: `#k-${hex(next)}` }, h("span", next), icon("next")) : h("span")))
     );
     requestAnimationFrame(() => replay(svg));
+  }
+
+  // Which strokes end in a hane (flick), from the stroke data.
+  function haneNotes(ch) {
+    return [...ch].flatMap((c) => {
+      const ns = NH.Geo.strokesOf(c).map((st, i) => (st.hane ? i + 1 : 0)).filter(Boolean);
+      if (!ns.length) return [];
+      const which = ns.length === 1 ? `Stroke ${ns[0]}` : `Strokes ${ns.join(" and ")}`;
+      return [`${[...ch].length > 1 ? c + ": " : ""}${which} end${ns.length === 1 ? "s" : ""} with a hane (跳ね), a quick flick up and away as you lift the pen. It's marked with a red arrow above.`];
+    });
   }
 
   function comboNotes(ch) {
@@ -4441,6 +4559,11 @@ window.NH = window.NH || {};
         g.append(s("path.so-st", { d: st.d, pathLength: "1", class: i >= baseCount ? "mark" : "", style: `--i:${n}` }));
         const p = NH.Geo.labelPos(st);
         g.append(s("text.so-n", { x: p.x, y: p.y + 2, "text-anchor": "middle", style: `--i:${n}` }, String(i + 1)));
+        if (st.hane) {
+          const e = st.pts[st.pts.length - 1], q = st.pts[st.pts.length - 4];
+          const ang = (Math.atan2(e.y - q.y, e.x - q.x) * 180) / Math.PI;
+          g.append(s("path.so-hane", { d: "M-3.2,-3.2 L1.6,0 L-3.2,3.2", transform: `translate(${e.x.toFixed(1)} ${e.y.toFixed(1)}) rotate(${ang.toFixed(0)}) translate(4 0)`, style: `--i:${n}` }));
+        }
         n++;
       });
       svg.append(g);
@@ -4549,8 +4672,11 @@ window.NH = window.NH || {};
     function onEvent(e) {
       if (e.type === "stroke") {
         if (e.ok) {
-          feedback.textContent = e.index + 1 < e.total ? `Stroke ${e.index + 1} ✓ ${style === "accuracy" ? e.accuracy + "% " : ""}· next: stroke ${e.index + 2} of ${e.total}` : "";
-          feedback.className = "feedback ok";
+          const n = e.index + 1;
+          if (e.hane === "missing") feedback.textContent = `Stroke ${n} ✓, but it ends with a hane: flick up as you lift the pen.`;
+          else if (e.hane === "ok") feedback.textContent = `Stroke ${n} ✓ with a clean hane flick.${n < e.total ? ` Next: stroke ${n + 1}.` : ""}`;
+          else feedback.textContent = n < e.total ? `Stroke ${n} ✓ ${style === "accuracy" ? e.accuracy + "% " : ""}· next: stroke ${n + 1} of ${e.total}` : "";
+          feedback.className = e.hane === "missing" ? "feedback tip" : "feedback ok";
         } else {
           feedback.textContent = e.message;
           feedback.className = "feedback no";
@@ -4560,7 +4686,7 @@ window.NH = window.NH || {};
         results[pos] = e.score;
         store.recordWrite(c, e.score);
         feedback.className = "feedback ok";
-        feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}`;
+        feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}${e.haneMissed ? " · remember the hane flick" : ""}`;
         setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
         drawSeq();
         const nextIdx = results.findIndex((r, i) => r == null && i > pos);
@@ -4756,6 +4882,9 @@ window.NH = window.NH || {};
     dlg.append(h("div.sheet", { role: "dialog", "aria-modal": "true", "aria-label": "Settings" },
       h("div.sheet-head", h("h2", "Settings"), iconBtn("close", "Close", () => { off(); close(); })),
       h("label.row", h("span", "Sound effects"), h("input#sound", { type: "checkbox", checked: st.sound ? true : null, onchange: (e) => store.set("sound", e.target.checked) })),
+      h("div.row.col", h("label", { for: "volume" }, "Effects volume"),
+        h("input#volume", { type: "range", min: "0", max: "1", step: "0.05", value: String(st.volume ?? 0.8), oninput: (e) => Audio.setVolume(parseFloat(e.target.value)), onchange: () => Audio.accept(store.settings.style, 2, 5) })),
+      "vibrate" in navigator ? h("label.row", h("span", "Vibrate on each stroke"), h("input#vibrate", { type: "checkbox", checked: st.vibrate ? true : null, onchange: (e) => { store.set("vibrate", e.target.checked); Audio.vibrate("accept"); } })) : null,
       h("div.row.col", h("label", { for: "voice" }, "Japanese voice"), h("div.inline", voiceSel, btn("Test", () => say("こんにちは、ひらがなを かきましょう"), "ghost", "speaker")),
         h("p.muted", TTS.hasJapanese ? "Uses your device's built-in speech, which works offline." : "Your device has no Japanese voice yet. Android: Settings → System → Text-to-speech → Google → install Japanese. iPhone: Settings → Accessibility → Spoken Content → Voices → Japanese.")),
       h("div.row.col", h("label", { for: "rate" }, "Speaking speed"),

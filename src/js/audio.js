@@ -23,7 +23,7 @@ window.NH = window.NH || {};
     if (!AC) return null;
     ctx = new AC();
     master = ctx.createGain();
-    master.gain.value = 0.8;
+    master.gain.value = volume();
     const comp = ctx.createDynamicsCompressor();
     master.connect(comp).connect(ctx.destination);
     // A short synthetic reverb shared by the softer sounds.
@@ -49,6 +49,20 @@ window.NH = window.NH || {};
   }
 
   const on = () => NH.store.settings.sound && ensure();
+  // Settings store 0–1; the curve gives finer control at the quiet end.
+  const volume = () => Math.pow(NH.clamp(NH.store.settings.volume ?? 0.8, 0, 1), 1.6);
+
+  function setVolume(v) {
+    NH.store.set("volume", v);
+    if (master) master.gain.setTargetAtTime(volume(), ctx.currentTime, 0.02);
+  }
+
+  // Short, distinct buzzes on phones that support it (Android; iOS ignores this).
+  const BUZZ = { accept: 12, reject: [35, 50, 35], complete: [20, 40, 20, 40, 70] };
+  function vibrate(kind) {
+    if (!NH.store.settings.vibrate || !navigator.vibrate) return;
+    try { navigator.vibrate(BUZZ[kind] || 10); } catch (_) {}
+  }
   const now = () => ctx.currentTime;
 
   function out(node, { reverb = 0 } = {}) {
@@ -296,5 +310,5 @@ window.NH = window.NH || {};
     tone(1400, { d: 0.03, peak: 0.05 });
   }
 
-  NH.Audio = { unlock: ensure, drawStart, drawMove, drawEnd, accept, reject, complete, tap, pluck: (f) => on() && pluck(f) };
+  NH.Audio = { unlock: ensure, drawStart, drawMove, drawEnd, accept, reject, complete, tap, setVolume, vibrate, pluck: (f) => on() && pluck(f) };
 })();
