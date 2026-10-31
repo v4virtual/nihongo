@@ -107,6 +107,7 @@ window.NH = window.NH || {};
             parts.length ? h("div.parts", { "aria-label": "Parts" },
               h("span.part-k", ch), h("span.op", "="),
               parts.map((p, n) => [n ? h("span.op", "+") : null, h("span.part", { class: `p${n % 4}` }, h("b", p.el), partName(p.el) ? h("small", partName(p.el)) : null)])) : null)),
+        NH.Lesson.player(ch),
         h("section.card.mnemonic", h("h2", "Remember it"), h("p", x.mnemonic)),
         x.notes?.length ? h("section.card", h("h2", "Good to know"), h("ul.notes", x.notes.map((n) => h("li", n)))) : null,
         x.lookalikes?.length ? h("section.card", h("h2", "Don't mix it up with"), h("div.looks", x.lookalikes.map((c) =>

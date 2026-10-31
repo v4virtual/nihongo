@@ -13,6 +13,7 @@ window.NH = window.NH || {};
     speaker: "M4 9v6h4l5 4V5L8 9H4Zm12.5-1.5a5 5 0 0 1 0 9M19 5a8.5 8.5 0 0 1 0 14",
     gear: "M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8 3.5-2.1-.6-.5-1.3 1-1.9-1.6-1.6-1.9 1-1.3-.5L13 4h-2l-.6 2.1-1.3.5-1.9-1L5.6 7.2l1 1.9-.5 1.3L4 11v2l2.1.6.5 1.3-1 1.9 1.6 1.6 1.9-1 1.3.5L11 20h2l.6-2.1 1.3-.5 1.9 1 1.6-1.6-1-1.9.5-1.3L20 13Z",
     play: "M8 5v14l11-7Z",
+    pause: "M7 5h3.5v14H7Zm6.5 0H17v14h-3.5Z",
     redo: "M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4",
     next: "M9 5l7 7-7 7",
     prev: "M15 5l-7 7 7 7",
@@ -229,6 +230,7 @@ window.NH = window.NH || {};
               ? h("p", "Taken from the kanji ", h("b", I.origin), I.originMeaning ? ` (“${I.originMeaning}”)` : "", I.originPart ? `: ${I.originPart}` : "", ". Katakana were made from pieces of kanji, so they're straight and angular.")
               : h("p", "Grew from the kanji ", h("b", I.origin), I.originMeaning ? ` (“${I.originMeaning}”)` : "", ", written fast in cursive until it became ", ch, ".")) : null,
             twin !== ch && NH.KANA_INFO[twin] ? h("a.twin", { href: `#k-${hex(twin)}` }, h("span", S.id === "katakana" ? "Hiragana twin" : "Katakana twin"), h("b", twin), h("span", romaji(twin))) : null)),
+        NH.Lesson.player(ch),
         I.mnemonic ? h("section.card.mnemonic", h("h2", "Remember it"), h("p", I.mnemonic)) : null,
         notes.length ? h("section.card", h("h2", "Good to know"), h("ul.notes", notes.map((n) => h("li", n)))) : null,
         I.lookalikes && I.lookalikes.length ? h("section.card", h("h2", "Don't mix it up with"), h("div.looks", I.lookalikes.map((c) => h("a.look", { href: NH.KANA_INFO[c] ? `#k-${hex(c)}` : null }, h("span.kc", c), h("span.kr", romaji(c)))))) : null,
@@ -341,6 +343,28 @@ window.NH = window.NH || {};
     const writer = new NH.Writer(cell, { style, assist, onEvent });
     cleanup.push(() => writer.destroy());
 
+    /* Lesson audio: the lesson's narration for the character, then each stroke
+     * talked through as you write it. Stays on until turned off. */
+    let narrating = !!st.narrate, introduced = false;
+    const talk = (segs) => narrating && NH.TTS.narrate(segs);
+    const narrateBtn = btn("Lesson audio", () => setNarrate(!narrating), "ghost", "ear");
+    narrateBtn.setAttribute("aria-pressed", String(narrating));
+    function setNarrate(on) {
+      narrating = on;
+      store.set("narrate", on);
+      narrateBtn.setAttribute("aria-pressed", String(on));
+      if (!on) return NH.TTS.stop();
+      // Mid-character, pick up at the next stroke; otherwise start with the lesson.
+      if (writer.next > 0 && !writer.finished) talk(NH.TTS.segments(NH.Lesson.strokeLine(chars[pos], writer.next)));
+      else narrateChar();
+    }
+    function narrateChar() {
+      if (!narrating) return;
+      talk(NH.Lesson.writeIntro(chars[pos], { full: single && !introduced }));
+      introduced = true;
+    }
+    cleanup.push(() => narrating && NH.TTS.stop());
+
     const styleSeg = h("div.seg.styles", { role: "radiogroup", "aria-label": "Style" });
     const assistSeg = h("div.seg.assists", { role: "radiogroup", "aria-label": "Help level" });
 
@@ -359,6 +383,7 @@ window.NH = window.NH || {};
       h("div.actions",
         btn("Watch", () => { feedback.textContent = "Watch the stroke order…"; writer.demo(); }, "ghost", "play"),
         btn("Redo", () => restartChar(), "ghost", "redo"),
+        narrateBtn,
         isWord && item.romaji ? NH.Speak.button(item) : null));
     stage.dataset.hand = st.hand || "right";
     stage.append(
@@ -408,6 +433,7 @@ window.NH = window.NH || {};
       feedback.className = "feedback";
       feedback.append(h("span.vh", ` ${writer.describeStroke(0)}`));
       drawSeq();
+      narrateChar();
     }
     function restartChar() { writer.stopDemo(); loadChar(pos); }
 
@@ -430,9 +456,11 @@ window.NH = window.NH || {};
           const part = (NH.PARTS?.[chars[pos]] || []).find((p) => Math.max(...p.strokes) === e.index);
           if (part) feedback.prepend(h("b.part-done", `${part.el} ${NH.COMPONENT_NAMES?.[part.el] ? `(${NH.COMPONENT_NAMES[part.el]}) ` : ""}done. `));
           if (n < e.total) feedback.append(h("span.vh", ` ${writer.describeStroke(n)}`));
+          if (n < e.total) talk(NH.TTS.segments(`${e.hane === "missing" ? "That one ends with a flick. " : ""}${part ? `${part.el} done. ` : ""}${NH.Lesson.strokeLine(chars[pos], n)}`));
         } else {
           feedback.textContent = e.message;
           feedback.className = "feedback no";
+          talk(NH.TTS.segments(e.message));
           feedback.append(h("span.vh", ` ${writer.describeStroke(e.index)}`));
         }
       } else if (e.type === "done") {
@@ -444,7 +472,8 @@ window.NH = window.NH || {};
         if (single) NH.SRS.practice((NH.KANJI_INFO?.[c] ? "j:" : "k:") + c, NH.SRS.gradeWriting({ score: e.score, misses: e.misses, assist }));
         feedback.className = "feedback ok";
         feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}${e.haneMissed ? " · remember the hane flick" : ""}`;
-        setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
+        if (narrating) talk([{ text: c, lang: "ja" }, { text: `${e.score} percent.`, lang: "en" }]);
+        else setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
         drawSeq();
         const nextIdx = results.findIndex((r, i) => r == null && i > pos);
         const firstOpen = nextIdx >= 0 ? nextIdx : chars.findIndex((_, i) => results[i] == null);

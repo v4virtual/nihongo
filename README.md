@@ -33,6 +33,13 @@ next is on the [roadmap](ROADMAP.md).
   kana (日本, 食べる, 今日) have furigana you can turn off. Kanji join Today two
   a day once all 46 basic hiragana are started (Today → New kanji: off, 2, 3 or
   5).
+- **Lessons**: every kana and kanji page has a short narrated lesson that plays
+  like a video: what it is and how it sounds, where it came from (the kanji
+  behind a kana, the parts of a kanji), a memory hook, each stroke drawn and
+  described in turn, and an example word, with captions. The narration is in
+  English with the Japanese spoken by a Japanese voice, using the device's
+  built-in speech. On the writing screen, **Lesson audio** plays the same
+  narration and then talks you through each stroke as you write it.
 - **Symbols**: gojūon, dakuten/handakuten and yōon charts. Each kana has an
   animated stroke order, the kanji it came from, a memory hook, quirks,
   lookalikes and example words.
@@ -196,6 +203,7 @@ src/
   js/speak.js           pronunciation check (speech recognition + matching)
   js/kanji-line.js      kanji chart, explain pages, furigana, kanji words and quiz
   js/backup.js          back up and restore progress (file or text)
+  js/lesson.js          narrated lessons: script from the data, player, writing narration
   js/app.js             screens and hash routing
   js/data/              strokes and kanji parts (KanjiVG), kana info (hiragana, katakana), kanji,
                         tables, words, reading, scene art

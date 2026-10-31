@@ -1,4 +1,5 @@
-/* Japanese speech.
+/* Speech: Japanese words, and the lessons' narration, which is English with
+ * the Japanese spoken in a Japanese voice.
  * Web: the browser's built-in speech synthesis (Web Speech API). On Android
  * this is Google's offline TTS, on iOS/macOS "Kyoko"/"O-ren", on Windows
  * "Nanami"/"Haruka". No network or API key needed.
@@ -10,6 +11,7 @@ window.NH = window.NH || {};
   const synth = window.speechSynthesis;
   const native = window.Capacitor?.isNativePlatform?.() && window.Capacitor.Plugins?.TextToSpeech;
   let voices = [];
+  let english = null; // the narrator's voice (web), best local English voice
   let nativeJapanese = false;
   const listeners = new Set();
   const notify = () => listeners.forEach((fn) => fn(voices));
@@ -23,8 +25,11 @@ window.NH = window.NH || {};
   const isJa = (lang) => /^ja([-_]|$)/i.test(lang || "");
 
   function loadWeb() {
-    voices = synth.getVoices().filter((v) => isJa(v.lang));
+    const all = synth.getVoices();
+    voices = all.filter((v) => isJa(v.lang));
     voices.sort((a, b) => rank(a) - rank(b));
+    const en = all.filter((v) => /^en([-_]|$)/i.test(v.lang));
+    english = en.find((v) => v.localService && /^en[-_](US|GB)/i.test(v.lang)) || en.find((v) => v.localService) || en[0] || null;
     notify();
   }
 
@@ -55,6 +60,7 @@ window.NH = window.NH || {};
   const SAY = { "っ": "ちいさい つ", "ゃ": "ちいさい や", "ゅ": "ちいさい ゆ", "ょ": "ちいさい よ", "ぁ": "ちいさい あ", "ぃ": "ちいさい い", "ぅ": "ちいさい う", "ぇ": "ちいさい え", "ぉ": "ちいさい お", "ゎ": "ちいさい わ", "を": "を", "ゐ": "い", "ゑ": "え", "ぢ": "ぢ", "づ": "づ" };
 
   function speak(text, { rate } = {}) {
+    if (current) { const c = current; current = null; c.cancel(); }
     const say = SAY[text] || text;
     const r = rate || NH.store.settings.rate || 0.85;
     const v = pick();
@@ -74,7 +80,70 @@ window.NH = window.NH || {};
     return true;
   }
 
+  /* Narration: speaks segments [{ text, lang: "en" | "ja" }] one after the
+   * other. Returns { done, cancel }; done resolves when the last one ends (or
+   * is cancelled). Without speech it waits about as long as reading takes, so
+   * an animated lesson keeps its pace with captions alone. */
+  let current = null;
+  function narrate(segments) {
+    current?.cancel();
+    let cancelled = false, finish;
+    const done = new Promise((r) => (finish = r));
+    const handle = { done, cancel: () => { if (cancelled) return; cancelled = true; stopSpeech(); finish(); } };
+    current = handle;
+    (async () => {
+      for (const seg of segments) {
+        if (cancelled) return;
+        await sayOne(seg, () => cancelled);
+      }
+      if (current === handle) current = null;
+      finish();
+    })();
+    return handle;
+  }
+  // How long reading a segment takes, roughly: for captions without a voice and as a safety net.
+  const estimate = ({ text, lang }) => 400 + text.length * (lang === "ja" ? 220 : 65);
+  function sayOne(seg, isCancelled) {
+    const r = NH.store.settings.rate || 0.85;
+    const ja = seg.lang === "ja";
+    const text = ja ? SAY[seg.text] || seg.text : seg.text;
+    return new Promise((resolve) => {
+      const limit = setTimeout(resolve, estimate(seg) * 2.5 + 1500);
+      const end = () => { clearTimeout(limit); resolve(); };
+      if (isCancelled()) return end();
+      if (native) {
+        const v = ja ? pick() : null;
+        native.speak({ text, lang: ja ? "ja-JP" : "en-US", rate: ja ? r : Math.min(1, r + 0.1), pitch: 1, volume: 1, ...(v ? { voice: v.index } : {}) }).then(end, end);
+        return;
+      }
+      if (!synth || (ja && !voices.length)) { clearTimeout(limit); return setTimeout(resolve, estimate(seg)); }
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = ja ? "ja-JP" : "en-US";
+      const v = ja ? pick() : english;
+      if (v) u.voice = v;
+      u.rate = ja ? r : Math.min(1, r + 0.1);
+      u.onend = u.onerror = end;
+      synth.speak(u);
+    });
+  }
+  function stopSpeech() {
+    if (native) native.stop().catch(() => {});
+    else synth?.cancel();
+  }
+  // Splits text into English and Japanese runs: "A sword through あ" → two segments.
+  function segments(text, lang = "en") {
+    const out = [];
+    for (const m of text.matchAll(/([\u3000-\u30ff\u3400-\u9fff々]+)|([^\u3000-\u30ff\u3400-\u9fff々]+)/g)) {
+      const seg = m[1] ? { text: m[1], lang: "ja" } : { text: m[2], lang };
+      if (seg.lang === "en" && !/[a-z0-9]/i.test(seg.text)) continue; // bare punctuation
+      out.push(seg);
+    }
+    return out;
+  }
+
   NH.TTS = {
+    narrate, segments, estimate,
+    stop() { current?.cancel(); stopSpeech(); },
     native: !!native,
     get supported() { return !!(native || synth); },
     get voices() { return voices; },
