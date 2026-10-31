@@ -54,7 +54,13 @@ export async function open(browser, base, route = "home", { width = 412, height 
   if (init) await page.addInitScript(init);
   await page.goto(base + "#" + route);
   await settle(page);
-  await page.evaluate(() => { NH.TTS.speak = (t) => { window.__said.push(t); return true; }; });
+  await page.evaluate(() => {
+    NH.TTS.speak = (t) => { window.__said.push(t); return true; };
+    // Narration is recorded as one line per call and "finishes" at once.
+    window.__narrated = [];
+    NH.TTS.narrate = (segs) => { window.__narrated.push(segs.map((x) => x.text.trim()).join(" ")); return { done: new Promise((r) => setTimeout(r, 20)), cancel() {} }; };
+    NH.TTS.stop = () => { window.__narrated.push("<stop>"); };
+  });
   page.errors = errors;
   return page;
 }
