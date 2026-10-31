@@ -87,6 +87,8 @@ test("Android's status bar icons follow what's on screen", { timeout: 60000 }, a
   await page.locator(".styles .seg-b", { hasText: "Neon" }).click();
   await page.locator(".stage-bar .icon-btn[aria-label=Back]").click();
   await page.waitForURL(/#k-3042$/);
+  // The URL changes before the hashchange handler renders and sets the bars.
+  await page.locator("main.explain").waitFor();
   const bars = await page.evaluate(() => window.__bars);
   // notebook page: dark icons; neon night: light icons; dark app chrome: light icons
   assert.deepEqual(bars.slice(-3), ["LIGHT", "DARK", "DARK"], JSON.stringify(bars));
