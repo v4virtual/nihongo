@@ -125,3 +125,22 @@ describe("palm rejection", () => {
     assert.ok(!(await accepted(page)), "a palm-sized touch drew a stroke");
   }));
 });
+
+describe("under a status bar (the Android app draws edge to edge)", () => {
+  // The app reserves the status bar's height (env(safe-area-inset-top)); simulate 40px.
+  const statusBar = 'document.addEventListener("DOMContentLoaded", () => document.documentElement.style.setProperty("--sat", "40px"))';
+  for (const [route, below] of [["today", ".tabs"], ["katakana", ".tabs"], ["k-3042", ".modes"], ["kanji", ".tabs"]]) {
+    test(`#${route}: the header sits below it and covers nothing`, T, () => withPage(route, { init: statusBar }, async (page) => {
+      const bar = await box(page, "header.bar");
+      const next = await box(page, below);
+      assert.ok(bar.top >= 40 - 0.5, `header top ${bar.top}`);
+      assert.ok(bar.bottom <= next.top + 0.5, `header bottom ${bar.bottom} overlaps ${below} at ${next.top}`);
+      // Scrolled, the header stays just under the status bar.
+      await page.evaluate(() => window.scrollTo(0, 600));
+      assert.ok(Math.abs((await box(page, "header.bar")).top - 40) < 1);
+    }));
+  }
+  test("#home: the title starts below it", T, () => withPage("home", { init: statusBar }, async (page) => {
+    assert.ok((await box(page, ".home-head")).top >= 40 - 0.5);
+  }));
+});
