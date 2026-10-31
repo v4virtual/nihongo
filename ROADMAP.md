@@ -67,8 +67,9 @@ release; order within a group is a rough priority.
 - [x] Deploy to GitHub Pages on every green push to `main`; installable on Android/iOS, offline, auto-updating
 - [x] Android app (APK) with Capacitor: offline, native text-to-speech and haptics, built and published as a GitHub Release on every green push to `main`
 - [ ] Play Store listing (needs an .aab, store assets and a privacy note covering the microphone)
-- [ ] Bundle the fonts in the APK (they load from Google Fonts today, so a first launch offline uses fallback fonts)
-- [ ] Optional sync across devices (account-free export/import first)
+- [x] Bundle the fonts in the app and the APK: subsets of the four fonts with just the characters Kaku uses (about 0.9 MB), so even a first launch offline looks right
+- [x] Account-free backup: save progress as a file or copy it as text, restore it on another device by merging (the most recent review of each item wins) or replacing
+- [ ] Optional automatic sync across devices
 - [ ] Offline neural TTS for consistent voices across devices. Candidates to evaluate:
   - VOICEVOX (free, high-quality Japanese voices; check each voice's credit terms)
   - Kokoro-82M (Apache-2.0) Japanese voices via ONNX in the browser

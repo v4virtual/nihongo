@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "../helpers/browser.mjs";
 
 const SRC = fileURLToPath(new URL("../../src/", import.meta.url));
-const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png", ".webmanifest": "application/manifest+json" };
+const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png", ".webmanifest": "application/manifest+json", ".woff2": "font/woff2" };
 const overrides = new Map(); // path → replacement body, to simulate a new deploy
 
 let server, base, browser;
@@ -51,6 +51,9 @@ test("works offline once installed, and updates on the next online visit", { tim
   assert.equal(await page.locator(".eki").count(), 3);
   await page.goto(base + "#w-3042");
   await page.locator(".cell canvas.live").waitFor();
+  // The bundled fonts load offline too, so the first offline launch looks right.
+  const loaded = await page.evaluate(async () => { await document.fonts.ready; return [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family.replace(/"/g, "")); });
+  assert.ok(loaded.includes("Zen Kaku Gothic New") && loaded.includes("Klee One"), JSON.stringify(loaded));
 
   // A new deploy: back online, the next load shows the new version.
   await context.setOffline(false);
@@ -64,4 +67,17 @@ test("works offline once installed, and updates on the next online visit", { tim
     overrides.clear();
     await context.close();
   }
+});
+
+test("fonts come from the app itself, never from Google", { timeout: 60000 }, async () => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const external = [];
+  page.on("request", (r) => { if (!r.url().startsWith(base)) external.push(r.url()); });
+  await page.goto(base + "#k-4f11");
+  await page.locator(".big-meaning").waitFor();
+  const loaded = await page.evaluate(async () => { await document.fonts.ready; return [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family.replace(/"/g, "")); });
+  assert.ok(loaded.includes("Klee One"), JSON.stringify(loaded));
+  assert.deepEqual(external, []);
+  await context.close();
 });

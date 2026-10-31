@@ -857,3 +857,13 @@ input[type="range"] { accent-color: var(--line-h); }
 ruby { ruby-position: over; }
 rt { font-size: 0.45em; font-family: var(--f-ui); font-weight: 500; letter-spacing: 0; }
 :root[data-furigana="off"] rt { visibility: hidden; }
+
+/* ── Backup ─────────────────────────────────────────────── */
+.backup-sheet h3 { margin: 14px 0 4px; font-size: calc(13px * var(--ts)); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.backup-sheet p { margin: 4px 0; }
+.backup-sheet .actions { order: 0; justify-content: flex-start; flex-wrap: wrap; padding: 6px 0; }
+.backup-text { width: 100%; font: calc(13px * var(--ts))/1.4 ui-monospace, monospace; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--rule); background: var(--night); color: var(--text); resize: vertical; }
+.backup-choice { margin-top: 8px; padding: 12px 14px; border-radius: var(--r); border: 1px solid var(--rule); background: var(--night); }
+.backup-status { min-height: 1.4em; }
+.backup-status.ok { color: var(--accent-ink); font-weight: 700; }
+.backup-status.no { color: var(--no); }

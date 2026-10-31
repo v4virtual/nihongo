@@ -874,6 +874,16 @@ ruby { ruby-position: over; }
 rt { font-size: 0.45em; font-family: var(--f-ui); font-weight: 500; letter-spacing: 0; }
 :root[data-furigana="off"] rt { visibility: hidden; }
 
+/* ── Backup ─────────────────────────────────────────────── */
+.backup-sheet h3 { margin: 14px 0 4px; font-size: calc(13px * var(--ts)); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.backup-sheet p { margin: 4px 0; }
+.backup-sheet .actions { order: 0; justify-content: flex-start; flex-wrap: wrap; padding: 6px 0; }
+.backup-text { width: 100%; font: calc(13px * var(--ts))/1.4 ui-monospace, monospace; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--rule); background: var(--night); color: var(--text); resize: vertical; }
+.backup-choice { margin-top: 8px; padding: 12px 14px; border-radius: var(--r); border: 1px solid var(--rule); background: var(--night); }
+.backup-status { min-height: 1.4em; }
+.backup-status.ok { color: var(--accent-ink); font-weight: 700; }
+.backup-status.no { color: var(--no); }
+
 </style>
 </head>
 <body>
@@ -978,7 +988,47 @@ window.NH = window.NH || {};
     srs() { return state.srs; },
     saveSrs() { save(); },
     reset() { state.progress = {}; state.srs = { cards: {}, day: null }; save(); },
+    // Everything Kaku keeps on this device, as one JSON object.
+    backup() { return { app: "kaku", format: 1, saved: new Date().toISOString(), settings: state.settings, progress: state.progress, srs: state.srs }; },
+    // Replaces or merges in a backup checked by readBackup(). Merging keeps this device's settings.
+    restore(data, { merge = false } = {}) {
+      if (merge) Object.assign(state, mergeBackup(state, data));
+      else {
+        state.settings = Object.assign({}, defaults.settings, data.settings);
+        state.progress = structuredClone(data.progress);
+        state.srs = { cards: structuredClone(data.srs.cards), day: null };
+      }
+      save();
+    },
   };
+
+  /* Checks pasted or loaded text is a Kaku backup. Returns the backup, or
+   * throws an Error whose message can be shown as is. */
+  function readBackup(text) {
+    let data;
+    try { data = JSON.parse(text); } catch (_) { throw new Error("That isn't a Kaku backup: it couldn't be read."); }
+    if (!data || data.app !== "kaku") throw new Error("That isn't a Kaku backup.");
+    if (data.format > 1) throw new Error("This backup comes from a newer Kaku. Update the app first.");
+    const isObj = (o) => o && typeof o === "object" && !Array.isArray(o);
+    if (!isObj(data.progress) || !isObj(data.srs) || !isObj(data.srs.cards)) throw new Error("This backup is incomplete.");
+    for (const c of Object.values(data.srs.cards)) {
+      if (!["s", "d", "last", "due"].every((k) => Number.isFinite(c?.[k]))) throw new Error("This backup is damaged.");
+    }
+    return data;
+  }
+
+  /* Combines this device's state with a backup: for each card, the copy
+   * reviewed more recently wins; writing scores keep the higher numbers. */
+  function mergeBackup(here, there) {
+    const cards = { ...here.srs.cards };
+    for (const [id, c] of Object.entries(there.srs.cards)) if (!cards[id] || c.last > cards[id].last) cards[id] = c;
+    const progress = { ...here.progress };
+    for (const [ch, p] of Object.entries(there.progress)) {
+      const q = progress[ch];
+      progress[ch] = q ? { best: Math.max(q.best, p.best || 0), last: q.last, tries: Math.max(q.tries, p.tries || 0), right: Math.max(q.right, p.right || 0), wrong: Math.max(q.wrong, p.wrong || 0) } : p;
+    }
+    return { settings: here.settings, progress, srs: { cards, day: here.srs.day } };
+  }
 
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (_) {}
@@ -1008,7 +1058,7 @@ window.NH = window.NH || {};
   NH.Routes = NH.Routes || [];
   NH.UI = NH.UI || {};
 
-  Object.assign(NH, { h, s, SVGNS, store, clamp, lerp, rand, shuffle, reducedMotion, hex, unhex, chars });
+  Object.assign(NH, { h, s, SVGNS, store, readBackup, mergeBackup, clamp, lerp, rand, shuffle, reducedMotion, hex, unhex, chars });
 })();
 
 /* js/data/strokes.js */
@@ -9061,6 +9111,117 @@ window.NH = window.NH || {};
   NH.Kanji = { explain, ruby, GROUPS };
 })();
 
+/* js/backup.js */
+/* Back up or restore progress without an account: save the backup as a file
+ * (web) or copy it as text (anywhere, including the Android app, where
+ * downloads don't work), then open or paste it on another device. */
+window.NH = window.NH || {};
+
+(function () {
+  const { h, store } = NH;
+  const UI = NH.UI;
+  const native = () => !!window.Capacitor?.isNativePlatform?.();
+
+  const summary = (data) => {
+    const cards = Object.keys(data.srs.cards).length;
+    const written = Object.keys(data.progress).length;
+    return `${cards} item${cards === 1 ? "" : "s"} in Today's schedule, ${written} character${written === 1 ? "" : "s"} written`;
+  };
+  const dateOf = (iso) => { const d = new Date(iso); return isNaN(d) ? "an unknown date" : d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }); };
+
+  function open() {
+    const bg = h("div.sheet-bg", { onclick: (e) => e.target === bg && close() });
+    const opener = document.activeElement;
+    const keys = (e) => { if (e.key === "Escape") close(); };
+    const close = () => { bg.remove(); document.removeEventListener("keydown", keys); opener?.focus?.(); };
+    document.addEventListener("keydown", keys);
+    UI.onLeave(close);
+
+    const text = () => JSON.stringify(store.backup());
+    const status = h("p.backup-status", { "aria-live": "polite" });
+    const say = (msg, cls = "") => { status.textContent = msg; status.className = "backup-status " + cls; };
+    const copyBox = h("textarea.backup-text", { readonly: true, hidden: true, rows: 3, "aria-label": "Backup text" });
+
+    function saveFile() {
+      const url = URL.createObjectURL(new Blob([text()], { type: "application/json" }));
+      const a = h("a", { href: url, download: `kaku-backup-${new Date().toISOString().slice(0, 10)}.json` });
+      document.body.append(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      say("Backup saved to your downloads.", "ok");
+    }
+    async function copy() {
+      const t = text();
+      try {
+        await navigator.clipboard.writeText(t);
+        say("Backup copied. Paste it somewhere safe, or into Kaku on your other device.", "ok");
+      } catch (_) {
+        // No clipboard access: show the text to copy by hand.
+        copyBox.value = t;
+        copyBox.hidden = false;
+        copyBox.select();
+        say("Copy the text below and keep it somewhere safe.", "");
+      }
+    }
+
+    // Restore: read a file or pasted text, then ask how to apply it.
+    const file = h("input.vh", { type: "file", accept: "application/json,.json", tabindex: "-1", "aria-hidden": "true", onchange: async () => {
+      const f = file.files?.[0];
+      if (f) check(await f.text());
+      file.value = "";
+    } });
+    const paste = h("textarea.backup-text", { rows: 3, placeholder: "…or paste backup text here", "aria-label": "Backup text to restore" });
+    const choice = h("div.backup-choice", { hidden: true });
+    function check(t) {
+      try {
+        const data = NH.readBackup(t.trim());
+        choice.replaceChildren(
+          h("p", h("b", `Backup from ${dateOf(data.saved)}`), h("br"), summary(data), "."),
+          h("div.actions",
+            UI.btn("Merge with this device", () => apply(data, true), "primary"),
+            UI.btn("Replace this device's progress", () => apply(data, false), "danger"),
+            UI.btn("Cancel", () => { choice.hidden = true; say(""); }, "ghost")),
+          h("p.muted", "Merge keeps whichever copy of each item you reviewed most recently, and this device's settings. Replace swaps everything here for the backup."));
+        choice.hidden = false;
+        say("");
+        choice.querySelector("button")?.focus();
+      } catch (e) {
+        choice.hidden = true;
+        say(e.message, "no");
+      }
+    }
+    function apply(data, merge) {
+      store.restore(data, { merge });
+      close();
+      UI.toast(merge ? "Backup merged." : "Progress restored.");
+      UI.go(location.hash.slice(1) || "home");
+    }
+
+    const here = store.backup();
+    const sheet = h("div.sheet.backup-sheet", { role: "dialog", "aria-modal": "true", "aria-label": "Back up or restore", tabindex: "-1" },
+      h("div.sheet-head", h("h2", "Back up or restore"), UI.iconBtn("close", "Close", close)),
+      h("p", "Your progress lives only on this device. Back it up to keep it safe or to carry on on another phone or tablet."),
+      h("h3", "Back up"),
+      h("p.muted", `On this device: ${summary(here)}.`),
+      h("div.actions",
+        native() ? null : UI.btn("Save to a file", saveFile, "primary"),
+        UI.btn("Copy as text", copy, native() ? "primary" : "ghost")),
+      copyBox,
+      h("h3", "Restore"),
+      h("div.actions", UI.btn("Open a backup file", () => file.click(), "ghost"), file),
+      paste,
+      h("div.actions", UI.btn("Read pasted backup", () => (paste.value.trim() ? check(paste.value) : say("Paste the backup text first.", "no")), "ghost")),
+      choice,
+      status);
+    bg.append(sheet);
+    document.body.append(bg);
+    sheet.focus();
+  }
+
+  NH.Backup = { open };
+})();
+
 /* js/app.js */
 /* Screens and routing. Routes live in the hash (#hiragana, #k-3042, #w-3042,
  * #word-mizu …) so Android's back button and bookmarks work. */
@@ -9725,7 +9886,7 @@ window.NH = window.NH || {};
     fillVoices();
     const off = TTS.onVoices(fillVoices);
     const confirmRow = h("div.confirm", { hidden: true },
-      h("span", "Erase all writing scores and quiz history?"),
+      h("span", "Erase all progress, including Today's schedule? A backup lets you bring it back."),
       btn("Erase", () => { store.reset(); confirmRow.hidden = true; toast("Progress erased."); }, "danger"),
       btn("Keep", () => (confirmRow.hidden = true), "ghost"));
 
@@ -9766,7 +9927,7 @@ window.NH = window.NH || {};
         TTS.native && !TTS.hasJapanese ? btn("Install Japanese voice", () => TTS.installVoice(), "ghost", "speaker") : null),
       h("div.row.col", h("label", { for: "rate" }, "Speaking speed"),
         h("input#rate", { type: "range", min: "0.5", max: "1.2", step: "0.05", value: String(st.rate), oninput: (e) => store.set("rate", parseFloat(e.target.value)) })),
-      h("div.row", h("span", "Progress"), btn("Erase…", () => (confirmRow.hidden = false), "ghost")),
+      h("div.row", h("span", "Progress"), h("div.inline", btn("Back up…", () => { off(); close(); NH.Backup.open(); }, "ghost"), btn("Erase…", () => (confirmRow.hidden = false), "ghost"))),
       confirmRow,
       h("p.muted.small", "Stroke order data from KanjiVG by Ulrich Apel, CC BY-SA 3.0. Kaku v0.1.")));
     document.body.append(dlg);

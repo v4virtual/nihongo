@@ -57,13 +57,16 @@ next is on the [roadmap](ROADMAP.md).
   Android and iOS). If no voice plays, install a Japanese TTS voice; Settings in
   the app explains how.
 
-The web app has no build step, no dependencies and no network calls except
-Google Fonts, plus speech recognition when you use **Say it**: the browser's
+The web app has no build step, no dependencies and makes no network calls of
+its own; the fonts are bundled. The one exception is speech recognition when
+you use **Say it**: the browser's
 provider turns your voice into text (Chrome and Edge send the audio to Google
 or Microsoft, Safari to Apple; in the Android app it's the phone's speech
 service, often Google's). Kaku asks before the first use and doesn't record or
-keep anything itself. Progress stays on the device. The Android app wraps the
-same files with Capacitor.
+keep anything itself. Progress stays on the device; Settings → Progress →
+**Back up…** saves it as a file or copies it as text, and restores it on another
+device (merging, so the most recent review of each item wins, or replacing).
+The Android app wraps the same files with Capacitor.
 
 ## Run it
 
@@ -178,6 +181,8 @@ as the second argument, for a quick visual check.
 src/
   index.html            page shell
   css/app.css           all styles (app chrome + the three writing worlds)
+  css/fonts.css         the bundled fonts (generated)
+  fonts/                font subsets and their licence (OFL.txt)
   js/util.js            DOM helpers, settings/progress storage
   js/geometry.js        path parsing, resampling, stroke grading
   js/srs.js             FSRS-4.5 scheduler, grades and the daily queue
@@ -190,11 +195,13 @@ src/
   js/read.js            reading mode: signs, sentences, tap-a-kana
   js/speak.js           pronunciation check (speech recognition + matching)
   js/kanji-line.js      kanji chart, explain pages, furigana, kanji words and quiz
+  js/backup.js          back up and restore progress (file or text)
   js/app.js             screens and hash routing
   js/data/              strokes and kanji parts (KanjiVG), kana info (hiragana, katakana), kanji,
                         tables, words, reading, scene art
 tools/
-  build-strokes.mjs     regenerates js/data/strokes.js from KanjiVG
+  build-strokes.mjs     regenerates js/data/strokes.js (and kanji parts) from KanjiVG
+  build-fonts.mjs       bundles the fonts, cut down to the characters the app uses
   build-artifact.mjs    bundles everything into dist/kaku.html (single file)
   build-icons.mjs       renders the web and Android icons from src/icon.svg
   make-release-key.sh   creates the Android signing key and GitHub secrets
@@ -210,5 +217,8 @@ tests/
 Stroke order data comes from [KanjiVG](https://kanjivg.tagaini.net) by Ulrich
 Apel, licensed [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/);
 `src/js/data/strokes.js` is distributed under the same license. Fonts: Klee One,
-Yuji Syuku, M PLUS Rounded 1c and Zen Kaku Gothic New (SIL Open Font License),
-served by Google Fonts.
+Yuji Syuku, M PLUS Rounded 1c and Zen Kaku Gothic New (SIL Open Font License
+1.1, see `src/fonts/OFL.txt`), bundled as subsets of the characters the app
+uses. `node tools/build-fonts.mjs` rebuilds them after adding text with new
+characters; a unit test says when that's needed. The single-file artifact build
+loads them from Google Fonts instead.
