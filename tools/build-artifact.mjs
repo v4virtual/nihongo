@@ -7,6 +7,8 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const GOOGLE_FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
+  '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=M+PLUS+Rounded+1c:wght@500;900&family=Yuji+Syuku&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap">';
 const src = (p) => join(root, "src", p);
 const html = await readFile(src("index.html"), "utf8");
 
@@ -21,7 +23,9 @@ const head = html.slice(html.indexOf("<head>") + 6, html.indexOf("</head>"))
   .replace(/<link rel="manifest"[^>]*>\n?/, "")
   .replace(/<link rel="apple-touch-icon"[^>]*>\n?/, "")
   .replace(/<link rel="icon"[^>]*>/, `<link rel="icon" href="data:image/svg+xml,${encodeURIComponent(icon)}">`)
-  .replace(/<link rel="stylesheet" href="css\/app.css">/, () => `<style>\n${css}\n</style>`);
+  .replace(/<link rel="stylesheet" href="css\/app.css">/, () => `<style>\n${css}\n</style>`)
+  // A single file can't carry the bundled font files, so it loads them from Google Fonts.
+  .replace(/<link rel="stylesheet" href="css\/fonts.css">/, () => GOOGLE_FONTS);
 let body = html.slice(html.indexOf("<body>") + 6, html.indexOf("</body>"));
 // Replacer functions, so "$&" and friends in the code are kept as written.
 body = body.replace(/(<script src="[^"]+"><\/script>\n?)+/, () => `<script>\n${js.replace(/<\/script/gi, "<\\/script")}\n</script>\n`);

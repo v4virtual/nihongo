@@ -661,7 +661,7 @@ window.NH = window.NH || {};
     fillVoices();
     const off = TTS.onVoices(fillVoices);
     const confirmRow = h("div.confirm", { hidden: true },
-      h("span", "Erase all writing scores and quiz history?"),
+      h("span", "Erase all progress, including Today's schedule? A backup lets you bring it back."),
       btn("Erase", () => { store.reset(); confirmRow.hidden = true; toast("Progress erased."); }, "danger"),
       btn("Keep", () => (confirmRow.hidden = true), "ghost"));
 
@@ -702,7 +702,7 @@ window.NH = window.NH || {};
         TTS.native && !TTS.hasJapanese ? btn("Install Japanese voice", () => TTS.installVoice(), "ghost", "speaker") : null),
       h("div.row.col", h("label", { for: "rate" }, "Speaking speed"),
         h("input#rate", { type: "range", min: "0.5", max: "1.2", step: "0.05", value: String(st.rate), oninput: (e) => store.set("rate", parseFloat(e.target.value)) })),
-      h("div.row", h("span", "Progress"), btn("Erase…", () => (confirmRow.hidden = false), "ghost")),
+      h("div.row", h("span", "Progress"), h("div.inline", btn("Back up…", () => { off(); close(); NH.Backup.open(); }, "ghost"), btn("Erase…", () => (confirmRow.hidden = false), "ghost"))),
       confirmRow,
       h("p.muted.small", "Stroke order data from KanjiVG by Ulrich Apel, CC BY-SA 3.0. Kaku v0.1.")));
     document.body.append(dlg);

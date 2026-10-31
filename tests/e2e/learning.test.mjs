@@ -214,3 +214,45 @@ describe("pronunciation check", () => {
     assert.equal(await page.locator(".btn", { hasText: "Show reading" }).count(), 1);
   }));
 });
+
+describe("backup and restore", () => {
+  const openBackup = async (page) => {
+    await page.locator(".bar .icon-btn[aria-label=Settings]").first().click();
+    await page.locator(".btn", { hasText: "Back up…" }).click();
+    await page.locator(".backup-sheet").waitFor();
+  };
+
+  test("saves a file that restores on a fresh device", T, async () => {
+    let text;
+    await withPage("today", { init: seed({ "k:あ": { s: 12, last: -1, due: 11 }, "k:い": { s: 1, last: -3, due: -1 } }) }, async (page) => {
+      await openBackup(page);
+      assert.match(await page.locator(".backup-sheet").textContent(), /2 items in Today's schedule/);
+      const [download] = await Promise.all([page.waitForEvent("download"), page.locator(".btn", { hasText: "Save to a file" }).click()]);
+      assert.match(download.suggestedFilename(), /^kaku-backup-\d{4}-\d\d-\d\d\.json$/);
+      text = await (await import("node:fs/promises")).readFile(await download.path(), "utf8");
+      assert.match(await page.locator(".backup-status").textContent(), /saved/);
+    });
+    await withPage("today", {}, async (page) => {
+      await openBackup(page);
+      await page.locator(".backup-sheet textarea[aria-label='Backup text to restore']").fill(text);
+      await page.locator(".btn", { hasText: "Read pasted backup" }).click();
+      assert.match(await page.locator(".backup-choice").textContent(), /2 items in Today's schedule/);
+      await page.locator(".btn", { hasText: "Replace this device's progress" }).click();
+      await page.locator(".toast", { hasText: "Progress restored." }).waitFor();
+      assert.deepEqual(Object.keys((await saved(page)).srs.cards).sort(), ["k:あ", "k:い"]);
+      assert.match(await page.locator(".pchip", { hasText: "あ" }).first().getAttribute("class"), /s-strong/, "the screen shows the restored progress");
+    });
+  });
+
+  test("copies as text, and refuses text that isn't a backup", T, () => withPage("today", {}, async (page) => {
+    await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+    await openBackup(page);
+    await page.locator(".btn", { hasText: "Copy as text" }).click();
+    await page.locator(".backup-status.ok").waitFor();
+    assert.equal(JSON.parse(await page.evaluate(() => navigator.clipboard.readText())).app, "kaku");
+    await page.locator(".backup-sheet textarea[aria-label='Backup text to restore']").fill("not a backup");
+    await page.locator(".btn", { hasText: "Read pasted backup" }).click();
+    assert.match(await page.locator(".backup-status.no").textContent(), /isn't a Kaku backup/);
+    assert.ok(await page.locator(".backup-choice").isHidden());
+  }));
+});

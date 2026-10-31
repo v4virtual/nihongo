@@ -89,7 +89,47 @@ window.NH = window.NH || {};
     srs() { return state.srs; },
     saveSrs() { save(); },
     reset() { state.progress = {}; state.srs = { cards: {}, day: null }; save(); },
+    // Everything Kaku keeps on this device, as one JSON object.
+    backup() { return { app: "kaku", format: 1, saved: new Date().toISOString(), settings: state.settings, progress: state.progress, srs: state.srs }; },
+    // Replaces or merges in a backup checked by readBackup(). Merging keeps this device's settings.
+    restore(data, { merge = false } = {}) {
+      if (merge) Object.assign(state, mergeBackup(state, data));
+      else {
+        state.settings = Object.assign({}, defaults.settings, data.settings);
+        state.progress = structuredClone(data.progress);
+        state.srs = { cards: structuredClone(data.srs.cards), day: null };
+      }
+      save();
+    },
   };
+
+  /* Checks pasted or loaded text is a Kaku backup. Returns the backup, or
+   * throws an Error whose message can be shown as is. */
+  function readBackup(text) {
+    let data;
+    try { data = JSON.parse(text); } catch (_) { throw new Error("That isn't a Kaku backup: it couldn't be read."); }
+    if (!data || data.app !== "kaku") throw new Error("That isn't a Kaku backup.");
+    if (data.format > 1) throw new Error("This backup comes from a newer Kaku. Update the app first.");
+    const isObj = (o) => o && typeof o === "object" && !Array.isArray(o);
+    if (!isObj(data.progress) || !isObj(data.srs) || !isObj(data.srs.cards)) throw new Error("This backup is incomplete.");
+    for (const c of Object.values(data.srs.cards)) {
+      if (!["s", "d", "last", "due"].every((k) => Number.isFinite(c?.[k]))) throw new Error("This backup is damaged.");
+    }
+    return data;
+  }
+
+  /* Combines this device's state with a backup: for each card, the copy
+   * reviewed more recently wins; writing scores keep the higher numbers. */
+  function mergeBackup(here, there) {
+    const cards = { ...here.srs.cards };
+    for (const [id, c] of Object.entries(there.srs.cards)) if (!cards[id] || c.last > cards[id].last) cards[id] = c;
+    const progress = { ...here.progress };
+    for (const [ch, p] of Object.entries(there.progress)) {
+      const q = progress[ch];
+      progress[ch] = q ? { best: Math.max(q.best, p.best || 0), last: q.last, tries: Math.max(q.tries, p.tries || 0), right: Math.max(q.right, p.right || 0), wrong: Math.max(q.wrong, p.wrong || 0) } : p;
+    }
+    return { settings: here.settings, progress, srs: { cards, day: here.srs.day } };
+  }
 
   function save() {
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (_) {}
@@ -119,5 +159,5 @@ window.NH = window.NH || {};
   NH.Routes = NH.Routes || [];
   NH.UI = NH.UI || {};
 
-  Object.assign(NH, { h, s, SVGNS, store, clamp, lerp, rand, shuffle, reducedMotion, hex, unhex, chars });
+  Object.assign(NH, { h, s, SVGNS, store, readBackup, mergeBackup, clamp, lerp, rand, shuffle, reducedMotion, hex, unhex, chars });
 })();

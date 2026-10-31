@@ -66,6 +66,12 @@ describe("axe audit", () => {
     await page.locator(".bar .icon-btn[aria-label=Settings]").click();
     assert.deepEqual(await audit(page), []);
   }));
+  test("the backup sheet has no violations", T, () => withPage("today", {}, async (page) => {
+    await page.locator(".bar .icon-btn[aria-label=Settings]").first().click();
+    await page.locator(".btn", { hasText: "Back up…" }).click();
+    await page.locator(".backup-sheet").waitFor();
+    assert.deepEqual(await audit(page), []);
+  }));
   test("the Say it sheet has no violations", T, () => withPage("sign-shibuya", {}, async (page) => {
     await page.locator(".btn", { hasText: "Say it" }).click();
     assert.deepEqual(await audit(page), []);
