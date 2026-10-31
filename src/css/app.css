@@ -816,3 +816,44 @@ input[type="range"] { accent-color: var(--line-h); }
 .say-status.no { color: var(--no); }
 .say-status.tip { box-shadow: inset 0 0 0 1.5px var(--shu); }
 @media (prefers-reduced-motion: reduce) { .say-mic.on { animation: none; box-shadow: 0 0 0 6px #7ac14366; } }
+
+/* ── Kanji ──────────────────────────────────────────────── */
+:root { --part-0: #2f6fd1; --part-1: #c0392b; --part-2: #2e8b57; --part-3: #b7791f; }
+.stroke-filter { display: flex; align-items: baseline; gap: 10px; margin-bottom: 18px; }
+.stroke-filter .chips { margin: 0; }
+.stroke-filter .chip { min-width: 40px; }
+.jgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; max-width: 760px; }
+.jcell {
+  position: relative; display: grid; justify-items: center; align-content: center; padding: 8px 4px 10px; border-radius: 10px; text-decoration: none; overflow: hidden;
+  background: var(--sign); color: var(--sign-ink); box-shadow: 0 0 0 1px var(--sign-edge); transition: transform 0.12s ease;
+}
+.jcell:hover { transform: translateY(-2px); }
+.jcell::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: var(--c, transparent); }
+.jc { font: 600 calc(34px * var(--ts))/1.15 var(--f-kana); }
+.jm { font-size: calc(11px * var(--ts)); font-weight: 700; color: var(--sign-muted); text-align: center; line-height: 1.2; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.jn { position: absolute; top: 4px; right: 6px; font-size: calc(10px * var(--ts)); color: var(--sign-muted); }
+
+.so-st.part.p0 { stroke: var(--part-0); }
+.so-st.part.p1 { stroke: var(--part-1); }
+.so-st.part.p2 { stroke: var(--part-2); }
+.so-st.part.p3 { stroke: var(--part-3); }
+.big-meaning { font-size: calc(30px * var(--ts)); font-weight: 900; line-height: 1.15; }
+.readings { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; align-items: baseline; }
+.readings dt { font-size: calc(12px * var(--ts)); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.readings dd { margin: 0; font: 600 calc(20px * var(--ts)) var(--f-kana); }
+.parts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.part-k { font: 600 34px var(--f-kana); }
+.part { display: grid; justify-items: center; padding: 4px 10px; border-radius: 10px; background: var(--sign); color: var(--sign-ink); border-bottom: 4px solid var(--pc); }
+.part b { font: 600 28px/1.1 var(--f-kana); color: var(--pc); }
+.part small { font-size: calc(11px * var(--ts)); color: var(--sign-muted); }
+.part.p0 { --pc: var(--part-0); } .part.p1 { --pc: var(--part-1); } .part.p2 { --pc: var(--part-2); } .part.p3 { --pc: var(--part-3); }
+.parts .op { color: var(--muted); font-size: calc(20px * var(--ts)); }
+.part-done { font-weight: 700; }
+
+.card-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.card-head h2 { margin: 0; }
+.furigana-toggle { margin: 0; align-items: center; }
+.word-tools { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+ruby { ruby-position: over; }
+rt { font-size: 0.45em; font-family: var(--f-ui); font-weight: 500; letter-spacing: 0; }
+:root[data-furigana="off"] rt { visibility: hidden; }

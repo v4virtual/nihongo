@@ -136,8 +136,8 @@ window.NH = window.NH || {};
   };
   NH.SCRIPTS.katakana.order = order(NH.KTABLES, ["basic", "voiced", "combos", "extended"]);
   NH.KANA_RE = /[ぁ-ゔァ-ヶー]/;
-  // Which script a character or word belongs to (katakana if it has any).
-  NH.scriptOf = (s) => (/[ァ-ヶー]/.test(s || "") ? NH.SCRIPTS.katakana : NH.SCRIPTS.hiragana);
+  // Which line a character or word belongs to: kanji if it has any, else katakana if it has any.
+  NH.scriptOf = (s) => (/[\u3400-\u9fff々]/.test(s || "") && NH.SCRIPTS.kanji ? NH.SCRIPTS.kanji : /[ァ-ヶー]/.test(s || "") ? NH.SCRIPTS.katakana : NH.SCRIPTS.hiragana);
 
   // Romaji of a kana or combo, best effort (used for quizzes and labels).
   NH.romajiOf = function (s) {

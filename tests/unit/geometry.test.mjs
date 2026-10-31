@@ -164,13 +164,19 @@ describe("stroke endings (hane)", () => {
 
   test("the model marks exactly the textbook hooks", () => {
     const marked = [];
-    for (const ch of chars) strokesOf(ch).forEach((st, i) => st.hane && marked.push(`${ch}${i + 1}`));
+    for (const ch of chars.filter((c) => !/[\u3400-\u9fff]/.test(c))) strokesOf(ch).forEach((st, i) => st.hane && marked.push(`${ch}${i + 1}`));
     assert.deepEqual(marked.sort(), [
       "い1", "か1", "が1", "き3", "ぎ3", "け1", "げ1", "さ2", "ざ2", "せ2", "ぜ2", "に1", "は1", "ば1", "ぱ1",
       "ほ1", "ぼ1", "ぽ1", "む2", "り1", "ぃ1", "ゑ1",
       // katakana: オ's and ホ's verticals and カ's turn end in a flick
       "オ2", "ォ2", "カ1", "ガ1", "ホ2", "ボ2", "ポ2",
     ].sort());
+  });
+
+  test("kanji hooks are found, and straight strokes aren't hooks", () => {
+    const hook = (ch, n) => !!strokesOf(ch)[n - 1].hane;
+    for (const [ch, n] of [["水", 1], ["小", 1], ["子", 2], ["月", 2], ["円", 2], ["何", 7], ["行", 6], ["見", 7]]) assert.ok(hook(ch, n), `${ch} stroke ${n}`);
+    for (const [ch, n] of [["一", 1], ["十", 2], ["木", 2], ["人", 1], ["日", 2], ["本", 2]]) assert.ok(!hook(ch, n), `${ch} stroke ${n} is straight`);
   });
 
   test("a stroke written with its flick is recognised", () => {

@@ -46,10 +46,11 @@ window.NH = window.NH || {};
 
   // Hub tab routes: hiragana keeps the short ones (#today, #words…); katakana's are #katakana-words…
   const tabRoute = (tab, S = NH.SCRIPTS.hiragana) =>
-    S.id === "hiragana" ? (tab === "symbols" ? "hiragana" : tab) : tab === "symbols" ? "katakana" : `katakana-${tab}`;
+    S.id === "hiragana" ? (tab === "symbols" ? "hiragana" : tab) : tab === "symbols" ? S.id : `${S.id}-${tab}`;
   const go = (route) => { if (location.hash.slice(1) === route) render(); else location.hash = route; };
   const info = (ch) => (NH.KANA_INFO && NH.KANA_INFO[ch]) || {};
-  const romaji = (ch) => NH.romajiOf(ch);
+  // A kanji has no single romaji, so labels show its meaning instead.
+  const romaji = (ch) => (NH.KANJI_INFO?.[ch] ? NH.KANJI_INFO[ch].meaning : NH.romajiOf(ch));
 
   // Shared with the screens in today.js, read.js and speak.js.
   Object.assign(NH.UI, { h, s, icon, btn, iconBtn, speakBtn, say, toast, go, tabRoute, romaji, info, onLeave: (fn) => cleanup.push(fn),
@@ -65,15 +66,17 @@ window.NH = window.NH || {};
     window.scrollTo(0, 0);
     if (r === "home") return home();
     if (r === "hiragana" || r === "symbols") return hub("symbols");
-    if (r === "katakana") return hub("symbols", "katakana");
-    if ((m = r.match(/^katakana-(today|words|read|quiz)$/))) return hub(m[1], "katakana");
+    if (r === "katakana" || r === "kanji") return hub("symbols", r);
+    if ((m = r.match(/^(katakana|kanji)-(today|words|read|quiz)$/))) return hub(m[2], m[1]);
     if (r === "words" || r === "phrases" || r === "quiz" || NH.Tabs[r]) return hub(r);
-    if ((m = r.match(/^k-([0-9a-f-]+)$/))) return explain(unhex(m[1]));
+    if ((m = r.match(/^k-([0-9a-f-]+)$/))) return NH.KANJI_INFO?.[unhex(m[1])] ? NH.Kanji.explain(unhex(m[1])) : explain(unhex(m[1]));
     if ((m = r.match(/^w-([0-9a-f-]+)$/))) return writeScreen({ chars: [...unhex(m[1])], key: unhex(m[1]), back: `k-${m[1]}` });
     if ((m = r.match(/^(word|phrase)-([a-z0-9-]+)$/))) {
-      const list = m[1] === "word" ? NH.WORDS : NH.PHRASES;
+      const list = m[1] === "word" ? [...NH.WORDS, ...(NH.KANJI_WORDS || [])] : NH.PHRASES;
       const item = list.find((x) => x.id === m[2]);
-      if (item) return writeScreen({ chars: [...item.kana], item, key: item.kana, back: tabRoute(m[1] === "word" ? "words" : "phrases", NH.scriptOf(item.kana)) });
+      // Kanji words are written as `text` (日本) and read as `kana` (にほん).
+      const text = item?.text || item?.kana;
+      if (item) return writeScreen({ chars: [...text], item, key: text, back: tabRoute(m[1] === "word" ? "words" : "phrases", NH.scriptOf(text)) });
     }
     for (const route of NH.Routes) if ((m = r.match(route.match))) return route.render(m);
     if ((m = r.match(/^p-([0-9a-f-]+)$/))) {
@@ -98,6 +101,7 @@ window.NH = window.NH || {};
     // Kana written well, out of the 71 in each chart's basic and voiced rows.
     const studied = (S) => ["basic", "voiced"].flatMap((k) => S.tables[k].rows.flatMap((r) => r.cells)).filter((c) => c && store.progress(c)?.best >= 60).length;
     const count = (S) => (studied(S) ? `${studied(S)} of 71 kana written well →` : "Start here →");
+    const kanjiCount = () => { const n = (NH.KANJI || []).filter((x) => store.progress(x.k)?.best >= 60).length; return n ? `${n} of ${NH.KANJI.length} kanji written well →` : `First ${(NH.KANJI || []).length} kanji →`; };
     app.replaceChildren(
       h("header.home-head",
         h("h1.brand", h("span.brand-kana", "書く"), h("span.brand-name", "Kaku")),
@@ -107,7 +111,7 @@ window.NH = window.NH || {};
         h("div.ekis",
           sign({ code: "H", num: "01", jp: "ひらがな", en: "Hiragana", color: "var(--line-h)", next: "カタカナ", href: "#today", count: count(NH.SCRIPTS.hiragana) }),
           sign({ code: "K", num: "02", jp: "カタカナ", en: "Katakana", color: "var(--line-k)", prev: "ひらがな", next: "漢字", href: "#katakana-today", count: count(NH.SCRIPTS.katakana) }),
-          sign({ code: "J", num: "03", jp: "漢字", en: "Kanji", color: "var(--line-j)", prev: "カタカナ", soon: true })),
+          sign({ code: "J", num: "03", jp: "漢字", en: "Kanji", color: "var(--line-j)", prev: "カタカナ", href: "#kanji-today", count: kanjiCount() })),
         h("section.how",
           h("h2", "How it works"),
           h("ol",
@@ -127,8 +131,8 @@ window.NH = window.NH || {};
     const S = NH.SCRIPTS[scriptId];
     document.body.classList.add("scr-hub");
     // Phrases are everyday hiragana; katakana has loanwords instead.
-    const tabs = [["today", "今日", "Today"], ["symbols", "文字", "Kana"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], ["read", "読む", "Read"], ["quiz", "試験", "Quiz"]]
-      .filter(([id]) => S.id === "hiragana" || id !== "phrases");
+    const tabs = [["today", "今日", "Today"], S.id === "kanji" ? ["symbols", "漢字", "Kanji"] : ["symbols", "文字", "Kana"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], ["read", "読む", "Read"], ["quiz", "試験", "Quiz"]]
+      .filter(([id]) => (S.id === "hiragana" || id !== "phrases") && (S.id !== "kanji" || id !== "read"));
     const body = h("main.hub-body");
     app.replaceChildren(
       h("header.bar",
@@ -139,7 +143,9 @@ window.NH = window.NH || {};
         h("a.tab", { href: `#${tabRoute(id, S)}`, role: "tab", "aria-selected": String(tab === id), class: tab === id ? "on" : "" }, h("span.tab-jp", jp), h("span", en))))),
       body
     );
-    if (NH.Tabs[tab]) NH.Tabs[tab](body, S);
+    // Kanji brings its own chart, word list and quiz (kanji-line.js).
+    if (S.screens?.[tab]) S.screens[tab](body, S);
+    else if (NH.Tabs[tab]) NH.Tabs[tab](body, S);
     else if (tab === "symbols") symbols(body, S);
     else if (tab === "quiz") quizSetup(body, S);
     else wordList(body, tab, S);
@@ -284,9 +290,12 @@ window.NH = window.NH || {};
       const I = info(c);
       const baseCount = I.base && NH.STROKES[I.base] ? NH.STROKES[I.base].length : Infinity;
       const g = s("g", { transform: `translate(${ci * 109} 0)` });
+      // Kanji parts get their own colour, so 休 reads as 亻 + 木.
+      const partOf = (i) => (NH.PARTS?.[c] || []).findIndex((p) => p.strokes.includes(i));
       NH.Geo.strokesOf(c).forEach((st, i) => {
         g.append(s("path.so-bg", { d: st.d }));
-        g.append(s("path.so-st", { d: st.d, pathLength: "1", class: i >= baseCount ? "mark" : "", style: `--i:${n}` }));
+        const part = partOf(i);
+        g.append(s("path.so-st", { d: st.d, pathLength: "1", class: i >= baseCount ? "mark" : part >= 0 ? `part p${part % 4}` : "", style: `--i:${n}` }));
         const p = NH.Geo.labelPos(st);
         g.append(s("text.so-n", { x: p.x, y: p.y + 2, "text-anchor": "middle", style: `--i:${n}` }, String(i + 1)));
         if (st.hane) {
@@ -336,7 +345,7 @@ window.NH = window.NH || {};
     const assistSeg = h("div.seg.assists", { role: "radiogroup", "aria-label": "Help level" });
 
     const title = isWord
-      ? h("h1.bar-title.word-title", h("b", item.kana), h("small", [item.romaji, item.meaning].filter(Boolean).join(" · ")))
+      ? h("h1.bar-title.word-title", h("b", item.text ? NH.UI.ruby(item.text, item.kana) : item.kana), h("small", [item.romaji, item.meaning].filter(Boolean).join(" · ")))
       : h("h1.bar-title", h("b", key), h("small", romaji(key)));
 
     /* The controls live in one panel. On phones it dissolves into the column
@@ -417,6 +426,9 @@ window.NH = window.NH || {};
           else if (e.hane === "ok") feedback.textContent = `Stroke ${n} ✓ with a clean hane flick.${n < e.total ? ` Next: stroke ${n + 1}.` : ""}`;
           else feedback.textContent = n < e.total ? `Stroke ${n} ✓ ${style === "accuracy" ? e.accuracy + "% " : ""}· next: stroke ${n + 1} of ${e.total}` : "";
           feedback.className = e.hane === "missing" ? "feedback tip" : "feedback ok";
+          // Kanji: say when a part is complete (亻 done), so the parts become units.
+          const part = (NH.PARTS?.[chars[pos]] || []).find((p) => Math.max(...p.strokes) === e.index);
+          if (part) feedback.prepend(h("b.part-done", `${part.el} ${NH.COMPONENT_NAMES?.[part.el] ? `(${NH.COMPONENT_NAMES[part.el]}) ` : ""}done. `));
           if (n < e.total) feedback.append(h("span.vh", ` ${writer.describeStroke(n)}`));
         } else {
           feedback.textContent = e.message;
@@ -429,7 +441,7 @@ window.NH = window.NH || {};
         missesTotal += e.misses;
         store.recordWrite(c, e.score);
         // Free practice also counts toward spaced repetition, for kana already started.
-        if (single) NH.SRS.practice("k:" + c, NH.SRS.gradeWriting({ score: e.score, misses: e.misses, assist }));
+        if (single) NH.SRS.practice((NH.KANJI_INFO?.[c] ? "j:" : "k:") + c, NH.SRS.gradeWriting({ score: e.score, misses: e.misses, assist }));
         feedback.className = "feedback ok";
         feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}${e.haneMissed ? " · remember the hane flick" : ""}`;
         setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
@@ -447,14 +459,14 @@ window.NH = window.NH || {};
     function showResult(e) {
       const avg = Math.round(results.reduce((a, b) => a + b, 0) / results.length);
       const isPhrase = isWord && NH.PHRASES.includes(item);
-      const cardId = isWord && item.id ? `${isPhrase ? "p" : "w"}:${item.id}` : !single ? "k:" + key : null;
+      const cardId = isWord && item.id ? `${isPhrase ? "p" : item.text ? "v" : "w"}:${item.id}` : !single ? "k:" + key : null;
       if (cardId) NH.SRS.practice(cardId, NH.SRS.gradeWriting({ score: avg, misses: missesTotal, assist }));
       const order = NH.scriptOf(key).order;
       const idx = order.indexOf(key);
       const nextKana = single && idx >= 0 ? order[idx + 1] : null;
       let nextItem = null;
       if (isWord && item.id) {
-        const list = (isPhrase ? NH.PHRASES : NH.WORDS).filter((w) => NH.scriptOf(w.kana) === NH.scriptOf(item.kana));
+        const list = item.text ? NH.KANJI_WORDS : (isPhrase ? NH.PHRASES : NH.WORDS).filter((w) => NH.scriptOf(w.kana) === NH.scriptOf(item.kana));
         const i = list.findIndex((x) => x.id === item.id);
         nextItem = list[i + 1];
       }
@@ -463,11 +475,11 @@ window.NH = window.NH || {};
         h("div.result-card",
           h("div.result-score", h("b", `${avg}`), h("span", "%")),
           h("div.result-label", chars.length > 1 ? grade[2] : e.label),
-          isWord ? h("p.result-word", item.kana, " — ", item.meaning) : null,
+          isWord ? h("p.result-word", item.text ? NH.UI.ruby(item.text, item.kana) : item.kana, " — ", item.meaning) : null,
           h("div.result-actions",
             btn("Again", () => { results.length = 0; missesTotal = 0; loadChar(0); }, "ghost", "redo"),
             nextKana ? btn(`Next: ${nextKana}`, () => go(`w-${hex(nextKana)}`), "primary", "next") : null,
-            nextItem ? btn(`Next: ${nextItem.kana}`, () => go(`${isPhrase ? "phrase" : "word"}-${nextItem.id}`), "primary", "next") : null,
+            nextItem ? btn(`Next: ${nextItem.text || nextItem.kana}`, () => go(`${isPhrase ? "phrase" : "word"}-${nextItem.id}`), "primary", "next") : null,
             !nextKana && !nextItem ? btn("Done", () => go(back), "primary") : null)));
       result.hidden = false;
       if (isWord) say(item.kana, { quiet: true });

@@ -6,9 +6,9 @@ const CACHE = "kaku-dev";
 const FILES = [
   "./", "index.html", "css/app.css", "manifest.webmanifest",
   "icon.svg", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png",
-  "js/util.js", "js/data/strokes.js", "js/data/kana-info.js", "js/data/katakana-info.js", "js/data/kana.js", "js/data/words.js", "js/data/reading.js",
+  "js/util.js", "js/data/strokes.js", "js/data/kana-info.js", "js/data/katakana-info.js", "js/data/kana.js", "js/data/words.js", "js/data/reading.js", "js/data/kanji.js",
   "js/data/scene-art.js", "js/geometry.js", "js/ink.js", "js/audio.js", "js/tts.js",
-  "js/srs.js", "js/backdrops.js", "js/writer.js", "js/today.js", "js/read.js", "js/speak.js", "js/app.js",
+  "js/srs.js", "js/backdrops.js", "js/writer.js", "js/today.js", "js/read.js", "js/speak.js", "js/kanji-line.js", "js/app.js",
 ];
 const FONTS = /^https:\/\/fonts\.(googleapis|gstatic)\.com\//;
 

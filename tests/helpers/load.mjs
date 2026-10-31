@@ -25,7 +25,7 @@ export function load(files) {
   return sandbox.NH;
 }
 
-export const ALL_DATA = ["util.js", "data/strokes.js", "data/kana-info.js", "data/katakana-info.js", "data/kana.js", "data/words.js", "data/reading.js", "data/scene-art.js", "geometry.js", "srs.js"];
+export const ALL_DATA = ["util.js", "data/strokes.js", "data/kana-info.js", "data/katakana-info.js", "data/kana.js", "data/words.js", "data/reading.js", "data/kanji.js", "data/scene-art.js", "geometry.js", "srs.js", "kanji-line.js"];
 
 // Deterministic "human" stroke: shifted, scaled, wobbly, unevenly sampled.
 export function makeRng(seed = 7) {

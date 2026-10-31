@@ -1,8 +1,9 @@
 # Kaku 書く
 
-Learn Japanese by writing it. Kaku covers **hiragana** and **katakana**: every
-kana has an explain page and a writing practice where each stroke is checked
-for shape, direction and order. Kanji is next on the [roadmap](ROADMAP.md).
+Learn Japanese by writing it. Kaku covers **hiragana**, **katakana** and the
+first **80 kanji** (JLPT N5): every character has an explain page and a writing
+practice where each stroke is checked for shape, direction and order. What's
+next is on the [roadmap](ROADMAP.md).
 
 ## What's inside
 
@@ -23,6 +24,15 @@ for shape, direction and order. Kanji is next on the [roadmap](ROADMAP.md).
   vending machine); katakana signs and menus; and a Katakana → hiragana quiz.
   Today teaches hiragana first by default; Today → Learn switches to katakana
   first or both together.
+- **Kanji**: the 80 kanji of JLPT N5, grouped by theme (numbers, days and
+  time, people, places…) with a stroke-count filter. Each has its meaning,
+  on and kun readings, radical, a memory hook and example words. Its parts are
+  coloured in the stroke-order diagram (休 = 亻 person + 木 tree); while you
+  write, Kaku says when a part is done and names the parts in stroke-order
+  mistakes ("That's part of 木. Finish 亻 first"). Words that mix kanji and
+  kana (日本, 食べる, 今日) have furigana you can turn off. Kanji join Today two
+  a day once all 46 basic hiragana are started (Today → New kanji: off, 2, 3 or
+  5).
 - **Symbols**: gojūon, dakuten/handakuten and yōon charts. Each kana has an
   animated stroke order, the kanji it came from, a memory hook, quirks,
   lookalikes and example words.
@@ -179,8 +189,10 @@ src/
   js/today.js           Today tab, sessions, dictation, progress by row
   js/read.js            reading mode: signs, sentences, tap-a-kana
   js/speak.js           pronunciation check (speech recognition + matching)
+  js/kanji-line.js      kanji chart, explain pages, furigana, kanji words and quiz
   js/app.js             screens and hash routing
-  js/data/              strokes (KanjiVG), kana info (hiragana, katakana), tables, words, reading, scene art
+  js/data/              strokes and kanji parts (KanjiVG), kana info (hiragana, katakana), kanji,
+                        tables, words, reading, scene art
 tools/
   build-strokes.mjs     regenerates js/data/strokes.js from KanjiVG
   build-artifact.mjs    bundles everything into dist/kaku.html (single file)

@@ -56,9 +56,11 @@ release; order within a group is a rough priority.
 
 ## v0.5 — Kanji, first steps
 
-- [ ] JLPT N5 kanji (~80) with KanjiVG stroke data, radicals and readings
-- [ ] Component-aware grading (radicals as groups) and stroke-count search
-- [ ] Words mixing kanji and kana (furigana toggle)
+- [x] JLPT N5 kanji (80) with KanjiVG stroke data, radicals, on/kun readings, memory hooks and example words
+- [x] Component-aware writing: parts from KanjiVG coloured in the stroke order, "亻 done" as each part is finished, and stroke-order mistakes named by part
+- [x] Stroke-count search in the kanji chart
+- [x] Words mixing kanji and kana (furigana toggle), kanji in Today (after the basic hiragana) and a kanji quiz
+- [ ] Hane checks on every kanji hook: the detector finds most (水, 月, 子) but misses a few upward ones (九, 七)
 
 ## Platform
 

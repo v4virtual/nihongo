@@ -13,7 +13,8 @@ window.NH = window.NH || {};
   NH.Tabs.today = function (body, S = NH.SCRIPTS.hiragana) {
     const { due, fresh } = SRS.today();
     const here = UI.tabRoute("today", S);
-    const prefix = S.id === "katakana" ? "katakana-" : "";
+    const prefix = S.id === "hiragana" ? "" : `${S.id}-`;
+    const isKanji = S.id === "kanji";
     const total = due.length + fresh.length;
     const preview = [...due, ...fresh].slice(0, 12).map((id) => SRS.itemText(id));
     const limit = store.settings.dailyNew ?? 5;
@@ -24,6 +25,10 @@ window.NH = window.NH || {};
       h("button.chip", { type: "button", role: "radio", "aria-checked": String(id === mode), onclick: () => { store.set("learn", id); UI.go(here); } }, label)));
     // On the katakana line, say why no katakana are coming yet.
     const waiting = S.id === "katakana" && mode === "hiragana" && SRS.kanaOrder("hiragana").some((c) => !SRS.card("k:" + c));
+    const kanjiLimit = store.settings.dailyKanji ?? 2;
+    const kanjiLimits = h("div.chips", { role: "radiogroup", "aria-label": "New kanji per day" }, [[0, "Off"], [2, "2 a day"], [3, "3 a day"], [5, "5 a day"]].map(([n, label]) =>
+      h("button.chip", { type: "button", role: "radio", "aria-checked": String(n === kanjiLimit), onclick: () => { store.set("dailyKanji", n); UI.go(here); } }, label)));
+    const kanjiWaiting = isKanji && !SRS.ready("j:" + NH.KANJI[0].k);
 
     body.append(
       h("section.card.today-card",
@@ -33,14 +38,15 @@ window.NH = window.NH || {};
           : h("p.today-sum", "All caught up. ", nextDueText()),
         preview.length ? h("p.today-preview", { "aria-label": "Coming up" }, preview.map((t) => h("span", t))) : null,
         total ? UI.btn("Start", () => UI.go(prefix + "session"), "primary", "play") : null,
-        h("div.today-limit", h("span.muted", "New kana:"), limits),
-        h("div.today-limit", h("span.muted", "Learn:"), order),
-        waiting ? h("p.muted.today-note", "New kana come from hiragana until you've started all of it. Pick Katakana first or Both together to begin katakana now.") : null),
-      h("section.card.today-card",
+        isKanji ? h("div.today-limit", h("span.muted", "New kanji:"), kanjiLimits) : h("div.today-limit", h("span.muted", "New kana:"), limits),
+        isKanji ? null : h("div.today-limit", h("span.muted", "Learn:"), order),
+        waiting ? h("p.muted.today-note", "New kana come from hiragana until you've started all of it. Pick Katakana first or Both together to begin katakana now.") : null,
+        kanjiWaiting ? h("p.muted.today-note", "Kanji start once you've started all 46 basic hiragana, since their readings are written in kana.") : null),
+      ...(isKanji ? [] : [h("section.card.today-card",
         h("h2", "Hear it, write it"),
         h("p", "Ten kana read aloud, no picture. Write each one from memory."),
-        UI.btn("Start dictation", () => UI.go(prefix + "dictation"), "ghost", "ear")),
-      progressByRow(S));
+        UI.btn("Start dictation", () => UI.go(prefix + "dictation"), "ghost", "ear"))]),
+      isKanji ? kanjiProgress() : progressByRow(S));
   };
 
   function nextDueText() {
@@ -77,10 +83,21 @@ window.NH = window.NH || {};
       S.tables.extended ? summary("extended", "Loanword sounds") : null);
   }
 
+  // The 80 kanji in their theme groups, coloured like the kana rows.
+  function kanjiProgress() {
+    return h("section.card.progress",
+      h("h2", "Kanji by theme"),
+      h("div.ptable", NH.Kanji.GROUPS.map(([g, , en]) => h("div.prow", h("span.prow-name", en),
+        h("span.prow-chips", NH.KANJI.filter((x) => x.group === g).map((x) => {
+          const st = SRS.strength("j:" + x.k);
+          return h("a.pchip", { href: `#k-${hex(x.k)}`, class: "s-" + st, title: `${x.k} ${x.meaning}`, "aria-label": `${x.k}, ${st === "new" ? "not started" : st === "due" ? "due now" : st}` }, x.k);
+        }))))));
+  }
+
   // ── sessions ─────────────────────────────────────────────
-  // #session and #dictation; #katakana-session… come back to the katakana hub.
-  const backOf = (m) => (m[1] ? "katakana-today" : "today");
-  NH.Routes.push({ match: /^(katakana-)?session$/, render: (m) => runSession(todayTasks(), { title: "今日 Today", back: backOf(m) }) });
+  // #session and #dictation; #katakana-session… come back to their own line.
+  const backOf = (m) => (m[1] ? `${m[1]}today` : "today");
+  NH.Routes.push({ match: /^(katakana-|kanji-)?session$/, render: (m) => runSession(todayTasks(), { title: "今日 Today", back: backOf(m) }) });
   NH.Routes.push({ match: /^(katakana-)?dictation$/, render: (m) => runSession(dictationTasks(m[1] ? "katakana" : "hiragana"), { title: "Hear it, write it", back: backOf(m), practiceOnly: true }) });
 
   function todayTasks() {
@@ -168,38 +185,35 @@ window.NH = window.NH || {};
     }
 
     function intro(t, done) {
-      const text = SRS.itemText(t.id);
-      const isKana = t.id[0] === "k";
       if (t.id[0] === "r") return RENDER.read(t, done);
-      const item = itemOf(t.id);
-      const svg = UI.strokeOrderSvg(text);
+      const d = describe(t.id);
+      const svg = UI.strokeOrderSvg(d.text);
       panel.append(
-        prompt(isKana ? "New kana" : t.id[0] === "w" ? "New word" : "New phrase", text, isKana ? UI.romaji(text) : `${item.romaji} · ${item.meaning}`, text),
-        isKana && (UI.info(text).mnemonic || UI.info(text).notes) ? h("p.task-note", UI.info(text).mnemonic || UI.info(text).notes[0]) : item?.note ? h("p.task-note", item.note) : null,
-        h("div.actions", UI.btn("Write it", () => writeTask(t, done, isKana ? "trace" : "guide"), "primary", "pen")));
+        prompt(d.label, d.big, d.intro, d.speak),
+        d.note ? h("p.task-note", d.note) : null,
+        h("div.actions", UI.btn("Write it", () => writeTask(t, done, d.single ? "trace" : "guide"), "primary", "pen")));
       cellWrap.append(h("div.so-wrap.task-so", svg, h("div.so-tools", UI.iconBtn("play", "Replay stroke order", () => UI.replay(svg)))));
       requestAnimationFrame(() => UI.replay(svg));
-      UI.say(text, { quiet: true });
+      UI.say(d.speak, { quiet: true });
     }
 
     function writeTask(t, done, assist, hearOnly = false) {
       panel.replaceChildren();
       cellWrap.replaceChildren();
-      const text = SRS.itemText(t.id);
+      const d = describe(t.id);
+      const text = d.text;
       const chars = [...text];
-      const item = itemOf(t.id);
-      const isKana = t.id[0] === "k";
       let pos = 0, scoreSum = 0, misses = 0, hinted = false;
       const fb = h("p.feedback", { "aria-live": "polite" });
       const seq = chars.length > 1 ? h("div.seq") : null;
       const drawSeq = () => seq?.replaceChildren(...chars.map((c, k) =>
         h("span.seq-c", { class: [k === pos ? "on" : "", k < pos ? "done" : ""].join(" ") }, h("span", k < pos ? c : "?"))));
-      const main = hearOnly ? null : isKana ? UI.romaji(text) : item.meaning;
-      const sub = hearOnly ? null : isKana ? null : item.romaji;
+      const main = hearOnly ? null : d.cue;
+      const sub = hearOnly ? null : d.cueSub;
       panel.append(
         prompt(hearOnly ? "Hear it, write it" : assist === "memory" ? "Write it from memory" : "Write it", main, sub, null),
         h("div.actions",
-          UI.btn("Listen", () => UI.say(text), "ghost", "speaker"),
+          UI.btn("Listen", () => UI.say(d.speak), "ghost", "speaker"),
           UI.btn("Show me", () => { hinted = true; writer.demo(); }, "ghost", "play")),
         seq, fb);
       const cell = h("div.cell");
@@ -207,8 +221,8 @@ window.NH = window.NH || {};
       writer = new NH.Writer(cell, { style, assist, onEvent });
       writer.setChar(chars[0], 0);
       drawSeq();
-      fb.textContent = hearOnly ? "Listen, then write what you hear." : `${chars.length > 1 ? `${chars.length} kana. ` : ""}${assist === "memory" ? "Start whenever you're ready." : "Follow the guide."}`;
-      later(() => UI.say(text, { quiet: true }), 250);
+      fb.textContent = hearOnly ? "Listen, then write what you hear." : `${chars.length > 1 ? `${chars.length} characters. ` : ""}${assist === "memory" ? "Start whenever you're ready." : "Follow the guide."}`;
+      later(() => UI.say(d.speak, { quiet: true }), 250);
 
       function onEvent(e) {
         if (e.type === "stroke" && !e.ok) { fb.textContent = e.message; fb.className = "feedback no"; }
@@ -222,32 +236,33 @@ window.NH = window.NH || {};
         const score = Math.round(scoreSum / chars.length);
         let grade = SRS.gradeWriting({ score, misses, assist });
         if (hinted) grade = Math.min(grade, SRS.HARD);
-        const reading = isKana ? UI.romaji(text) : `${item.romaji} · ${item.meaning}`;
         // Tracing caps the grade, but a clean trace still counts as a pass.
         const pass = score >= 75 && misses < 3;
         fb.className = pass ? "feedback ok" : "feedback tip";
-        fb.textContent = `${text} (${reading}) · ${score}%${hinted ? " · with a hint" : ""}`;
-        UI.say(text, { quiet: true });
+        fb.textContent = `${text} (${d.reading}) · ${score}%${hinted ? " · with a hint" : ""}`;
+        UI.say(d.speak, { quiet: true });
         finishTask(grade, done, pass);
       }
     }
 
     function recognize(t, done) {
-      const text = SRS.itemText(t.id);
-      const isKana = t.id[0] === "k";
+      const d = describe(t.id);
+      const text = d.text;
+      const kind = t.id[0], isKana = kind === "k";
       const item = itemOf(t.id);
       const answer = isKana ? UI.romaji(text) : item.meaning;
       const pool = isKana
         ? SRS.kanaOrder(NH.scriptOf(text).id).filter((c) => [...c].length === [...text].length && UI.romaji(c) !== answer)
-        : [...NH.WORDS, ...NH.PHRASES].filter((w) => w.meaning !== answer);
-      const looks = isKana ? (UI.info(text).lookalikes || []).filter((c) => UI.romaji(c) !== answer) : [];
+        : kind === "j" ? NH.KANJI : kind === "v" ? NH.KANJI_WORDS : [...NH.WORDS, ...NH.PHRASES];
+      const looks = isKana ? (UI.info(text).lookalikes || []).filter((c) => UI.romaji(c) !== answer)
+        : kind === "j" ? item.lookalikes.map((c) => NH.KANJI_INFO[c]) : [];
       const wrong = [...new Set([...shuffle(looks), ...shuffle(pool)].map((x) => (isKana ? UI.romaji(x) : x.meaning)))].filter((x) => x !== answer).slice(0, 3);
       const options = shuffle([answer, ...wrong]);
       const shownAt = performance.now();
       const fb = h("p.feedback", { "aria-live": "polite" });
       panel.append(prompt(isKana ? "How do you read this?" : "What does this mean?", null, null, null), fb);
       const opts = h("div.qopts", { class: "latin" }, options.map((o) => h("button.qopt", { type: "button", onclick: (e) => choose(o, e.currentTarget) }, o)));
-      cellWrap.append(h("div.task-card", h("div.qprompt", { class: isKana ? "" : "word" }, text), opts));
+      cellWrap.append(h("div.task-card", h("div.qprompt", { class: chars1(text) ? "" : "word" }, text), opts));
       function choose(o, el) {
         if (opts.dataset.answered) return;
         opts.dataset.answered = "1";
@@ -257,7 +272,7 @@ window.NH = window.NH || {};
         fb.className = ok ? "feedback ok" : "feedback no";
         fb.textContent = ok ? `Yes: ${text} is ${answer}.` : `${text} is ${answer}.`;
         UI.announce(fb.textContent);
-        UI.say(text, { quiet: true });
+        UI.say(d.speak, { quiet: true });
         finishTask(SRS.gradeChoice(ok, performance.now() - shownAt), done);
       }
     }
@@ -289,8 +304,29 @@ window.NH = window.NH || {};
     if (id[0] === "w") return NH.WORDS.find((w) => w.id === key);
     if (id[0] === "p") return NH.PHRASES.find((w) => w.id === key);
     if (id[0] === "r") return (NH.READING || []).find((r) => r.id === key);
+    if (id[0] === "v") return (NH.KANJI_WORDS || []).find((w) => w.id === key);
+    if (id[0] === "j") return NH.KANJI_INFO?.[key];
     return null;
   }
+  const chars1 = (t) => [...t].length === 1;
 
-  NH.Today = { todayTasks, dictationTasks, reviewType, itemOf, runSession };
+  /* How a card is shown: its text, what to show when introducing it, the cue
+   * for writing it from memory, and what to say aloud. */
+  function describe(id) {
+    const kind = id[0], text = SRS.itemText(id), item = itemOf(id);
+    if (kind === "k") {
+      const I = UI.info(text);
+      return { text, single: true, label: "New kana", big: text, intro: UI.romaji(text), cue: UI.romaji(text), reading: UI.romaji(text), speak: text, note: I.mnemonic || I.notes?.[0] };
+    }
+    if (kind === "j") {
+      const readings = [...item.on, ...item.kun.map((k) => k.replace(".", ""))].join("・");
+      return { text, single: true, label: "New kanji", big: text, intro: `${item.meaning} · ${readings}`, cue: item.meaning, cueSub: readings, reading: item.meaning, speak: text, note: item.mnemonic };
+    }
+    if (kind === "v") {
+      return { text, label: "New word", big: UI.ruby(text, item.kana), intro: `${item.kana} · ${item.meaning}`, cue: item.meaning, cueSub: item.kana, reading: `${item.kana} · ${item.meaning}`, speak: item.kana, note: item.note };
+    }
+    return { text, label: kind === "w" ? "New word" : "New phrase", big: text, intro: `${item.romaji} · ${item.meaning}`, cue: item.meaning, cueSub: item.romaji, reading: `${item.romaji} · ${item.meaning}`, speak: text, note: item.note };
+  }
+
+  NH.Today = { todayTasks, dictationTasks, reviewType, itemOf, describe, runSession };
 })();
