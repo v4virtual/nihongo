@@ -12461,6 +12461,8 @@ window.NH = window.NH || {};
   const { h, s, Geo, Ink, Audio, clamp, rand, lerp } = NH;
   const BOX = 109;
   const MAX_STROKE = 5; // box widths: longer than any real stroke, so it must be a scribble
+  // Set once an Apple Pencil or other stylus touches any writing square this visit.
+  let penSeen = false;
 
   const NEON = ["#ff3ea5", "#38f3ff", "#ffe14d", "#b46bff", "#5dff9e", "#ff8a3d"];
   const SHU = "#c8382e";
@@ -12736,10 +12738,13 @@ window.NH = window.NH || {};
       // Palm rejection: while a stylus is in use (touching, or lifted less than
       // PEN_GRACE ms ago) touches are a resting hand, not writing. A pen that
       // lands while a touch "stroke" is in progress replaces it.
-      const PEN_GRACE = 1500;
+      // Contact size only counts once a pen has been used: iPads report a
+      // fingertip as 40-60px across, so a finger alone always writes. With a
+      // pen around, a patch much wider than a fingertip is a resting hand.
+      const PEN_GRACE = 1500, PALM = 90;
       const penBusy = (t) => this.penDown || t - (this.lastPen || -Infinity) < PEN_GRACE;
-      const isPalm = (e) => e.pointerType === "touch" && (penBusy(e.timeStamp) || (e.width > 40 && e.height > 40));
-      const notePen = (e) => { if (e.pointerType === "pen") this.lastPen = e.timeStamp; };
+      const isPalm = (e) => e.pointerType === "touch" && (penBusy(e.timeStamp) || (penSeen && e.width > PALM && e.height > PALM));
+      const notePen = (e) => { if (e.pointerType === "pen") { this.lastPen = e.timeStamp; penSeen = true; } };
       for (const type of ["pointermove", "pointerup"]) el.addEventListener(type, notePen);
 
       el.addEventListener("pointerdown", (e) => {
@@ -12747,6 +12752,7 @@ window.NH = window.NH || {};
         if (e.pointerType === "pen") {
           this.penDown = true;
           this.lastPen = e.timeStamp;
+          penSeen = true;
           if (this.pointer != null && this.pointerType === "touch") {
             // the palm got there first: drop its stroke and write with the pen
             Audio.drawEnd();
