@@ -55,7 +55,9 @@ function parse(svg) {
       types.push((m[2].match(/kvg:type="([^"]+)"/) || [])[1] || "");
     }
   }
-  return { paths, types, parts: parts.map(({ split, ...q }) => q) };
+  // KanjiVG names a few shapes with no Unicode character "CDP-xxxx": leave those strokes partless.
+  const named = parts.filter((q) => !q.el.startsWith("CDP"));
+  return { paths, types, parts: named.map(({ split, ...q }) => q) };
 }
 
 const out = {}, parts = {}, types = {};

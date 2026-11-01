@@ -83,7 +83,8 @@ release; order within a group is a rough priority.
 - [x] Groups fold: the kanji chart, Today's progress and the Signs tab open and close by group or set, remember how you left them, and show a peek of each group's kanji when folded; a stroke-count filter opens every match
 - [x] Restaurants & food (40 kanji: 丼 麺 寿司 刺身 餃 鍋 豆腐 卵 野菜 果; 焼 揚 唐 煮 汁 味噌 辛 甘 塩 油 冷 氷; 文 杯 箸 喫 個 盛 放題 別 持 帰), 20 words (注文, 大盛り, 食べ放題, お持ち帰り, 味噌汁, 唐揚げ…) and six signs (a lunch board, a ramen ticket machine, all-you-can-eat rules, signs at the door, takeaway and tax, a curry spice scale); 346 kanji in all
 - [x] Weather & news (30 kanji: 曇 度 最 低 報 確 率 湿 霧 雷 象; 暑 寒 暖 涼 季 節 候 梅 紫 粉 症; 警 震 災 害 避 難 津 波), 20 words (天気予報, 降水確率, 梅雨, 熱中症, 花粉, 地震, 津波, 避難…) and five signs (today's forecast, a heatstroke poster, a tsunami warning, an evacuation-area sign, seasonal news)
-- [x] Work & office (30 kanji: 仕 事 社 働 勤 務 課 部 給 残 退; 議 資 刷 連 絡 認 締 担 説 相 談 頼; 遅 刻 曜 週 礼 失 同), 20 words (仕事, 会社員, 残業, 給料, 会議, 資料, 締め切り, 確認, 月曜日, 失礼します…) and five signs (office doors, a no-overtime day, the team whiteboard, the time clock, office phrases); 406 kanji in seven sets
+- [x] Work & office (30 kanji: 仕 事 社 働 勤 務 課 部 給 残 退; 議 資 刷 連 絡 認 締 担 説 相 談 頼; 遅 刻 曜 週 礼 失 同), 20 words (仕事, 会社員, 残業, 給料, 会議, 資料, 締め切り, 確認, 月曜日, 失礼します…) and five signs (office doors, a no-overtime day, the team whiteboard, the time clock, office phrases)
+- [x] Past the 80/20 point by frequency: Core essentials (77 kanji: every first-grade and JLPT N4 kanji that was still missing, e.g. 言 思 知 使 強 多 教 心 力 立) and Reading the news (216: the rest of the 500 most frequent kanji in newspapers, in ten themed groups: politics, police and courts, economy, sport, places, organisations…), with 49 words and eight signs (a library, park rules, a cinema; headlines on an election, business, local news, sport and national news). 699 kanji in nine sets, covering about 84% of the kanji in news text, 78% on Wikipedia and 69% in literature; a unit test checks every one of the news top 500 is taught
 - [x] Signs in Today's review: each line of a sign (or lines that only make sense together) is a card, "what does this sign say?", once you've started its kanji and kana; other lines of the same sign make the wrong answers. Also as "Practice reading" on the Signs tab
 
 ## Platform
@@ -93,7 +94,7 @@ release; order within a group is a rough priority.
 - [x] iPhone/iPad app with Capacitor: universal iOS project with native speech, haptics and speech recognition, built for the simulator on every CI run
 - [ ] TestFlight and App Store: needs an Apple Developer account, then signing from CI (certificate, provisioning profile, App Store Connect key as secrets)
 - [ ] Play Store listing (needs an .aab, store assets and a privacy note covering the microphone)
-- [x] Bundle the fonts in the app and the APK: subsets of the four fonts with just the characters Kaku uses (about 1.5 MB), so even a first launch offline looks right
+- [x] Bundle the fonts in the app and the APK: subsets of the four fonts with just the characters Kaku uses (about 2.1 MB), so even a first launch offline looks right
 - [x] Account-free backup: save progress as a file or copy it as text, restore it on another device by merging (the most recent review of each item wins) or replacing
 - [ ] Optional automatic sync across devices
 - [ ] Offline neural TTS for consistent voices across devices. Candidates to evaluate:
