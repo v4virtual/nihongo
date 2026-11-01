@@ -346,3 +346,41 @@ describe("settings: volume and vibration", () => {
     assert.ok(buzz.length >= 2, JSON.stringify(buzz)); // stroke accepted + character complete
   }));
 });
+
+describe("scribbling", () => {
+  // Round and round the square without lifting: well past any real stroke's length.
+  async function scribble(page, laps = 12) {
+    const r = await page.locator(".cell .live").evaluate((el) => { const b = el.getBoundingClientRect(); return { x: b.left, y: b.top, w: b.width }; });
+    const cx = r.x + r.w / 2, cy = r.y + r.w / 2, rad = r.w * 0.35;
+    await page.mouse.move(cx + rad, cy);
+    await page.mouse.down();
+    for (let a = 0; a < laps * Math.PI * 2; a += 0.25) await page.mouse.move(cx + rad * Math.cos(a), cy + rad * Math.sin(a));
+    await page.mouse.up();
+  }
+  for (const style of ["accuracy", "neon", "calligraphy"]) {
+    test(`${style}: a long scribble ends as a miss instead of freezing, and writing carries on`, T, () => withPage("w-3042", { style, assist: "guide" }, async (page) => {
+      await scribble(page);
+      assert.match(await feedback(page), /That's a scribble, not a stroke\. Lift your finger and start stroke 1 again\./);
+      await writeChar(page);
+      await page.locator(".result:not([hidden])").waitFor({ timeout: 5000 });
+    }));
+  }
+  test("the longest real stroke (ゑ's first) is not cut short", T, () => withPage("w-3091", {}, async (page) => {
+    await writeChar(page);
+    await page.locator(".result:not([hidden])").waitFor({ timeout: 5000 });
+    assert.doesNotMatch(await feedback(page), /scribble/);
+  }));
+});
+
+describe("the character being written", () => {
+  test("shows big by the hints, with its reading and a listen button, and follows the word", T, () => withPage("phrase-konnichiwa", {}, async (page) => {
+    assert.equal(await page.locator(".now-c").textContent(), "こ");
+    assert.equal(await page.locator(".now-r").textContent(), "ko");
+    await page.locator(".now-say").click();
+    assert.equal((await page.evaluate(() => window.__said)).at(-1), "こ");
+    await writeChar(page);
+    await page.waitForFunction(() => document.querySelector(".now-c")?.textContent === "ん", null, { timeout: 5000 });
+    assert.equal(await page.locator(".now-r").textContent(), "n");
+    assert.match(await feedback(page), /^1 stroke\./);
+  }));
+});

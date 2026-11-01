@@ -338,6 +338,13 @@ window.NH = window.NH || {};
     const cell = h("div.cell");
     const cellWrap = h("div.cell-wrap", cell);
     const feedback = h("p.feedback", { "aria-live": "polite" });
+    // The character being written, large, with its reading and a listen button,
+    // right above the hints where the eye already is.
+    const now = h("div.now");
+    const drawNow = () => {
+      const c = chars[pos];
+      now.replaceChildren(h("b.now-c", c), h("span.now-r", romaji(c)), iconBtn("speaker", `Listen: ${c}`, () => say(c), "now-say"));
+    };
     const result = h("div.result", { hidden: true });
 
     const writer = new NH.Writer(cell, { style, assist, onEvent });
@@ -360,6 +367,7 @@ window.NH = window.NH || {};
       !isWord && single ? h("nav.modes", { "aria-label": "Mode" }, h("a.mode", { href: `#k-${hex(key)}` }, icon("book"), "Explain"), h("a.mode.on", { href: location.hash, "aria-current": "page" }, icon("pen"), "Write")) : null,
       h("div.switches", styleSeg, assistSeg),
       chars.length > 1 ? seq : null,
+      now,
       feedback,
       h("div.actions",
         btn("Watch", () => { feedback.textContent = "Watch the stroke order…"; writer.demo(); }, "ghost", "play"),
@@ -419,9 +427,9 @@ window.NH = window.NH || {};
 
     function startMessage() {
       const c = chars[pos];
+      drawNow();
       const n = (NH.STROKES[c] || []).length;
-      const lead = chars.length > 1 ? `${c} (${romaji(c)}), ` : "";
-      return `${lead}${n} stroke${n === 1 ? "" : "s"}. ${assist === "memory" ? "From memory: start with stroke 1." : "Start at the dot and follow the arrow."}`;
+      return `${n} stroke${n === 1 ? "" : "s"}. ${assist === "memory" ? "From memory: start with stroke 1." : "Start at the dot and follow the arrow."}`;
     }
 
     function onEvent(e) {

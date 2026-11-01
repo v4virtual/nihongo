@@ -927,3 +927,16 @@ rt { font-size: 0.45em; font-family: var(--f-ui); font-weight: 500; letter-spaci
 /* The lesson as a sheet over the writing screen. */
 .lesson-sheet .lesson { border: 0; padding: 0; background: none; }
 .lesson-sheet .sheet-head h2 span { font-family: var(--f-kana); }
+
+/* The character being written, by the hints: big, with its reading and sound. */
+.now {
+  display: flex; align-items: center; justify-content: center; gap: 12px; align-self: center; max-width: calc(100% - 32px);
+  margin: 0 16px 6px; padding: 4px 6px 4px 18px; border-radius: 999px; color: var(--fg);
+  background: color-mix(in srgb, var(--panel-bg, #000) 70%, transparent); backdrop-filter: blur(6px);
+}
+.now-c { font: 600 calc(44px * var(--ts))/1 var(--f-kana); }
+.stage[data-style="neon"] .now-c { font-family: var(--f-neon); }
+.stage[data-style="calligraphy"] .now-c { font-family: var(--f-brush); font-weight: 400; }
+.now-r { font-size: calc(17px * var(--ts)); font-weight: 700; color: var(--fg-muted); max-width: 12em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.now .now-say { width: 48px; height: 48px; border-radius: 50%; background: var(--seg-bg); border: 1.5px solid color-mix(in srgb, var(--fg) 25%, transparent); color: var(--fg); }
+.now .now-say .ic { width: 26px; height: 26px; }
