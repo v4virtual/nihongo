@@ -72,6 +72,11 @@ describe("axe audit", () => {
     await page.locator(".backup-sheet").waitFor();
     assert.deepEqual(await audit(page), []);
   }));
+  test("the Explain sheet on the writing screen has no violations", T, () => withPage("w-3042", {}, async (page) => {
+    await page.locator(".btn", { hasText: "Explain" }).click();
+    await page.locator(".lesson-sheet").waitFor();
+    assert.deepEqual(await audit(page), []);
+  }));
   test("the Say it sheet has no violations", T, () => withPage("sign-shibuya", {}, async (page) => {
     await page.locator(".btn", { hasText: "Say it" }).click();
     assert.deepEqual(await audit(page), []);

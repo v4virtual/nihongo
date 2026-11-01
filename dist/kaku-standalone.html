@@ -361,7 +361,8 @@ body.scr-write { overflow: hidden; }
 .seg-jp { font-size: calc(11px * var(--ts)); opacity: 0.8; }
 .seg-b[aria-checked="true"] { background: var(--seg-on); color: var(--seg-on-fg); }
 @media (max-width: 420px) { .seg-jp { display: none; } .seg-b { padding: 6px 10px; } }
-.seq { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; padding: 6px 12px 0; }
+/* Bottom padding leaves room for the score badges hanging off each tile. */
+.seq { display: flex; justify-content: center; gap: 8px 6px; flex-wrap: wrap; padding: 6px 12px 12px; }
 .seq-c {
   position: relative; width: 44px; height: 48px; border-radius: 10px; border: 1.5px solid color-mix(in srgb, var(--fg) 30%, transparent);
   background: color-mix(in srgb, var(--fg) 6%, transparent); cursor: pointer; font-family: var(--f-kana); font-size: calc(24px * var(--ts)); font-weight: 600;
@@ -419,6 +420,14 @@ body.scr-write { overflow: hidden; }
 .feedback.tip { color: var(--fg); box-shadow: inset 0 0 0 1.5px var(--shu); }
 .actions { display: flex; justify-content: center; gap: 10px; padding-block: 2px 14px; }
 .stage .btn { background: var(--seg-bg); border-color: color-mix(in srgb, var(--fg) 25%, transparent); color: var(--fg); backdrop-filter: blur(6px); }
+/* Writing screen: the action buttons share the width, icon over a short
+ * label, so Watch, Redo, Explain and Say it always fit on a phone. */
+.stage .actions:has(> .btn:nth-child(3)) {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px;
+  width: min(100%, 520px); margin-inline: auto; padding-inline: max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));
+}
+.stage .actions:has(> .btn:nth-child(3)) .btn { flex-direction: column; gap: 2px; min-height: 54px; padding: 6px 4px; border-radius: 16px; font-size: calc(12px * var(--ts)); }
+.stage .actions:has(> .btn:nth-child(3)) .btn span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stage .btn.primary { background: var(--seg-on); color: var(--seg-on-fg); border-color: var(--seg-on); }
 
 .result { position: absolute; inset: auto 0 0 0; z-index: 8; display: grid; place-items: center; padding: 16px; padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)); animation: rise 0.35s ease-out; }
@@ -931,6 +940,10 @@ rt { font-size: 0.45em; font-family: var(--f-ui); font-weight: 500; letter-spaci
 .ls-mark.on::after { background: var(--accent-ink); height: 9px; margin-top: -4.5px; }
 @media (prefers-reduced-motion: reduce) { .ls-stage, .ls-origin .ls-big:last-child { animation: none; } .ls-st.now { animation: none; stroke-dashoffset: 0; } }
 
+/* The lesson as a sheet over the writing screen. */
+.lesson-sheet .lesson { border: 0; padding: 0; background: none; }
+.lesson-sheet .sheet-head h2 span { font-family: var(--f-kana); }
+
 </style>
 </head>
 <body>
@@ -1001,7 +1014,7 @@ window.NH = window.NH || {};
   // Persistent settings and progress. Storage may be unavailable; the app works without it.
   const KEY = "kaku.v1";
   const defaults = {
-    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "", text: "normal", theme: "auto", hand: "right", dailyNew: 5, dailyKanji: 2, learn: "hiragana", furigana: true, narrate: false, speechOk: false },
+    settings: { style: "accuracy", assist: "trace", sound: true, volume: 0.8, vibrate: true, rate: 0.85, voice: "", text: "normal", theme: "auto", hand: "right", dailyNew: 5, dailyKanji: 2, learn: "hiragana", furigana: true, speechOk: false },
     progress: {}, // char → { best, last, tries, right, wrong }
     srs: { cards: {}, day: null }, // spaced-repetition deck, see srs.js
   };
@@ -9343,7 +9356,8 @@ window.NH = window.NH || {};
 /* Narrated lessons: each kana and kanji gets a short animated lesson built
  * from its data (what it is, where it came from, a memory hook, every stroke
  * drawn and described, an example word), spoken in English with the Japanese
- * in a Japanese voice. The same narration can talk you through writing. */
+ * in a Japanese voice. Explain pages show it inline; the writing screen opens
+ * it in a sheet. */
 window.NH = window.NH || {};
 
 (function () {
@@ -9416,17 +9430,6 @@ window.NH = window.NH || {};
     }
     add("Now try writing it yourself.", { kind: "char" });
     return out;
-  }
-
-  // What to say when a character comes up on the writing screen.
-  function writeIntro(ch, { full = false } = {}) {
-    if (!full) {
-      const n = NH.STROKES[ch]?.length || 0;
-      return [ja(ch), ...say(`${plural(n, "stroke")}. ${strokeLine(ch, 0)}`)];
-    }
-    const all = steps(ch);
-    const first = all.findIndex((st) => st.scene.kind === "strokes");
-    return [...all.slice(0, first + 1).flatMap((st) => st.say), ...say(strokeLine(ch, 0))];
   }
 
   // ── scenes ──────────────────────────────────────────────
@@ -9509,10 +9512,31 @@ window.NH = window.NH || {};
     function pause() { token++; handle?.cancel(); setPlaying(false); }
     function seek(k) { const was = playing; pause(); show(k); if (was) play(); }
     show(0);
+    card.play = play;
+    card.stop = pause;
     return card;
   }
 
-  NH.Lesson = { steps, player, writeIntro, strokeLine };
+  // The lesson in a sheet over the writing screen: opens playing, stops when closed.
+  function sheet(ch) {
+    const bg = h("div.sheet-bg", { onclick: (e) => e.target === bg && close() });
+    const opener = document.activeElement;
+    const keys = (e) => { if (e.key === "Escape") close(); };
+    const lesson = player(ch);
+    const close = () => { lesson.stop(); bg.remove(); document.removeEventListener("keydown", keys); opener?.focus?.(); };
+    document.addEventListener("keydown", keys);
+    UI.onLeave(close);
+    const box = h("div.sheet.lesson-sheet", { role: "dialog", "aria-modal": "true", "aria-label": `Lesson: ${ch}`, tabindex: "-1" },
+      h("div.sheet-head", h("h2", "How to write ", h("span", ch)), UI.iconBtn("close", "Close", close)),
+      lesson);
+    bg.append(box);
+    document.body.append(bg);
+    box.focus();
+    lesson.play();
+    return { close };
+  }
+
+  NH.Lesson = { steps, player, sheet, strokeLine };
 })();
 
 /* js/app.js */
@@ -9861,27 +9885,8 @@ window.NH = window.NH || {};
     const writer = new NH.Writer(cell, { style, assist, onEvent });
     cleanup.push(() => writer.destroy());
 
-    /* Lesson audio: the lesson's narration for the character, then each stroke
-     * talked through as you write it. Stays on until turned off. */
-    let narrating = !!st.narrate, introduced = false;
-    const talk = (segs) => narrating && NH.TTS.narrate(segs);
-    const narrateBtn = btn("Lesson audio", () => setNarrate(!narrating), "ghost", "ear");
-    narrateBtn.setAttribute("aria-pressed", String(narrating));
-    function setNarrate(on) {
-      narrating = on;
-      store.set("narrate", on);
-      narrateBtn.setAttribute("aria-pressed", String(on));
-      if (!on) return NH.TTS.stop();
-      // Mid-character, pick up at the next stroke; otherwise start with the lesson.
-      if (writer.next > 0 && !writer.finished) talk(NH.TTS.segments(NH.Lesson.strokeLine(chars[pos], writer.next)));
-      else narrateChar();
-    }
-    function narrateChar() {
-      if (!narrating) return;
-      talk(NH.Lesson.writeIntro(chars[pos], { full: single && !introduced }));
-      introduced = true;
-    }
-    cleanup.push(() => narrating && NH.TTS.stop());
+    // Explain: the character's narrated lesson in a sheet, on request.
+    const explainBtn = btn("Explain", () => NH.Lesson.sheet(chars[pos]), "ghost", "book");
 
     const styleSeg = h("div.seg.styles", { role: "radiogroup", "aria-label": "Style" });
     const assistSeg = h("div.seg.assists", { role: "radiogroup", "aria-label": "Help level" });
@@ -9901,7 +9906,7 @@ window.NH = window.NH || {};
       h("div.actions",
         btn("Watch", () => { feedback.textContent = "Watch the stroke order…"; writer.demo(); }, "ghost", "play"),
         btn("Redo", () => restartChar(), "ghost", "redo"),
-        narrateBtn,
+        explainBtn,
         isWord && item.romaji ? NH.Speak.button(item) : null));
     stage.dataset.hand = st.hand || "right";
     stage.append(
@@ -9951,7 +9956,6 @@ window.NH = window.NH || {};
       feedback.className = "feedback";
       feedback.append(h("span.vh", ` ${writer.describeStroke(0)}`));
       drawSeq();
-      narrateChar();
     }
     function restartChar() { writer.stopDemo(); loadChar(pos); }
 
@@ -9974,11 +9978,9 @@ window.NH = window.NH || {};
           const part = (NH.PARTS?.[chars[pos]] || []).find((p) => Math.max(...p.strokes) === e.index);
           if (part) feedback.prepend(h("b.part-done", `${part.el} ${NH.COMPONENT_NAMES?.[part.el] ? `(${NH.COMPONENT_NAMES[part.el]}) ` : ""}done. `));
           if (n < e.total) feedback.append(h("span.vh", ` ${writer.describeStroke(n)}`));
-          if (n < e.total) talk(NH.TTS.segments(`${e.hane === "missing" ? "That one ends with a flick. " : ""}${part ? `${part.el} done. ` : ""}${NH.Lesson.strokeLine(chars[pos], n)}`));
         } else {
           feedback.textContent = e.message;
           feedback.className = "feedback no";
-          talk(NH.TTS.segments(e.message));
           feedback.append(h("span.vh", ` ${writer.describeStroke(e.index)}`));
         }
       } else if (e.type === "done") {
@@ -9990,8 +9992,7 @@ window.NH = window.NH || {};
         if (single) NH.SRS.practice((NH.KANJI_INFO?.[c] ? "j:" : "k:") + c, NH.SRS.gradeWriting({ score: e.score, misses: e.misses, assist }));
         feedback.className = "feedback ok";
         feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}${e.haneMissed ? " · remember the hane flick" : ""}`;
-        if (narrating) talk([{ text: c, lang: "ja" }, { text: `${e.score} percent.`, lang: "en" }]);
-        else setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
+        setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
         drawSeq();
         const nextIdx = results.findIndex((r, i) => r == null && i > pos);
         const firstOpen = nextIdx >= 0 ? nextIdx : chars.findIndex((_, i) => results[i] == null);

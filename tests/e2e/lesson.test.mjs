@@ -2,7 +2,7 @@
 // narration talking you through writing.
 import { test, describe, before, after } from "node:test";
 import assert from "node:assert/strict";
-import { chromium, serve, open, settle, strokesOnScreen, drawPath, saved } from "../helpers/browser.mjs";
+import { chromium, serve, open, strokesOnScreen, drawPath } from "../helpers/browser.mjs";
 
 const T = { timeout: 120000 };
 let browser, server, base;
@@ -68,33 +68,33 @@ describe("lesson on the explain page", () => {
   }));
 });
 
-describe("lesson audio while writing", () => {
-  test("talks through the lesson, then each stroke as you write; remembers the choice", T, () => withPage("w-3042", {}, async (page) => {
-    const btn = page.locator(".btn", { hasText: "Lesson audio" });
-    assert.equal(await btn.getAttribute("aria-pressed"), "false");
-    await btn.click();
-    assert.equal(await btn.getAttribute("aria-pressed"), "true");
-    const intro = (await narrated(page)).at(-1);
-    assert.match(intro, /^This is the hiragana あ/);
-    assert.match(intro, /Stroke 1 starts at the top left/);
-    const S = await strokesOnScreen(page);
-    await drawPath(page, S[0]);
-    assert.match((await narrated(page)).at(-1), /^Stroke 2 starts/);
-    await drawPath(page, S[2]);
-    assert.match((await narrated(page)).at(-1), /Stroke order matters|That's stroke/);
-    assert.equal((await saved(page)).settings.narrate, true);
-    await btn.click();
-    assert.equal((await narrated(page)).at(-1), "<stop>");
-    await drawPath(page, S[1]);
-    assert.equal((await narrated(page)).at(-1), "<stop>", "quiet once turned off");
+describe("Explain on the writing screen", () => {
+  test("opens the lesson for the character in a sheet, playing, and stops it when closed", T, () => withPage("w-3042", {}, async (page) => {
+    await page.locator(".btn", { hasText: "Explain" }).click();
+    const sheet = page.locator(".lesson-sheet");
+    await sheet.waitFor();
+    assert.match(await sheet.locator(".sheet-head").textContent(), /How to write あ/);
+    assert.equal(await sheet.locator(".ls-caption").textContent(), "This is the hiragana あ, read “a”.");
+    assert.equal((await narrated(page))[0], "This is the hiragana あ .", "it starts playing");
+    await sheet.locator(".icon-btn[aria-label=Close]").click();
+    assert.equal(await page.locator(".lesson-sheet").count(), 0);
+    const n = (await narrated(page)).length;
+    await page.waitForTimeout(1600);
+    assert.equal((await narrated(page)).length, n, "no narration after closing");
   }));
 
-  test("with lesson audio on, a word announces each character", T, () => withPage("word-umi", {}, async (page) => {
-    await page.evaluate(() => NH.store.set("narrate", true));
-    await page.reload();
-    await settle(page);
-    await page.evaluate(() => { window.__narrated = []; NH.TTS.narrate = (s) => { window.__narrated.push(s.map((x) => x.text.trim()).join(" ")); return { done: Promise.resolve(), cancel() {} }; }; NH.TTS.stop = () => {}; });
-    await page.locator(".btn", { hasText: "Redo" }).click();
-    assert.match((await narrated(page)).at(-1), /^う 2 strokes\. Stroke 1/);
+  test("in a word, it explains the character you're on", T, () => withPage("word-umi", {}, async (page) => {
+    await page.locator(".seq-c").nth(1).click();
+    await page.locator(".btn", { hasText: "Explain" }).click();
+    assert.match(await page.locator(".lesson-sheet .sheet-head").textContent(), /How to write み/);
+    await page.keyboard.press("Escape");
+    assert.equal(await page.locator(".lesson-sheet").count(), 0);
+  }));
+
+  test("nothing talks unless asked: no narration on the writing screen", T, () => withPage("w-3042", {}, async (page) => {
+    const S = await strokesOnScreen(page);
+    await drawPath(page, S[0]);
+    await drawPath(page, S[2]);
+    assert.deepEqual(await narrated(page), []);
   }));
 });

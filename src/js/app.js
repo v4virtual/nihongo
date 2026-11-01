@@ -343,27 +343,8 @@ window.NH = window.NH || {};
     const writer = new NH.Writer(cell, { style, assist, onEvent });
     cleanup.push(() => writer.destroy());
 
-    /* Lesson audio: the lesson's narration for the character, then each stroke
-     * talked through as you write it. Stays on until turned off. */
-    let narrating = !!st.narrate, introduced = false;
-    const talk = (segs) => narrating && NH.TTS.narrate(segs);
-    const narrateBtn = btn("Lesson audio", () => setNarrate(!narrating), "ghost", "ear");
-    narrateBtn.setAttribute("aria-pressed", String(narrating));
-    function setNarrate(on) {
-      narrating = on;
-      store.set("narrate", on);
-      narrateBtn.setAttribute("aria-pressed", String(on));
-      if (!on) return NH.TTS.stop();
-      // Mid-character, pick up at the next stroke; otherwise start with the lesson.
-      if (writer.next > 0 && !writer.finished) talk(NH.TTS.segments(NH.Lesson.strokeLine(chars[pos], writer.next)));
-      else narrateChar();
-    }
-    function narrateChar() {
-      if (!narrating) return;
-      talk(NH.Lesson.writeIntro(chars[pos], { full: single && !introduced }));
-      introduced = true;
-    }
-    cleanup.push(() => narrating && NH.TTS.stop());
+    // Explain: the character's narrated lesson in a sheet, on request.
+    const explainBtn = btn("Explain", () => NH.Lesson.sheet(chars[pos]), "ghost", "book");
 
     const styleSeg = h("div.seg.styles", { role: "radiogroup", "aria-label": "Style" });
     const assistSeg = h("div.seg.assists", { role: "radiogroup", "aria-label": "Help level" });
@@ -383,7 +364,7 @@ window.NH = window.NH || {};
       h("div.actions",
         btn("Watch", () => { feedback.textContent = "Watch the stroke order…"; writer.demo(); }, "ghost", "play"),
         btn("Redo", () => restartChar(), "ghost", "redo"),
-        narrateBtn,
+        explainBtn,
         isWord && item.romaji ? NH.Speak.button(item) : null));
     stage.dataset.hand = st.hand || "right";
     stage.append(
@@ -433,7 +414,6 @@ window.NH = window.NH || {};
       feedback.className = "feedback";
       feedback.append(h("span.vh", ` ${writer.describeStroke(0)}`));
       drawSeq();
-      narrateChar();
     }
     function restartChar() { writer.stopDemo(); loadChar(pos); }
 
@@ -456,11 +436,9 @@ window.NH = window.NH || {};
           const part = (NH.PARTS?.[chars[pos]] || []).find((p) => Math.max(...p.strokes) === e.index);
           if (part) feedback.prepend(h("b.part-done", `${part.el} ${NH.COMPONENT_NAMES?.[part.el] ? `(${NH.COMPONENT_NAMES[part.el]}) ` : ""}done. `));
           if (n < e.total) feedback.append(h("span.vh", ` ${writer.describeStroke(n)}`));
-          if (n < e.total) talk(NH.TTS.segments(`${e.hane === "missing" ? "That one ends with a flick. " : ""}${part ? `${part.el} done. ` : ""}${NH.Lesson.strokeLine(chars[pos], n)}`));
         } else {
           feedback.textContent = e.message;
           feedback.className = "feedback no";
-          talk(NH.TTS.segments(e.message));
           feedback.append(h("span.vh", ` ${writer.describeStroke(e.index)}`));
         }
       } else if (e.type === "done") {
@@ -472,8 +450,7 @@ window.NH = window.NH || {};
         if (single) NH.SRS.practice((NH.KANJI_INFO?.[c] ? "j:" : "k:") + c, NH.SRS.gradeWriting({ score: e.score, misses: e.misses, assist }));
         feedback.className = "feedback ok";
         feedback.textContent = `${e.label} · ${e.score}%${e.misses ? ` · ${e.misses} retr${e.misses === 1 ? "y" : "ies"}` : ""}${e.haneMissed ? " · remember the hane flick" : ""}`;
-        if (narrating) talk([{ text: c, lang: "ja" }, { text: `${e.score} percent.`, lang: "en" }]);
-        else setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
+        setTimeout(() => say(c, { quiet: true }), style === "calligraphy" ? 1300 : 500);
         drawSeq();
         const nextIdx = results.findIndex((r, i) => r == null && i > pos);
         const firstOpen = nextIdx >= 0 ? nextIdx : chars.findIndex((_, i) => results[i] == null);

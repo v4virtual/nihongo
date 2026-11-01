@@ -2,7 +2,7 @@
 // setting, and palm rejection for stylus users.
 import { test, describe, before, after } from "node:test";
 import assert from "node:assert/strict";
-import { chromium, serve, open, strokesOnScreen, feedback } from "../helpers/browser.mjs";
+import { chromium, serve, open, strokesOnScreen, feedback, writeChar } from "../helpers/browser.mjs";
 
 const T = { timeout: 120000 };
 let browser, server, base;
@@ -142,5 +142,18 @@ describe("under a status bar (the Android app draws edge to edge)", () => {
   }
   test("#home: the title starts below it", T, () => withPage("home", { init: statusBar }, async (page) => {
     assert.ok((await box(page, ".home-head")).top >= 40 - 0.5);
+  }));
+});
+
+describe("writing a phrase on a phone", () => {
+  test("all the buttons fit on screen, and the score badges aren't covered", T, () => withPage("phrase-konnichiwa", { width: 360, height: 760 }, async (page) => {
+    const btns = await page.locator(".actions .btn").evaluateAll((els) => els.map((e) => { const r = e.getBoundingClientRect(); return { l: r.left, r: r.right, t: e.textContent }; }));
+    assert.deepEqual(btns.map((b) => b.t), ["Watch", "Redo", "Explain", "Say it"]);
+    for (const b of btns) assert.ok(b.l >= 0 && b.r <= 360, `${b.t} spills off screen (${b.l}–${b.r})`);
+    await writeChar(page);
+    await page.locator(".seq-c i").first().waitFor();
+    const badge = await box(page, ".seq-c i");
+    const fb = await box(page, ".feedback");
+    assert.ok(badge.bottom <= fb.top + 0.5, `badge bottom ${badge.bottom} under the hint at ${fb.top}`);
   }));
 });

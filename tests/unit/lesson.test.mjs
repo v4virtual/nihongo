@@ -67,13 +67,10 @@ describe("lesson scripts", () => {
     }
   });
 
-  test("writing narration: the lesson's opening, then the first stroke", () => {
-    const full = JSON.parse(JSON.stringify(NH.Lesson.writeIntro("あ", { full: true })));
-    assert.equal(full[1].text, "あ");
-    assert.match(full.at(-1).text, /^Stroke 1 starts/);
-    assert.ok(full.some((x) => /cursive/.test(x.text)));
-    const short = JSON.parse(JSON.stringify(NH.Lesson.writeIntro("い")));
-    assert.deepEqual(short[0], { text: "い", lang: "ja" });
-    assert.match(short[1].text, /^2 strokes\. Stroke 1/);
+  test("stroke lines name the character, part or mark they belong to", () => {
+    assert.match(NH.Lesson.strokeLine("あ", 0), /^Stroke 1 starts at the top left/);
+    assert.match(NH.Lesson.strokeLine("きゃ", 4), /^Then the small ゃ\. Stroke 1/);
+    assert.match(NH.Lesson.strokeLine("休", 2), /^Now 木, tree\. Stroke 3/);
+    assert.equal(NH.Lesson.strokeLine("あ", 9), "");
   });
 });

@@ -345,7 +345,8 @@ body.scr-write { overflow: hidden; }
 .seg-jp { font-size: calc(11px * var(--ts)); opacity: 0.8; }
 .seg-b[aria-checked="true"] { background: var(--seg-on); color: var(--seg-on-fg); }
 @media (max-width: 420px) { .seg-jp { display: none; } .seg-b { padding: 6px 10px; } }
-.seq { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; padding: 6px 12px 0; }
+/* Bottom padding leaves room for the score badges hanging off each tile. */
+.seq { display: flex; justify-content: center; gap: 8px 6px; flex-wrap: wrap; padding: 6px 12px 12px; }
 .seq-c {
   position: relative; width: 44px; height: 48px; border-radius: 10px; border: 1.5px solid color-mix(in srgb, var(--fg) 30%, transparent);
   background: color-mix(in srgb, var(--fg) 6%, transparent); cursor: pointer; font-family: var(--f-kana); font-size: calc(24px * var(--ts)); font-weight: 600;
@@ -403,6 +404,14 @@ body.scr-write { overflow: hidden; }
 .feedback.tip { color: var(--fg); box-shadow: inset 0 0 0 1.5px var(--shu); }
 .actions { display: flex; justify-content: center; gap: 10px; padding-block: 2px 14px; }
 .stage .btn { background: var(--seg-bg); border-color: color-mix(in srgb, var(--fg) 25%, transparent); color: var(--fg); backdrop-filter: blur(6px); }
+/* Writing screen: the action buttons share the width, icon over a short
+ * label, so Watch, Redo, Explain and Say it always fit on a phone. */
+.stage .actions:has(> .btn:nth-child(3)) {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px;
+  width: min(100%, 520px); margin-inline: auto; padding-inline: max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));
+}
+.stage .actions:has(> .btn:nth-child(3)) .btn { flex-direction: column; gap: 2px; min-height: 54px; padding: 6px 4px; border-radius: 16px; font-size: calc(12px * var(--ts)); }
+.stage .actions:has(> .btn:nth-child(3)) .btn span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stage .btn.primary { background: var(--seg-on); color: var(--seg-on-fg); border-color: var(--seg-on); }
 
 .result { position: absolute; inset: auto 0 0 0; z-index: 8; display: grid; place-items: center; padding: 16px; padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)); animation: rise 0.35s ease-out; }
@@ -914,3 +923,7 @@ rt { font-size: 0.45em; font-family: var(--f-ui); font-weight: 500; letter-spaci
 .ls-mark.done::after { background: var(--accent-ink); }
 .ls-mark.on::after { background: var(--accent-ink); height: 9px; margin-top: -4.5px; }
 @media (prefers-reduced-motion: reduce) { .ls-stage, .ls-origin .ls-big:last-child { animation: none; } .ls-st.now { animation: none; stroke-dashoffset: 0; } }
+
+/* The lesson as a sheet over the writing screen. */
+.lesson-sheet .lesson { border: 0; padding: 0; background: none; }
+.lesson-sheet .sheet-head h2 span { font-family: var(--f-kana); }

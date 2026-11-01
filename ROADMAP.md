@@ -65,7 +65,7 @@ release; order within a group is a rough priority.
 ## v0.6 — Narrated lessons (from early users' feedback)
 
 - [x] A narrated, animated lesson on every explain page: origin, memory hook, each stroke drawn and described, an example word; captions, play/pause and step-by-step seeking
-- [x] Lesson audio while writing: the lesson's opening, then each stroke talked through as you write it, and stroke-order mistakes read out
+- [x] Explain on the writing screen: the character's lesson in a sheet, on request (replaces the first try, narration that talked during writing, after early users' feedback)
 - [ ] Recorded narration by a native speaker, for a consistent voice on every device
 
 ## Platform
