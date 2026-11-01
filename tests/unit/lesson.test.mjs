@@ -51,7 +51,7 @@ describe("lesson scripts", () => {
     assert.equal(c[0], "This kanji means “rest”.");
     assert.match(c[1], /On reading: キュウ\. Kun reading: やすむ\./);
     assert.equal(c[2], "It's made of 亻 (person) and 木 (tree).");
-    assert.ok(c.includes("Now 亻, person. Stroke 1 starts at the top left, a line going down-left."));
+    assert.ok(c.includes("Now 亻, person. Stroke 1 starts at the top left, a line going down-left, and ends with a sweep (harai)."));
     assert.ok(c.some((x) => x.startsWith("Now 木, tree. Stroke 3")));
     // Example words are spoken from their kana reading, so the voice can't misread the kanji.
     const ex = JSON.parse(JSON.stringify(spoken("休").at(-2)));

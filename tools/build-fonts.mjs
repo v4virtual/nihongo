@@ -32,7 +32,9 @@ export async function usedChars() {
   await walk(src);
   const set = new Set();
   for (let i = 0x20; i < 0x7f; i++) set.add(String.fromCharCode(i));
-  for (const f of files) for (const c of await readFile(f, "utf8")) if (c.codePointAt(0) >= 0x20) set.add(c);
+  // CJK stroke-type symbols (㇒ ㇐…) are data, never shown: leave them out.
+  const shown = (c) => c.codePointAt(0) >= 0x20 && !/[\u31c0-\u31ef]/.test(c);
+  for (const f of files) for (const c of await readFile(f, "utf8")) if (shown(c)) set.add(c);
   return [...set].sort();
 }
 

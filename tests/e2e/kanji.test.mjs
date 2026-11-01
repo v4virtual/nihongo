@@ -140,3 +140,15 @@ describe("kanji line", () => {
     assert.ok((await saved(page)).srs.cards["j:一"]);
   }));
 });
+
+describe("stroke endings on kanji pages", () => {
+  test("sweeps and hooks are marked and listed; stops fill in the rest", T, () => withPage("k-4e5d", {}, async (page) => {
+    assert.equal(await page.locator(".hero-card .so-harai").count(), 1);
+    assert.equal(await page.locator(".hero-card .so-hane").count(), 1);
+    assert.equal(await page.locator(".notes li").last().textContent(), "Sweeps out (harai): stroke 1. Hooks (hane): stroke 2.");
+    await page.goto(base + "#k-6c34");
+    assert.equal(await page.locator(".notes li").last().textContent(), "Sweeps out (harai): strokes 2, 3 and 4. Hooks (hane): stroke 1.");
+    await page.goto(base + "#k-4e00");
+    assert.equal(await page.locator(".notes li").last().textContent(), "Every stroke ends with a firm stop (tome).");
+  }));
+});

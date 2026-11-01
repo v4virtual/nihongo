@@ -105,16 +105,34 @@ window.NH = window.NH || {};
     return out;
   }
 
+  /* How a kanji stroke ends, from KanjiVG's stroke type: a stop (tome), a
+   * sweep (harai) or a hook (hane). Types are Chinese stroke names, so a few
+   * Japanese conventions are spelled out: ㇙, rising off a vertical, counts
+   * as a hook. Types like "㇔/㇏" (either) have no single ending. */
+  const ENDING = {
+    "㇐": "tome", "㇑": "tome", "㇔": "tome", "㇕": "tome", "㇄": "tome", "㇗": "tome", "㇜": "tome", "㇛": "tome",
+    "㇒": "harai", "㇏": "harai", "㇇": "harai", "㇓": "harai", "㇀": "harai",
+    "㇚": "hane", "㇆": "hane", "㇟": "hane", "㇈": "hane", "㇖": "hane", "㇁": "hane", "㇙": "hane",
+  };
+  const endingOf = (type) => (!type || type.includes("/") ? null : ENDING[type[0]] || null);
+
   const cache = new Map();
-  // Reference strokes for a character: [{ d, pts (resampled), len }]
+  // Reference strokes for a character: [{ d, pts (resampled), len, hane, ending }]
   function strokesOf(ch) {
     if (cache.has(ch)) return cache.get(ch);
     const paths = (NH.STROKES && NH.STROKES[ch]) || [];
-    const strokes = paths.map((d) => {
+    // Kanji have stroke types; kana don't, so their hooks are found in the shape.
+    const types = /[\u3400-\u9fff]/.test(ch) ? NH.STROKE_TYPES?.[ch] : null;
+    const strokes = paths.map((d, i) => {
       const raw = flatten(d);
       const len = length(raw);
       // A hane is a short upward flick at the end of a long stroke (い, け, は, り…).
-      return { d, raw, pts: resample(raw), len, hane: len >= 40 && endTurn(raw, 55) };
+      // `hane` is checked when you write; a kanji hook that turns sideways or
+      // down (子's first stroke) is taught (`ending`) but not checked, because
+      // the flick test can't see it even in the model stroke.
+      const ending = types ? endingOf(types[i]) : len >= 40 && endTurn(raw, 55) ? "hane" : null;
+      const hane = ending === "hane" && (!types || hasHook(raw));
+      return { d, raw, pts: resample(raw), len, hane, ending };
     });
     cache.set(ch, strokes);
     return strokes;
@@ -250,8 +268,9 @@ window.NH = window.NH || {};
       const d1 = dirOf(a, mid), d2 = dirOf(mid, z);
       shape = d1 === d2 ? `a curve going ${d1}` : `curves ${d1}, then ${d2}`;
     }
-    return `starts at ${place(a)}, ${shape}${st.hane ? ", and ends with a flick (hane)" : ""}`;
+    const end = st.ending === "hane" ? ", and ends with a flick (hane)" : st.ending === "harai" ? ", and ends with a sweep (harai)" : "";
+    return `starts at ${place(a)}, ${shape}${end}`;
   }
 
-  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, describe, TOL };
+  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, describe, endingOf, TOL };
 })();

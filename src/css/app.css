@@ -274,6 +274,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: var(--sat)
 .so.play .so-st { stroke-dashoffset: 1; animation: so-draw 0.7s ease-in-out forwards; animation-delay: calc(var(--i) * 0.8s + 0.2s); }
 .so.play .so-n { opacity: 0; animation: so-num 0.2s forwards; animation-delay: calc(var(--i) * 0.8s + 0.1s); }
 .so-hane { fill: none; stroke: var(--shu); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.so-harai { fill: none; stroke: var(--shu); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1.6 1.8; opacity: 0.85; }
+.so.play .so-harai { opacity: 0; animation: so-num 0.2s forwards; animation-delay: calc(var(--i) * 0.8s + 0.75s); }
 .so.play .so-hane { opacity: 0; animation: so-num 0.2s forwards; animation-delay: calc(var(--i) * 0.8s + 0.8s); }
 @keyframes so-draw { to { stroke-dashoffset: 0; } }
 @keyframes so-num { to { opacity: 1; } }
