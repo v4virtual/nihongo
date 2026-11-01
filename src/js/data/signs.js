@@ -446,4 +446,166 @@ NH.SIGNS = [
     ],
     note: "お冷 is what restaurants call a glass of cold water; it's free. 辛い is spicy, 甘い sweet: 甘口 curry is the mild one.",
   },
+
+  // ---- Weather & news ----
+  {
+    id: "forecast", pack: "weather", look: "board", title: "Today's forecast", level: 3,
+    where: "The weather corner of the morning news, and every weather app",
+    lines: [
+      { head: true, t: [["今日", "きょう", "today"], "の", ["天気", "てんき", "weather"]] },
+      { t: [["晴れ", "はれ", "sunny"], ["のち", "", "later"], ["曇り", "くもり", "cloudy"]] },
+      { t: [["最高気温", "さいこうきおん", "highest temperature"], "　", ["28度", "にじゅうはちど", "28 degrees"]] },
+      { t: [["最低気温", "さいていきおん", "lowest temperature"], "　", ["19度", "じゅうきゅうど", "19 degrees"]] },
+      { t: [["降水確率", "こうすいかくりつ", "chance of rain"], "　", ["30%", "", "30 percent"]] },
+    ],
+    en: [
+      "Today's weather",
+      "Sunny, turning cloudy",
+      "High 28°C",
+      "Low 19°C",
+      "Chance of rain 30%",
+    ],
+    note: "のち means 'later', 時々 'at times': 晴れ時々曇り is sunny with cloudy spells. Above about 50% 降水確率, take an umbrella.",
+  },
+  {
+    id: "heatstroke", pack: "weather", look: "warning", title: "Heatstroke warning", level: 3,
+    where: "Posters in stations and on the news from July to September",
+    lines: [
+      { head: true, t: [["熱中症", "ねっちゅうしょう", "heatstroke"], "に", ["注意", "ちゅうい", "caution"]] },
+      { t: [["こまめに", "", "little and often"], ["水分", "すいぶん", "fluids"], "を", ["とりましょう", "", "let's take"]] },
+      { t: [["暑い", "あつい", "hot"], ["日", "ひ", "days"], "は", ["外出", "がいしゅつ", "going out"], "を", ["ひかえましょう", "", "let's cut down on"]] },
+    ],
+    en: [
+      "Beware of heatstroke",
+      "Drink little and often.",
+      "On hot days, go out as little as you can.",
+    ],
+    note: "Japanese summers are humid as well as hot; 熱中症 sends thousands to hospital each year. Salt sweets and sports drinks are sold for it.",
+  },
+  {
+    id: "tsunami", pack: "weather", look: "warning", title: "Tsunami warning", level: 3,
+    where: "TV screens and phone alerts after an earthquake by the sea",
+    lines: [
+      { head: true, t: [["津波警報", "つなみけいほう", "tsunami warning"]] },
+      { t: [["高台", "たかだい", "high ground"], "へ", ["避難して", "ひなんして", "evacuate"], ["ください", "", "please"]] },
+      { t: [["海", "うみ", "sea"], "や", ["川", "かわ", "river"], "に", ["ちかづかないで", "", "don't go near"], ["ください", "", "please"]] },
+    ],
+    en: [
+      "Tsunami warning",
+      "Evacuate to high ground.",
+      "Stay away from the sea and rivers.",
+    ],
+    note: "注意報 is an advisory, 警報 a warning, 大津波警報 a major warning. Don't wait to see the wave: go up and inland at once.",
+  },
+  {
+    id: "evacuation-area", pack: "weather", look: "wall", title: "Evacuation area", level: 3,
+    where: "Green signs on lampposts pointing to parks and schools",
+    lines: [
+      { t: [["避難場所", "ひなんばしょ", "evacuation area"]] },
+      { t: [["地震", "じしん", "earthquake"], "・", ["津波", "つなみ", "tsunami"], "・", ["火災", "かさい", "fire"]] },
+      { t: [["この先", "このさき", "ahead"], "　200m"] },
+    ],
+    en: [
+      "Evacuation area",
+      "For earthquakes, tsunami and fires",
+      "200 m ahead",
+    ],
+    note: "Each sign lists the disasters the place is safe for: a park may be fine for fires but not for a tsunami. Find yours before you need it.",
+  },
+  {
+    id: "season-news", pack: "weather", look: "notice", title: "Seasonal news", level: 3,
+    where: "Headlines on the evening news",
+    lines: [
+      { head: true, t: [["季節", "きせつ", "season"], "の", ["ニュース", "", "news"]] },
+      { t: [["東京", "とうきょう", "Tokyo"], "で", ["梅雨入り", "つゆいり", "the rainy season begins"]] },
+      { t: [["明日", "あした", "tomorrow"], "は", ["雷雨", "らいう", "thunderstorms"], "に", ["注意", "ちゅうい", "caution"]] },
+    ],
+    en: [
+      "Seasonal news",
+      "The rainy season begins in Tokyo",
+      "Watch out for thunderstorms tomorrow",
+    ],
+    note: "梅雨 (つゆ) runs from about June to mid-July; 梅雨入り is when it starts and 梅雨明け when it ends.",
+  },
+
+  // ---- Work & office ----
+  {
+    id: "office-doors", pack: "work", look: "wall", title: "Office doors", level: 3,
+    where: "Plates on doors along an office corridor",
+    lines: [
+      { t: [["会議中", "かいぎちゅう", "in a meeting"]] },
+      { t: [["事務所", "じむしょ", "office"]] },
+      { t: [["資料室", "しりょうしつ", "document room"]] },
+    ],
+    en: [
+      "Meeting in progress",
+      "Office",
+      "Document room",
+    ],
+    note: "会議中 is flipped over on the meeting-room door: knock, or better, wait.",
+  },
+  {
+    id: "no-overtime", pack: "work", look: "notice", title: "No-overtime day", level: 3, cards: [[0, 1], [2]],
+    where: "A poster in the staff kitchen",
+    lines: [
+      { head: true, t: [["毎週", "まいしゅう", "every week"], ["水曜日", "すいようび", "Wednesday"], "は"] },
+      { t: [["ノー", "", "no"], ["残業", "ざんぎょう", "overtime"], ["デー", "", "day"]] },
+      { t: [["定時", "ていじ", "the regular time"], "に", ["退社", "たいしゃ", "leaving the office"], ["しましょう", "", "let's"]] },
+    ],
+    en: [
+      "Every Wednesday is",
+      "a no-overtime day.",
+      "Let's all leave on time.",
+    ],
+    note: "Many companies pick one evening a week when everyone is pushed to go home at 定時, the end of the official day.",
+  },
+  {
+    id: "whiteboard", pack: "work", look: "board", title: "Team whiteboard", level: 3,
+    where: "The whiteboard by the team's desks",
+    lines: [
+      { head: true, t: [["連絡", "れんらく", "notices"]] },
+      { t: [["会議", "かいぎ", "meeting"], "は", ["木曜日", "もくようび", "Thursday"], ["10時", "じゅうじ", "10 o'clock"], "から"] },
+      { t: [["資料", "しりょう", "handouts"], "は", ["各自", "かくじ", "each person"], ["印刷", "いんさつ", "printing"], ["してください", "", "please do"]] },
+      { t: [["締め切り", "しめきり", "deadline"], "は", ["金曜日", "きんようび", "Friday"], ["です", "", "is"]] },
+    ],
+    en: [
+      "Notices",
+      "The meeting is on Thursday from 10.",
+      "Please print your own copy of the handouts.",
+      "The deadline is Friday.",
+    ],
+    note: "Days of the week end in 曜日: 月 火 水 木 金 土 日 are Monday to Sunday.",
+  },
+  {
+    id: "time-clock", pack: "work", look: "wall", title: "Time clock", level: 3,
+    where: "The buttons on the time clock at the staff entrance",
+    lines: [
+      { t: [["出勤", "しゅっきん", "clocking in"]] },
+      { t: [["退勤", "たいきん", "clocking out"]] },
+      { t: [["遅刻", "ちこく", "late"]] },
+    ],
+    en: [
+      "Clock in",
+      "Clock out",
+      "Late",
+    ],
+    note: "In Japan even a few minutes late is 遅刻: tell your manager (連絡) before your start time if the train is delayed.",
+  },
+  {
+    id: "office-phrases", pack: "work", look: "notice", title: "Office phrases", level: 3,
+    where: "What you'll read in emails and hear across the office",
+    lines: [
+      { t: [["ご確認", "ごかくにん", "checking"], ["よろしく", "", "kindly"], ["お願いいたします", "おねがいいたします", "I ask (humble)"]] },
+      { t: [["ご相談", "ごそうだん", "something to discuss"], "が", ["あります", "", "there is"]] },
+      { t: [["失礼します", "しつれいします", "excuse me (coming in or leaving)"]] },
+      { t: [["担当", "たんとう", "the person in charge"], "：", ["田中", "たなか", "Tanaka"]] },
+    ],
+    en: [
+      "Please check this.",
+      "I have something to discuss with you.",
+      "Excuse me (coming in, or leaving for the day).",
+      "Contact: Tanaka",
+    ],
+    note: "お先に失礼します (おさきにしつれいします) is what you say when you leave before your colleagues.",
+  },
 ];

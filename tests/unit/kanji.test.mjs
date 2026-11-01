@@ -8,14 +8,16 @@ const { GOOD } = NH.SRS;
 const set = new Set(NH.KANJI.map((x) => x.k));
 
 describe("kanji data", () => {
-  test("346 kanji in five sets, each with stroke data matching its stroke count", () => {
-    assert.equal(NH.KANJI.length, 346);
-    assert.equal(set.size, 346);
+  test("406 kanji in seven sets, each with stroke data matching its stroke count", () => {
+    assert.equal(NH.KANJI.length, 406);
+    assert.equal(set.size, 406);
     const inPack = (p) => NH.KANJI.filter((x) => NH.Kanji.packOf(x) === p).length;
     assert.equal(inPack("n5"), 133, "the 80 of JLPT N5, plus 29 for nature and 24 for things");
     assert.equal(inPack("station"), 41);
     assert.equal(inPack("town"), 40);
     assert.equal(inPack("food"), 40);
+    assert.equal(inPack("weather"), 30);
+    assert.equal(inPack("work"), 30);
     assert.equal(inPack("clinic"), 92);
     // The first 80 still come first, so Today's order for them is unchanged.
     assert.equal(NH.KANJI[79].k, "聞");
@@ -164,7 +166,7 @@ describe("kanji in the queue", () => {
   test("every set can come first, and each set's words carry its name", () => {
     const N = fresh();
     startHiragana(N);
-    for (const [pack, first] of [["station", ["j:駅", "j:線"]], ["town", ["j:店", "j:売"]], ["food", ["j:丼", "j:麺"]]]) {
+    for (const [pack, first] of [["station", ["j:駅", "j:線"]], ["town", ["j:店", "j:売"]], ["food", ["j:丼", "j:麺"]], ["weather", ["j:曇", "j:度"]], ["work", ["j:仕", "j:事"]]]) {
       N.store.set("kanjiFirst", pack);
       assert.deepEqual(newKanji(N), first, pack);
     }

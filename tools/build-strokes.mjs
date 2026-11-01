@@ -19,6 +19,8 @@ const MORE = "花海空石森林草風雪光星春夏秋冬犬猫鳥魚虫牛馬
   "店売買品割引税込安値額新無員客営業準備銀現払預郵便送荷役所届類申記印明市区町村住";
 // Restaurants & food.
 const FOOD = "丼麺寿司刺身餃鍋豆腐卵菓飯野菜果焼揚唐煮汁味噌辛甘塩油冷氷文杯箸喫個盛放題別持帰";
+// Weather & news, and Work & office.
+const WEATHER_WORK = "曇度最低報確率湿霧雷象暑寒暖涼季節候梅紫粉症警震災害避難津波仕事社働勤務課部給残退議資刷連絡認締担説相談頼遅刻曜週礼失同";
 
 async function load(hex) {
   if (cacheDir) return readFile(join(cacheDir, `${hex}.svg`), "utf8");
@@ -53,7 +55,7 @@ function parse(svg) {
 }
 
 const out = {}, parts = {}, types = {};
-const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI, ...CLINIC, ...MORE, ...FOOD].map((c) => c.codePointAt(0))];
+const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI, ...CLINIC, ...MORE, ...FOOD, ...WEATHER_WORK].map((c) => c.codePointAt(0))];
 for (const cp of cps) {
   const hex = cp.toString(16).padStart(5, "0");
   const { paths, types: t, parts: p } = parse(await load(hex));
