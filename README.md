@@ -38,8 +38,8 @@ next is on the [roadmap](ROADMAP.md).
   behind a kana, the parts of a kanji), a memory hook, each stroke drawn and
   described in turn, and an example word, with captions. The narration is in
   English with the Japanese spoken by a Japanese voice, using the device's
-  built-in speech. On the writing screen, **Lesson audio** plays the same
-  narration and then talks you through each stroke as you write it.
+  built-in speech. On the writing screen, **Explain** opens the same lesson for
+  the character you're on, in a sheet; nothing is spoken unless you ask.
 - **Symbols**: gojūon, dakuten/handakuten and yōon charts. Each kana has an
   animated stroke order, the kanji it came from, a memory hook, quirks,
   lookalikes and example words.

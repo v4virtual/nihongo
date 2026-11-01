@@ -8,6 +8,7 @@ window.NH = window.NH || {};
 (function () {
   const { h, s, Geo, Ink, Audio, clamp, rand, lerp } = NH;
   const BOX = 109;
+  const MAX_STROKE = 5; // box widths: longer than any real stroke, so it must be a scribble
 
   const NEON = ["#ff3ea5", "#38f3ff", "#ffe14d", "#b46bff", "#5dff9e", "#ff8a3d"];
   const SHU = "#c8382e";
@@ -266,9 +267,11 @@ window.NH = window.NH || {};
     }
 
     renderLive() {
+      const t0 = performance.now();
       const c = this.live.getContext("2d");
       c.clearRect(0, 0, this.size, this.size);
       if (this.cur && this.cur.length) this.paint(c, this.cur, true);
+      this.liveCost = performance.now() - t0;
     }
 
     // ── input ──────────────────────────────────────────────
@@ -308,6 +311,7 @@ window.NH = window.NH || {};
         this.pointer = e.pointerId;
         this.pointerType = e.pointerType;
         this.cur = [pos(e)];
+        this.curLen = 0;
         this.lastFx = 0;
         this.live.classList.remove("fade");
         Audio.drawStart(this.style);
@@ -316,11 +320,28 @@ window.NH = window.NH || {};
       el.addEventListener("pointermove", (e) => {
         if (e.pointerId !== this.pointer) return;
         const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+        // Keep points about a 300th of the square apart: plenty for the shape,
+        // and the live stroke stays cheap to repaint on big screens.
+        const gap = Math.max(0.8, this.size / 300);
         for (const ev of evs.length ? evs : [e]) {
           const p = pos(ev);
           const l = this.cur[this.cur.length - 1];
-          if (Math.hypot(p.x - l.x, p.y - l.y) < 0.8) continue;
+          const d = Math.hypot(p.x - l.x, p.y - l.y);
+          if (d < gap) continue;
           this.cur.push(p);
+          this.curLen += d;
+        }
+        /* A finger going round and round isn't a stroke, and repainting an
+         * ever longer path froze phones until the app was killed. The longest
+         * real stroke (ゑ's first) is about 3 box widths; past 5, end it as a miss. */
+        if (this.curLen > MAX_STROKE * this.size) {
+          const pts = this.cur;
+          this.pointer = null;
+          this.cur = null;
+          Audio.drawEnd();
+          try { el.releasePointerCapture(e.pointerId); } catch (_) {}
+          this.reject({ status: "scribble" }, pts);
+          return;
         }
         const n = this.cur.length;
         if (n > 2) {
@@ -331,7 +352,10 @@ window.NH = window.NH || {};
         }
         if (!this.liveQueued) {
           this.liveQueued = true;
-          requestAnimationFrame(() => { this.liveQueued = false; this.renderLive(); });
+          // If the last repaint was slow, wait a little before the next one, so
+          // input never queues up behind drawing.
+          const paint = () => requestAnimationFrame(() => { this.liveQueued = false; this.renderLive(); });
+          this.liveCost > 20 ? setTimeout(paint, this.liveCost) : paint();
         }
       });
       const up = (e) => {
@@ -412,6 +436,7 @@ window.NH = window.NH || {};
       if (res.status === "order" && want && got && want !== got) msg = `That's part of ${got.el}. Finish ${want.el} first: stroke ${n} comes next.`;
       else if (res.status === "order") msg = `That's stroke ${res.actual + 1}. Stroke order matters: write stroke ${n} first.`;
       else if (res.status === "reversed") msg = `Right shape, wrong direction. Start stroke ${n} from the other end.`;
+      else if (res.status === "scribble") msg = `That's a scribble, not a stroke. Lift your finger and start stroke ${n} again.`;
       else msg = this.assist === "memory" && this.missesHere < 3 ? `Not quite. Think about where stroke ${n} starts.` : `Not quite. Follow stroke ${n}${ASSIST[this.assist].startDot ? " from the dot" : ""}.`;
       if (this.style === "accuracy") this.dust(pxPts);
       this.clearLive(true);

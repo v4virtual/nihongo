@@ -1,7 +1,8 @@
 /* Narrated lessons: each kana and kanji gets a short animated lesson built
  * from its data (what it is, where it came from, a memory hook, every stroke
  * drawn and described, an example word), spoken in English with the Japanese
- * in a Japanese voice. The same narration can talk you through writing. */
+ * in a Japanese voice. Explain pages show it inline; the writing screen opens
+ * it in a sheet. */
 window.NH = window.NH || {};
 
 (function () {
@@ -74,17 +75,6 @@ window.NH = window.NH || {};
     }
     add("Now try writing it yourself.", { kind: "char" });
     return out;
-  }
-
-  // What to say when a character comes up on the writing screen.
-  function writeIntro(ch, { full = false } = {}) {
-    if (!full) {
-      const n = NH.STROKES[ch]?.length || 0;
-      return [ja(ch), ...say(`${plural(n, "stroke")}. ${strokeLine(ch, 0)}`)];
-    }
-    const all = steps(ch);
-    const first = all.findIndex((st) => st.scene.kind === "strokes");
-    return [...all.slice(0, first + 1).flatMap((st) => st.say), ...say(strokeLine(ch, 0))];
   }
 
   // ── scenes ──────────────────────────────────────────────
@@ -167,8 +157,29 @@ window.NH = window.NH || {};
     function pause() { token++; handle?.cancel(); setPlaying(false); }
     function seek(k) { const was = playing; pause(); show(k); if (was) play(); }
     show(0);
+    card.play = play;
+    card.stop = pause;
     return card;
   }
 
-  NH.Lesson = { steps, player, writeIntro, strokeLine };
+  // The lesson in a sheet over the writing screen: opens playing, stops when closed.
+  function sheet(ch) {
+    const bg = h("div.sheet-bg", { onclick: (e) => e.target === bg && close() });
+    const opener = document.activeElement;
+    const keys = (e) => { if (e.key === "Escape") close(); };
+    const lesson = player(ch);
+    const close = () => { lesson.stop(); bg.remove(); document.removeEventListener("keydown", keys); opener?.focus?.(); };
+    document.addEventListener("keydown", keys);
+    UI.onLeave(close);
+    const box = h("div.sheet.lesson-sheet", { role: "dialog", "aria-modal": "true", "aria-label": `Lesson: ${ch}`, tabindex: "-1" },
+      h("div.sheet-head", h("h2", "How to write ", h("span", ch)), UI.iconBtn("close", "Close", close)),
+      lesson);
+    bg.append(box);
+    document.body.append(bg);
+    box.focus();
+    lesson.play();
+    return { close };
+  }
+
+  NH.Lesson = { steps, player, sheet, strokeLine };
 })();
