@@ -1,7 +1,8 @@
 # Kaku 書く
 
-Learn Japanese by writing it. Kaku covers **hiragana**, **katakana** and the
-first **80 kanji** (JLPT N5): every character has an explain page and a writing
+Learn Japanese by writing it. Kaku covers **hiragana**, **katakana**, the
+first **80 kanji** (JLPT N5) and a **clinic & hospital** set of 92 more, with
+real signs to read: every character has an explain page and a writing
 practice where each stroke is checked for shape, direction and order. What's
 next is on the [roadmap](ROADMAP.md).
 
@@ -35,6 +36,13 @@ next is on the [roadmap](ROADMAP.md).
   kana (日本, 食べる, 今日) have furigana you can turn off. Kanji join Today two
   a day once all 46 basic hiragana are started (Today → New kanji: off, 2, 3 or
   5).
+- **Clinic & hospital**: 92 more kanji for getting through a Japanese clinic:
+  departments and staff, reception and paying, symptoms and tests, signs and
+  notices, and the car park. Today can start with them instead of the
+  everyday set. The Signs tab has real clinic signs (a car park notice, a
+  floor guide, the pharmacy window, visiting hours…): tap any word for its
+  reading, meaning and kanji, hear the sign read aloud, turn furigana off, and
+  reveal the translation.
 - **Lessons**: every kana and kanji page has a short narrated lesson that plays
   like a video: what it is and how it sounds, where it came from (the kanji
   behind a kana, the parts of a kanji), a memory hook, each stroke drawn and
@@ -228,11 +236,12 @@ src/
   js/read.js            reading mode: signs, sentences, tap-a-kana
   js/speak.js           pronunciation check (speech recognition + matching)
   js/kanji-line.js      kanji chart, explain pages, furigana, kanji words and quiz
+  js/signs.js           real signs with kanji: tap a word for reading, meaning and kanji
   js/backup.js          back up and restore progress (file or text)
   js/lesson.js          narrated lessons: script from the data, player, writing narration
   js/app.js             screens and hash routing
   js/data/              strokes and kanji parts (KanjiVG), kana info (hiragana, katakana), kanji,
-                        tables, words, reading, scene art
+                        tables, words, reading, signs, scene art
 ios/                    the iPhone/iPad app (Capacitor, CocoaPods)
 tools/
   build-strokes.mjs     regenerates js/data/strokes.js (and kanji parts) from KanjiVG

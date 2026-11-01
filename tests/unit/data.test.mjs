@@ -131,6 +131,7 @@ describe("words and phrases", () => {
       assert.ok(w.scene?.length >= 1 && w.scene.length <= 2, `${w.id} scene count`);
       for (const s of w.scene) { assert.ok(NH.SCENE_ART[s], `${w.id}: no art for ${s}`); used.add(s); }
     }
+    for (const w of NH.KANJI_WORDS) for (const s of w.scene) used.add(s);
     const decorative = new Set(["seigaiha", "petal", "ginkgo"]);
     for (const id of Object.keys(NH.SCENE_ART)) if (!decorative.has(id)) assert.ok(used.has(id), `${id} unused`);
   });

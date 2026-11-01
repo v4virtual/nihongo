@@ -29,6 +29,9 @@ window.NH = window.NH || {};
     const kanjiLimits = h("div.chips", { role: "radiogroup", "aria-label": "New kanji per day" }, [[0, "Off"], [2, "2 a day"], [3, "3 a day"], [5, "5 a day"]].map(([n, label]) =>
       h("button.chip", { type: "button", role: "radio", "aria-checked": String(n === kanjiLimit), onclick: () => { store.set("dailyKanji", n); UI.go(here); } }, label)));
     const kanjiWaiting = isKanji && !SRS.ready("j:" + NH.KANJI[0].k);
+    const first = store.settings.kanjiFirst || "n5";
+    const kanjiFirst = h("div.chips", { role: "radiogroup", "aria-label": "Which kanji to learn first" }, NH.Kanji.PACKS.map((P) =>
+      h("button.chip", { type: "button", role: "radio", "aria-checked": String(P.id === first), onclick: () => { store.set("kanjiFirst", P.id); UI.go(here); } }, P.en)));
 
     body.append(
       h("section.card.today-card",
@@ -39,7 +42,7 @@ window.NH = window.NH || {};
         preview.length ? h("p.today-preview", { "aria-label": "Coming up" }, preview.map((t) => h("span", t))) : null,
         total ? UI.btn("Start", () => UI.go(prefix + "session"), "primary", "play") : null,
         isKanji ? h("div.today-limit", h("span.muted", "New kanji:"), kanjiLimits) : h("div.today-limit", h("span.muted", "New kana:"), limits),
-        isKanji ? null : h("div.today-limit", h("span.muted", "Learn:"), order),
+        h("div.today-limit", h("span.muted", isKanji ? "Start with:" : "Learn:"), isKanji ? kanjiFirst : order),
         waiting ? h("p.muted.today-note", "New kana come from hiragana until you've started all of it. Pick Katakana first or Both together to begin katakana now.") : null,
         kanjiWaiting ? h("p.muted.today-note", "Kanji start once you've started all 46 basic hiragana, since their readings are written in kana.") : null),
       ...(isKanji ? [] : [h("section.card.today-card",
@@ -83,15 +86,15 @@ window.NH = window.NH || {};
       S.tables.extended ? summary("extended", "Loanword sounds") : null);
   }
 
-  // The 80 kanji in their theme groups, coloured like the kana rows.
+  // Every kanji in its theme group, coloured like the kana rows.
   function kanjiProgress() {
     return h("section.card.progress",
       h("h2", "Kanji by theme"),
-      h("div.ptable", NH.Kanji.GROUPS.map(([g, , en]) => h("div.prow", h("span.prow-name", en),
+      NH.Kanji.PACKS.map((P) => [h("h3.muted", P.en), h("div.ptable", NH.Kanji.GROUPS.filter((g) => g[3] === P.id).map(([g, , en]) => h("div.prow", h("span.prow-name", en),
         h("span.prow-chips", NH.KANJI.filter((x) => x.group === g).map((x) => {
           const st = SRS.strength("j:" + x.k);
           return h("a.pchip", { href: `#k-${hex(x.k)}`, class: "s-" + st, title: `${x.k} ${x.meaning}`, "aria-label": `${x.k}, ${st === "new" ? "not started" : st === "due" ? "due now" : st}` }, x.k);
-        }))))));
+        })))))]));
   }
 
   // ── sessions ─────────────────────────────────────────────

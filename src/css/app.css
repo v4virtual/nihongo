@@ -194,7 +194,17 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: var(--sat)
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 .ksec { margin-bottom: 38px; }
-.ksec-head h2 { font-size: calc(20px * var(--ts)); margin: 0; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.ksec-head h2, .ksec-head h3 { font-size: calc(20px * var(--ts)); margin: 0; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.ksec-head h3 { font-size: calc(18px * var(--ts)); margin-bottom: 10px; }
+/* Kanji sets (everyday, clinic) on the chart */
+.kpack { margin-bottom: 34px; }
+.kpack-head { border-top: 3px solid var(--line-j); padding-top: 12px; margin-bottom: 14px; }
+.kpack-head h2 { margin: 0; font-size: calc(24px * var(--ts)); display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.kpack-head .jp { font-family: var(--f-kana); color: var(--muted); font-weight: 400; font-size: calc(18px * var(--ts)); }
+.kpack-n { margin-left: auto; font-size: calc(13px * var(--ts)); color: var(--muted); font-weight: 700; }
+.kpack-head p { color: var(--muted); margin: 6px 0 0; max-width: 42em; }
+.progress h3.muted { font-size: calc(13px * var(--ts)); text-transform: uppercase; letter-spacing: 0.08em; margin: 14px 0 6px; }
+.quiz-setup .chips .muted { align-self: center; font-size: calc(13px * var(--ts)); }
 .ksec-head .jp { font-family: var(--f-kana); color: var(--muted); font-size: calc(16px * var(--ts)); font-weight: 400; }
 .ksec-head p { color: var(--muted); margin: 6px 0 14px; max-width: 42em; }
 .kgrid { display: grid; grid-template-columns: 22px repeat(var(--cols), minmax(0, 1fr)); gap: 6px; max-width: 620px; }
@@ -697,6 +707,51 @@ input[type="range"] { accent-color: var(--line-h); }
 .stage .qopt.right { background: var(--line-h); border-color: var(--line-h); color: #0b1a05; }
 .stage .qopt.wrong { background: #c0392b; border-color: #c0392b; color: #fff; }
 .session .seq-c i { display: none; }
+
+/* ── Kanji signs: real notices with tappable words ───────── */
+.sgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+.scard {
+  display: grid; grid-template-rows: 1fr auto; gap: 10px; padding: 12px; text-decoration: none; color: inherit;
+  background: var(--night-2); border: 1px solid var(--rule); border-radius: var(--r);
+}
+.scard:hover { border-color: var(--line-j); }
+.scard .rmeta { flex-wrap: wrap; }
+.ksign {
+  --sz: 1; margin: 0; width: 100%; max-width: 560px; padding: calc(16px * var(--sz)) calc(18px * var(--sz));
+  background: #fff; color: #15171c; border-radius: 4px; box-shadow: 0 0 0 1px #0002, 0 10px 22px -12px #000a;
+  font-family: var(--f-ui); text-align: left; overflow-wrap: anywhere;
+}
+.ksign.mini { --sz: 0.6; pointer-events: none; align-self: start; }
+.ksign.look-notice { border-top: calc(8px * var(--sz)) solid #2d6fb7; }
+.ksign.look-board { background: #1f3b63; color: #f4f6fa; box-shadow: inset 0 0 0 calc(3px * var(--sz)) #c9d3e3, 0 10px 22px -12px #000a; }
+.ksign.look-wall { background: #f4f6f2; border-left: calc(10px * var(--sz)) solid #1f8a4c; }
+.ksign.look-warning { background: #ffd21c; color: #111; border: calc(6px * var(--sz)) solid #1b1b1b; }
+.ksl { margin: 0 0 calc(8px * var(--sz)); font-size: calc(19px * var(--sz) * var(--ts)); line-height: 2.1; font-weight: 700; }
+.ksl:last-child { margin-bottom: 0; }
+.ksl.head { font-size: calc(26px * var(--sz) * var(--ts)); font-weight: 900; text-align: center; letter-spacing: 0.04em; }
+.ksl.warn { display: table; margin-inline: auto; padding: 0 0.6em; color: #fff; background: #d32f2f; border-radius: 3px; }
+.look-wall .ksl { font-size: calc(24px * var(--sz) * var(--ts)); font-weight: 900; }
+.ksign .kw { font: inherit; color: inherit; background: none; border: 0; padding: 0 1px; margin: 0; border-radius: 4px; cursor: pointer; line-height: inherit; }
+.ksign button.kw:hover { background: #2d6fb722; }
+.ksign button.kw:focus-visible { outline: 2px solid var(--line-j); outline-offset: 1px; }
+.ksign .kw.on { background: #1aa1db33; box-shadow: inset 0 -3px 0 var(--line-j); }
+.look-board .kw.on { background: #ffffff2e; }
+.ksign rt { font-weight: 500; }
+.ksign ruby, .sg-face ruby { ruby-align: center; }
+.signview .ksign { margin-inline: auto; }
+.sgloss { min-height: 64px; padding: 12px 14px; border-radius: var(--r); background: var(--night-2); border: 1px solid var(--rule); margin: 4px 0 14px; }
+.sgloss > p { margin: 0; }
+.sg-word { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.sg-face { font: 700 calc(30px * var(--ts))/1.6 var(--f-kana); }
+.sg-text { display: grid; flex: 1; min-width: 10em; }
+.sg-text b { font-size: calc(17px * var(--ts)); }
+.sg-text span { color: var(--muted); }
+.sg-kanji { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.sg-write { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; color: var(--line-j); font-weight: 700; }
+.sg-write svg { width: 18px; height: 18px; }
+.sg-en { padding-left: 1.4em; margin: 0 0 10px; display: grid; gap: 8px; }
+.sg-en li span { display: block; }
+.sg-ja { font-family: var(--f-kana); color: var(--muted); }
 
 /* ── Reading: signs drawn the way you'd meet them ───────── */
 .cta-row.left { justify-content: flex-start; padding: 0 0 22px; }

@@ -8,10 +8,18 @@ const { GOOD } = NH.SRS;
 const set = new Set(NH.KANJI.map((x) => x.k));
 
 describe("kanji data", () => {
-  test("80 kanji, each with stroke data matching its stroke count", () => {
-    assert.equal(NH.KANJI.length, 80);
-    assert.equal(set.size, 80);
-    for (const x of NH.KANJI) assert.equal(NH.STROKES[x.k]?.length, x.strokes, x.k);
+  test("80 everyday kanji and 92 for the clinic, each with stroke data matching its stroke count", () => {
+    assert.equal(NH.KANJI.length, 172);
+    assert.equal(set.size, 172);
+    const inPack = (p) => NH.KANJI.filter((x) => NH.Kanji.packOf(x) === p).length;
+    assert.equal(inPack("n5"), 80);
+    assert.equal(inPack("clinic"), 92);
+    for (const x of NH.KANJI) {
+      assert.equal(NH.STROKES[x.k]?.length, x.strokes, x.k);
+      assert.ok(NH.Kanji.GROUPS.some((g) => g[0] === x.group), `${x.k}: group ${x.group}`);
+    }
+    // The pack covers the hospital sign it was built from.
+    for (const c of "駐車場利用方会計時必券提示処理受出庫分料金請求注意京都府歯科医師当館移動下保護者願問診台倒危険性上子様乗遊等決") assert.ok(set.has(c), c);
   });
 
   test("readings: on'yomi in katakana, kun'yomi in hiragana", () => {
@@ -64,6 +72,36 @@ describe("kanji data", () => {
   });
 });
 
+describe("signs to read", () => {
+  test("every sign word is writable, has a meaning, and its furigana fits", () => {
+    const ids = new Set();
+    for (const sg of NH.SIGNS) {
+      assert.ok(!ids.has(sg.id) && /^[a-z0-9-]+$/.test(sg.id), sg.id);
+      ids.add(sg.id);
+      assert.equal(sg.en.length, sg.lines.length, `${sg.id}: one translation per line`);
+      for (const line of sg.lines) for (const t of line.t) {
+        if (typeof t === "string") { assert.ok(!/[㐀-鿿]/.test(t), `${sg.id}: kanji outside a word: ${t}`); continue; }
+        const [text, reading, meaning] = t;
+        assert.ok(meaning, `${sg.id}: ${text} has no meaning`);
+        for (const c of text) if (/[㐀-鿿]/.test(c)) assert.ok(set.has(c), `${sg.id}: ${c} in ${text} isn't taught`);
+        if (/[㐀-鿿]/.test(text)) {
+          assert.match(reading, /^[ぁ-ゔ]+$/, `${sg.id}: ${text} needs a hiragana reading`);
+          // Kana around the kanji must match the reading, so furigana sits on the kanji.
+          const runs = text.match(/[㐀-鿿々]+|[^㐀-鿿々]+/g);
+          if (!/[0-9]/.test(text)) assert.ok(new RegExp(`^${runs.map((r) => (/[㐀-鿿]/.test(r) ? "(.+?)" : r)).join("")}$`).test(reading), `${sg.id}: ${text} / ${reading}`);
+        } else assert.equal(reading, "", `${sg.id}: ${text} is kana, no reading needed`);
+      }
+    }
+  });
+
+  test("signs are read aloud from their readings", () => {
+    const sg = NH.SIGNS.find((x) => x.id === "parking-ticket");
+    assert.ok(sg, "the car park sign from the user's photo");
+    assert.equal(NH.Signs.lineSpeech(sg.lines[0]), "ちゅうしゃじょうをごりようのかたへ");
+    assert.equal(NH.Signs.lineSpeech(NH.SIGNS.find((x) => x.id === "visiting-hours").lines[1]), "ごごさんじからはちじ");
+  });
+});
+
 describe("kanji in the queue", () => {
   const fresh = () => load(ALL_DATA);
   const startHiragana = (N) => { for (const c of N.SRS.kanaOrder("hiragana").slice(0, 46)) N.store.srs().cards["k:" + c] = { s: 5, d: 5, reps: 1, last: T0, due: T0 + 9 * NH.SRS.DAY }; };
@@ -77,6 +115,15 @@ describe("kanji in the queue", () => {
     for (const id of newKanji(N)) N.SRS.review(id, GOOD, T0);
     assert.deepEqual(newKanji(N, T0 + 3600e3), [], "today's two are done");
     assert.deepEqual(newKanji(N, T0 + NH.SRS.DAY), ["j:三", "j:四"]);
+  });
+
+  test("the clinic pack can come first", () => {
+    const N = fresh();
+    startHiragana(N);
+    N.store.set("kanjiFirst", "clinic");
+    assert.deepEqual(newKanji(N), ["j:病", "j:院"]);
+    N.store.set("kanjiFirst", "n5");
+    assert.deepEqual(newKanji(N), ["j:一", "j:二"]);
   });
 
   test("the daily kanji limit can be changed or turned off", () => {

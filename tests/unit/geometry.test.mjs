@@ -184,7 +184,9 @@ describe("stroke endings (hane)", () => {
     let ok = 0, n = 0;
     for (const ch of chars) for (const st of strokesOf(ch)) {
       if (!st.hane) continue;
-      for (let k = 0; k < 5; k++) { ok += hasHook(humanize(NH, st, rnd, { jitter: 1.5, shift: 6 })); n++; }
+      // Sideways and downward hooks (宀's corner, 子's top) are checked in the model's direction.
+      const check = st.hookDir == null ? hasHook : (pts) => NH.Geo.hookOk(pts, st);
+      for (let k = 0; k < 5; k++) { ok += check(humanize(NH, st, rnd, { jitter: 1.5, shift: 6 })); n++; }
     }
     assert.ok(ok / n > 0.9, `${ok}/${n} flicks recognised`);
   });

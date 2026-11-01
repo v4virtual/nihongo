@@ -136,7 +136,8 @@ window.NH = window.NH || {};
     }
     // New kanji have their own, smaller daily allowance.
     let kanjiLeft = due.length > 30 ? 0 : Math.max(0, (NH.store.settings.dailyKanji ?? 2) - (day.kanji || 0));
-    for (const x of NH.KANJI || []) {
+    // In pack order: the learner picks Everyday or Clinic & hospital first.
+    for (const x of NH.Kanji?.kanjiOrder?.() || NH.KANJI || []) {
       if (kanjiLeft <= 0) break;
       const id = "j:" + x.k;
       if (!dk.cards[id] && ready(id)) { fresh.push(id); kanjiLeft--; }

@@ -5,13 +5,16 @@
 const CACHE = "kaku-dev";
 const FILES = [
   "./", "index.html", "css/app.css", "css/fonts.css", "manifest.webmanifest",
-  "fonts/zen-kaku-gothic-new-400.woff2", "fonts/zen-kaku-gothic-new-700.woff2", "fonts/zen-kaku-gothic-new-900.woff2",
-  "fonts/klee-one-400.woff2", "fonts/klee-one-600.woff2", "fonts/m-plus-rounded-1c-500.woff2", "fonts/m-plus-rounded-1c-900.woff2",
-  "fonts/yuji-syuku-400.woff2",
+  "fonts/zen-kaku-gothic-new-400-1.woff2", "fonts/zen-kaku-gothic-new-700-1.woff2",
+  "fonts/zen-kaku-gothic-new-900-1.woff2", "fonts/zen-kaku-gothic-new-400-2.woff2",
+  "fonts/zen-kaku-gothic-new-700-2.woff2", "fonts/zen-kaku-gothic-new-900-2.woff2", "fonts/klee-one-400-1.woff2",
+  "fonts/klee-one-600-1.woff2", "fonts/klee-one-400-2.woff2", "fonts/klee-one-600-2.woff2",
+  "fonts/m-plus-rounded-1c-500-1.woff2", "fonts/m-plus-rounded-1c-900-1.woff2", "fonts/m-plus-rounded-1c-500-2.woff2",
+  "fonts/m-plus-rounded-1c-900-2.woff2", "fonts/yuji-syuku-400-1.woff2", "fonts/yuji-syuku-400-2.woff2",
   "icon.svg", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png",
-  "js/util.js", "js/data/strokes.js", "js/data/kana-info.js", "js/data/katakana-info.js", "js/data/kana.js", "js/data/words.js", "js/data/reading.js", "js/data/kanji.js",
+  "js/util.js", "js/data/strokes.js", "js/data/kana-info.js", "js/data/katakana-info.js", "js/data/kana.js", "js/data/words.js", "js/data/reading.js", "js/data/kanji.js", "js/data/signs.js",
   "js/data/scene-art.js", "js/geometry.js", "js/ink.js", "js/audio.js", "js/tts.js",
-  "js/srs.js", "js/backdrops.js", "js/writer.js", "js/today.js", "js/read.js", "js/speak.js", "js/kanji-line.js", "js/backup.js", "js/lesson.js", "js/app.js",
+  "js/srs.js", "js/backdrops.js", "js/writer.js", "js/today.js", "js/read.js", "js/speak.js", "js/kanji-line.js", "js/signs.js", "js/backup.js", "js/lesson.js", "js/app.js",
 ];
 
 self.addEventListener("install", (e) => {

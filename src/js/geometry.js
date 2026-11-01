@@ -112,7 +112,8 @@ window.NH = window.NH || {};
   const ENDING = {
     "㇐": "tome", "㇑": "tome", "㇔": "tome", "㇕": "tome", "㇄": "tome", "㇗": "tome", "㇜": "tome", "㇛": "tome",
     "㇒": "harai", "㇏": "harai", "㇇": "harai", "㇓": "harai", "㇀": "harai",
-    "㇚": "hane", "㇆": "hane", "㇟": "hane", "㇈": "hane", "㇖": "hane", "㇁": "hane", "㇙": "hane",
+    "㇚": "hane", "㇆": "hane", "㇟": "hane", "㇈": "hane", "㇖": "hane", "㇁": "hane", "㇙": "hane", "㇃": "hane", "㇉": "hane",
+    "㇋": "harai",
   };
   const endingOf = (type) => (!type || type.includes("/") ? null : ENDING[type[0]] || null);
 

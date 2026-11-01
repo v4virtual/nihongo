@@ -11,6 +11,8 @@ const cacheDir = process.argv[2];
 const RANGES = [[0x3041, 0x3094], [0x30a1, 0x30f4], [0x30fc, 0x30fc]];
 // The 80 kanji of JLPT N5 (the classic list), in the order kanji.js teaches them.
 const KANJI = "一二三四五六七八九十百千万円日月火水木金土年時午前後今毎半間人子女男父母友先生名上下中左右外東西南北山川天気雨大小長高白本学校語電車国何見行来出入休食飲書読話聞";
+// The clinic & hospital pack: reception, departments, symptoms, signs and parking.
+const CLINIC = "病院医患者科内歯眼耳鼻皮膚児薬局師看護受付予約番号待合室初再診察券保険証会計様体熱痛血液温検査急救口非常階化粧禁煙注意危性示必面台乗倒遊等決願問当館京都府駐場利用方分料処理庫移動提請求";
 
 async function load(hex) {
   if (cacheDir) return readFile(join(cacheDir, `${hex}.svg`), "utf8");
@@ -45,7 +47,7 @@ function parse(svg) {
 }
 
 const out = {}, parts = {}, types = {};
-const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI].map((c) => c.codePointAt(0))];
+const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI, ...CLINIC].map((c) => c.codePointAt(0))];
 for (const cp of cps) {
   const hex = cp.toString(16).padStart(5, "0");
   const { paths, types: t, parts: p } = parse(await load(hex));

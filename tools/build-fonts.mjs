@@ -5,7 +5,7 @@
 // holds only these characters: printable ASCII plus every character in src/.
 // All four families are under the SIL Open Font License 1.1 (src/fonts/OFL.txt).
 // Re-run after adding text with new characters; a unit test checks for that.
-import { readFile, writeFile, mkdir, readdir, stat } from "node:fs/promises";
+import { readFile, writeFile, mkdir, readdir, stat, unlink } from "node:fs/promises";
 import { join, dirname, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,6 +17,10 @@ const FAMILIES = [
   ["M PLUS Rounded 1c", [500, 900]],
   ["Yuji Syuku", [400]],
 ];
+// Google Fonts subsets one file per weight only for shortish text; past ~800
+// characters it answers with hundreds of unicode-range slices. So the text goes
+// in chunks, each its own @font-face with a unicode-range; browsers merge them.
+const CHUNK = 500;
 // A recent desktop Chrome, so Google Fonts answers with woff2.
 const UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36";
 
@@ -39,30 +43,61 @@ export async function usedChars() {
 }
 
 const slug = (family) => family.toLowerCase().replace(/\s+/g, "-");
+// U+20-7E,U+3042,… with runs of code points joined into ranges.
+function unicodeRange(chars) {
+  const cps = chars.map((c) => c.codePointAt(0)).sort((a, b) => a - b);
+  const out = [];
+  for (let i = 0; i < cps.length; i++) {
+    let j = i;
+    while (j + 1 < cps.length && cps[j + 1] === cps[j] + 1) j++;
+    const hx = (n) => n.toString(16).toUpperCase();
+    out.push(i === j ? `U+${hx(cps[i])}` : `U+${hx(cps[i])}-${hx(cps[j])}`);
+    i = j;
+  }
+  return out.join(",");
+}
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const chars = await usedChars();
-  const text = encodeURIComponent(chars.join(""));
+  const chunks = [];
+  for (let i = 0; i < chars.length; i += CHUNK) chunks.push(chars.slice(i, i + CHUNK));
   await mkdir(join(src, "fonts"), { recursive: true });
-  const faces = [];
+  for (const f of await readdir(join(src, "fonts"))) if (f.endsWith(".woff2")) await unlink(join(src, "fonts", f));
+  const faces = [], files = [];
   let total = 0;
   for (const [family, weights] of FAMILIES) {
-    const url = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, "+")}:wght@${weights.join(";")}&text=${text}`;
-    const css = await (await fetch(url, { headers: { "user-agent": UA } })).text();
-    const blocks = [...css.matchAll(/@font-face\s*{([^}]+)}/g)].map((m) => m[1]);
-    if (blocks.length !== weights.length) throw new Error(`${family}: expected ${weights.length} faces, got ${blocks.length}`);
-    for (const b of blocks) {
-      const weight = b.match(/font-weight:\s*(\d+)/)[1];
-      const fontUrl = b.match(/url\(([^)]+)\)/)[1];
-      const res = await fetch(fontUrl, { headers: { "user-agent": UA } });
-      if (!res.ok) throw new Error(`${family} ${weight}: HTTP ${res.status}`);
-      const buf = Buffer.from(await res.arrayBuffer());
-      const file = `${slug(family)}-${weight}.woff2`;
-      await writeFile(join(src, "fonts", file), buf);
-      total += buf.length;
-      faces.push(`@font-face { font-family: "${family}"; font-style: normal; font-weight: ${weight}; font-display: swap; src: url("../fonts/${file}") format("woff2"); }`);
+    for (const [ci, chunk] of chunks.entries()) {
+      const url = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, "+")}:wght@${weights.join(";")}&text=${encodeURIComponent(chunk.join(""))}`;
+      const css = await (await fetch(url, { headers: { "user-agent": UA } })).text();
+      const blocks = [...css.matchAll(/@font-face\s*{([^}]+)}/g)].map((m) => m[1]);
+      if (blocks.length !== weights.length) throw new Error(`${family}: expected ${weights.length} faces, got ${blocks.length}`);
+      for (const b of blocks) {
+        const weight = b.match(/font-weight:\s*(\d+)/)[1];
+        const fontUrl = b.match(/url\(([^)]+)\)/)[1];
+        const res = await fetch(fontUrl, { headers: { "user-agent": UA } });
+        if (!res.ok) throw new Error(`${family} ${weight}: HTTP ${res.status}`);
+        const buf = Buffer.from(await res.arrayBuffer());
+        const file = `${slug(family)}-${weight}${chunks.length > 1 ? `-${ci + 1}` : ""}.woff2`;
+        await writeFile(join(src, "fonts", file), buf);
+        total += buf.length;
+        files.push(`fonts/${file}`);
+        const range = chunks.length > 1 ? ` unicode-range: ${unicodeRange(chunk)};` : "";
+        faces.push(`@font-face { font-family: "${family}"; font-style: normal; font-weight: ${weight}; font-display: swap; src: url("../fonts/${file}") format("woff2");${range} }`);
+      }
     }
   }
+  // The service worker caches every font file for offline use.
+  const swPath = join(src, "sw.js");
+  const sw = await readFile(swPath, "utf8");
+  const list = files.reduce((lines, f) => {
+    const item = `"${f}", `;
+    if (!lines.length || lines.at(-1).length + item.length > 120) lines.push("  ");
+    lines[lines.length - 1] += item;
+    return lines;
+  }, []).map((l) => l.trimEnd()).join("\n");
+  const swNew = sw.replace(/(?:^  "fonts\/[^\n]*\n)+/m, () => list + "\n");
+  if (swNew === sw && !files.every((f) => sw.includes(`"${f}"`))) throw new Error("sw.js: font list not found");
+  await writeFile(swPath, swNew);
   await writeFile(join(src, "css/fonts.css"),
     `/* Bundled fonts (SIL OFL 1.1, see fonts/OFL.txt), cut down to the characters\n * the app uses. Generated by tools/build-fonts.mjs; do not edit. */\n${faces.join("\n")}\n`);
   await writeFile(join(src, "fonts/chars.txt"), chars.join("") + "\n");
