@@ -4,6 +4,8 @@
 //   src/apple-touch-icon.png (180)      – full-bleed square; iOS rounds the corners
 //   android/…/mipmap-*/ic_launcher*.png – launcher icons (legacy, round, adaptive foreground)
 //   android/…/drawable*/splash.png      – launch screens
+//   ios/…/AppIcon-512@2x.png (1024)     – iPhone/iPad icon: full-bleed and opaque, iOS rounds it
+//   ios/…/Splash.imageset/*.png         – iOS launch screen
 // Usage: node tools/build-icons.mjs
 import { readFile, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -57,6 +59,16 @@ if (existsSync(res)) {
     if (!existsSync(file)) continue;
     const { width, height } = await sizeOf(file);
     await render(`android/app/src/main/res/${dir}/splash.png`, width, height, 0.32, BG);
+  }
+}
+const ios = join(root, "ios/App/App/Assets.xcassets");
+if (existsSync(ios)) {
+  await render("ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png", 1024, 1024, 0.84, BG);
+  const splash = join(ios, "Splash.imageset");
+  for (const f of existsSync(splash) ? await readdir(splash) : []) {
+    if (!f.endsWith(".png")) continue;
+    const { width, height } = await sizeOf(join(splash, f));
+    await render(`ios/App/App/Assets.xcassets/Splash.imageset/${f}`, width, height, 0.2, BG);
   }
 }
 await browser.close();

@@ -58,6 +58,36 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
+  # Builds the iPhone/iPad app for the simulator, unsigned: proves the iOS
+  # project compiles with its plugins. Shipping to TestFlight / the App Store
+  # needs an Apple Developer account and signing (see README).
+  ios:
+    needs: test
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Copy the web app into the iOS project and install pods
+        run: npx cap sync ios
+      - name: Build for the simulator
+        run: |
+          set -o pipefail
+          xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO build | tail -20
+          test -d ios/build/Build/Products/Debug-iphonesimulator/App.app
+          test -f ios/build/Build/Products/Debug-iphonesimulator/App.app/public/index.html
+      - name: Zip the simulator app
+        run: cd ios/build/Build/Products/Debug-iphonesimulator && zip -qr "$GITHUB_WORKSPACE/kaku-ios-simulator.zip" App.app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kaku-ios-simulator
+          path: kaku-ios-simulator.zip
+
   # Builds the Android app. On pull requests it only checks that the APK builds;
   # on main it publishes the APK as a GitHub Release ("Latest").
   apk:

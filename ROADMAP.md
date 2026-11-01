@@ -72,6 +72,8 @@ release; order within a group is a rough priority.
 
 - [x] Deploy to GitHub Pages on every green push to `main`; installable on Android/iOS, offline, auto-updating
 - [x] Android app (APK) with Capacitor: offline, native text-to-speech and haptics, built and published as a GitHub Release on every green push to `main`
+- [x] iPhone/iPad app with Capacitor: universal iOS project with native speech, haptics and speech recognition, built for the simulator on every CI run
+- [ ] TestFlight and App Store: needs an Apple Developer account, then signing from CI (certificate, provisioning profile, App Store Connect key as secrets)
 - [ ] Play Store listing (needs an .aab, store assets and a privacy note covering the microphone)
 - [x] Bundle the fonts in the app and the APK: subsets of the four fonts with just the characters Kaku uses (about 0.9 MB), so even a first launch offline looks right
 - [x] Account-free backup: save progress as a file or copy it as text, restore it on another device by merging (the most recent review of each item wins) or replacing

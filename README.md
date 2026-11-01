@@ -151,6 +151,30 @@ The APK lands in `android/app/build/outputs/apk/debug/`. Run
 `node tools/build-icons.mjs` after changing `src/icon.svg` to regenerate the
 launcher icons and splash screens.
 
+## iPhone and iPad app
+
+The same app is packaged for iOS with Capacitor in `ios/` (one universal app for
+iPhone and iPad, iOS 15 or later), with native text-to-speech, haptics and
+speech recognition for **Say it**. Every CI run builds it for the simulator, so
+a change that breaks the iOS build shows up on the pull request; the built
+simulator app is attached to the run.
+
+Installing it on a real iPhone or iPad needs a Mac with Xcode:
+
+```bash
+npm ci
+npx cap sync ios
+npx cap open ios
+```
+
+In Xcode, pick your Apple ID under **Signing & Capabilities → Team**, plug in
+the device and press Run. With a free Apple ID the app runs for 7 days before
+it needs re-installing; with the Apple Developer Program ($99 a year) you can
+send it to testers through TestFlight and publish it on the App Store. Signing
+for TestFlight from CI can be added once there's a developer account (it needs
+a distribution certificate, a provisioning profile and an App Store Connect API
+key as repository secrets).
+
 ## Tests
 
 ```bash
@@ -207,6 +231,7 @@ src/
   js/app.js             screens and hash routing
   js/data/              strokes and kanji parts (KanjiVG), kana info (hiragana, katakana), kanji,
                         tables, words, reading, scene art
+ios/                    the iPhone/iPad app (Capacitor, CocoaPods)
 tools/
   build-strokes.mjs     regenerates js/data/strokes.js (and kanji parts) from KanjiVG
   build-fonts.mjs       bundles the fonts, cut down to the characters the app uses
