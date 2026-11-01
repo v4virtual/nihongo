@@ -43,16 +43,18 @@ describe("kanji line", () => {
     assert.equal(await page.locator(".progress .pchip").count(), await page.evaluate(() => NH.KANJI.length));
   }));
 
-  test("the chart lists every kanji in seven sets by theme and filters by stroke count", T, () => withPage("kanji", {}, async (page) => {
+  test("the chart lists every kanji in nine sets by theme and filters by stroke count", T, () => withPage("kanji", {}, async (page) => {
     const total = await page.evaluate(() => NH.KANJI.length);
     assert.equal(await page.locator(".jcell").count(), total);
-    assert.deepEqual(await page.locator(".kpack-head h2").evaluateAll((els) => els.map((e) => e.firstChild.textContent)), ["Everyday kanji", "Stations & trains", "Shops & offices", "Restaurants & food", "Weather & news", "Work & office", "Clinic & hospital"]);
+    assert.deepEqual(await page.locator(".kpack-head h2").evaluateAll((els) => els.map((e) => e.firstChild.textContent)), ["Everyday kanji", "Core essentials", "Stations & trains", "Shops & offices", "Restaurants & food", "Weather & news", "Work & office", "Reading the news", "Clinic & hospital"]);
     assert.equal(await page.locator(".kpack[data-pack=n5] .ksec h3").count(), 8);
     assert.equal(await page.locator(".kpack[data-pack=station] .ksec h3").count(), 4);
     assert.equal(await page.locator(".kpack[data-pack=town] .ksec h3").count(), 4);
     assert.equal(await page.locator(".kpack[data-pack=food] .ksec h3").count(), 3);
     assert.equal(await page.locator(".kpack[data-pack=weather] .ksec h3").count(), 3);
     assert.equal(await page.locator(".kpack[data-pack=work] .ksec h3").count(), 3);
+    assert.equal(await page.locator(".kpack[data-pack=core] .ksec h3").count(), 5);
+    assert.equal(await page.locator(".kpack[data-pack=news] .ksec h3").count(), 10);
     assert.equal(await page.locator(".kpack[data-pack=clinic] .ksec h3").count(), 5);
     await page.locator(".stroke-filter .chip[aria-label='1 stroke']").click();
     assert.deepEqual(await page.locator(".jc").allTextContents(), ["一"]);
@@ -171,7 +173,7 @@ describe("folding groups", () => {
 
   test("Today's kanji progress folds by set, the set you start with open", T, () => withPage("kanji-today", {}, async (page) => {
     assert.deepEqual(await page.locator("details.pfold[open]").evaluateAll((els) => els.map((e) => e.dataset.fold)), ["progress:n5"]);
-    assert.equal(await page.locator("details.pfold").count(), 7);
+    assert.equal(await page.locator("details.pfold").count(), 9);
   }));
 });
 

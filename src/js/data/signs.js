@@ -608,4 +608,128 @@ NH.SIGNS = [
     ],
     note: "お先に失礼します (おさきにしつれいします) is what you say when you leave before your colleagues.",
   },
+
+  // ---- Core essentials ----
+  {
+    id: "library", pack: "core", look: "board", title: "Library", level: 3,
+    where: "At the door of a city library",
+    lines: [
+      { head: true, t: [["図書館", "としょかん", "library"]] },
+      { t: [["館内", "かんない", "inside the building"], "での", ["飲食", "いんしょく", "eating and drinking"], "は", ["禁止", "きんし", "not allowed"]] },
+      { t: [["本", "ほん", "books"], "の", ["貸し出し", "かしだし", "lending"], "は", ["2週間", "にしゅうかん", "two weeks"], "まで"] },
+    ],
+    en: [
+      "Library",
+      "No eating or drinking inside",
+      "Books can be borrowed for up to two weeks.",
+    ],
+    note: "Public libraries are free; residents can get a card with proof of address. 貸す is to lend, 借りる to borrow.",
+  },
+  {
+    id: "park-rules", pack: "core", look: "notice", title: "Park rules", level: 3,
+    where: "On a board at the entrance of a neighbourhood park",
+    lines: [
+      { head: true, t: [["公園", "こうえん", "park"], "の", ["ルール", "", "rules"]] },
+      { t: [["自転車", "じてんしゃ", "bicycles"], "は", ["押して", "おして", "pushing"], ["歩いて", "あるいて", "walking"], ["ください", "", "please"]] },
+      { t: [["夜", "よる", "night"], ["10時", "じゅうじ", "10 o'clock"], ["以後", "いご", "after"], "は", ["花火", "はなび", "fireworks"], ["禁止", "きんし", "prohibited"]] },
+    ],
+    en: [
+      "Park rules",
+      "Please get off and walk your bicycle.",
+      "No fireworks after 10 p.m.",
+    ],
+    note: "Hand-held fireworks are a summer favourite, but many parks ban them at night, or altogether.",
+  },
+  {
+    id: "cinema", pack: "core", look: "board", title: "At the cinema", level: 3,
+    where: "The ticket counter of a cinema",
+    lines: [
+      { head: true, t: [["映画館", "えいがかん", "cinema"]] },
+      { t: [["大人", "おとな", "adults"], "　1900", ["円", "えん", "yen"], "・", ["子ども", "こども", "children"], "　1000", ["円", "えん", "yen"]] },
+      { t: [["英語", "えいご", "English"], ["字幕", "じまく", "subtitles"]] },
+    ],
+    en: [
+      "Cinema",
+      "Adults 1,900 yen, children 1,000 yen",
+      "English subtitles",
+    ],
+    note: "Foreign films come 字幕 (subtitled) or 吹き替え (dubbed); check which before you buy.",
+  },
+
+  // ---- Reading the news: headlines ----
+  {
+    id: "news-election", pack: "news", look: "notice", title: "Election night", level: 3,
+    where: "Headlines on a news site the morning after an election",
+    lines: [
+      { head: true, t: [["選挙", "せんきょ", "election"], ["結果", "けっか", "results"]] },
+      { t: [["与党", "よとう", "ruling party"], "、", ["過半数", "かはんすう", "a majority"], "を", ["確保", "かくほ", "secures"]] },
+      { t: [["投票率", "とうひょうりつ", "turnout"], "　52%"] },
+    ],
+    en: [
+      "Election results",
+      "Ruling party secures a majority",
+      "Turnout: 52%",
+    ],
+    note: "Headlines drop particles and verbs: 与党、過半数を確保 is short for 与党が過半数を確保した.",
+  },
+  {
+    id: "news-economy", pack: "news", look: "board", title: "Business news", level: 3,
+    where: "The ticker under a business news programme",
+    lines: [
+      { t: [["日経平均", "にっけいへいきん", "the Nikkei average"], "　500", ["円", "えん", "yen"], ["高", "だか", "up"]] },
+      { t: [["円安", "えんやす", "a weak yen"], ["進む", "すすむ", "continues"]] },
+      { t: [["消費者物価", "しょうひしゃぶっか", "consumer prices"], "　3%", ["増", "ぞう", "up"]] },
+    ],
+    en: [
+      "The Nikkei is up 500 yen",
+      "The yen keeps weakening",
+      "Consumer prices up 3%",
+    ],
+    note: "円安 (a weak yen) makes imports dearer and Japan cheaper for visitors; 円高 is the opposite.",
+  },
+  {
+    id: "news-incident", pack: "news", look: "notice", title: "Local news", level: 3,
+    where: "Short items in the local section of a newspaper",
+    lines: [
+      { t: [["警察", "けいさつ", "police"], "が", ["容疑者", "ようぎしゃ", "the suspect"], "を", ["調べ", "しらべ", "questioning"], ["ている", "", "are (doing)"]] },
+      { t: [["地裁", "ちさい", "district court"], "が", ["判決", "はんけつ", "ruling"]] },
+      { t: [["事故", "じこ", "accident"], "で", ["3人", "さんにん", "three people"], ["けが", "", "injured"]] },
+    ],
+    en: [
+      "Police are questioning the suspect",
+      "District court hands down its ruling",
+      "Three injured in an accident",
+    ],
+    note: "News Japanese leans on two-kanji words: 容疑者 (suspect), 判決 (ruling), 事故 (accident).",
+  },
+  {
+    id: "news-sport", pack: "news", look: "board", title: "Sports pages", level: 3,
+    where: "The back page of a sports newspaper",
+    lines: [
+      { head: true, t: [["日本", "にほん", "Japan"], "、", ["優勝", "ゆうしょう", "win the title"]] },
+      { t: [["大谷", "おおたに", "Ohtani"], "、", ["40号", "よんじゅうごう", "the 40th"], ["本塁打", "ほんるいだ", "home run"]] },
+      { t: [["決勝", "けっしょう", "the final"], "は", ["明日", "あした", "tomorrow"]] },
+    ],
+    en: [
+      "Japan win the title",
+      "Ohtani hits his 40th home run",
+      "The final is tomorrow",
+    ],
+    note: "号 counts home runs in baseball reports: 40号 is the 40th. Commentators also say ホームラン.",
+  },
+  {
+    id: "news-world", pack: "news", look: "notice", title: "National news", level: 3,
+    where: "The front page of a national newspaper",
+    lines: [
+      { t: [["首相", "しゅしょう", "prime minister"], "が", ["韓国", "かんこく", "South Korea"], "を", ["訪問", "ほうもん", "visit"]] },
+      { t: [["大阪", "おおさか", "Osaka"], "で", ["国際会議", "こくさいかいぎ", "international conference"], ["開催", "かいさい", "held"]] },
+      { t: [["福岡空港", "ふくおかくうこう", "Fukuoka Airport"], "、", ["国際線", "こくさいせん", "international flights"], ["増便", "ぞうびん", "more flights"]] },
+    ],
+    en: [
+      "Prime minister visits South Korea",
+      "International conference held in Osaka",
+      "More international flights at Fukuoka Airport",
+    ],
+    note: "Place names are written in kanji with their own readings: 大阪 (おおさか), 福岡 (ふくおか).",
+  },
 ];

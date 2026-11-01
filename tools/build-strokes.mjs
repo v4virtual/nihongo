@@ -21,6 +21,10 @@ const MORE = "花海空石森林草風雪光星春夏秋冬犬猫鳥魚虫牛馬
 const FOOD = "丼麺寿司刺身餃鍋豆腐卵菓飯野菜果焼揚唐煮汁味噌辛甘塩油冷氷文杯箸喫個盛放題別持帰";
 // Weather & news, and Work & office.
 const WEATHER_WORK = "曇度最低報確率湿霧雷象暑寒暖涼季節候梅紫粉症警震災害避難津波仕事社働勤務課部給残退議資刷連絡認締担説相談頼遅刻曜週礼失同";
+// Chosen by frequency: the grade-1 and JLPT N4 kanji still missing, then the
+// rest of the 500 most frequent kanji in newspapers.
+const CORE = "立知作集言運教使転試思考起去建映習走歩答借貸勉死強多重古少早青黒赤色悪楽有正近広不主親族私兄弟姉妹王英研究質験字図漢工以代力心公世界元屋朝夜洋歌旅堂夕昼貝";
+const NEWS = "政選党権民法制首総委省官庁統策挙派領治任案票参判裁審訴疑容捜捕被件告殺故監違防衛軍隊武撃士経済株価億銭費収産企減増倍比量均差基源材労職格勝敗戦打投球塁輪競技賞督点位負県阪岡福宮藤井崎松谷沖韓州城港橋陸佐太園組団協機関設施構織式催演幕録型種係述論想念感解観視調情声伝応推信進続加交反流結落断復援変消撮補与登訪追整導張飛達渡供航取支得置過配回第数昨歳平成際在末周限表対全共氏的原実向要和活規神能勢可域状直模亡美遺辺育良横針宅深響幹態頭影";
 
 async function load(hex) {
   if (cacheDir) return readFile(join(cacheDir, `${hex}.svg`), "utf8");
@@ -55,7 +59,7 @@ function parse(svg) {
 }
 
 const out = {}, parts = {}, types = {};
-const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI, ...CLINIC, ...MORE, ...FOOD, ...WEATHER_WORK].map((c) => c.codePointAt(0))];
+const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI, ...CLINIC, ...MORE, ...FOOD, ...WEATHER_WORK, ...CORE, ...NEWS].map((c) => c.codePointAt(0))];
 for (const cp of cps) {
   const hex = cp.toString(16).padStart(5, "0");
   const { paths, types: t, parts: p } = parse(await load(hex));

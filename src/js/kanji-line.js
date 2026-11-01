@@ -23,14 +23,22 @@ window.NH = window.NH || {};
     ["rs-dishes", "料理", "Dishes", "food"], ["rs-cooking", "味", "Cooking and taste", "food"], ["rs-ordering", "注文", "Ordering and paying", "food"],
     ["wx-forecast", "予報", "Forecasts", "weather"], ["wx-seasons", "季節", "Seasons and temperature", "weather"], ["wx-disaster", "災害", "Warnings and disasters", "weather"],
     ["wk-company", "会社", "The company", "work"], ["wk-tasks", "会議", "Meetings and tasks", "work"], ["wk-time", "時間", "Time and manners", "work"],
+    ["co-verbs", "動詞", "Everyday verbs", "core"], ["co-describe", "形容", "Describing things", "core"], ["co-people", "家族", "People and family", "core"],
+    ["co-study", "勉強", "School and study", "core"], ["co-basics", "基本", "Everyday basics", "core"],
+    ["nw-politics", "政治", "Politics", "news"], ["nw-law", "事件", "Police, courts and defence", "news"], ["nw-economy", "経済", "Economy", "news"],
+    ["nw-sport", "競技", "Sport", "news"], ["nw-places", "地名", "Places and names", "news"], ["nw-org", "組織", "Organisations and events", "news"],
+    ["nw-saying", "言葉", "Saying and thinking", "news"], ["nw-moving", "動き", "Moving and changing", "news"], ["nw-time", "数", "Numbers, order and time", "news"],
+    ["nw-ideas", "意味", "Ideas and qualities", "news"],
   ];
   const PACKS = [
     { id: "n5", jp: "基本", en: "Everyday kanji", short: "Everyday", blurb: "The JLPT N5 basics (numbers, time, people, places, everyday verbs), plus the kanji for nature and things around you." },
+    { id: "core", jp: "必須", en: "Core essentials", short: "Core", blurb: "The everyday kanji still missing from the sets above: the first-grade and JLPT N4 kanji, with the verbs and adjectives you use all the time." },
     { id: "station", jp: "駅", en: "Stations & trains", short: "Stations", blurb: "Platform boards, ticket gates, kinds of train and changing lines: getting around by rail." },
     { id: "town", jp: "町", en: "Shops & offices", short: "Shops", blurb: "Opening hours, prices and discounts, the post office, the bank and the forms at city hall." },
     { id: "food", jp: "食", en: "Restaurants & food", short: "Food", blurb: "Menus, ticket machines, ordering, how it's cooked and how it tastes, and getting the bill." },
     { id: "weather", jp: "天気", en: "Weather & news", short: "Weather", blurb: "The forecast, the seasons (rainy season, heat, pollen) and the warnings everyone in Japan needs to read: earthquakes, tsunami, evacuation." },
     { id: "work", jp: "仕事", en: "Work & office", short: "Work", blurb: "The company, meetings and emails, deadlines and days of the week, and the polite phrases of office life." },
+    { id: "news", jp: "新聞", en: "Reading the news", short: "News", blurb: "The rest of the 500 most frequent kanji in Japanese newspapers: politics, the economy, crime and courts, sport, places and the words that hold an article together." },
     { id: "clinic", jp: "病院", en: "Clinic & hospital", short: "Clinic", blurb: "What you need to find your way through a Japanese clinic: reception, departments, symptoms, warnings and the car park." },
   ];
   const packOf = (x) => GROUPS.find((g) => g[0] === x.group)?.[3] || "n5";

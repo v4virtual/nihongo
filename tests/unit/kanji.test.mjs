@@ -1,5 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { load, ALL_DATA, makeRng, humanize } from "../helpers/load.mjs";
 
 const NH = load(ALL_DATA);
@@ -8,9 +9,9 @@ const { GOOD } = NH.SRS;
 const set = new Set(NH.KANJI.map((x) => x.k));
 
 describe("kanji data", () => {
-  test("406 kanji in seven sets, each with stroke data matching its stroke count", () => {
-    assert.equal(NH.KANJI.length, 406);
-    assert.equal(set.size, 406);
+  test("699 kanji in nine sets, each with stroke data matching its stroke count", () => {
+    assert.equal(NH.KANJI.length, 699);
+    assert.equal(set.size, 699);
     const inPack = (p) => NH.KANJI.filter((x) => NH.Kanji.packOf(x) === p).length;
     assert.equal(inPack("n5"), 133, "the 80 of JLPT N5, plus 29 for nature and 24 for things");
     assert.equal(inPack("station"), 41);
@@ -18,6 +19,8 @@ describe("kanji data", () => {
     assert.equal(inPack("food"), 40);
     assert.equal(inPack("weather"), 30);
     assert.equal(inPack("work"), 30);
+    assert.equal(inPack("core"), 77);
+    assert.equal(inPack("news"), 216);
     assert.equal(inPack("clinic"), 92);
     // The first 80 still come first, so Today's order for them is unchanged.
     assert.equal(NH.KANJI[79].k, "聞");
@@ -29,6 +32,14 @@ describe("kanji data", () => {
     }
     // The pack covers the hospital sign it was built from.
     for (const c of "駐車場利用方会計時必券提示処理受出庫分料金請求注意京都府歯科医師当館移動下保護者願問診台倒危険性上子様乗遊等決") assert.ok(set.has(c), c);
+  });
+
+  test("the 500 most frequent kanji in Japanese news are all taught (the 80/20 point)", () => {
+    const top = readFileSync(new URL("../fixtures/news-top500.txt", import.meta.url), "utf8").split("\n").filter((l) => l && !l.startsWith("#")).join("");
+    assert.equal([...top].length, 500);
+    assert.deepEqual([...top].filter((c) => !set.has(c)), []);
+    // and every first-grade kanji and every JLPT N5 kanji
+    for (const c of "一右雨円王音下火花貝学気九休玉金空月犬見五口校左三山子四糸字耳七車手十出女小上森人水正生青夕石赤千川先早草足村大男竹中虫町天田土二日入年白八百文木本名目立力林六") assert.ok(set.has(c), c);
   });
 
   test("readings: on'yomi in katakana, kun'yomi in hiragana", () => {
@@ -166,7 +177,7 @@ describe("kanji in the queue", () => {
   test("every set can come first, and each set's words carry its name", () => {
     const N = fresh();
     startHiragana(N);
-    for (const [pack, first] of [["station", ["j:駅", "j:線"]], ["town", ["j:店", "j:売"]], ["food", ["j:丼", "j:麺"]], ["weather", ["j:曇", "j:度"]], ["work", ["j:仕", "j:事"]]]) {
+    for (const [pack, first] of [["station", ["j:駅", "j:線"]], ["town", ["j:店", "j:売"]], ["food", ["j:丼", "j:麺"]], ["weather", ["j:曇", "j:度"]], ["work", ["j:仕", "j:事"]], ["core", ["j:立", "j:知"]], ["news", ["j:政", "j:選"]]]) {
       N.store.set("kanjiFirst", pack);
       assert.deepEqual(newKanji(N), first, pack);
     }
