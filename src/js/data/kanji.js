@@ -5136,6 +5136,907 @@ NH.KANJI = [
       { w: "お持ち帰り", r: "おもちかえり", m: "takeout" },
       { w: "日帰り", r: "ひがえり", m: "day trip" }
     ]
+  },
+  /* ========== Weather & news ========== */
+  {
+    k: "曇", meaning: "cloudy", on: ["ドン"], kun: ["くも.る"], group: "wx-forecast", strokes: 16, radical: "日",
+    mnemonic: "The sun 日 sitting on top of a cloud 雲, hidden behind it: the sky has clouded over.",
+    notes: [
+      "曇り (くもり, cloudy) is the grey cloud symbol on forecasts; 曇りのち晴れ means cloudy, clearing later.",
+      "Kun くもる in daily life; the on どん is mostly in 曇天 (どんてん, overcast sky).",
+      "Glasses that steam up also 曇る: メガネが曇る (my glasses fog up)."
+    ],
+    lookalikes: ["雲", "晴"],
+    examples: [
+      { w: "曇り", r: "くもり", m: "cloudy (weather)" },
+      { w: "曇る", r: "くもる", m: "to cloud over, fog up" },
+      { w: "曇り空", r: "くもりぞら", m: "cloudy sky" }
+    ]
+  },
+  {
+    k: "度", meaning: "degree, times", on: ["ド"], kun: ["たび"], group: "wx-forecast", strokes: 9, radical: "广",
+    mnemonic: "Under a lean-to roof 广 hangs a thermometer, and a hand points at each mark on the scale: degrees, and how many times.",
+    notes: [
+      "Temperatures are read with 度: 30度 is さんじゅうど, and 何度 (なんど) asks 'how many degrees?' or 'how many times?'.",
+      "As a counter for times: 一度 (いちど, once), もう一度 (もういちど, once more), 今度 (こんど, next time).",
+      "Weather apps show 温度 (おんど, temperature) and 湿度 (しつど, humidity)."
+    ],
+    lookalikes: ["席"],
+    examples: [
+      { w: "温度", r: "おんど", m: "temperature" },
+      { w: "今度", r: "こんど", m: "next time; this time" },
+      { w: "もう一度", r: "もういちど", m: "once more" }
+    ]
+  },
+  {
+    k: "最", meaning: "most", on: ["サイ"], kun: ["もっと.も"], group: "wx-forecast", strokes: 12, radical: "曰",
+    mnemonic: "The sun 日 over a hand that takes 取 the biggest prize: the very most, the best of all.",
+    notes: [
+      "Forecasts give 最高気温 (さいこうきおん, the high) in red and 最低気温 (さいていきおん, the low) in blue.",
+      "最高 (さいこう) also means 'the best!' and 最低 (さいてい) 'the worst!' in everyday speech.",
+      "最初 (さいしょ, first) and 最後 (さいご, last) are everyday words; station boards mark the last train 最終 (さいしゅう)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "最高", r: "さいこう", m: "highest; the best" },
+      { w: "最初", r: "さいしょ", m: "first, the beginning" },
+      { w: "最後", r: "さいご", m: "last, the end" }
+    ]
+  },
+  {
+    k: "低", meaning: "low", on: ["テイ"], kun: ["ひく.い"], group: "wx-forecast", strokes: 7, radical: "亻",
+    mnemonic: "A person 亻 crouching beside a short wall to touch the mark at its very foot: low.",
+    notes: [
+      "最低気温 (さいていきおん) is the day's low on the forecast, usually shown in blue.",
+      "ひくい is low in height, temperature, price or voice; its opposite is 高い (たかい).",
+      "On てい in compounds: 低温 (ていおん, low temperature), as on chilled food labels, and 最低 (さいてい, the lowest)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "低い", r: "ひくい", m: "low" },
+      { w: "最低", r: "さいてい", m: "lowest; the worst" },
+      { w: "低温", r: "ていおん", m: "low temperature" }
+    ]
+  },
+  {
+    k: "報", meaning: "report, news", on: ["ホウ"], kun: [], group: "wx-forecast", strokes: 12, radical: "土",
+    mnemonic: "Good fortune 幸 on the left, a kneeling messenger on the right, out of breath with the news to report.",
+    notes: [
+      "天気予報 (てんきよほう) is the weather forecast; 予報 alone means forecast.",
+      "Weather alerts come in steps: 注意報 (ちゅういほう, advisory), then 警報 (けいほう, warning).",
+      "Almost always read ほう; the kun むくいる (to repay) is literary."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "天気予報", r: "てんきよほう", m: "weather forecast" },
+      { w: "警報", r: "けいほう", m: "warning, alert" },
+      { w: "注意報", r: "ちゅういほう", m: "advisory (weather)" }
+    ]
+  },
+  {
+    k: "確", meaning: "certain, confirm", on: ["カク"], kun: ["たし.か", "たし.かめる"], group: "wx-forecast", strokes: 15, radical: "石",
+    mnemonic: "A stone 石 beside a bird perched firmly under its roof 寉: as solid as rock, you can be sure of it.",
+    notes: [
+      "降水確率 (こうすいかくりつ) is the chance of rain, given in steps of 10% on every forecast.",
+      "確認 (かくにん, check, confirm) is all over forms, apps and station announcements.",
+      "たしか alone means 'if I remember rightly'; たしかめる is to make sure."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "確認", r: "かくにん", m: "check, confirmation" },
+      { w: "確か", r: "たしか", m: "certain; if I recall" },
+      { w: "確かめる", r: "たしかめる", m: "to make sure, check" }
+    ]
+  },
+  {
+    k: "率", meaning: "rate, ratio", on: ["リツ", "ソツ"], kun: [], group: "wx-forecast", strokes: 11, radical: "玄",
+    mnemonic: "A twisted thread 玄 spinning in the middle, drops 冫 flying off both sides and a cross 十 below: it turns at a steady rate.",
+    notes: [
+      "降水確率 (こうすいかくりつ) of 30% means a 3 in 10 chance of rain where you are.",
+      "As 'rate' it is りつ: 確率 (かくりつ, probability), 税率 (ぜいりつ, tax rate) on receipts. そつ appears in 引率 (いんそつ, leading a group).",
+      "The drops go on both sides of the middle, and the bottom is a plain 十."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "確率", r: "かくりつ", m: "probability, chance" },
+      { w: "降水確率", r: "こうすいかくりつ", m: "chance of rain" },
+      { w: "税率", r: "ぜいりつ", m: "tax rate" }
+    ]
+  },
+  {
+    k: "湿", meaning: "damp, humid", on: ["シツ"], kun: ["しめ.る"], group: "wx-forecast", strokes: 12, radical: "氵",
+    mnemonic: "Water 氵 beside the sun 日 hanging over dripping grass: the air is damp and sticky.",
+    notes: [
+      "湿度 (しつど, humidity) is shown as a percent on weather apps; summer days often pass 80%.",
+      "湿気 (しっけ) is that heavy, damp feeling, and the reason futons get aired on sunny days.",
+      "Looks like 温 (warm): both have water and 日, but 湿 has dripping grass below instead of a dish."
+    ],
+    lookalikes: ["温"],
+    examples: [
+      { w: "湿度", r: "しつど", m: "humidity" },
+      { w: "湿気", r: "しっけ", m: "humidity, damp" },
+      { w: "湿る", r: "しめる", m: "to get damp" }
+    ]
+  },
+  {
+    k: "霧", meaning: "fog, mist", on: ["ム"], kun: ["きり"], group: "wx-forecast", strokes: 19, radical: "雨",
+    mnemonic: "Rain 雨 hanging so thick over someone at work 務 that they can't see their own hands: fog.",
+    notes: [
+      "Usually read きり. 霧雨 (きりさめ) is fine drizzle: 雨 turns into さめ.",
+      "Fog closes expressways and delays flights and ferries; listen for 霧 in morning traffic news.",
+      "Nineteen strokes: 雨 on top, 務 (as in 勤務) below."
+    ],
+    lookalikes: ["雷"],
+    examples: [
+      { w: "霧", r: "きり", m: "fog, mist" },
+      { w: "霧雨", r: "きりさめ", m: "drizzle" },
+      { w: "霧が出る", r: "きりがでる", m: "fog rolls in" }
+    ]
+  },
+  {
+    k: "雷", meaning: "thunder, lightning", on: ["ライ"], kun: ["かみなり"], group: "wx-forecast", strokes: 13, radical: "雨",
+    mnemonic: "Rain 雨 pouring onto a rice field 田, then a flash and a bang overhead: thunder.",
+    notes: [
+      "雷注意報 (かみなりちゅういほう) is the thunder advisory issued on hot summer afternoons.",
+      "Alone it is かみなり; on らい in compounds like 雷雨 (らいう, thunderstorm).",
+      "Don't confuse it with 電 (electricity), whose 田 has a hooked tail."
+    ],
+    lookalikes: ["電", "雪"],
+    examples: [
+      { w: "雷", r: "かみなり", m: "thunder, lightning" },
+      { w: "雷雨", r: "らいう", m: "thunderstorm" },
+      { w: "雷注意報", r: "かみなりちゅういほう", m: "thunder advisory" }
+    ]
+  },
+  {
+    k: "象", meaning: "elephant, phenomenon", on: ["ショウ", "ゾウ"], kun: [], group: "wx-forecast", strokes: 12, radical: "豕",
+    mnemonic: "An elephant drawn standing on end: the head and trunk at the top, a big round body, and four legs and a tail below.",
+    notes: [
+      "気象 (きしょう, weather, meteorology) is the word behind official forecasts and warnings on TV.",
+      "ぞう is the animal at the zoo; しょう means image or phenomenon: 印象 (いんしょう, impression), 現象 (げんしょう, phenomenon)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "象", r: "ぞう", m: "elephant" },
+      { w: "気象", r: "きしょう", m: "weather, meteorology" },
+      { w: "印象", r: "いんしょう", m: "impression" }
+    ]
+  },
+  {
+    k: "暑", meaning: "hot (weather)", on: ["ショ"], kun: ["あつ.い"], group: "wx-seasons", strokes: 12, radical: "日",
+    mnemonic: "The sun 日 beating down on a person 者 out in the street: hot weather.",
+    notes: [
+      "暑い (あつい) is for hot weather or a hot room; a hot object or drink is 熱い, also read あつい.",
+      "暑いですね (あついですね, hot, isn't it?) is the standard summer greeting.",
+      "残暑 (ざんしょ) is the heat that lingers into September; 暑さ (あつさ) is the heat itself."
+    ],
+    lookalikes: ["者"],
+    examples: [
+      { w: "暑い", r: "あつい", m: "hot (weather)" },
+      { w: "暑さ", r: "あつさ", m: "the heat" },
+      { w: "残暑", r: "ざんしょ", m: "lingering summer heat" }
+    ]
+  },
+  {
+    k: "寒", meaning: "cold (weather)", on: ["カン"], kun: ["さむ.い"], group: "wx-seasons", strokes: 12, radical: "宀",
+    mnemonic: "Under a roof 宀, logs stacked high for the fire and two icy drops on the floor: so cold that water freezes indoors.",
+    notes: [
+      "寒い (さむい) is for cold weather or a cold room; cold to the touch is 冷たい (つめたい).",
+      "Winter forecasts warn of 寒波 (かんぱ, a cold wave) bringing snow to the Sea of Japan side.",
+      "Opposite of 暑い (あつい, hot): both have twelve strokes."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "寒い", r: "さむい", m: "cold (weather)" },
+      { w: "寒さ", r: "さむさ", m: "the cold" },
+      { w: "寒波", r: "かんぱ", m: "cold wave" }
+    ]
+  },
+  {
+    k: "暖", meaning: "warm", on: ["ダン"], kun: ["あたた.か", "あたた.かい"], group: "wx-seasons", strokes: 13, radical: "日",
+    mnemonic: "The sun 日 beside a hand reaching down to pull someone up out of the cold 爰: warm.",
+    notes: [
+      "暖かい (あたたかい) is for warm weather or rooms; warm food and water use 温かい, read the same.",
+      "On the air-con remote, heating is だんぼう, written with 暖; cooling is れいぼう.",
+      "暖冬 (だんとう) is a mild winter, a word forecasters use when snow is scarce."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "暖かい", r: "あたたかい", m: "warm" },
+      { w: "暖冬", r: "だんとう", m: "mild winter" },
+      { w: "温暖", r: "おんだん", m: "warm, mild (climate)" }
+    ]
+  },
+  {
+    k: "涼", meaning: "cool", on: ["リョウ"], kun: ["すず.しい", "すず.む"], group: "wx-seasons", strokes: 11, radical: "氵",
+    mnemonic: "Water 氵 beside the capital 京: a breeze off the river cooling the city on a summer evening.",
+    notes: [
+      "涼しい (すずしい) is pleasantly cool, like an autumn evening; unpleasantly cold is 寒い (さむい).",
+      "涼む (すずむ) is to cool off in the shade or by a river on a hot day.",
+      "The right side is 京, the きょう of 東京."
+    ],
+    lookalikes: ["京"],
+    examples: [
+      { w: "涼しい", r: "すずしい", m: "cool (pleasantly)" },
+      { w: "涼しさ", r: "すずしさ", m: "coolness" },
+      { w: "涼む", r: "すずむ", m: "to cool off" }
+    ]
+  },
+  {
+    k: "季", meaning: "season", on: ["キ"], kun: [], group: "wx-seasons", strokes: 8, radical: "子",
+    mnemonic: "A rice plant 禾 above a child 子: every harvest season the child grows a little taller.",
+    notes: [
+      "季節 (きせつ, season); Japan is proud of its four seasons, 四季 (しき).",
+      "Shop signs say 夏季休業 (かききゅうぎょう, closed for the summer holidays).",
+      "Cafes and konbini push seasonal items: look for 季節 on menus and posters."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "季節", r: "きせつ", m: "season" },
+      { w: "四季", r: "しき", m: "the four seasons" },
+      { w: "夏季", r: "かき", m: "summer (period)" }
+    ]
+  },
+  {
+    k: "節", meaning: "season, joint, section", on: ["セツ"], kun: ["ふし"], group: "wx-seasons", strokes: 13, radical: "竹",
+    mnemonic: "Bamboo 竹 over 即: a bamboo stalk split into sections at each joint, the way the year splits into seasons.",
+    notes: [
+      "節分 (せつぶん, 3 February) marks the end of winter: people throw roasted beans, 豆まき (まめまき), to drive out demons.",
+      "節約 (せつやく) is saving money or energy; summer posters ask for 節電 (せつでん, saving electricity).",
+      "Kun ふし is a joint or knot, like the rings on a bamboo stalk."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "季節", r: "きせつ", m: "season" },
+      { w: "節分", r: "せつぶん", m: "bean-throwing day (3 Feb)" },
+      { w: "節約", r: "せつやく", m: "saving, economising" }
+    ]
+  },
+  {
+    k: "候", meaning: "weather, climate", on: ["コウ"], kun: [], group: "wx-seasons", strokes: 10, radical: "亻",
+    mnemonic: "A person 亻 standing by a post with a sharp eye on the sky, waiting to see what the weather will do.",
+    notes: [
+      "天候 (てんこう) is the formal word for weather, heard on the news and at airports when flights are delayed.",
+      "気候 (きこう) is climate: the weather of a place over the whole year.",
+      "The thin vertical stroke between 亻 and the right side is easy to forget."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "天候", r: "てんこう", m: "weather (formal)" },
+      { w: "気候", r: "きこう", m: "climate" },
+      { w: "時候", r: "じこう", m: "the season, time of year" }
+    ]
+  },
+  {
+    k: "梅", meaning: "plum", on: ["バイ"], kun: ["うめ"], group: "wx-seasons", strokes: 10, radical: "木",
+    mnemonic: "A tree 木 that blooms every 毎 year before all the others: the plum, the first flowers of late winter.",
+    notes: [
+      "梅雨 (つゆ, the rainy season) is an irregular reading: the plum-ripening rains of June and early July. Forecasters also say ばいう.",
+      "梅の花 (うめのはな) bloom in February, before the cherry blossoms; rice balls with a sour pickled plum say 梅 on the label.",
+      "The right side is 毎 (every), as in 毎日; compare 海 (sea), which has water on the left."
+    ],
+    lookalikes: ["毎", "海"],
+    examples: [
+      { w: "梅", r: "うめ", m: "plum, Japanese apricot" },
+      { w: "梅雨", r: "つゆ", m: "the rainy season" },
+      { w: "梅酒", r: "うめしゅ", m: "plum liqueur" }
+    ]
+  },
+  {
+    k: "紫", meaning: "purple", on: ["シ"], kun: ["むらさき"], group: "wx-seasons", strokes: 12, radical: "糸",
+    mnemonic: "Thread 糸 under 此, dyed in the rarest, most noble colour of old Japan: purple.",
+    notes: [
+      "紫外線 (しがいせん, UV rays) is on UV forecasts and sunscreen bottles; it is already strong by May.",
+      "Alone it is むらさき (purple); in compounds it is し.",
+      "Sushi chefs sometimes call soy sauce むらさき."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "紫", r: "むらさき", m: "purple" },
+      { w: "紫外線", r: "しがいせん", m: "ultraviolet rays" },
+      { w: "紫いも", r: "むらさきいも", m: "purple sweet potato" }
+    ]
+  },
+  {
+    k: "粉", meaning: "powder, flour", on: ["フン"], kun: ["こな", "こ"], group: "wx-seasons", strokes: 10, radical: "米",
+    mnemonic: "Rice 米 divided 分 into tinier and tinier bits: powder, flour.",
+    notes: [
+      "花粉 (かふん, pollen) dominates spring news: forecasts rate the day's pollen and 花粉症 (かふんしょう) is hay fever.",
+      "Alone it is こな; it becomes こ in words like 米粉 (こめこ, rice flour) and パン粉 (パンこ, breadcrumbs).",
+      "Clinics may give 粉薬 (こなぐすり, powdered medicine) instead of tablets."
+    ],
+    lookalikes: ["料"],
+    examples: [
+      { w: "花粉", r: "かふん", m: "pollen" },
+      { w: "花粉症", r: "かふんしょう", m: "hay fever" },
+      { w: "粉薬", r: "こなぐすり", m: "powdered medicine" }
+    ]
+  },
+  {
+    k: "症", meaning: "symptom, illness", on: ["ショウ"], kun: [], group: "wx-seasons", strokes: 10, radical: "疒",
+    mnemonic: "A sickbed 疒 with 正 (correct) inside: the doctor writes down exactly what is wrong, the symptoms.",
+    notes: [
+      "熱中症 (ねっちゅうしょう, heatstroke): summer alerts tell you to drink water, rest in the shade and use the air-con.",
+      "花粉症 (かふんしょう, hay fever) is why so many people wear masks in March.",
+      "It shares the sickbed 疒 with 病 (illness) and 痛 (pain)."
+    ],
+    lookalikes: ["病", "痛"],
+    examples: [
+      { w: "熱中症", r: "ねっちゅうしょう", m: "heatstroke" },
+      { w: "花粉症", r: "かふんしょう", m: "hay fever" },
+      { w: "発症", r: "はっしょう", m: "onset (of an illness)" }
+    ]
+  },
+  {
+    k: "警", meaning: "warn, police", on: ["ケイ"], kun: [], group: "wx-disaster", strokes: 19, radical: "言",
+    mnemonic: "Respect 敬 sitting over words 言: words you must respect, a warning, and the police who give it.",
+    notes: [
+      "警報 (けいほう, warning) is a step above 注意報 (ちゅういほう, advisory); a 大雨警報 often closes schools.",
+      "The top level is 特別警報 (とくべつけいほう, emergency warning): act now to save your life.",
+      "警察 (けいさつ) is the police; dial 110."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "警報", r: "けいほう", m: "warning, alert" },
+      { w: "警察", r: "けいさつ", m: "police" },
+      { w: "大雨警報", r: "おおあめけいほう", m: "heavy rain warning" }
+    ]
+  },
+  {
+    k: "震", meaning: "quake, tremble", on: ["シン"], kun: ["ふる.える"], group: "wx-disaster", strokes: 15, radical: "雨",
+    mnemonic: "Rain 雨 above 辰, the dragon of the old calendar, stirring underground: the earth shakes.",
+    notes: [
+      "地震 (じしん, earthquake): phones blare an alarm seconds before strong shaking, so get under a table and hold on.",
+      "The news reports 震度 (しんど), the shaking at each place on Japan's 0 to 7 scale; 5 and up is serious.",
+      "ふるえる is to shiver or tremble: 寒くて震える (I'm shivering with cold)."
+    ],
+    lookalikes: ["雷"],
+    examples: [
+      { w: "地震", r: "じしん", m: "earthquake" },
+      { w: "震度", r: "しんど", m: "seismic intensity" },
+      { w: "震える", r: "ふるえる", m: "to shiver, tremble" }
+    ]
+  },
+  {
+    k: "災", meaning: "disaster", on: ["サイ"], kun: ["わざわ.い"], group: "wx-disaster", strokes: 7, radical: "火",
+    mnemonic: "A flooding river 巛 above a fire 火: flood and fire, the two oldest disasters.",
+    notes: [
+      "災害 (さいがい, disaster) is the word on emergency notices; ぼうさい (disaster preparedness) kits and drills are written with 災.",
+      "火災 (かさい) is the formal word for a fire, used on alarms and in building announcements.",
+      "震災 (しんさい, earthquake disaster) refers to big quakes such as the one in March 2011."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "災害", r: "さいがい", m: "disaster" },
+      { w: "火災", r: "かさい", m: "fire (formal)" },
+      { w: "震災", r: "しんさい", m: "earthquake disaster" }
+    ]
+  },
+  {
+    k: "害", meaning: "harm, damage", on: ["ガイ"], kun: [], group: "wx-disaster", strokes: 10, radical: "宀",
+    mnemonic: "Under a roof 宀, a stack of sharp lines slicing down into a mouth 口: harm and damage.",
+    notes: [
+      "災害 (さいがい, disaster) is a news staple after typhoons, floods and quakes.",
+      "Bug sprays say 害虫 (がいちゅう, pest insects); 無害 (むがい) on a label means harmless.",
+      "Don't confuse it with 割 (as in 割引), which adds a knife on the right."
+    ],
+    lookalikes: ["割"],
+    examples: [
+      { w: "災害", r: "さいがい", m: "disaster" },
+      { w: "害虫", r: "がいちゅう", m: "pest insect" },
+      { w: "無害", r: "むがい", m: "harmless" }
+    ]
+  },
+  {
+    k: "避", meaning: "avoid, evade", on: ["ヒ"], kun: ["さ.ける", "よ.ける"], group: "wx-disaster", strokes: 16, radical: "辶",
+    mnemonic: "Running down the road 辶 away from 辟, a harsh punishment: get out of the way and avoid it.",
+    notes: [
+      "避難 (ひなん, evacuation): signs mark the local 避難所 (ひなんじょ, shelter) and 避難場所 (ひなんばしょ, evacuation area).",
+      "さける is to avoid (a person, a time, a topic); よける is to dodge something physical, like a bike or a puddle.",
+      "Check the nearest 避難場所 sign before an emergency; schools and parks are common ones."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "避難", r: "ひなん", m: "evacuation" },
+      { w: "避ける", r: "さける", m: "to avoid" },
+      { w: "避難所", r: "ひなんじょ", m: "evacuation shelter" }
+    ]
+  },
+  {
+    k: "難", meaning: "difficult, trouble", on: ["ナン"], kun: ["むずか.しい"], group: "wx-disaster", strokes: 18, radical: "隹",
+    mnemonic: "A bird 隹 stuck in sticky clay on the left, flapping and flapping: getting free is difficult.",
+    notes: [
+      "難しい (むずかしい) is the everyday word for difficult.",
+      "On なん it means trouble or danger: 避難 (ひなん) is fleeing from danger, evacuation, and 難問 (なんもん) is a tough question.",
+      "The left side is the same as in 勤 (in 勤務)."
+    ],
+    lookalikes: ["勤"],
+    examples: [
+      { w: "難しい", r: "むずかしい", m: "difficult" },
+      { w: "避難", r: "ひなん", m: "evacuation" },
+      { w: "難問", r: "なんもん", m: "difficult problem" }
+    ]
+  },
+  {
+    k: "津", meaning: "harbour, port", on: ["シン"], kun: ["つ"], group: "wx-disaster", strokes: 9, radical: "氵",
+    mnemonic: "Water 氵 beside a hand holding a brush 聿: the harbour master writing every boat into the logbook.",
+    notes: [
+      "津波 (つなみ, tsunami) is literally 'harbour wave'; English borrowed the word from Japanese.",
+      "After a strong quake near the coast, head for high ground at once; 津波警報 (つなみけいほう) means evacuate.",
+      "Read つ in place names, such as 大津 (おおつ) and 津 city in Mie."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "津波", r: "つなみ", m: "tsunami" },
+      { w: "津波警報", r: "つなみけいほう", m: "tsunami warning" },
+      { w: "津波注意報", r: "つなみちゅういほう", m: "tsunami advisory" }
+    ]
+  },
+  {
+    k: "波", meaning: "wave", on: ["ハ"], kun: ["なみ"], group: "wx-disaster", strokes: 8, radical: "氵",
+    mnemonic: "Water 氵 next to skin 皮: the sea's skin rippling up into waves.",
+    notes: [
+      "Alone it is なみ; in compounds は or ぱ: 寒波 (かんぱ, cold wave), 電波 (でんぱ, radio waves).",
+      "電波 is also your phone signal: 電波がない means no signal.",
+      "Typhoon forecasts warn of 高波 (たかなみ, high waves); stay away from the shore."
+    ],
+    lookalikes: ["皮"],
+    examples: [
+      { w: "波", r: "なみ", m: "wave" },
+      { w: "津波", r: "つなみ", m: "tsunami" },
+      { w: "電波", r: "でんぱ", m: "radio waves; phone signal" }
+    ]
+  },
+  /* ========== Work & office ========== */
+  {
+    k: "仕", meaning: "serve, do", on: ["シ"], kun: ["つか.える"], group: "wk-company", strokes: 5, radical: "亻",
+    mnemonic: "A person 亻 standing beside a samurai 士: the loyal retainer who serves all day, the first office worker.",
+    notes: [
+      "Almost always met in 仕事 (しごと), work or a job. 仕事は何ですか asks what someone does for a living.",
+      "仕方 (しかた) is a way of doing something; 仕方がない (しかたがない), 'it can't be helped', is a phrase you will hear at work every week.",
+      "The right side is 士 with the long line on top; with the long line at the bottom it would be 土 (earth). Compare 住 (live), whose right side has a dot on top and three lines."
+    ],
+    lookalikes: ["住"],
+    examples: [
+      { w: "仕事", r: "しごと", m: "work, job" },
+      { w: "仕方", r: "しかた", m: "way, method" },
+      { w: "仕事中", r: "しごとちゅう", m: "at work, busy working" }
+    ]
+  },
+  {
+    k: "事", meaning: "thing, matter", on: ["ジ"], kun: ["こと"], group: "wk-company", strokes: 8, radical: "亅",
+    mnemonic: "A mouth 口 on top and a hand ⺕ gripping a long hooked pole 亅 that runs right through: a clerk with a pen, getting things done.",
+    notes: [
+      "事務所 (じむしょ), office, is on the door of small firms, law offices and agencies; 事務 (じむ), office work, is a common job-ad category.",
+      "The kun reading こと is voiced in 仕事 (しごと). 食事 (しょくじ) is a meal, and 大事 (だいじ) means important.",
+      "The long vertical stroke goes through everything and is written last, with a hook at the bottom."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "仕事", r: "しごと", m: "work, job" },
+      { w: "事務所", r: "じむしょ", m: "office" },
+      { w: "食事", r: "しょくじ", m: "meal" }
+    ]
+  },
+  {
+    k: "社", meaning: "company, shrine", on: ["シャ"], kun: ["やしろ"], group: "wk-company", strokes: 7, radical: "礻",
+    mnemonic: "An altar 礻 set on a mound of earth 土: the village shrine where people gathered, the first kind of company.",
+    notes: [
+      "会社 (かいしゃ) is a company and 会社員 (かいしゃいん) an office worker. People call their own workplace うちの会社.",
+      "On business cards the top title is 社長 (しゃちょう), company president; 本社 (ほんしゃ) is head office.",
+      "The older sense is shrine, still heard in the word for a Shinto shrine, じんじゃ, where しゃ is voiced to じゃ."
+    ],
+    lookalikes: ["礼"],
+    examples: [
+      { w: "会社", r: "かいしゃ", m: "company" },
+      { w: "社長", r: "しゃちょう", m: "company president" },
+      { w: "本社", r: "ほんしゃ", m: "head office" }
+    ]
+  },
+  {
+    k: "働", meaning: "work", on: ["ドウ"], kun: ["はたら.く"], group: "wk-company", strokes: 13, radical: "亻",
+    mnemonic: "A person 亻 who keeps moving 動: someone always on the go is someone at work.",
+    notes: [
+      "はたらく is to work: 会社で働いています (はたらいています) is 'I work at a company'.",
+      "Made in Japan rather than China; it has the on reading ドウ, but learners almost always meet the kun はたらく. 働き方 (はたらきかた), how people work, is a constant news topic.",
+      "Without the person 亻 it is 動 (move), as on automatic doors: 自動ドア (じどうドア)."
+    ],
+    lookalikes: ["動"],
+    examples: [
+      { w: "働く", r: "はたらく", m: "to work" },
+      { w: "働き方", r: "はたらきかた", m: "way of working" },
+      { w: "働き者", r: "はたらきもの", m: "hard worker" }
+    ]
+  },
+  {
+    k: "勤", meaning: "work for, be employed", on: ["キン"], kun: ["つと.める"], group: "wk-company", strokes: 12, radical: "力",
+    mnemonic: "A heavy, tightly packed load 菫 hauled with muscle 力: turning up and putting in your hours, day after day.",
+    notes: [
+      "通勤 (つうきん) is the commute and 出勤 (しゅっきん) arriving at work; job ads list 勤務地 (きんむち), place of work, and 勤務時間 (きんむじかん), working hours.",
+      "会社に勤めています (つとめています) means 'I work for a company'. Note the particle に, where 働く takes で.",
+      "Compare 動 (move): both end in 力, but 勤 has the 菫 load on the left."
+    ],
+    lookalikes: ["動", "難"],
+    examples: [
+      { w: "通勤", r: "つうきん", m: "commuting" },
+      { w: "出勤", r: "しゅっきん", m: "going to work" },
+      { w: "勤める", r: "つとめる", m: "to work for, be employed" }
+    ]
+  },
+  {
+    k: "務", meaning: "duty, task", on: ["ム"], kun: ["つと.める"], group: "wk-company", strokes: 11, radical: "力",
+    mnemonic: "A spear 矛 on the left, and on the right a striking hand above a flexed arm: the guard on duty, doing the task he was given.",
+    notes: [
+      "事務 (じむ) is office or clerical work and 事務所 (じむしょ) an office; 勤務 (きんむ), duty or service, fills job ads.",
+      "At a ward office, counters are named by section, such as the tax section 税務課 (ぜいむか).",
+      "Also read つとめる, but for a role: 司会を務める (しかいをつとめる) is to act as MC. For holding a job, use 勤める."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "事務", r: "じむ", m: "office work" },
+      { w: "事務所", r: "じむしょ", m: "office" },
+      { w: "勤務", r: "きんむ", m: "duty, work" }
+    ]
+  },
+  {
+    k: "課", meaning: "section, lesson", on: ["カ"], kun: [], group: "wk-company", strokes: 15, radical: "言",
+    mnemonic: "Words 言 that must bear fruit 果: the lesson you are set, and the office section that has to deliver results.",
+    notes: [
+      "In a company a 課 is a section inside a 部 (department): 課長 (かちょう), section chief, is one of the most common titles on business cards.",
+      "City and ward offices are split into sections too, so you may be sent from one 課 counter to another.",
+      "It also counts textbook lessons, and 課題 (かだい) is an assignment or an issue to solve. 放課後 (ほうかご) is after school."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "課長", r: "かちょう", m: "section chief" },
+      { w: "課題", r: "かだい", m: "assignment, issue" },
+      { w: "放課後", r: "ほうかご", m: "after school" }
+    ]
+  },
+  {
+    k: "部", meaning: "department, part", on: ["ブ"], kun: [], group: "wk-company", strokes: 11, radical: "阝",
+    mnemonic: "On the left 咅, someone standing up to speak; on the right ⻏, a town: one speaker for every part of the town.",
+    notes: [
+      "In a company 部 is a department and 部長 (ぶちょう) its head, ranked above a 課長 (かちょう). 営業部 (えいぎょうぶ) is the sales department.",
+      "At school 部 is a club: サッカー部 (サッカーぶ) is the football club.",
+      "一部 (いちぶ) means 'a part' and also 'one copy' of a handout. ⻏ on the right means town, as in 都."
+    ],
+    lookalikes: ["都"],
+    examples: [
+      { w: "部長", r: "ぶちょう", m: "department head" },
+      { w: "営業部", r: "えいぎょうぶ", m: "sales department" },
+      { w: "一部", r: "いちぶ", m: "a part; one copy" }
+    ]
+  },
+  {
+    k: "給", meaning: "salary, supply", on: ["キュウ"], kun: [], group: "wk-company", strokes: 12, radical: "糸",
+    mnemonic: "Threads 糸 joined together 合: tying the ends so the supply never runs out, like pay that arrives every month.",
+    notes: [
+      "給料 (きゅうりょう) is pay. Job ads show 時給 (じきゅう), hourly pay, for part-time work and 月給 (げっきゅう), monthly salary, for full-time posts.",
+      "Payday, 給料日 (きゅうりょうび), is usually the 25th. 給食 (きゅうしょく) is school lunch.",
+      "Don't confuse it with 絵 (picture): same thread radical 糸, but 会 on the right instead of 合."
+    ],
+    lookalikes: ["絵"],
+    examples: [
+      { w: "給料", r: "きゅうりょう", m: "pay, salary" },
+      { w: "時給", r: "じきゅう", m: "hourly wage" },
+      { w: "給食", r: "きゅうしょく", m: "school lunch" }
+    ]
+  },
+  {
+    k: "残", meaning: "remain, leftover", on: ["ザン"], kun: ["のこ.る", "のこ.す"], group: "wk-company", strokes: 10, radical: "歹",
+    mnemonic: "Bare bones 歹 beside two clashing halberds 戋: after the battle, only what remains is left on the field.",
+    notes: [
+      "残業 (ざんぎょう) is overtime. Many companies have a ノー残業デー, a weekly day when everyone goes home on time.",
+      "Ticket machines and convenience store tills show 残高 (ざんだか), the balance left on your IC card.",
+      "残りわずか (のこりわずか), 'only a few left', is a common shop sign; 残す (のこす) is to leave food or leave something behind."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "残業", r: "ざんぎょう", m: "overtime work" },
+      { w: "残高", r: "ざんだか", m: "balance (remaining)" },
+      { w: "残る", r: "のこる", m: "to remain, stay behind" }
+    ]
+  },
+  {
+    k: "退", meaning: "retreat, leave", on: ["タイ"], kun: ["しりぞ.く"], group: "wk-company", strokes: 9, radical: "辶",
+    mnemonic: "A stubborn figure 艮 on the road ⻌, walking backwards: stepping back out of the room, or out of the job.",
+    notes: [
+      "退社 (たいしゃ) is leaving the office for the day, or leaving the company for good; context tells you which.",
+      "At the clinic, 入院 (にゅういん) is going into hospital and 退院 (たいいん) leaving it. 引退 (いんたい) is retiring from a sport or career.",
+      "On the road radical ⻌ the inside is written first and the road last."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "退社", r: "たいしゃ", m: "leaving the office" },
+      { w: "退院", r: "たいいん", m: "leaving hospital" },
+      { w: "引退", r: "いんたい", m: "retirement" }
+    ]
+  },
+  {
+    k: "議", meaning: "discussion, meeting", on: ["ギ"], kun: [], group: "wk-tasks", strokes: 20, radical: "言",
+    mnemonic: "Words 言 on the left and 義, doing what is right, on the right: people talking round the table until they agree on the right thing. That is a meeting.",
+    notes: [
+      "A door sign reading 会議中 (かいぎちゅう) means a meeting is in progress, so don't knock; 会議室 (かいぎしつ) is the meeting room you book.",
+      "Always read ぎ. 議員 (ぎいん), a member of an assembly, is on every election poster.",
+      "Twenty strokes, most of them in 義. Don't mix it up with 護 in 看護 (かんご, nursing), which also has 言 on the left."
+    ],
+    lookalikes: ["護"],
+    examples: [
+      { w: "会議", r: "かいぎ", m: "meeting" },
+      { w: "会議室", r: "かいぎしつ", m: "meeting room" },
+      { w: "会議中", r: "かいぎちゅう", m: "in a meeting" }
+    ]
+  },
+  {
+    k: "資", meaning: "resources, materials", on: ["シ"], kun: [], group: "wk-tasks", strokes: 13, radical: "貝",
+    mnemonic: "次, 'next', sitting on a shell 貝, the old money: the next pile of shells you will need. Resources, funds, and the materials for the job.",
+    notes: [
+      "資料 (しりょう) is the handouts and documents for a meeting; emails say 資料を送ります (I'll send the documents).",
+      "Always read し. In the news, 資金 (しきん) is funds, and 物資 (ぶっし) is supplies, such as relief goods after a disaster.",
+      "The top is 次 (next), squeezed flat over the shell 貝."
+    ],
+    lookalikes: ["次"],
+    examples: [
+      { w: "資料", r: "しりょう", m: "documents, handouts" },
+      { w: "資金", r: "しきん", m: "funds" },
+      { w: "物資", r: "ぶっし", m: "supplies, goods" }
+    ]
+  },
+  {
+    k: "刷", meaning: "print", on: ["サツ"], kun: ["す.る"], group: "wk-tasks", strokes: 8, radical: "刂",
+    mnemonic: "On the left a figure bent low with a cloth hanging down; on the right a knife 刂: carve the block, ink it with the cloth and press out a print.",
+    notes: [
+      "印刷 (いんさつ) is printing: it is the print button on office printers and on konbini copy machines, and 両面印刷 (りょうめんいんさつ) is double-sided.",
+      "さつ in compounds. The verb 刷る (する, to print) sounds just like する (to do), so you mostly hear 印刷する instead.",
+      "The left side starts with the same bent roof as 届 (deliver), but has a cloth under it, not 由."
+    ],
+    lookalikes: ["届"],
+    examples: [
+      { w: "印刷", r: "いんさつ", m: "printing" },
+      { w: "両面印刷", r: "りょうめんいんさつ", m: "double-sided printing" },
+      { w: "印刷物", r: "いんさつぶつ", m: "printed matter" }
+    ]
+  },
+  {
+    k: "連", meaning: "connect, take along", on: ["レン"], kun: ["つ.れる", "つら.なる"], group: "wk-tasks", strokes: 10, radical: "辶",
+    mnemonic: "A cart 車 rolling along the walking road ⻌: carts joined one behind another, linked in a long line.",
+    notes: [
+      "連絡 (れんらく) is getting in touch: 後で連絡します (I'll contact you later). 連絡先 (れんらくさき) is the contact details box on every form.",
+      "連休 (れんきゅう) is a run of days off, like Golden Week; offices and stations get very busy just before one.",
+      "連れて行く (つれていく) is taking a person or a pet along; for things you use 持って行く (もっていく)."
+    ],
+    lookalikes: ["速"],
+    examples: [
+      { w: "連絡先", r: "れんらくさき", m: "contact details" },
+      { w: "連休", r: "れんきゅう", m: "consecutive holidays" },
+      { w: "連れて行く", r: "つれていく", m: "to take (someone) along" }
+    ]
+  },
+  {
+    k: "絡", meaning: "get tangled, connect", on: ["ラク"], kun: ["から.む", "から.まる"], group: "wk-tasks", strokes: 12, radical: "糸",
+    mnemonic: "A thread 糸 tied to 各, each one: a thread running out to each person on the team, so everyone stays connected.",
+    notes: [
+      "You will meet it almost only in 連絡 (れんらく, contact): ご連絡ください (please get in touch) is on notices and in emails.",
+      "らく in 連絡; the kun reading から.む is for things getting tangled, like cables behind a desk.",
+      "Thread 糸 on the left, as in 給 (pay) and 終 (end); look at the right side to tell them apart."
+    ],
+    lookalikes: ["給", "終"],
+    examples: [
+      { w: "連絡", r: "れんらく", m: "contact, getting in touch" },
+      { w: "連絡先", r: "れんらくさき", m: "contact details" },
+      { w: "絡む", r: "からむ", m: "to get tangled" }
+    ]
+  },
+  {
+    k: "認", meaning: "recognise, approve", on: ["ニン"], kun: ["みと.める"], group: "wk-tasks", strokes: 14, radical: "言",
+    mnemonic: "Words 言 beside 忍, a blade held over a heart: you hold your words back as long as you can, then finally admit it is true.",
+    notes: [
+      "確認 (かくにん, checking, confirming) is everywhere at work: ご確認ください (please check) ends countless emails and notices.",
+      "At banks, phone shops and the city office, 本人確認 (ほんにんかくにん) means an ID check, so bring your residence card.",
+      "にん in compounds; the verb is 認める (みとめる, to admit, to approve)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "確認", r: "かくにん", m: "checking, confirmation" },
+      { w: "本人確認", r: "ほんにんかくにん", m: "identity check" },
+      { w: "認める", r: "みとめる", m: "to admit, approve" }
+    ]
+  },
+  {
+    k: "締", meaning: "tighten, close", on: ["テイ"], kun: ["し.める", "し.まる"], group: "wk-tasks", strokes: 15, radical: "糸",
+    mnemonic: "Thread 糸 beside 帝, the emperor: the emperor pulls the drawstring tight, and when it closes, time is up.",
+    notes: [
+      "締め切り (しめきり) is a deadline; on forms and posters it is often written 締切, with no kana.",
+      "Read し.める for tightening: ネクタイを締める (tie a tie), シートベルトを締める (fasten a seat belt). The on reading てい is rare.",
+      "Same sound as 閉める (しめる, to close a door or window); 締める is for tightening and for closing a deadline or the accounts."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "締め切り", r: "しめきり", m: "deadline" },
+      { w: "締切日", r: "しめきりび", m: "closing date" },
+      { w: "締める", r: "しめる", m: "to tighten, fasten" }
+    ]
+  },
+  {
+    k: "担", meaning: "carry, be in charge", on: ["タン"], kun: ["かつ.ぐ", "にな.う"], group: "wk-tasks", strokes: 8, radical: "扌",
+    mnemonic: "A hand 扌 next to 旦, the sun rising over the horizon: from dawn you carry the load on your shoulder. It's your job now.",
+    notes: [
+      "担当 (たんとう) is the person in charge: on the phone you'll hear 担当の田中です, and forms have a 担当者 (たんとうしゃ) box.",
+      "たん in compounds; 担ぐ (かつぐ) is carrying on your shoulder, as people do with the portable shrine at a festival.",
+      "Hand 扌 on the left, as in 押 (push); the right side here is a sun over a line."
+    ],
+    lookalikes: ["押"],
+    examples: [
+      { w: "担当", r: "たんとう", m: "in charge (of)" },
+      { w: "担当者", r: "たんとうしゃ", m: "person in charge" },
+      { w: "担ぐ", r: "かつぐ", m: "to carry on the shoulder" }
+    ]
+  },
+  {
+    k: "説", meaning: "explain, theory", on: ["セツ"], kun: ["と.く"], group: "wk-tasks", strokes: 14, radical: "言",
+    mnemonic: "Words 言 beside 兌, a person with a wide open mouth and a big grin: talking happily until everything has been explained.",
+    notes: [
+      "説明 (せつめい) is an explanation: 説明書 (せつめいしょ) is the manual in the box, and a 説明会 (せつめいかい) is an information session.",
+      "Read せつ; 小説 (しょうせつ) is a novel. The verb 説く (とく) is literary.",
+      "Don't confuse it with 読 (read): both have 言 on the left, but 読 has 売 on the right."
+    ],
+    lookalikes: ["読"],
+    examples: [
+      { w: "説明", r: "せつめい", m: "explanation" },
+      { w: "説明書", r: "せつめいしょ", m: "instruction manual" },
+      { w: "説明会", r: "せつめいかい", m: "information session" }
+    ]
+  },
+  {
+    k: "相", meaning: "mutual, together", on: ["ソウ", "ショウ"], kun: ["あい"], group: "wk-tasks", strokes: 9, radical: "目",
+    mnemonic: "A tree 木 and an eye 目 side by side: you look at the tree and the tree looks back. Face to face, each to the other.",
+    notes: [
+      "相談 (そうだん) is talking something over: ちょっと相談してもいいですか? is the polite way to ask a colleague for a word.",
+      "あい in 相手 (あいて, the other person) and 相席 (あいせき): busy ramen shops ask 相席でもいいですか? (is sharing a table OK?).",
+      "しょう is for ministers in the news, as in 外相 (がいしょう). 相 with bamboo on top makes 箱 (box)."
+    ],
+    lookalikes: ["箱"],
+    examples: [
+      { w: "相談", r: "そうだん", m: "consultation, talking over" },
+      { w: "相手", r: "あいて", m: "the other person, partner" },
+      { w: "相席", r: "あいせき", m: "sharing a table" }
+    ]
+  },
+  {
+    k: "談", meaning: "talk, discuss", on: ["ダン"], kun: [], group: "wk-tasks", strokes: 15, radical: "言",
+    mnemonic: "Words 言 beside 炎, two fires stacked up: talking by the fireside late into the night.",
+    notes: [
+      "相談 (そうだん) is talking something over; city offices have a 相談窓口 (そうだんまどぐち) help desk, often one just for foreign residents.",
+      "Read だん, which is also the 'dan' in じょうだん (a joke). 面談 (めんだん) is a one-to-one meeting with your boss or your child's teacher.",
+      "In the news, 会談 (かいだん) is talks between leaders."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "相談", r: "そうだん", m: "consultation, talking over" },
+      { w: "面談", r: "めんだん", m: "one-to-one meeting, interview" },
+      { w: "会談", r: "かいだん", m: "talks (between leaders)" }
+    ]
+  },
+  {
+    k: "頼", meaning: "request, rely on", on: ["ライ"], kun: ["たの.む", "たよ.る", "たの.もしい"], group: "wk-tasks", strokes: 16, radical: "頁",
+    mnemonic: "A bundle 束 of work on the left and a head 頁 on the right: you bow your head over the bundle and ask for help.",
+    notes: [
+      "頼む (たのむ) is to ask someone for something, or to order food in casual talk; at work, これ、お願いできますか? sounds politer.",
+      "Kun readings たの.む and たよ.る (to rely on); the formal word for a request in business emails, いらい, uses the on reading らい.",
+      "The head 頁 on the right also sits in 題 (topic)."
+    ],
+    lookalikes: ["題"],
+    examples: [
+      { w: "頼む", r: "たのむ", m: "to ask, request" },
+      { w: "頼る", r: "たよる", m: "to rely on" },
+      { w: "頼もしい", r: "たのもしい", m: "reliable, dependable" }
+    ]
+  },
+  {
+    k: "遅", meaning: "late, slow", on: ["チ"], kun: ["おく.れる", "おそ.い"], group: "wk-time", strokes: 12, radical: "辶",
+    mnemonic: "A sheep shuffling out from under a low roof onto the road ⻌: so slow it is always late.",
+    notes: [
+      "遅刻 (ちこく) is being late. In Japanese workplaces even a few minutes calls for a phone call ahead and an apology.",
+      "おそい is late or slow; おくれる is to be late or delayed. 遅くなってすみません (おそくなって) is 'sorry I'm late'.",
+      "Station displays show 遅れ (おくれ), delay; if your train is late, staff can give you a delay certificate to show at work."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "遅刻", r: "ちこく", m: "being late" },
+      { w: "遅れる", r: "おくれる", m: "to be late, delayed" },
+      { w: "遅い", r: "おそい", m: "late, slow" }
+    ]
+  },
+  {
+    k: "刻", meaning: "time, carve", on: ["コク"], kun: ["きざ.む"], group: "wk-time", strokes: 8, radical: "刂",
+    mnemonic: "A boar 亥 beside a knife 刂: carving notches into a post, one notch for every hour that passes.",
+    notes: [
+      "Mostly met in 遅刻 (ちこく), lateness, and 時刻 (じこく), clock time: train timetables give the 時刻 of each departure.",
+      "きざむ is to chop finely or carve; recipes say 刻む for chopping onions or herbs.",
+      "The knife 刂 sits on the right, as in 割 and 別."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "遅刻", r: "ちこく", m: "being late" },
+      { w: "時刻", r: "じこく", m: "time (on the clock)" },
+      { w: "刻む", r: "きざむ", m: "to chop, to carve" }
+    ]
+  },
+  {
+    k: "曜", meaning: "day of the week", on: ["ヨウ"], kun: [], group: "wk-time", strokes: 18, radical: "日",
+    mnemonic: "The sun 日 beside a pheasant with bright wings 翟: the shining lights of the sky, each giving its name to a day.",
+    notes: [
+      "Every day name ends in 曜日 (ようび): 月曜日 (げつようび) Monday, 火曜日 Tuesday, through to 日曜日 (にちようび) Sunday.",
+      "Calendars, emails and shop signs shorten days to one kanji: 11月3日(月) means Monday the 3rd, and 水曜定休 (すいようていきゅう) means closed on Wednesdays.",
+      "At 18 strokes it is the most complex part of a date; handwritten notes often skip 曜日 and write just the day kanji."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "曜日", r: "ようび", m: "day of the week" },
+      { w: "月曜日", r: "げつようび", m: "Monday" },
+      { w: "日曜日", r: "にちようび", m: "Sunday" }
+    ]
+  },
+  {
+    k: "週", meaning: "week", on: ["シュウ"], kun: [], group: "wk-time", strokes: 11, radical: "辶",
+    mnemonic: "Going round 周 and round on the road ⻌: the same loop of seven days, back to Monday again.",
+    notes: [
+      "先週 (せんしゅう) last week, 今週 (こんしゅう) this week, 来週 (らいしゅう) next week and 毎週 (まいしゅう) every week.",
+      "週休二日 (しゅうきゅうふつか), two days off a week, is a standard line in job ads; 二日 is read ふつか here.",
+      "Like 道, it has the road ⻌ wrapping a boxy inside."
+    ],
+    lookalikes: ["道"],
+    examples: [
+      { w: "毎週", r: "まいしゅう", m: "every week" },
+      { w: "来週", r: "らいしゅう", m: "next week" },
+      { w: "週休二日", r: "しゅうきゅうふつか", m: "two days off a week" }
+    ]
+  },
+  {
+    k: "礼", meaning: "thanks, bow", on: ["レイ"], kun: [], group: "wk-time", strokes: 5, radical: "礻",
+    mnemonic: "Someone at the altar 礻 bending low like the hook 乙: a deep, polite bow.",
+    notes: [
+      "失礼します (しつれいします), 'excuse me', is said when entering or leaving a room, ending a phone call, or leaving work before others.",
+      "お礼 (おれい) is thanks or a thank-you gift; business emails after a visit often carry the subject line お礼.",
+      "In class the call 礼 (れい) means 'bow'. Same altar radical 礻 as 社."
+    ],
+    lookalikes: ["社"],
+    examples: [
+      { w: "失礼", r: "しつれい", m: "rudeness; excuse me" },
+      { w: "お礼", r: "おれい", m: "thanks, thank-you gift" },
+      { w: "無礼", r: "ぶれい", m: "rude" }
+    ]
+  },
+  {
+    k: "失", meaning: "lose, fault", on: ["シツ"], kun: ["うしな.う"], group: "wk-time", strokes: 5, radical: "大",
+    mnemonic: "A man 夫 with something slipping out past his hand 丿: there it goes, lost.",
+    notes: [
+      "Most often met in 失礼 (しつれい): お先に失礼します (おさきにしつれいします) is the polite way to leave the office before your colleagues.",
+      "失業 (しつぎょう), unemployment, is a news word; うしなう (to lose) is used for things like trust or a chance, not lost keys.",
+      "Compare 夫 (husband) and 天 (heaven): 失 starts with an extra short slanting stroke at the top left."
+    ],
+    lookalikes: ["天"],
+    examples: [
+      { w: "失礼", r: "しつれい", m: "rudeness; excuse me" },
+      { w: "失業", r: "しつぎょう", m: "unemployment" },
+      { w: "失う", r: "うしなう", m: "to lose" }
+    ]
+  },
+  {
+    k: "同", meaning: "same", on: ["ドウ"], kun: ["おな.じ"], group: "wk-time", strokes: 6, radical: "口",
+    mnemonic: "A frame 冂 with one 一 mouth 口 inside: everyone under the same roof, saying the same thing.",
+    notes: [
+      "おなじ takes no な before a noun: 同じ会社 (おなじかいしゃ), the same company.",
+      "同期 (どうき) are the people who joined your company in the same year, usually the same April; 同時 (どうじ) is 'at the same time'.",
+      "On forms 同上 (どうじょう) means 'same as above'. The frame 冂 is like 円, but with a line and a box inside."
+    ],
+    lookalikes: ["円"],
+    examples: [
+      { w: "同じ", r: "おなじ", m: "same" },
+      { w: "同期", r: "どうき", m: "same intake (at work)" },
+      { w: "同時", r: "どうじ", m: "same time" }
+    ]
   }
 ];
 
@@ -5386,7 +6287,44 @@ NH.COMPONENT_NAMES = {
   "成": "become (せい)",
   "皿": "dish (さら)",
   "方": "direction (ほう)",
-  "帚": "broom (in 帰)"
+  "帚": "broom (in 帰)",
+  // weather & news, work & office
+  "雲": "cloud (くも)",
+  "取": "take (とる)",
+  "石": "stone (いしへん)",
+  "寉": "crane (in 確)",
+  "玄": "dark, mysterious (げん)",
+  "務": "duty (む)",
+  "爰": "pull (in 暖)",
+  "京": "capital (きょう)",
+  "子": "child (こ)",
+  "即": "at once (in 節)",
+  "此": "this (in 紫)",
+  "分": "divide (ぶん)",
+  "敬": "respect (けい)",
+  "辰": "dragon, the fifth zodiac sign (たつ)",
+  "巛": "river (かわ)",
+  "辟": "avoid (in 避)",
+  "皮": "skin (ひ)",
+  "士": "samurai, gentleman (し)",
+  "亅": "hook (はねぼう)",
+  "礻": "altar, left side (しめすへん)",
+  "動": "move (どう)",
+  "菫": "clay (in 勤)",
+  "咅": "spit (in 部)",
+  "合": "fit together (ごう)",
+  "歹": "bones (がつへん)",
+  "戋": "small (in 残)",
+  "義": "righteousness (ぎ)",
+  "次": "next (じ)",
+  "忍": "endure (にん)",
+  "帝": "emperor (てい)",
+  "旦": "dawn (たん)",
+  "炎": "flame (えん)",
+  "亥": "boar, the last zodiac sign (い)",
+  "翟": "pheasant (in 曜)",
+  "周": "around (しゅう)",
+  "夫": "husband, man (おっと)"
 };
 
 /* Kanji-and-kana practice words.
@@ -5597,5 +6535,49 @@ NH.KANJI_WORDS = [
   { id: "kw-yakitori", text: "焼き鳥", kana: "やきとり", romaji: "yakitori", meaning: "grilled chicken skewers", level: 2, pack: "food", scene: ["lantern", "food"] },
   { id: "kw-omochikaeri", text: "お持ち帰り", kana: "おもちかえり", romaji: "omochikaeri", meaning: "takeout", level: 2, pack: "food", scene: ["food", "coffee"], note: "Counter staff ask 店内ですか、お持ち帰りですか? (eat in or take away?)." },
   { id: "kw-misoshiru", text: "味噌汁", kana: "みそしる", romaji: "misoshiru", meaning: "miso soup", level: 3, pack: "food", scene: ["food"] },
-  { id: "kw-tabehoudai", text: "食べ放題", kana: "たべほうだい", romaji: "tabehōdai", meaning: "all you can eat", level: 3, pack: "food", scene: ["food", "lantern"] }
+  { id: "kw-tabehoudai", text: "食べ放題", kana: "たべほうだい", romaji: "tabehōdai", meaning: "all you can eat", level: 3, pack: "food", scene: ["food", "lantern"] },
+
+  // ---- Weather & news (pack: "weather") ----
+  { id: "kw-kaminari", text: "雷", kana: "かみなり", romaji: "kaminari", meaning: "thunder, lightning", level: 1, pack: "weather", scene: ["rain"], note: "Summer afternoon storms bring it; get indoors and away from tall trees." },
+  { id: "kw-nami", text: "波", kana: "なみ", romaji: "nami", meaning: "wave", level: 1, pack: "weather", scene: ["sea", "boat"] },
+  { id: "kw-jishin", text: "地震", kana: "じしん", romaji: "jishin", meaning: "earthquake", level: 1, pack: "weather", scene: ["house", "city"], note: "Phones sound a loud alarm seconds before strong shaking: get under a table and hold on." },
+  { id: "kw-kafun", text: "花粉", kana: "かふん", romaji: "kafun", meaning: "pollen", level: 1, pack: "weather", scene: ["sakura", "flower"], note: "Pollen forecasts run from February to April; 花粉症 (かふんしょう) is hay fever." },
+  { id: "kw-kisetsu", text: "季節", kana: "きせつ", romaji: "kisetsu", meaning: "season", level: 1, pack: "weather", scene: ["sakura", "leaf"] },
+  { id: "kw-kumori", text: "曇り", kana: "くもり", romaji: "kumori", meaning: "cloudy", level: 2, pack: "weather", scene: ["sun", "rain"], note: "The grey cloud on forecasts; 曇りのち雨 means cloudy, rain later." },
+  { id: "kw-atsui", text: "暑い", kana: "あつい", romaji: "atsui", meaning: "hot (weather)", level: 2, pack: "weather", scene: ["sun"] },
+  { id: "kw-samui", text: "寒い", kana: "さむい", romaji: "samui", meaning: "cold (weather)", level: 2, pack: "weather", scene: ["snow"] },
+  { id: "kw-suzushii", text: "涼しい", kana: "すずしい", romaji: "suzushii", meaning: "cool (pleasantly)", level: 2, pack: "weather", scene: ["moon", "leaf"] },
+  { id: "kw-atatakai", text: "暖かい", kana: "あたたかい", romaji: "atatakai", meaning: "warm (weather)", level: 2, pack: "weather", scene: ["sun", "sakura"] },
+  { id: "kw-shitsudo", text: "湿度", kana: "しつど", romaji: "shitsudo", meaning: "humidity", level: 2, pack: "weather", scene: ["rain"] },
+  { id: "kw-keihou", text: "警報", kana: "けいほう", romaji: "keihō", meaning: "warning (weather alert)", level: 2, pack: "weather", scene: ["rain", "city"], note: "A step above 注意報 (ちゅういほう, advisory); a 大雨警報 often closes schools." },
+  { id: "kw-hinan", text: "避難", kana: "ひなん", romaji: "hinan", meaning: "evacuation", level: 2, pack: "weather", scene: ["house", "mountain"], note: "Signs show the nearest 避難場所 (ひなんばしょ, evacuation area); check yours before you need it." },
+  { id: "kw-tsunami", text: "津波", kana: "つなみ", romaji: "tsunami", meaning: "tsunami", level: 2, pack: "weather", scene: ["sea"], note: "After a strong quake near the coast, go to high ground at once; don't wait to look at the sea." },
+  { id: "kw-tenki-yohou", text: "天気予報", kana: "てんきよほう", romaji: "tenki yohō", meaning: "weather forecast", level: 3, pack: "weather", scene: ["sun", "umbrella"] },
+  { id: "kw-saikou-kion", text: "最高気温", kana: "さいこうきおん", romaji: "saikō kion", meaning: "highest temperature, the high", level: 3, pack: "weather", scene: ["sun"], note: "Shown in red beside the low in blue on every forecast." },
+  { id: "kw-saitei-kion", text: "最低気温", kana: "さいていきおん", romaji: "saitei kion", meaning: "lowest temperature, the low", level: 3, pack: "weather", scene: ["snow", "moon"] },
+  { id: "kw-kousui-kakuritsu", text: "降水確率", kana: "こうすいかくりつ", romaji: "kōsui kakuritsu", meaning: "chance of rain", level: 3, pack: "weather", scene: ["rain", "umbrella"], note: "Given in steps of 10%; many people take an umbrella at 50% or more." },
+  { id: "kw-tsuyu", text: "梅雨", kana: "つゆ", romaji: "tsuyu", meaning: "the rainy season", level: 3, pack: "weather", scene: ["rain", "umbrella"], note: "An irregular reading for June and early July; forecasters also say ばいう." },
+  { id: "kw-netchuushou", text: "熱中症", kana: "ねっちゅうしょう", romaji: "netchūshō", meaning: "heatstroke", level: 3, pack: "weather", scene: ["sun", "vending"], note: "Summer alerts say drink water often and use the air-con, even at night." },
+
+  // ---- Work & office (pack: "work") ----
+  { id: "kw-shigoto", text: "仕事", kana: "しごと", romaji: "shigoto", meaning: "work, job", level: 1, pack: "work", scene: ["city", "coffee"] },
+  { id: "kw-kaisha", text: "会社", kana: "かいしゃ", romaji: "kaisha", meaning: "company", level: 1, pack: "work", scene: ["city"], note: "People say うちの会社 (our company) when talking about where they work." },
+  { id: "kw-maishuu", text: "毎週", kana: "まいしゅう", romaji: "maishū", meaning: "every week", level: 1, pack: "work", scene: ["book"] },
+  { id: "kw-hataraku", text: "働く", kana: "はたらく", romaji: "hataraku", meaning: "to work", level: 2, pack: "work", scene: ["city"], note: "会社で働いています is 'I work at a company'; with 勤める the place takes に instead." },
+  { id: "kw-zangyou", text: "残業", kana: "ざんぎょう", romaji: "zangyō", meaning: "overtime work", level: 2, pack: "work", scene: ["city", "moon"], note: "Many offices have a ノー残業デー, one day a week when everyone leaves on time." },
+  { id: "kw-kyuuryou", text: "給料", kana: "きゅうりょう", romaji: "kyūryō", meaning: "pay, salary", level: 2, pack: "work", scene: ["house"] },
+  { id: "kw-chikoku", text: "遅刻", kana: "ちこく", romaji: "chikoku", meaning: "being late", level: 2, pack: "work", scene: ["train"], note: "If a train delay makes you late, station staff can give you a delay certificate to show at work." },
+  { id: "kw-kaishain", text: "会社員", kana: "かいしゃいん", romaji: "kaishain", meaning: "office worker, company employee", level: 3, pack: "work", scene: ["city", "train"] },
+  { id: "kw-getsuyoubi", text: "月曜日", kana: "げつようび", romaji: "getsuyōbi", meaning: "Monday", level: 3, pack: "work", scene: ["moon", "book"], note: "Calendars and emails often shorten it to 月 in brackets after the date: 11月3日(月)." },
+  { id: "kw-shitsurei-shimasu", text: "失礼します", kana: "しつれいします", romaji: "shitsurei shimasu", meaning: "excuse me (entering or leaving)", level: 3, pack: "work", scene: ["house", "city"], note: "Said at the office door, at the end of a call, and as お先に失礼します when leaving before others." },
+  { id: "kw-kaigi", text: "会議", kana: "かいぎ", romaji: "kaigi", meaning: "meeting", level: 1, pack: "work", scene: ["book", "coffee"], note: "A door sign reading 会議中 (かいぎちゅう) means a meeting is in progress." },
+  { id: "kw-aite", text: "相手", kana: "あいて", romaji: "aite", meaning: "the other person, partner", level: 1, pack: "work", scene: ["coffee"] },
+  { id: "kw-shiryou", text: "資料", kana: "しりょう", romaji: "shiryō", meaning: "documents, handouts", level: 2, pack: "work", scene: ["book"], note: "Emails often say 資料を送ります: I'll send the documents." },
+  { id: "kw-insatsu", text: "印刷", kana: "いんさつ", romaji: "insatsu", meaning: "printing", level: 2, pack: "work", scene: ["book", "konbini"], note: "Konbini copy machines can print from your phone; look for 印刷 on the screen." },
+  { id: "kw-kakunin", text: "確認", kana: "かくにん", romaji: "kakunin", meaning: "checking, confirmation", level: 2, pack: "work", scene: ["book"], note: "ご確認ください (please check) closes countless work emails." },
+  { id: "kw-shimekiri", text: "締め切り", kana: "しめきり", romaji: "shimekiri", meaning: "deadline", level: 2, pack: "work", scene: ["book"], note: "On forms it is often shortened to 締切, with no kana." },
+  { id: "kw-tanomu", text: "頼む", kana: "たのむ", romaji: "tanomu", meaning: "to ask, request", level: 2, pack: "work", scene: ["coffee"] },
+  { id: "kw-renrakusaki", text: "連絡先", kana: "れんらくさき", romaji: "renrakusaki", meaning: "contact details", level: 3, pack: "work", scene: ["book", "house"] },
+  { id: "kw-setsumeisho", text: "説明書", kana: "せつめいしょ", romaji: "setsumeisho", meaning: "instruction manual", level: 3, pack: "work", scene: ["book", "house"] },
+  { id: "kw-soudan-madoguchi", text: "相談窓口", kana: "そうだんまどぐち", romaji: "sōdan madoguchi", meaning: "help desk, advice counter", level: 3, pack: "work", scene: ["city"], note: "Many city offices have a 外国人相談窓口, a help desk for foreign residents." }
 ];
