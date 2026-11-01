@@ -867,6 +867,9 @@ input[type="range"] { accent-color: var(--line-h); }
 
 .read-task { justify-items: center; }
 .read-task .qopts { width: 100%; }
+.qopts.sign-opts { grid-template-columns: 1fr; gap: 8px; }
+.qopts.sign-opts .qopt { min-height: 52px; font: 600 calc(15px * var(--ts))/1.35 var(--f-ui); text-align: left; padding: 10px 14px; }
+.sign-task .ksign { max-width: 520px; }
 .stage .sign-romaji { color: var(--panel-fg, #111); background: var(--panel-bg, #fff); padding: 2px 12px; border-radius: 8px; }
 
 /* ── Say it ─────────────────────────────────────────────── */

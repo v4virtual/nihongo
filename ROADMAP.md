@@ -79,7 +79,7 @@ release; order within a group is a rough priority.
 - [x] 53 clinic words and phrases with furigana (診察券, 耳鼻科, 予約しています, ここが痛いです)
 - [x] Signs tab: eight real clinic signs (the car park notice and the request to parents that started this, reception, a floor guide, the pharmacy window, wall signs, visiting hours, a fever notice). Tap any word for its reading, meaning and kanji, hear it read by its readings, turn furigana off, and reveal the translation with a note on how things work
 - [ ] More sets built the same way: station and train signs, shops and offices (city hall, post office, bank)
-- [ ] Signs in Today's review: "what does this sign say?" once you've started its kanji
+- [x] Signs in Today's review: each line of a sign (or lines that only make sense together) is a card, "what does this sign say?", once you've started its kanji and kana; other lines of the same sign make the wrong answers. Also as "Practice reading" on the Signs tab
 
 ## Platform
 

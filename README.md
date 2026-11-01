@@ -42,7 +42,9 @@ next is on the [roadmap](ROADMAP.md).
   everyday set. The Signs tab has real clinic signs (a car park notice, a
   floor guide, the pharmacy window, visiting hours…): tap any word for its
   reading, meaning and kanji, hear the sign read aloud, turn furigana off, and
-  reveal the translation.
+  reveal the translation. Once you've started a line's kanji, it comes up in
+  Today as "what does this sign say?" (or straight away under Practice
+  reading).
 - **Lessons**: every kana and kanji page has a short narrated lesson that plays
   like a video: what it is and how it sounds, where it came from (the kanji
   behind a kana, the parts of a kanji), a memory hook, each stroke drawn and

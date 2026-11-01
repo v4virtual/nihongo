@@ -6,7 +6,7 @@
  *
  * Card ids: "k:か" (a kana or combo), "w:mizu" (word), "p:ohayou" (phrase),
  * "r:<id>" (reading item), "j:日" (kanji), "v:kw-nihon" (word written with
- * kanji). Times are in days (ms / DAY). */
+ * kanji), "s:parking-ticket.1" (a line of a sign with kanji). Times are in days (ms / DAY). */
 window.NH = window.NH || {};
 
 (function () {
@@ -111,6 +111,7 @@ window.NH = window.NH || {};
     if (id[0] === "p") return NH.PHRASES.find((w) => w.id === key)?.kana;
     if (id[0] === "r") return (NH.READING || []).find((r) => r.id === key)?.kana.replace(/\s/g, "");
     if (id[0] === "v") return (NH.KANJI_WORDS || []).find((w) => w.id === key)?.text;
+    if (id[0] === "s") return NH.Signs?.cardOf(id)?.text;
     return key;
   }
 
@@ -148,6 +149,7 @@ window.NH = window.NH || {};
       ...(NH.READING || []).map((r) => "r:" + r.id),
       ...NH.PHRASES.map((w) => "p:" + w.id),
       ...(NH.KANJI_WORDS || []).map((w) => "v:" + w.id),
+      ...(NH.Signs?.cardIds() || []),
     ].filter((id) => !dk.cards[id] && ready(id))
       .sort((a, b) => levelOf(a) - levelOf(b));
     for (const id of others) { if (otherLeft-- <= 0) break; fresh.push(id); }
@@ -155,6 +157,7 @@ window.NH = window.NH || {};
   }
   function levelOf(id) {
     const key = id.slice(2);
+    if (id[0] === "s") return NH.Signs?.cardOf(id)?.sign.level || 3;
     const list = { w: NH.WORDS, p: NH.PHRASES, r: NH.READING, v: NH.KANJI_WORDS }[id[0]] || [];
     const item = list.find((w) => w.id === key);
     return item?.level || 2;

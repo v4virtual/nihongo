@@ -16,7 +16,8 @@ window.NH = window.NH || {};
     const prefix = S.id === "hiragana" ? "" : `${S.id}-`;
     const isKanji = S.id === "kanji";
     const total = due.length + fresh.length;
-    const preview = [...due, ...fresh].slice(0, 12).map((id) => SRS.itemText(id));
+    // A sign line is long: show its start.
+    const preview = [...due, ...fresh].slice(0, 12).map((id) => { const t = SRS.itemText(id); return id[0] === "s" && [...t].length > 6 ? [...t].slice(0, 5).join("") + "…" : t; });
     const limit = store.settings.dailyNew ?? 5;
     const limits = h("div.chips", { role: "radiogroup", "aria-label": "New kana per day" }, [3, 5, 10].map((n) =>
       h("button.chip", { type: "button", role: "radio", "aria-checked": String(n === limit), onclick: () => { store.set("dailyNew", n); UI.go(here); } }, `${n} a day`)));
@@ -111,6 +112,7 @@ window.NH = window.NH || {};
   function reviewType(id) {
     const n = SRS.card(id)?.reps || 0;
     if (id[0] === "r") return "read";
+    if (id[0] === "s") return "sign";
     if (id === "k:ー") return "write"; // a mark has no sound of its own to hear or name
     if (id[0] === "k") return ["write", "recognize", "hear"][n % 3];
     return ["write", "recognize"][n % 2];
@@ -177,7 +179,8 @@ window.NH = window.NH || {};
     }
 
     // ── task types ──
-    const RENDER = { intro, write: (t, done) => writeTask(t, done, "memory"), hear: (t, done) => writeTask(t, done, "memory", true), recognize, read: (t, done) => NH.ReadTask(t, { panel, cellWrap, later, finish: finishTask, style }, done) };
+    const RENDER = { intro, write: (t, done) => writeTask(t, done, "memory"), hear: (t, done) => writeTask(t, done, "memory", true), recognize, read: (t, done) => NH.ReadTask(t, { panel, cellWrap, later, finish: finishTask, style }, done),
+      sign: (t, done) => NH.Signs.task(t, { panel, cellWrap, later, finish: finishTask, style }, done) };
 
     function prompt(label, main, sub, speakText) {
       return h("div.task-prompt",
@@ -189,6 +192,7 @@ window.NH = window.NH || {};
 
     function intro(t, done) {
       if (t.id[0] === "r") return RENDER.read(t, done);
+      if (t.id[0] === "s") return RENDER.sign(t, done);
       const d = describe(t.id);
       const svg = UI.strokeOrderSvg(d.text);
       panel.append(
