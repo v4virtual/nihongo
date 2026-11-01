@@ -41,7 +41,7 @@ describe("axe audit", () => {
     ["session", "accuracy"], ["session", "neon"], ["session", "calligraphy"], ["dictation", "neon"], ["readquiz", "calligraphy"],
     ["katakana", "accuracy"], ["katakana-today", "accuracy"], ["katakana-words", "accuracy"], ["katakana-read", "accuracy"], ["katakana-quiz", "accuracy"],
     ["k-30a2", "accuracy"], ["k-30fc", "accuracy"], ["w-30c4", "calligraphy"], ["word-ramen", "neon"], ["sign-attakai", "accuracy"],
-    ["kanji", "accuracy"], ["kanji-today", "accuracy"], ["kanji-words", "accuracy"], ["kanji-quiz", "accuracy"], ["k-4f11", "accuracy"], ["kanji-read", "accuracy"], ["ksign-parking-ticket", "accuracy"], ["ksign-floor-guide", "accuracy"], ["k-75c5", "accuracy"], ["kanji-signquiz", "calligraphy"], ["ksign-platform", "accuracy"], ["ksign-city-hall", "accuracy"], ["kanji-signquiz", "neon"],
+    ["kanji", "accuracy"], ["kanji-today", "accuracy"], ["kanji-words", "accuracy"], ["kanji-quiz", "accuracy"], ["k-4f11", "accuracy"], ["kanji-read", "accuracy"], ["ksign-parking-ticket", "accuracy"], ["ksign-floor-guide", "accuracy"], ["k-75c5", "accuracy"], ["kanji-signquiz", "calligraphy"], ["ksign-platform", "accuracy"], ["ksign-city-hall", "accuracy"], ["ksign-ticket-machine", "accuracy"], ["ksign-forecast", "accuracy"], ["ksign-whiteboard", "accuracy"], ["ksign-news-election", "accuracy"], ["ksign-library", "accuracy"], ["kanji-signquiz", "neon"],
     ["w-4f11", "neon"], ["word-kw-taberu", "calligraphy"],
   ];
   for (const [route, style] of screens) {

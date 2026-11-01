@@ -1,8 +1,10 @@
 # Kaku 書く
 
 Learn Japanese by writing it. Kaku covers **hiragana**, **katakana** and
-**306 kanji** in four sets (everyday, stations & trains, shops & offices,
-clinic & hospital), with real signs to read: every character has an explain page and a writing
+**699 kanji** in nine sets: everyday, core essentials, stations & trains,
+shops & offices, restaurants & food, weather & news, work & office, reading the
+news, and clinic & hospital. Together they cover every one of the 500 most
+frequent kanji in Japanese news, about 84% of the kanji in a newspaper, with real signs to read: every character has an explain page and a writing
 practice where each stroke is checked for shape, direction and order. What's
 next is on the [roadmap](ROADMAP.md).
 
@@ -41,6 +43,18 @@ next is on the [roadmap](ROADMAP.md).
   boards, ticket gates, kinds of train and changing lines; opening hours,
   prices and discounts, the post office, the bank and city hall. Each set has
   its own words and real signs.
+- **Restaurants & food** (40): dishes, how it's cooked and how it tastes, and
+  ordering and paying, with signs from a lunch board, a ramen ticket machine,
+  an all-you-can-eat table and a curry shop's spice scale.
+- **Core essentials** (77) and **Reading the news** (216), chosen by
+  frequency: every first-grade and JLPT N4 kanji, then the rest of the 500
+  most frequent kanji in newspapers in themed groups (politics, courts,
+  economy, sport, places…), with headline signs to read.
+- **Weather & news** (30): the forecast, the seasons (rainy season, heat,
+  pollen) and the warnings everyone in Japan must read: earthquakes, tsunami,
+  evacuation areas.
+- **Work & office** (30): the company, meetings and emails, deadlines and days
+  of the week, and the set phrases of office life.
 - **Clinic & hospital**: 92 more kanji for getting through a Japanese clinic:
   departments and staff, reception and paying, symptoms and tests, signs and
   notices, and the car park. Today can start with any set instead of the

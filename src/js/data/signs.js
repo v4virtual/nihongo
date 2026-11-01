@@ -346,4 +346,390 @@ NH.SIGNS = [
     ],
     note: "Moving to Japan or within it, you register your address at the 届出 counter within 14 days. In Tokyo's wards it's the 区役所.",
   },
+
+  // ---- Restaurants & food ----
+  {
+    id: "lunch-menu", pack: "food", look: "board", title: "Lunch menu", level: 3,
+    where: "A blackboard outside a set-meal restaurant",
+    lines: [
+      { head: true, t: [["本日", "ほんじつ", "today's"], "の", ["ランチ", "", "lunch"]] },
+      { t: [["焼き魚定食", "やきざかなていしょく", "grilled fish set meal"], "　", ["850円", "はっぴゃくごじゅうえん", "850 yen"]] },
+      { t: [["唐揚げ定食", "からあげていしょく", "fried chicken set meal"], "　", ["900円", "きゅうひゃくえん", "900 yen"]] },
+      { t: [["ご飯", "ごはん", "rice"], "・", ["味噌汁", "みそしる", "miso soup"], ["付き", "つき", "included"]] },
+      { t: [["大盛り", "おおもり", "large portion"], ["無料", "むりょう", "free"]] },
+    ],
+    en: [
+      "Today's lunch",
+      "Grilled fish set meal: 850 yen",
+      "Fried chicken set meal: 900 yen",
+      "Comes with rice and miso soup",
+      "Large portions at no extra charge",
+    ],
+    note: "A 定食 is a set meal: a main dish with rice, miso soup and pickles. 魚 turns into ざかな after 焼き.",
+  },
+  {
+    id: "ticket-machine", pack: "food", look: "notice", title: "Ticket machine", level: 3,
+    where: "Next to the ticket machine just inside a ramen shop",
+    lines: [
+      { head: true, t: [["食券", "しょっけん", "meal ticket"], "を", ["お買い求めください", "おかいもとめください", "please buy"]] },
+      { t: [["ラーメン", "", "ramen"], ["800円", "はっぴゃくえん", "800 yen"], "・", ["味噌", "みそ", "miso (ramen)"], ["900円", "きゅうひゃくえん", "900 yen"]] },
+      { t: [["大盛り", "おおもり", "large portion"], "・", ["トッピング", "", "toppings"], "は", ["別", "べつ", "separate"], "の", ["ボタン", "", "button"]] },
+      { t: [["食券", "しょっけん", "meal ticket"], "は", ["カウンター", "", "counter"], "に", ["お出しください", "おだしください", "please hand over"]] },
+    ],
+    en: [
+      "Please buy a meal ticket.",
+      "Ramen 800 yen, miso ramen 900 yen",
+      "Large portions and toppings have their own buttons.",
+      "Please hand your ticket over at the counter.",
+    ],
+    note: "Put money in, press the button for your dish, take the ticket and your change, then give the ticket to the staff. The top-left button is usually the house favourite.",
+  },
+  {
+    id: "all-you-can-eat", pack: "food", look: "warning", title: "All you can eat", level: 3,
+    where: "On the table of a yakiniku or hot-pot restaurant",
+    lines: [
+      { head: true, t: [["食べ放題", "たべほうだい", "all you can eat"], "　", ["90分", "きゅうじゅっぷん", "90 minutes"]] },
+      { t: [["飲み放題", "のみほうだい", "all you can drink"], ["付き", "つき", "included"], "　", ["3980円", "さんぜんきゅうひゃくはちじゅうえん", "3,980 yen"], "（", ["税込", "ぜいこみ", "tax included"], "）"] },
+      { t: [["お料理", "おりょうり", "food"], "の", ["お持ち帰り", "おもちかえり", "taking home"], "は", ["できません", "", "is not allowed"]] },
+    ],
+    en: [
+      "All you can eat: 90 minutes",
+      "All you can drink included: 3,980 yen, tax included",
+      "Food can't be taken home.",
+    ],
+    note: "放題 means 'as much as you like': 食べ放題, 飲み放題. There's a time limit, and the last order (ラストオーダー) comes before it.",
+  },
+  {
+    id: "restaurant-wall", pack: "food", look: "wall", title: "Signs at the door", level: 3,
+    where: "By the entrance of an izakaya",
+    lines: [
+      { t: [["店内禁煙", "てんないきんえん", "no smoking inside"]] },
+      { t: [["喫煙所", "きつえんじょ", "smoking area"]] },
+      { t: [["個室", "こしつ", "private rooms"], ["あります", "", "available"]] },
+      { t: [["予約", "よやく", "reservations"], ["受付中", "うけつけちゅう", "being taken"]] },
+    ],
+    en: [
+      "No smoking inside",
+      "Smoking area",
+      "Private rooms available",
+      "Taking reservations",
+    ],
+    note: "Smoking is banned inside most restaurants now; 喫煙所 points to the one place you may.",
+  },
+  {
+    id: "takeaway", pack: "food", look: "notice", title: "Takeaway", level: 3,
+    where: "By the till of a café or bakery",
+    lines: [
+      { head: true, t: [["お持ち帰り", "おもちかえり", "takeaway"], ["できます", "", "available"]] },
+      { t: [["店内", "てんない", "eating in"], ["10%", "", "10% tax"], "・", ["お持ち帰り", "おもちかえり", "takeaway"], ["8%", "", "8% tax"]] },
+      { t: [["お箸", "おはし", "chopsticks"], "が", ["ご入用", "ごいりよう", "needed"], "の", ["方", "かた", "people (polite)"], "は", ["お申し付けください", "おもうしつけください", "please tell us"]] },
+    ],
+    en: [
+      "Takeaway available",
+      "Tax: 10% eating in, 8% to take away",
+      "If you need chopsticks, please ask.",
+    ],
+    note: "Staff will ask 店内でお召し上がりですか (eating in?). Answer 持ち帰りで (to take away) or 店内で (here).",
+  },
+  {
+    id: "spice-scale", pack: "food", look: "board", title: "How spicy?", level: 3,
+    where: "On the menu of a curry shop",
+    lines: [
+      { head: true, t: [["辛さ", "からさ", "spiciness"]] },
+      { t: [["甘口", "あまくち", "mild"], "・", ["中辛", "ちゅうから", "medium hot"], "・", ["辛口", "からくち", "hot"], "・", ["大辛", "おおから", "extra hot"]] },
+      { t: [["お冷", "おひや", "cold water"], "は", ["セルフサービス", "", "self-service"]] },
+    ],
+    en: [
+      "Spiciness",
+      "Mild, medium, hot, extra hot",
+      "Water is self-service.",
+    ],
+    note: "お冷 is what restaurants call a glass of cold water; it's free. 辛い is spicy, 甘い sweet: 甘口 curry is the mild one.",
+  },
+
+  // ---- Weather & news ----
+  {
+    id: "forecast", pack: "weather", look: "board", title: "Today's forecast", level: 3,
+    where: "The weather corner of the morning news, and every weather app",
+    lines: [
+      { head: true, t: [["今日", "きょう", "today"], "の", ["天気", "てんき", "weather"]] },
+      { t: [["晴れ", "はれ", "sunny"], ["のち", "", "later"], ["曇り", "くもり", "cloudy"]] },
+      { t: [["最高気温", "さいこうきおん", "highest temperature"], "　", ["28度", "にじゅうはちど", "28 degrees"]] },
+      { t: [["最低気温", "さいていきおん", "lowest temperature"], "　", ["19度", "じゅうきゅうど", "19 degrees"]] },
+      { t: [["降水確率", "こうすいかくりつ", "chance of rain"], "　", ["30%", "", "30 percent"]] },
+    ],
+    en: [
+      "Today's weather",
+      "Sunny, turning cloudy",
+      "High 28°C",
+      "Low 19°C",
+      "Chance of rain 30%",
+    ],
+    note: "のち means 'later', 時々 'at times': 晴れ時々曇り is sunny with cloudy spells. Above about 50% 降水確率, take an umbrella.",
+  },
+  {
+    id: "heatstroke", pack: "weather", look: "warning", title: "Heatstroke warning", level: 3,
+    where: "Posters in stations and on the news from July to September",
+    lines: [
+      { head: true, t: [["熱中症", "ねっちゅうしょう", "heatstroke"], "に", ["注意", "ちゅうい", "caution"]] },
+      { t: [["こまめに", "", "little and often"], ["水分", "すいぶん", "fluids"], "を", ["とりましょう", "", "let's take"]] },
+      { t: [["暑い", "あつい", "hot"], ["日", "ひ", "days"], "は", ["外出", "がいしゅつ", "going out"], "を", ["ひかえましょう", "", "let's cut down on"]] },
+    ],
+    en: [
+      "Beware of heatstroke",
+      "Drink little and often.",
+      "On hot days, go out as little as you can.",
+    ],
+    note: "Japanese summers are humid as well as hot; 熱中症 sends thousands to hospital each year. Salt sweets and sports drinks are sold for it.",
+  },
+  {
+    id: "tsunami", pack: "weather", look: "warning", title: "Tsunami warning", level: 3,
+    where: "TV screens and phone alerts after an earthquake by the sea",
+    lines: [
+      { head: true, t: [["津波警報", "つなみけいほう", "tsunami warning"]] },
+      { t: [["高台", "たかだい", "high ground"], "へ", ["避難して", "ひなんして", "evacuate"], ["ください", "", "please"]] },
+      { t: [["海", "うみ", "sea"], "や", ["川", "かわ", "river"], "に", ["ちかづかないで", "", "don't go near"], ["ください", "", "please"]] },
+    ],
+    en: [
+      "Tsunami warning",
+      "Evacuate to high ground.",
+      "Stay away from the sea and rivers.",
+    ],
+    note: "注意報 is an advisory, 警報 a warning, 大津波警報 a major warning. Don't wait to see the wave: go up and inland at once.",
+  },
+  {
+    id: "evacuation-area", pack: "weather", look: "wall", title: "Evacuation area", level: 3,
+    where: "Green signs on lampposts pointing to parks and schools",
+    lines: [
+      { t: [["避難場所", "ひなんばしょ", "evacuation area"]] },
+      { t: [["地震", "じしん", "earthquake"], "・", ["津波", "つなみ", "tsunami"], "・", ["火災", "かさい", "fire"]] },
+      { t: [["この先", "このさき", "ahead"], "　200m"] },
+    ],
+    en: [
+      "Evacuation area",
+      "For earthquakes, tsunami and fires",
+      "200 m ahead",
+    ],
+    note: "Each sign lists the disasters the place is safe for: a park may be fine for fires but not for a tsunami. Find yours before you need it.",
+  },
+  {
+    id: "season-news", pack: "weather", look: "notice", title: "Seasonal news", level: 3,
+    where: "Headlines on the evening news",
+    lines: [
+      { head: true, t: [["季節", "きせつ", "season"], "の", ["ニュース", "", "news"]] },
+      { t: [["東京", "とうきょう", "Tokyo"], "で", ["梅雨入り", "つゆいり", "the rainy season begins"]] },
+      { t: [["明日", "あした", "tomorrow"], "は", ["雷雨", "らいう", "thunderstorms"], "に", ["注意", "ちゅうい", "caution"]] },
+    ],
+    en: [
+      "Seasonal news",
+      "The rainy season begins in Tokyo",
+      "Watch out for thunderstorms tomorrow",
+    ],
+    note: "梅雨 (つゆ) runs from about June to mid-July; 梅雨入り is when it starts and 梅雨明け when it ends.",
+  },
+
+  // ---- Work & office ----
+  {
+    id: "office-doors", pack: "work", look: "wall", title: "Office doors", level: 3,
+    where: "Plates on doors along an office corridor",
+    lines: [
+      { t: [["会議中", "かいぎちゅう", "in a meeting"]] },
+      { t: [["事務所", "じむしょ", "office"]] },
+      { t: [["資料室", "しりょうしつ", "document room"]] },
+    ],
+    en: [
+      "Meeting in progress",
+      "Office",
+      "Document room",
+    ],
+    note: "会議中 is flipped over on the meeting-room door: knock, or better, wait.",
+  },
+  {
+    id: "no-overtime", pack: "work", look: "notice", title: "No-overtime day", level: 3, cards: [[0, 1], [2]],
+    where: "A poster in the staff kitchen",
+    lines: [
+      { head: true, t: [["毎週", "まいしゅう", "every week"], ["水曜日", "すいようび", "Wednesday"], "は"] },
+      { t: [["ノー", "", "no"], ["残業", "ざんぎょう", "overtime"], ["デー", "", "day"]] },
+      { t: [["定時", "ていじ", "the regular time"], "に", ["退社", "たいしゃ", "leaving the office"], ["しましょう", "", "let's"]] },
+    ],
+    en: [
+      "Every Wednesday is",
+      "a no-overtime day.",
+      "Let's all leave on time.",
+    ],
+    note: "Many companies pick one evening a week when everyone is pushed to go home at 定時, the end of the official day.",
+  },
+  {
+    id: "whiteboard", pack: "work", look: "board", title: "Team whiteboard", level: 3,
+    where: "The whiteboard by the team's desks",
+    lines: [
+      { head: true, t: [["連絡", "れんらく", "notices"]] },
+      { t: [["会議", "かいぎ", "meeting"], "は", ["木曜日", "もくようび", "Thursday"], ["10時", "じゅうじ", "10 o'clock"], "から"] },
+      { t: [["資料", "しりょう", "handouts"], "は", ["各自", "かくじ", "each person"], ["印刷", "いんさつ", "printing"], ["してください", "", "please do"]] },
+      { t: [["締め切り", "しめきり", "deadline"], "は", ["金曜日", "きんようび", "Friday"], ["です", "", "is"]] },
+    ],
+    en: [
+      "Notices",
+      "The meeting is on Thursday from 10.",
+      "Please print your own copy of the handouts.",
+      "The deadline is Friday.",
+    ],
+    note: "Days of the week end in 曜日: 月 火 水 木 金 土 日 are Monday to Sunday.",
+  },
+  {
+    id: "time-clock", pack: "work", look: "wall", title: "Time clock", level: 3,
+    where: "The buttons on the time clock at the staff entrance",
+    lines: [
+      { t: [["出勤", "しゅっきん", "clocking in"]] },
+      { t: [["退勤", "たいきん", "clocking out"]] },
+      { t: [["遅刻", "ちこく", "late"]] },
+    ],
+    en: [
+      "Clock in",
+      "Clock out",
+      "Late",
+    ],
+    note: "In Japan even a few minutes late is 遅刻: tell your manager (連絡) before your start time if the train is delayed.",
+  },
+  {
+    id: "office-phrases", pack: "work", look: "notice", title: "Office phrases", level: 3,
+    where: "What you'll read in emails and hear across the office",
+    lines: [
+      { t: [["ご確認", "ごかくにん", "checking"], ["よろしく", "", "kindly"], ["お願いいたします", "おねがいいたします", "I ask (humble)"]] },
+      { t: [["ご相談", "ごそうだん", "something to discuss"], "が", ["あります", "", "there is"]] },
+      { t: [["失礼します", "しつれいします", "excuse me (coming in or leaving)"]] },
+      { t: [["担当", "たんとう", "the person in charge"], "：", ["田中", "たなか", "Tanaka"]] },
+    ],
+    en: [
+      "Please check this.",
+      "I have something to discuss with you.",
+      "Excuse me (coming in, or leaving for the day).",
+      "Contact: Tanaka",
+    ],
+    note: "お先に失礼します (おさきにしつれいします) is what you say when you leave before your colleagues.",
+  },
+
+  // ---- Core essentials ----
+  {
+    id: "library", pack: "core", look: "board", title: "Library", level: 3,
+    where: "At the door of a city library",
+    lines: [
+      { head: true, t: [["図書館", "としょかん", "library"]] },
+      { t: [["館内", "かんない", "inside the building"], "での", ["飲食", "いんしょく", "eating and drinking"], "は", ["禁止", "きんし", "not allowed"]] },
+      { t: [["本", "ほん", "books"], "の", ["貸し出し", "かしだし", "lending"], "は", ["2週間", "にしゅうかん", "two weeks"], "まで"] },
+    ],
+    en: [
+      "Library",
+      "No eating or drinking inside",
+      "Books can be borrowed for up to two weeks.",
+    ],
+    note: "Public libraries are free; residents can get a card with proof of address. 貸す is to lend, 借りる to borrow.",
+  },
+  {
+    id: "park-rules", pack: "core", look: "notice", title: "Park rules", level: 3,
+    where: "On a board at the entrance of a neighbourhood park",
+    lines: [
+      { head: true, t: [["公園", "こうえん", "park"], "の", ["ルール", "", "rules"]] },
+      { t: [["自転車", "じてんしゃ", "bicycles"], "は", ["押して", "おして", "pushing"], ["歩いて", "あるいて", "walking"], ["ください", "", "please"]] },
+      { t: [["夜", "よる", "night"], ["10時", "じゅうじ", "10 o'clock"], ["以後", "いご", "after"], "は", ["花火", "はなび", "fireworks"], ["禁止", "きんし", "prohibited"]] },
+    ],
+    en: [
+      "Park rules",
+      "Please get off and walk your bicycle.",
+      "No fireworks after 10 p.m.",
+    ],
+    note: "Hand-held fireworks are a summer favourite, but many parks ban them at night, or altogether.",
+  },
+  {
+    id: "cinema", pack: "core", look: "board", title: "At the cinema", level: 3,
+    where: "The ticket counter of a cinema",
+    lines: [
+      { head: true, t: [["映画館", "えいがかん", "cinema"]] },
+      { t: [["大人", "おとな", "adults"], "　1900", ["円", "えん", "yen"], "・", ["子ども", "こども", "children"], "　1000", ["円", "えん", "yen"]] },
+      { t: [["英語", "えいご", "English"], ["字幕", "じまく", "subtitles"]] },
+    ],
+    en: [
+      "Cinema",
+      "Adults 1,900 yen, children 1,000 yen",
+      "English subtitles",
+    ],
+    note: "Foreign films come 字幕 (subtitled) or 吹き替え (dubbed); check which before you buy.",
+  },
+
+  // ---- Reading the news: headlines ----
+  {
+    id: "news-election", pack: "news", look: "notice", title: "Election night", level: 3,
+    where: "Headlines on a news site the morning after an election",
+    lines: [
+      { head: true, t: [["選挙", "せんきょ", "election"], ["結果", "けっか", "results"]] },
+      { t: [["与党", "よとう", "ruling party"], "、", ["過半数", "かはんすう", "a majority"], "を", ["確保", "かくほ", "secures"]] },
+      { t: [["投票率", "とうひょうりつ", "turnout"], "　52%"] },
+    ],
+    en: [
+      "Election results",
+      "Ruling party secures a majority",
+      "Turnout: 52%",
+    ],
+    note: "Headlines drop particles and verbs: 与党、過半数を確保 is short for 与党が過半数を確保した.",
+  },
+  {
+    id: "news-economy", pack: "news", look: "board", title: "Business news", level: 3,
+    where: "The ticker under a business news programme",
+    lines: [
+      { t: [["日経平均", "にっけいへいきん", "the Nikkei average"], "　500", ["円", "えん", "yen"], ["高", "だか", "up"]] },
+      { t: [["円安", "えんやす", "a weak yen"], ["進む", "すすむ", "continues"]] },
+      { t: [["消費者物価", "しょうひしゃぶっか", "consumer prices"], "　3%", ["増", "ぞう", "up"]] },
+    ],
+    en: [
+      "The Nikkei is up 500 yen",
+      "The yen keeps weakening",
+      "Consumer prices up 3%",
+    ],
+    note: "円安 (a weak yen) makes imports dearer and Japan cheaper for visitors; 円高 is the opposite.",
+  },
+  {
+    id: "news-incident", pack: "news", look: "notice", title: "Local news", level: 3,
+    where: "Short items in the local section of a newspaper",
+    lines: [
+      { t: [["警察", "けいさつ", "police"], "が", ["容疑者", "ようぎしゃ", "the suspect"], "を", ["調べ", "しらべ", "questioning"], ["ている", "", "are (doing)"]] },
+      { t: [["地裁", "ちさい", "district court"], "が", ["判決", "はんけつ", "ruling"]] },
+      { t: [["事故", "じこ", "accident"], "で", ["3人", "さんにん", "three people"], ["けが", "", "injured"]] },
+    ],
+    en: [
+      "Police are questioning the suspect",
+      "District court hands down its ruling",
+      "Three injured in an accident",
+    ],
+    note: "News Japanese leans on two-kanji words: 容疑者 (suspect), 判決 (ruling), 事故 (accident).",
+  },
+  {
+    id: "news-sport", pack: "news", look: "board", title: "Sports pages", level: 3,
+    where: "The back page of a sports newspaper",
+    lines: [
+      { head: true, t: [["日本", "にほん", "Japan"], "、", ["優勝", "ゆうしょう", "win the title"]] },
+      { t: [["大谷", "おおたに", "Ohtani"], "、", ["40号", "よんじゅうごう", "the 40th"], ["本塁打", "ほんるいだ", "home run"]] },
+      { t: [["決勝", "けっしょう", "the final"], "は", ["明日", "あした", "tomorrow"]] },
+    ],
+    en: [
+      "Japan win the title",
+      "Ohtani hits his 40th home run",
+      "The final is tomorrow",
+    ],
+    note: "号 counts home runs in baseball reports: 40号 is the 40th. Commentators also say ホームラン.",
+  },
+  {
+    id: "news-world", pack: "news", look: "notice", title: "National news", level: 3,
+    where: "The front page of a national newspaper",
+    lines: [
+      { t: [["首相", "しゅしょう", "prime minister"], "が", ["韓国", "かんこく", "South Korea"], "を", ["訪問", "ほうもん", "visit"]] },
+      { t: [["大阪", "おおさか", "Osaka"], "で", ["国際会議", "こくさいかいぎ", "international conference"], ["開催", "かいさい", "held"]] },
+      { t: [["福岡空港", "ふくおかくうこう", "Fukuoka Airport"], "、", ["国際線", "こくさいせん", "international flights"], ["増便", "ぞうびん", "more flights"]] },
+    ],
+    en: [
+      "Prime minister visits South Korea",
+      "International conference held in Osaka",
+      "More international flights at Fukuoka Airport",
+    ],
+    note: "Place names are written in kanji with their own readings: 大阪 (おおさか), 福岡 (ふくおか).",
+  },
 ];
