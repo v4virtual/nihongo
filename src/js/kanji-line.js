@@ -20,11 +20,13 @@ window.NH = window.NH || {};
     ["st-trains", "快速", "Kinds of train", "station"], ["st-moving", "乗換", "On, off and changing", "station"],
     ["tw-shops", "店", "Shops and prices", "town"], ["tw-money", "銀行", "Money and post", "town"],
     ["tw-office", "役所", "Offices and forms", "town"], ["tw-places", "町", "Towns and addresses", "town"],
+    ["rs-dishes", "料理", "Dishes", "food"], ["rs-cooking", "味", "Cooking and taste", "food"], ["rs-ordering", "注文", "Ordering and paying", "food"],
   ];
   const PACKS = [
     { id: "n5", jp: "基本", en: "Everyday kanji", short: "Everyday", blurb: "The JLPT N5 basics (numbers, time, people, places, everyday verbs), plus the kanji for nature and things around you." },
     { id: "station", jp: "駅", en: "Stations & trains", short: "Stations", blurb: "Platform boards, ticket gates, kinds of train and changing lines: getting around by rail." },
     { id: "town", jp: "町", en: "Shops & offices", short: "Shops", blurb: "Opening hours, prices and discounts, the post office, the bank and the forms at city hall." },
+    { id: "food", jp: "食", en: "Restaurants & food", short: "Food", blurb: "Menus, ticket machines, ordering, how it's cooked and how it tastes, and getting the bill." },
     { id: "clinic", jp: "病院", en: "Clinic & hospital", short: "Clinic", blurb: "What you need to find your way through a Japanese clinic: reception, departments, symptoms, warnings and the car park." },
   ];
   const packOf = (x) => GROUPS.find((g) => g[0] === x.group)?.[3] || "n5";

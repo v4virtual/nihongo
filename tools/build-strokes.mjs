@@ -17,6 +17,8 @@ const CLINIC = "病院医患者科内歯眼耳鼻皮膚児薬局師看護受付�
 const MORE = "花海空石森林草風雪光星春夏秋冬犬猫鳥魚虫牛馬島池晴雲竹田葉物家茶米肉酒紙服傘箱皿机窓門手足目糸玉写真絵画音" +
   "駅線路鉄道地発着両次終始切符改札精算定期指席自由優快速各停普通特止降換段側戸開閉押" +
   "店売買品割引税込安値額新無員客営業準備銀現払預郵便送荷役所届類申記印明市区町村住";
+// Restaurants & food.
+const FOOD = "丼麺寿司刺身餃鍋豆腐卵菓飯野菜果焼揚唐煮汁味噌辛甘塩油冷氷文杯箸喫個盛放題別持帰";
 
 async function load(hex) {
   if (cacheDir) return readFile(join(cacheDir, `${hex}.svg`), "utf8");
@@ -51,7 +53,7 @@ function parse(svg) {
 }
 
 const out = {}, parts = {}, types = {};
-const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI, ...CLINIC, ...MORE].map((c) => c.codePointAt(0))];
+const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI, ...CLINIC, ...MORE, ...FOOD].map((c) => c.codePointAt(0))];
 for (const cp of cps) {
   const hex = cp.toString(16).padStart(5, "0");
   const { paths, types: t, parts: p } = parse(await load(hex));

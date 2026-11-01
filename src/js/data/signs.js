@@ -346,4 +346,104 @@ NH.SIGNS = [
     ],
     note: "Moving to Japan or within it, you register your address at the 届出 counter within 14 days. In Tokyo's wards it's the 区役所.",
   },
+
+  // ---- Restaurants & food ----
+  {
+    id: "lunch-menu", pack: "food", look: "board", title: "Lunch menu", level: 3,
+    where: "A blackboard outside a set-meal restaurant",
+    lines: [
+      { head: true, t: [["本日", "ほんじつ", "today's"], "の", ["ランチ", "", "lunch"]] },
+      { t: [["焼き魚定食", "やきざかなていしょく", "grilled fish set meal"], "　", ["850円", "はっぴゃくごじゅうえん", "850 yen"]] },
+      { t: [["唐揚げ定食", "からあげていしょく", "fried chicken set meal"], "　", ["900円", "きゅうひゃくえん", "900 yen"]] },
+      { t: [["ご飯", "ごはん", "rice"], "・", ["味噌汁", "みそしる", "miso soup"], ["付き", "つき", "included"]] },
+      { t: [["大盛り", "おおもり", "large portion"], ["無料", "むりょう", "free"]] },
+    ],
+    en: [
+      "Today's lunch",
+      "Grilled fish set meal: 850 yen",
+      "Fried chicken set meal: 900 yen",
+      "Comes with rice and miso soup",
+      "Large portions at no extra charge",
+    ],
+    note: "A 定食 is a set meal: a main dish with rice, miso soup and pickles. 魚 turns into ざかな after 焼き.",
+  },
+  {
+    id: "ticket-machine", pack: "food", look: "notice", title: "Ticket machine", level: 3,
+    where: "Next to the ticket machine just inside a ramen shop",
+    lines: [
+      { head: true, t: [["食券", "しょっけん", "meal ticket"], "を", ["お買い求めください", "おかいもとめください", "please buy"]] },
+      { t: [["ラーメン", "", "ramen"], ["800円", "はっぴゃくえん", "800 yen"], "・", ["味噌", "みそ", "miso (ramen)"], ["900円", "きゅうひゃくえん", "900 yen"]] },
+      { t: [["大盛り", "おおもり", "large portion"], "・", ["トッピング", "", "toppings"], "は", ["別", "べつ", "separate"], "の", ["ボタン", "", "button"]] },
+      { t: [["食券", "しょっけん", "meal ticket"], "は", ["カウンター", "", "counter"], "に", ["お出しください", "おだしください", "please hand over"]] },
+    ],
+    en: [
+      "Please buy a meal ticket.",
+      "Ramen 800 yen, miso ramen 900 yen",
+      "Large portions and toppings have their own buttons.",
+      "Please hand your ticket over at the counter.",
+    ],
+    note: "Put money in, press the button for your dish, take the ticket and your change, then give the ticket to the staff. The top-left button is usually the house favourite.",
+  },
+  {
+    id: "all-you-can-eat", pack: "food", look: "warning", title: "All you can eat", level: 3,
+    where: "On the table of a yakiniku or hot-pot restaurant",
+    lines: [
+      { head: true, t: [["食べ放題", "たべほうだい", "all you can eat"], "　", ["90分", "きゅうじゅっぷん", "90 minutes"]] },
+      { t: [["飲み放題", "のみほうだい", "all you can drink"], ["付き", "つき", "included"], "　", ["3980円", "さんぜんきゅうひゃくはちじゅうえん", "3,980 yen"], "（", ["税込", "ぜいこみ", "tax included"], "）"] },
+      { t: [["お料理", "おりょうり", "food"], "の", ["お持ち帰り", "おもちかえり", "taking home"], "は", ["できません", "", "is not allowed"]] },
+    ],
+    en: [
+      "All you can eat: 90 minutes",
+      "All you can drink included: 3,980 yen, tax included",
+      "Food can't be taken home.",
+    ],
+    note: "放題 means 'as much as you like': 食べ放題, 飲み放題. There's a time limit, and the last order (ラストオーダー) comes before it.",
+  },
+  {
+    id: "restaurant-wall", pack: "food", look: "wall", title: "Signs at the door", level: 3,
+    where: "By the entrance of an izakaya",
+    lines: [
+      { t: [["店内禁煙", "てんないきんえん", "no smoking inside"]] },
+      { t: [["喫煙所", "きつえんじょ", "smoking area"]] },
+      { t: [["個室", "こしつ", "private rooms"], ["あります", "", "available"]] },
+      { t: [["予約", "よやく", "reservations"], ["受付中", "うけつけちゅう", "being taken"]] },
+    ],
+    en: [
+      "No smoking inside",
+      "Smoking area",
+      "Private rooms available",
+      "Taking reservations",
+    ],
+    note: "Smoking is banned inside most restaurants now; 喫煙所 points to the one place you may.",
+  },
+  {
+    id: "takeaway", pack: "food", look: "notice", title: "Takeaway", level: 3,
+    where: "By the till of a café or bakery",
+    lines: [
+      { head: true, t: [["お持ち帰り", "おもちかえり", "takeaway"], ["できます", "", "available"]] },
+      { t: [["店内", "てんない", "eating in"], ["10%", "", "10% tax"], "・", ["お持ち帰り", "おもちかえり", "takeaway"], ["8%", "", "8% tax"]] },
+      { t: [["お箸", "おはし", "chopsticks"], "が", ["ご入用", "ごいりよう", "needed"], "の", ["方", "かた", "people (polite)"], "は", ["お申し付けください", "おもうしつけください", "please tell us"]] },
+    ],
+    en: [
+      "Takeaway available",
+      "Tax: 10% eating in, 8% to take away",
+      "If you need chopsticks, please ask.",
+    ],
+    note: "Staff will ask 店内でお召し上がりですか (eating in?). Answer 持ち帰りで (to take away) or 店内で (here).",
+  },
+  {
+    id: "spice-scale", pack: "food", look: "board", title: "How spicy?", level: 3,
+    where: "On the menu of a curry shop",
+    lines: [
+      { head: true, t: [["辛さ", "からさ", "spiciness"]] },
+      { t: [["甘口", "あまくち", "mild"], "・", ["中辛", "ちゅうから", "medium hot"], "・", ["辛口", "からくち", "hot"], "・", ["大辛", "おおから", "extra hot"]] },
+      { t: [["お冷", "おひや", "cold water"], "は", ["セルフサービス", "", "self-service"]] },
+    ],
+    en: [
+      "Spiciness",
+      "Mild, medium, hot, extra hot",
+      "Water is self-service.",
+    ],
+    note: "お冷 is what restaurants call a glass of cold water; it's free. 辛い is spicy, 甘い sweet: 甘口 curry is the mild one.",
+  },
 ];
