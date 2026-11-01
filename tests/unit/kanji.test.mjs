@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { load, ALL_DATA } from "../helpers/load.mjs";
+import { load, ALL_DATA, makeRng, humanize } from "../helpers/load.mjs";
 
 const NH = load(ALL_DATA);
 const T0 = new Date(2026, 9, 1, 9).getTime();
@@ -113,7 +113,7 @@ describe("how kanji strokes end", () => {
     assert.equal(ko.ending, "hane");
     assert.equal(ko.hane, false, "子's first hook turns down-left, which the flick check can't see");
     for (const k of NH.KANJI) NH.Geo.strokesOf(k.k).forEach((s, i) => {
-      if (s.hane) assert.ok(NH.Geo.hasHook(s.raw), `${k.k} stroke ${i + 1} is graded but its own model fails the check`);
+      if (s.hane) assert.ok(NH.Geo.hookOk(s.raw, s), `${k.k} stroke ${i + 1} is graded but its own model fails the check`);
     });
   });
 
@@ -131,5 +131,38 @@ describe("how kanji strokes end", () => {
   test("kana are unchanged: no stroke types, hooks found from their shape", () => {
     assert.equal(NH.Geo.strokesOf("い")[0].hane, true);
     assert.equal(NH.Geo.strokesOf("あ")[0].ending, null);
+  });
+});
+
+describe("hooks that turn sideways or down", () => {
+  const G = NH.Geo;
+  const trim = (raw, cut) => { const p = G.resample(raw, 200); return p.slice(0, Math.round(200 * (1 - cut / G.length(p)))); };
+  const sideways = [["学", 4], ["飲", 9], ["読", 11]];
+
+  test("are checked in the model's direction: 学's 冖 hook, 飲 and 読", () => {
+    for (const [c, i] of sideways) {
+      const s = G.strokesOf(c)[i];
+      assert.equal(s.hane, true, `${c} stroke ${i + 1}`);
+      assert.ok(s.hookDir != null, `${c} stroke ${i + 1} has a direction`);
+    }
+  });
+
+  test("a hand-written stroke with the hook passes; the same stroke stopped short doesn't", () => {
+    const rnd = makeRng(17);
+    for (const [c, i] of sideways) {
+      const s = G.strokesOf(c)[i];
+      let ok = 0;
+      for (let k = 0; k < 30; k++) ok += G.hookOk(humanize(NH, s, rnd, { jitter: 1.5, shift: 6 }), s);
+      assert.ok(ok >= 27, `${c} stroke ${i + 1}: ${ok}/30 hooks recognised`);
+      assert.equal(G.hookOk(trim(s.raw, 14), s), false, `${c} stroke ${i + 1} without its hook`);
+    }
+  });
+
+  test("hooks the model doesn't show distinctly stay taught, not checked", () => {
+    for (const [c, i] of [["子", 0], ["長", 5]]) {
+      const s = G.strokesOf(c)[i];
+      assert.equal(s.ending, "hane");
+      assert.equal(s.hane, false, `${c} stroke ${i + 1}`);
+    }
   });
 });

@@ -152,3 +152,11 @@ describe("stroke endings on kanji pages", () => {
     assert.equal(await page.locator(".notes li").last().textContent(), "Every stroke ends with a firm stop (tome).");
   }));
 });
+
+describe("sideways hooks while writing", () => {
+  test("writing 学 with its hooks gets no hook tip", T, () => withPage("w-5b66", {}, async (page) => {
+    await writeChar(page);
+    await page.locator(".result:not([hidden])").waitFor({ timeout: 5000 });
+    assert.doesNotMatch(await page.locator(".feedback").textContent(), /hane/);
+  }));
+});

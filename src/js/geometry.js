@@ -127,12 +127,18 @@ window.NH = window.NH || {};
       const raw = flatten(d);
       const len = length(raw);
       // A hane is a short upward flick at the end of a long stroke (い, け, は, り…).
-      // `hane` is checked when you write; a kanji hook that turns sideways or
-      // down (子's first stroke) is taught (`ending`) but not checked, because
-      // the flick test can't see it even in the model stroke.
+      // `hane` is checked when you write. Kanji hooks that turn sideways or
+      // down (the hook in 学's crown) are checked in the model's direction
+      // (`hookDir`), when the model's hook is distinct from the stroke without
+      // it; the rest (子's first stroke) are taught (`ending`) but not checked.
       const ending = types ? endingOf(types[i]) : len >= 40 && endTurn(raw, 55) ? "hane" : null;
-      const hane = ending === "hane" && (!types || hasHook(raw));
-      return { d, raw, pts: resample(raw), len, hane, ending };
+      let hane = ending === "hane" && (!types || hasHook(raw)), hookDir = null;
+      if (ending === "hane" && !hane) {
+        const dir = turnAtEnd(raw, 40, MODEL_TAILS);
+        const cut = turnAtEnd(smooth(trimEnd(raw, 14)), 30, USER_TAILS);
+        if (dir != null && (cut == null || !sameWay(cut, dir))) { hane = true; hookDir = dir; }
+      }
+      return { d, raw, pts: resample(raw), len, hane, hookDir, ending };
     });
     cache.set(ch, strokes);
     return strokes;
@@ -170,6 +176,35 @@ window.NH = window.NH || {};
   // Did the learner finish with a flick? Handwriting hooks are short and soft,
   // so this looks at shorter tails and accepts a gentler turn than the model.
   const hasHook = (userPts) => endTurn(smooth(userPts), 35, [2, 3, 4, 5, 6, 7, 8, 9]);
+
+  /* A sharp turn over the last few units, in any direction: the heading of the
+   * final bit, or null. For hooks that turn sideways or down. */
+  const MODEL_TAILS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12], USER_TAILS = [2, ...MODEL_TAILS];
+  function turnAtEnd(pts, minDeg, tails) {
+    const L = length(pts), end = pts[pts.length - 1];
+    const ang = (a, b) => Math.atan2(b.y - a.y, b.x - a.x);
+    for (const t of tails) {
+      if (L < t * 2.5) continue;
+      const a = fromEnd(pts, t), b = fromEnd(pts, t + 12);
+      let d = Math.abs(ang(a, end) - ang(b, a));
+      if (d > Math.PI) d = 2 * Math.PI - d;
+      if ((d * 180) / Math.PI > minDeg) return ang(a, end);
+    }
+    return null;
+  }
+  const sameWay = (a, b) => { let d = Math.abs(a - b); if (d > Math.PI) d = 2 * Math.PI - d; return d < (70 * Math.PI) / 180; };
+  // The stroke with its last `cut` units removed.
+  function trimEnd(pts, cut) {
+    const r = resample(pts, 200);
+    return r.slice(0, Math.max(2, Math.round(200 * (1 - cut / length(r)))));
+  }
+  // Did the learner's stroke end with the model's hook? Upward flicks as before;
+  // sideways or downward hooks must turn the same way as the model's.
+  function hookOk(userPts, ref) {
+    if (ref.hookDir == null) return hasHook(userPts);
+    const d = turnAtEnd(smooth(userPts), 30, USER_TAILS);
+    return d != null && sameWay(d, ref.hookDir);
+  }
 
   // Tolerances in KanjiVG units (the box is 109 wide) per assist level.
   const TOL = { trace: 16, guide: 12.5, memory: 10.5 };
@@ -272,5 +307,5 @@ window.NH = window.NH || {};
     return `starts at ${place(a)}, ${shape}${end}`;
   }
 
-  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, describe, endingOf, TOL };
+  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, hookOk, describe, endingOf, TOL };
 })();

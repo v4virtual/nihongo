@@ -63,7 +63,8 @@ release; order within a group is a rough priority.
 - [x] Stroke-count search in the kanji chart
 - [x] Words mixing kanji and kana (furigana toggle), kanji in Today (after the basic hiragana) and a kanji quiz
 - [x] Hane checks on kanji hooks from KanjiVG's stroke types: 九's hook is now checked, and 七 (which doesn't flick in Japanese) isn't
-- [ ] Hane checks for hooks that turn sideways or down (子's first stroke, the hook under 冖 in 学): taught and shown, but the flick check can't see them yet
+- [x] Hane checks for hooks that turn sideways or down, in the model hook's own direction (the hook under 冖 in 学, and in 飲 and 読): 30 of the 37 kanji hooks are now checked
+- [ ] The last 7 kanji hooks (子's first stroke, 長, 四, 西, 学's 6th, 食, 飲's 7th): KanjiVG draws them as a broad curve rather than a distinct hook, so a check can't tell them from the same stroke without one; they're taught but not checked
 
 ## v0.6 — Narrated lessons (from early users' feedback)
 
