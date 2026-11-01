@@ -72,13 +72,16 @@ release; order within a group is a rough priority.
 - [x] Explain on the writing screen: the character's lesson in a sheet, on request (replaces the first try, narration that talked during writing, after early users' feedback)
 - [ ] Recorded narration by a native speaker, for a consistent voice on every device
 
-## v0.7 — Clinic & hospital kanji (from a learner's visit to a Japanese clinic)
+## v0.7 — Kanji sets for real life: clinic, stations, shops (from a learner's visit to a Japanese clinic)
 
 - [x] A second kanji set of 92 for reading your way through a clinic: departments and staff (病院, 内科, 薬局, 看護師), reception and paying (受付, 予約, 保険証, 会計), symptoms and tests (熱, 痛い, 血液検査), signs and notices (注意, 危険, 非常口, 化粧室) and parking (駐車場, 駐車券, 料金), each with strokes, readings, parts, a memory hook and a narrated lesson
 - [x] Pick which set Today introduces first: Everyday kanji or Clinic & hospital
 - [x] 53 clinic words and phrases with furigana (診察券, 耳鼻科, 予約しています, ここが痛いです)
 - [x] Signs tab: eight real clinic signs (the car park notice and the request to parents that started this, reception, a floor guide, the pharmacy window, wall signs, visiting hours, a fever notice). Tap any word for its reading, meaning and kanji, hear it read by its readings, turn furigana off, and reveal the translation with a note on how things work
-- [ ] More sets built the same way: station and train signs, shops and offices (city hall, post office, bank)
+- [x] More sets built the same way: Stations & trains (41 kanji: 駅 線 改札 切符 快速 各停 乗り換え…) and Shops & offices (40: 店 売 買 割引 税込 営業中 郵便 銀行 役所 届…), each with 20 words and seven or six real signs (a platform board, the on-train screen, ticket gates, changing trains, priority seats, doors closing, last trains; opening hours, door signs, a supermarket sale, the till, the post office, city hall)
+- [x] More everyday kanji: 29 for nature (花 海 空 森 雪 星 春夏秋冬 犬 猫 鳥 魚…) and 24 for things (物 家 茶 米 肉 紙 服 傘 箱 窓 門 手 足 目 写真…), with 28 words; 306 kanji in all
+- [x] Groups fold: the kanji chart, Today's progress and the Signs tab open and close by group or set, remember how you left them, and show a peek of each group's kanji when folded; a stroke-count filter opens every match
+- [ ] More sets: restaurants and menus, weather and seasons in the news, the workplace
 - [x] Signs in Today's review: each line of a sign (or lines that only make sense together) is a card, "what does this sign say?", once you've started its kanji and kana; other lines of the same sign make the wrong answers. Also as "Practice reading" on the Signs tab
 
 ## Platform
@@ -88,7 +91,7 @@ release; order within a group is a rough priority.
 - [x] iPhone/iPad app with Capacitor: universal iOS project with native speech, haptics and speech recognition, built for the simulator on every CI run
 - [ ] TestFlight and App Store: needs an Apple Developer account, then signing from CI (certificate, provisioning profile, App Store Connect key as secrets)
 - [ ] Play Store listing (needs an .aab, store assets and a privacy note covering the microphone)
-- [x] Bundle the fonts in the app and the APK: subsets of the four fonts with just the characters Kaku uses (about 1.2 MB), so even a first launch offline looks right
+- [x] Bundle the fonts in the app and the APK: subsets of the four fonts with just the characters Kaku uses (about 1.3 MB), so even a first launch offline looks right
 - [x] Account-free backup: save progress as a file or copy it as text, restore it on another device by merging (the most recent review of each item wins) or replacing
 - [ ] Optional automatic sync across devices
 - [ ] Offline neural TTS for consistent voices across devices. Candidates to evaluate:
