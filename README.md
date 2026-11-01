@@ -1,8 +1,8 @@
 # Kaku 書く
 
 Learn Japanese by writing it. Kaku covers **hiragana**, **katakana** and
-**306 kanji** in four sets (everyday, stations & trains, shops & offices,
-clinic & hospital), with real signs to read: every character has an explain page and a writing
+**346 kanji** in five sets (everyday, stations & trains, shops & offices,
+restaurants & food, clinic & hospital), with real signs to read: every character has an explain page and a writing
 practice where each stroke is checked for shape, direction and order. What's
 next is on the [roadmap](ROADMAP.md).
 
@@ -41,6 +41,9 @@ next is on the [roadmap](ROADMAP.md).
   boards, ticket gates, kinds of train and changing lines; opening hours,
   prices and discounts, the post office, the bank and city hall. Each set has
   its own words and real signs.
+- **Restaurants & food** (40): dishes, how it's cooked and how it tastes, and
+  ordering and paying, with signs from a lunch board, a ramen ticket machine,
+  an all-you-can-eat table and a curry shop's spice scale.
 - **Clinic & hospital**: 92 more kanji for getting through a Japanese clinic:
   departments and staff, reception and paying, symptoms and tests, signs and
   notices, and the car park. Today can start with any set instead of the

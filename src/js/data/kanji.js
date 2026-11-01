@@ -4536,6 +4536,606 @@ NH.KANJI = [
       { w: "住む", r: "すむ", m: "to live (somewhere)" },
       { w: "住まい", r: "すまい", m: "home, residence" }
     ]
+  },
+  /* ========== Restaurants & food ========== */
+  {
+    k: "丼", meaning: "bowl (of rice)", on: [], kun: ["どんぶり"], group: "rs-dishes", strokes: 5, radical: "丶",
+    mnemonic: "Look down into a well 井 and spot one plump dot 丶 at the bottom: a deep bowl with the topping sitting on the rice.",
+    notes: [
+      "On menus and shop curtains it is usually a short どん after the topping: 牛丼 (ぎゅうどん), 天丼 (てんどん), カツ丼 (かつどん).",
+      "Alone it is どんぶり, the deep bowl itself. Bowl chains offer 大盛り (おおもり), a large portion, for a little extra.",
+      "Without the dot it is 井 (well), as in the common surname 井上 (いのうえ)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "牛丼", r: "ぎゅうどん", m: "beef bowl" },
+      { w: "カツ丼", r: "カツどん", m: "pork cutlet rice bowl" },
+      { w: "丼", r: "どんぶり", m: "bowl; rice-bowl dish" }
+    ]
+  },
+  {
+    k: "麺", meaning: "noodles", on: ["メン"], kun: [], group: "rs-dishes", strokes: 16, radical: "麦",
+    mnemonic: "Wheat 麦 pulled out flat until it is as wide as a face 面: hand-stretched noodles ready for the pot.",
+    notes: [
+      "Ramen and soba shops use it everywhere: つけ麺 (つけめん) are noodles served apart from the soup, for dipping.",
+      "麺類 (めんるい), noodle dishes, is a heading on food court and cafeteria menus.",
+      "The right side is 面 (face, surface), which gives the same めん sound."
+    ],
+    lookalikes: ["面"],
+    examples: [
+      { w: "麺類", r: "めんるい", m: "noodle dishes" },
+      { w: "つけ麺", r: "つけめん", m: "dipping noodles" },
+      { w: "冷麺", r: "れいめん", m: "cold noodles" }
+    ]
+  },
+  {
+    k: "寿", meaning: "long life, congratulations", on: ["ジュ", "ス"], kun: ["ことぶき"], group: "rs-dishes", strokes: 7, radical: "寸",
+    mnemonic: "Three 三 long lines with a sweeping stroke 丿 through them and a hand 寸 below: a long, long life measured out year by year.",
+    notes: [
+      "Mostly met in 寿司 (すし): the kanji just spell the sound, and 寿 was chosen for its lucky meaning.",
+      "Alone, 寿 (ことぶき) is printed on wedding gift envelopes and celebration packaging.",
+      "ジュ appears in 長寿 (ちょうじゅ), long life."
+    ],
+    lookalikes: ["春"],
+    examples: [
+      { w: "寿司", r: "すし", m: "sushi" },
+      { w: "長寿", r: "ちょうじゅ", m: "long life" },
+      { w: "寿", r: "ことぶき", m: "congratulations (on gifts)" }
+    ]
+  },
+  {
+    k: "司", meaning: "official, administer", on: ["シ"], kun: [], group: "rs-dishes", strokes: 5, radical: "口",
+    mnemonic: "A wall bending round a line 一 and a mouth 口: the official in the corner office, giving the orders.",
+    notes: [
+      "At restaurants it is the し of 寿司 (すし); on sushi shop curtains you will often see just すし in kana.",
+      "At work, 上司 (じょうし) is your boss. 司会 (しかい) is the MC or host at a wedding or event."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "寿司", r: "すし", m: "sushi" },
+      { w: "上司", r: "じょうし", m: "boss, superior" },
+      { w: "司会", r: "しかい", m: "MC, host" }
+    ]
+  },
+  {
+    k: "刺", meaning: "pierce, stab", on: ["シ"], kun: ["さ.す", "さし"], group: "rs-dishes", strokes: 8, radical: "刂",
+    mnemonic: "A thorny branch 朿 next to a knife 刂: two sharp things, both made for poking.",
+    notes: [
+      "On menus it is almost always 刺身 (さしみ), sliced raw fish; 刺身定食 (さしみていしょく) is the set meal with rice and soup.",
+      "名刺 (めいし) is a business card: in Japan it is offered and received with both hands.",
+      "虫に刺される (さされる) is to be bitten or stung by an insect."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "刺身", r: "さしみ", m: "sashimi, sliced raw fish" },
+      { w: "名刺", r: "めいし", m: "business card" },
+      { w: "刺す", r: "さす", m: "to pierce, to sting" }
+    ]
+  },
+  {
+    k: "身", meaning: "body, self", on: ["シン"], kun: ["み"], group: "rs-dishes", strokes: 7, radical: "身",
+    mnemonic: "A person seen from the side with a big round belly and a line across it: a body carrying someone inside.",
+    notes: [
+      "On menus 身 is the flesh of a fish: 刺身 (さしみ), and 白身 (しろみ), white fish. 白身 is also egg white.",
+      "Small talk and forms: 出身 (しゅっしん) is where you are from, and 身長 (しんちょう) is your height.",
+      "Don't confuse it with 自 (self): 身 has the slanting tail and the long stroke across."
+    ],
+    lookalikes: ["自"],
+    examples: [
+      { w: "刺身", r: "さしみ", m: "sashimi, sliced raw fish" },
+      { w: "白身", r: "しろみ", m: "white fish; egg white" },
+      { w: "出身", r: "しゅっしん", m: "hometown, origin" }
+    ]
+  },
+  {
+    k: "餃", meaning: "dumpling, gyoza", on: ["ギョウ"], kun: [], group: "rs-dishes", strokes: 15, radical: "飠",
+    mnemonic: "Food 飠 folded so its edges cross 交 and pinch together: a gyoza crimped shut before frying.",
+    notes: [
+      "Only really used in 餃子 (ぎょうざ), where 子 is read ざ, a Chinese-style reading you meet only here.",
+      "On menus: 焼き餃子 (やきぎょうざ) are pan-fried, 水餃子 (すいぎょうざ) are boiled and served in soup.",
+      "Ramen shops sell them as a side; one plate, 一人前 (いちにんまえ), is usually five or six pieces."
+    ],
+    lookalikes: ["飯"],
+    examples: [
+      { w: "餃子", r: "ぎょうざ", m: "gyoza, dumplings" },
+      { w: "焼き餃子", r: "やきぎょうざ", m: "pan-fried gyoza" },
+      { w: "水餃子", r: "すいぎょうざ", m: "boiled dumplings" }
+    ]
+  },
+  {
+    k: "鍋", meaning: "pot, hotpot", on: [], kun: ["なべ"], group: "rs-dishes", strokes: 17, radical: "金",
+    mnemonic: "Metal 金 on the left and a deep pot with its lid on 咼 on the right: a heavy iron hotpot bubbling on the table.",
+    notes: [
+      "In winter 鍋 (なべ) also means the hotpot meal itself, cooked at the table and shared: 鍋料理 (なべりょうり).",
+      "On izakaya menus it follows the main ingredient: もつ鍋 (もつなべ), キムチ鍋 (キムチなべ).",
+      "The metal 金 on the left is the same as in 鉄 and 銀."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "鍋", r: "なべ", m: "pot; hotpot" },
+      { w: "鍋料理", r: "なべりょうり", m: "hotpot dishes" },
+      { w: "土鍋", r: "どなべ", m: "clay pot" }
+    ]
+  },
+  {
+    k: "豆", meaning: "bean", on: ["トウ", "ズ"], kun: ["まめ"], group: "rs-dishes", strokes: 7, radical: "豆",
+    mnemonic: "A lid, a little bowl 口 and a stand with two feet: a tall dish heaped with beans.",
+    notes: [
+      "豆腐 (とうふ) uses トウ; 大豆 (だいず), soybeans, uses ズ: the beans behind tofu, miso and soy sauce.",
+      "In coffee shops and supermarkets it is the coffee bean: コーヒー豆 (コーヒーまめ).",
+      "えだまめ, boiled green soybeans, is the classic first order at an izakaya; menus write it with this 豆."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "豆腐", r: "とうふ", m: "tofu" },
+      { w: "大豆", r: "だいず", m: "soybean" },
+      { w: "コーヒー豆", r: "コーヒーまめ", m: "coffee beans" }
+    ]
+  },
+  {
+    k: "腐", meaning: "rot, go bad", on: ["フ"], kun: ["くさ.る"], group: "rs-dishes", strokes: 14, radical: "肉",
+    mnemonic: "Meat 肉 left too long in the government office 府: by the time the paperwork is done, it has gone off.",
+    notes: [
+      "Everyday it is in 豆腐 (とうふ): here it describes soft, curdled bean curd, not food gone bad.",
+      "After another word とうふ often becomes どうふ: 揚げ出し豆腐 (あげだしどうふ) is a classic izakaya dish.",
+      "腐る (くさる) is to go off: milk or leftovers that have 腐った (くさった) smell sour."
+    ],
+    lookalikes: ["府"],
+    examples: [
+      { w: "豆腐", r: "とうふ", m: "tofu" },
+      { w: "腐る", r: "くさる", m: "to go bad, to rot" },
+      { w: "揚げ出し豆腐", r: "あげだしどうふ", m: "deep-fried tofu in broth" }
+    ]
+  },
+  {
+    k: "卵", meaning: "egg", on: ["ラン"], kun: ["たまご"], group: "rs-dishes", strokes: 7, radical: "卩",
+    mnemonic: "A shell cracked into two halves 卯 with a little yolk 丶 in each: an egg broken open.",
+    notes: [
+      "Egg packs and menus write たまご as 卵, but sushi menus and some dishes use 玉子 for cooked egg.",
+      "A raw egg, 生卵 (なまたまご), comes with sukiyaki and is a popular topping on 牛丼.",
+      "卵かけご飯 (たまごかけごはん), a raw egg stirred into hot rice, is a classic Japanese breakfast."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "卵", r: "たまご", m: "egg" },
+      { w: "生卵", r: "なまたまご", m: "raw egg" },
+      { w: "卵焼き", r: "たまごやき", m: "rolled omelette" }
+    ]
+  },
+  {
+    k: "菓", meaning: "sweets, snacks", on: ["カ"], kun: [], group: "rs-dishes", strokes: 11, radical: "艹",
+    mnemonic: "Grass 艹 over fruit 果: sweet things picked from plants, the oldest sweets of all.",
+    notes: [
+      "Mostly met in お菓子 (おかし), snacks and sweets: the konbini shelves of crisps and chocolate.",
+      "菓子パン (かしパン), sweet buns, fill a whole shelf at bakeries and konbini. After another word か can become が: 茶菓子 (ちゃがし).",
+      "Without the grass on top it is 果 (fruit)."
+    ],
+    lookalikes: ["果", "菜"],
+    examples: [
+      { w: "お菓子", r: "おかし", m: "sweets, snacks" },
+      { w: "菓子パン", r: "かしパン", m: "sweet bun" },
+      { w: "茶菓子", r: "ちゃがし", m: "sweets served with tea" }
+    ]
+  },
+  {
+    k: "飯", meaning: "cooked rice, meal", on: ["ハン"], kun: ["めし"], group: "rs-dishes", strokes: 12, radical: "飠",
+    mnemonic: "Food 飠 you keep turning back 反 to for more: the bowl of rice that comes with every meal.",
+    notes: [
+      "ご飯 (ごはん) is both cooked rice and a whole meal. Set-meal shops often post ご飯大盛り無料: a large rice for free.",
+      "めし is the casual reading, seen on cheap diner signs and in 焼き飯 (やきめし), fried rice.",
+      "Same food side 飠 as 飲 (drink); the right side tells them apart."
+    ],
+    lookalikes: ["飲", "餃"],
+    examples: [
+      { w: "ご飯", r: "ごはん", m: "cooked rice; meal" },
+      { w: "五目ご飯", r: "ごもくごはん", m: "mixed rice with vegetables" },
+      { w: "焼き飯", r: "やきめし", m: "fried rice" }
+    ]
+  },
+  {
+    k: "野", meaning: "field, wild", on: ["ヤ"], kun: ["の"], group: "rs-dishes", strokes: 11, radical: "里",
+    mnemonic: "A village 里 with a plan 予 to grow past its fences: the open fields around it, where the vegetables grow.",
+    notes: [
+      "Menus are full of 野菜 (やさい), vegetables: 野菜サラダ, 野菜カレー.",
+      "As の it starts and ends many place names and surnames: 上野 (うえの), 中野 (なかの), 長野 (ながの).",
+      "The right side 予 is the same as in 予約 (よやく), reservation."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "野菜", r: "やさい", m: "vegetables" },
+      { w: "上野", r: "うえの", m: "Ueno (Tokyo)" },
+      { w: "長野", r: "ながの", m: "Nagano" }
+    ]
+  },
+  {
+    k: "菜", meaning: "vegetable, greens", on: ["サイ"], kun: ["な"], group: "rs-dishes", strokes: 11, radical: "艹",
+    mnemonic: "Grass 艹 above a hand picking from a tree 采: plucking fresh greens for dinner.",
+    notes: [
+      "サイ in 野菜 (やさい) and 山菜 (さんさい), wild mountain greens, a favourite topping on soba and in tempura.",
+      "な for leafy greens: 菜の花 (なのはな) are the yellow rapeseed flowers of early spring, also eaten boiled.",
+      "Don't confuse it with 茶 (tea): both have grass on top, but 菜 has 采 underneath."
+    ],
+    lookalikes: ["茶", "菓"],
+    examples: [
+      { w: "野菜", r: "やさい", m: "vegetables" },
+      { w: "山菜", r: "さんさい", m: "wild mountain greens" },
+      { w: "菜の花", r: "なのはな", m: "rapeseed blossoms" }
+    ]
+  },
+  {
+    k: "果", meaning: "fruit, result", on: ["カ"], kun: ["は.たす"], group: "rs-dishes", strokes: 8, radical: "木",
+    mnemonic: "A field 田 of fruit hanging at the top of a tree 木: ripe and ready to pick.",
+    notes: [
+      "果物 (くだもの) is fruit: an irregular reading for the whole word, so learn it as one unit.",
+      "On juice labels 果汁 (かじゅう) is fruit juice; 果汁100% means pure juice.",
+      "Add grass on top and it becomes 菓 (sweets). Don't mix it up with 東 (east)."
+    ],
+    lookalikes: ["菓", "東"],
+    examples: [
+      { w: "果物", r: "くだもの", m: "fruit" },
+      { w: "果汁", r: "かじゅう", m: "fruit juice" },
+      { w: "果たす", r: "はたす", m: "to carry out, to fulfil" }
+    ]
+  },
+  {
+    k: "焼", meaning: "grill, bake", on: ["ショウ"], kun: ["や.く", "や.ける"], group: "rs-cooking", strokes: 12, radical: "火",
+    mnemonic: "Fire 火 on the left and a tall heap 尭 on the right: food piled up over the flames to grill.",
+    notes: [
+      "All over menus and lanterns: 焼き鳥 (やきとり), 焼き魚 (やきざかな, grilled fish set) and 焼肉 (やきにく), where you grill the meat yourself at the table.",
+      "In food words it is almost always や; しょう turns up in しょうちゅう, the distilled spirit sold in izakaya.",
+      "日焼け (ひやけ) is a suntan: the sun 日 grilling you."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "焼き鳥", r: "やきとり", m: "grilled chicken skewers" },
+      { w: "焼肉", r: "やきにく", m: "Korean-style grilled meat" },
+      { w: "焼き魚", r: "やきざかな", m: "grilled fish" }
+    ]
+  },
+  {
+    k: "揚", meaning: "deep-fry, raise", on: ["ヨウ"], kun: ["あ.げる", "あ.がる"], group: "rs-cooking", strokes: 12, radical: "扌",
+    mnemonic: "A hand 扌 lifting a basket out of the bubbling oil as the sun 昜 comes up over it: deep-fried food raised from the pan.",
+    notes: [
+      "On menus 揚げ means deep-fried: 唐揚げ (からあげ), 揚げ出し豆腐 (あげだしどうふ). Fried dishes as a group are 揚げ物 (あげもの).",
+      "In food it is read あげ; same sound as 上げる (あげる, to raise, to give), but 揚 is the one for frying.",
+      "The right side 昜 is the same as in 場 (place), as in 駐車場; 場 has earth 土 instead of the hand 扌."
+    ],
+    lookalikes: ["場"],
+    examples: [
+      { w: "唐揚げ", r: "からあげ", m: "Japanese fried chicken" },
+      { w: "揚げ物", r: "あげもの", m: "fried food" },
+      { w: "揚げ出し豆腐", r: "あげだしどうふ", m: "fried tofu in broth" }
+    ]
+  },
+  {
+    k: "唐", meaning: "Tang China, foreign", on: ["トウ"], kun: ["から"], group: "rs-cooking", strokes: 10, radical: "口",
+    mnemonic: "Under a wide roof 广 a hand grinds with a pestle over a mouth 口: a kitchen making spicy food the far-off Tang Chinese way.",
+    notes: [
+      "In daily life it is almost only in 唐揚げ (からあげ), Japan's favourite fried chicken, and 唐辛子 (とうがらし), chilli pepper.",
+      "The kun reading から once meant China, or anything foreign: からあげ was frying 'the foreign way'.",
+      "The roof 广 at the top is the same one as in 店 (shop)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "唐揚げ", r: "からあげ", m: "Japanese fried chicken" },
+      { w: "唐辛子", r: "とうがらし", m: "chilli pepper" },
+      { w: "唐揚げ定食", r: "からあげていしょく", m: "fried chicken set meal" }
+    ]
+  },
+  {
+    k: "煮", meaning: "simmer, boil", on: ["シャ"], kun: ["に.る", "に.える"], group: "rs-cooking", strokes: 12, radical: "灬",
+    mnemonic: "A person 者 crouching over four little flames 灬: keeping the pot gently simmering.",
+    notes: [
+      "On menus 煮 means simmered in broth: 煮物 (にもの, simmered vegetables) and 煮魚 (にざかな, fish simmered in soy and sugar).",
+      "Read に in everyday words; the on reading しゃ is rare.",
+      "It is 者 (person) with the fire dots 灬 underneath, so don't read it as 者."
+    ],
+    lookalikes: ["者"],
+    examples: [
+      { w: "煮物", r: "にもの", m: "simmered dish" },
+      { w: "煮魚", r: "にざかな", m: "simmered fish" },
+      { w: "煮る", r: "にる", m: "to simmer, boil" }
+    ]
+  },
+  {
+    k: "汁", meaning: "soup, juice", on: ["ジュウ"], kun: ["しる", "つゆ"], group: "rs-cooking", strokes: 5, radical: "氵",
+    mnemonic: "Water 氵 with ten 十 things simmered in it: a bowl of soup.",
+    notes: [
+      "Almost every set meal comes with 味噌汁 (みそしる). On ramen menus, 汁なし (しるなし) means noodles with sauce but no soup.",
+      "On juice cartons 果汁 (かじゅう) shows the fruit content: 果汁100% is pure juice.",
+      "Read つゆ for the dipping sauce served with soba and tempura."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "味噌汁", r: "みそしる", m: "miso soup" },
+      { w: "果汁", r: "かじゅう", m: "fruit juice" },
+      { w: "汁物", r: "しるもの", m: "soup (dish)" }
+    ]
+  },
+  {
+    k: "味", meaning: "taste, flavour", on: ["ミ"], kun: ["あじ", "あじ.わう"], group: "rs-cooking", strokes: 8, radical: "口",
+    mnemonic: "A mouth 口 next to a young tree 未 whose fruit is not yet ripe: you have to taste it to find out.",
+    notes: [
+      "Flavours on ramen menus and snack packets end in 味 (あじ): 塩味 (しおあじ), しょうゆ味, カレー味.",
+      "Read み in compounds: 味噌 (みそ), and outside food 意味 (いみ, meaning), as in どういう意味ですか?",
+      "The right side 未 has a short top line and a longer second line."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "味噌", r: "みそ", m: "miso" },
+      { w: "塩味", r: "しおあじ", m: "salt flavour" },
+      { w: "意味", r: "いみ", m: "meaning" }
+    ]
+  },
+  {
+    k: "噌", meaning: "miso (in 味噌)", on: ["ソ"], kun: [], group: "rs-cooking", strokes: 15, radical: "口",
+    mnemonic: "A mouth 口 beside a steamer 曽 stacked in layers: the fermented bean paste of every bowl of miso soup.",
+    notes: [
+      "Practically only used in 味噌 (みそ), so menus often just write みそ or みそ汁 in kana.",
+      "Read そ here, a reading you will hardly meet anywhere else.",
+      "味噌ラーメン is one of the four classic ramen flavours, with 塩, しょうゆ and とんこつ."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "味噌", r: "みそ", m: "miso" },
+      { w: "味噌汁", r: "みそしる", m: "miso soup" },
+      { w: "味噌ラーメン", r: "みそラーメン", m: "miso ramen" }
+    ]
+  },
+  {
+    k: "辛", meaning: "spicy, painful", on: ["シン"], kun: ["から.い", "つら.い"], group: "rs-cooking", strokes: 7, radical: "辛",
+    mnemonic: "Standing 立 on top of a sharp cross 十: as painful as biting into the hottest curry.",
+    notes: [
+      "Curry comes 甘口 (あまくち, mild), 中辛 (ちゅうから, medium) and 辛口 (からくち, hot); many ramen shops let you choose the 辛さ (からさ), the heat level.",
+      "For sake and beer 辛口 means dry, not spicy.",
+      "辛い can be からい (spicy) or つらい (hard, painful); context tells you which."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "辛い", r: "からい", m: "spicy, hot" },
+      { w: "辛口", r: "からくち", m: "hot (curry); dry (sake)" },
+      { w: "中辛", r: "ちゅうから", m: "medium hot" }
+    ]
+  },
+  {
+    k: "甘", meaning: "sweet", on: ["カン"], kun: ["あま.い", "あま.える"], group: "rs-cooking", strokes: 5, radical: "甘",
+    mnemonic: "An open mouth 廿 with a line across the inside: a sweet held on the tongue, too good to swallow yet.",
+    notes: [
+      "On packets 甘さひかえめ means 'not too sweet', a selling point for Japanese desserts. 甘口 (あまくち) is mild curry.",
+      "A 甘味処 (かんみどころ) is a traditional teahouse serving Japanese sweets and green tea.",
+      "甘える (あまえる) means to lean on someone's kindness, like a child with its parents."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "甘い", r: "あまい", m: "sweet" },
+      { w: "甘口", r: "あまくち", m: "mild, sweet (flavour)" },
+      { w: "甘味処", r: "かんみどころ", m: "Japanese sweets teahouse" }
+    ]
+  },
+  {
+    k: "塩", meaning: "salt", on: ["エン"], kun: ["しお"], group: "rs-cooking", strokes: 13, radical: "土",
+    mnemonic: "Earth 土 on the left, and on the right a person bent over a dish 皿: scraping salt from the ground into a bowl.",
+    notes: [
+      "塩ラーメン (しおラーメン) is the clear, light ramen. At yakitori places you choose たれ (sweet sauce) or 塩 (salt).",
+      "Read えん in compounds: 塩分 (えんぶん, salt content) on nutrition labels and 食塩 (しょくえん, table salt).",
+      "The bottom of the right side is the dish 皿."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "塩ラーメン", r: "しおラーメン", m: "salt-flavoured ramen" },
+      { w: "塩味", r: "しおあじ", m: "salt flavour" },
+      { w: "塩分", r: "えんぶん", m: "salt content" }
+    ]
+  },
+  {
+    k: "油", meaning: "oil", on: ["ユ"], kun: ["あぶら"], group: "rs-cooking", strokes: 8, radical: "氵",
+    mnemonic: "Liquid 氵 seeping out of a field 由 of crushed seeds: oil.",
+    notes: [
+      "ラー油 (ラーゆ), chilli oil, sits on the table in ramen and gyoza shops. Soy sauce, しょうゆ, also ends in this kanji.",
+      "油揚げ (あぶらあげ) are fried tofu pouches, the sweet ones on きつねうどん and in いなり寿司.",
+      "Take away the water 氵 and it is 由 (reason), as in 自由 (じゆう, free)."
+    ],
+    lookalikes: ["由"],
+    examples: [
+      { w: "油揚げ", r: "あぶらあげ", m: "fried tofu pouch" },
+      { w: "ラー油", r: "ラーゆ", m: "chilli oil" },
+      { w: "石油", r: "せきゆ", m: "oil, kerosene" }
+    ]
+  },
+  {
+    k: "冷", meaning: "cold, chill", on: ["レイ"], kun: ["つめ.たい", "ひ.える", "ひ.やす"], group: "rs-cooking", strokes: 7, radical: "冫",
+    mnemonic: "Ice 冫 on the left and an order 令 on the right: 'serve it chilled!'",
+    notes: [
+      "お冷 (おひや) is the free glass of water restaurants bring: お冷ください asks for water.",
+      "On menus 冷やし (ひやし) marks the cold summer version: ひやしちゅうか (cold ramen noodles), 冷やしうどん.",
+      "冷たい (つめたい) is cold to the touch, like drinks; cold weather is さむい instead."
+    ],
+    lookalikes: ["次"],
+    examples: [
+      { w: "お冷", r: "おひや", m: "glass of cold water" },
+      { w: "冷たい", r: "つめたい", m: "cold (to the touch)" },
+      { w: "冷麺", r: "れいめん", m: "cold noodles" }
+    ]
+  },
+  {
+    k: "氷", meaning: "ice", on: ["ヒョウ"], kun: ["こおり"], group: "rs-cooking", strokes: 5, radical: "水",
+    mnemonic: "Water 水 with one extra drop 丶 frozen on its shoulder: ice.",
+    notes: [
+      "In summer a flag with a big 氷 outside a shop means かき氷 (かきごおり), shaved ice with syrup.",
+      "こおり becomes ごおり after another word. At drink counters you can ask for 氷なし (こおりなし, no ice).",
+      "Only the extra dot 丶 tells it apart from 水 (water)."
+    ],
+    lookalikes: ["水"],
+    examples: [
+      { w: "かき氷", r: "かきごおり", m: "shaved ice" },
+      { w: "氷水", r: "こおりみず", m: "ice water" },
+      { w: "氷山", r: "ひょうざん", m: "iceberg" }
+    ]
+  },
+  {
+    k: "文", meaning: "writing, sentence", on: ["ブン", "モン"], kun: [], group: "rs-ordering", strokes: 4, radical: "文",
+    mnemonic: "A figure in a hat 亠 with a pattern crossed 乂 on its chest: marks that turned into writing.",
+    notes: [
+      "In restaurants it is the 注文 (ちゅうもん), the order: staff ask ご注文はお決まりですか? (Are you ready to order?).",
+      "Read もん in 注文 but ぶん in most other words: 文化 (ぶんか, culture), 文学 (ぶんがく).",
+      "Don't confuse it with 父 (father), which has two short strokes on top instead of the dot and line."
+    ],
+    lookalikes: ["父"],
+    examples: [
+      { w: "注文", r: "ちゅうもん", m: "order" },
+      { w: "文化", r: "ぶんか", m: "culture" },
+      { w: "文学", r: "ぶんがく", m: "literature" }
+    ]
+  },
+  {
+    k: "杯", meaning: "cup, glass (counter)", on: ["ハイ"], kun: [], group: "rs-ordering", strokes: 8, radical: "木",
+    mnemonic: "A wooden 木 cup turned upside down, not 不 a drop left in it: time to order another glass.",
+    notes: [
+      "The counter for glasses, cups and bowls: 一杯 (いっぱい), 二杯 (にはい), 三杯 (さんばい), 何杯 (なんばい).",
+      "かんぱい (cheers!) is written with this kanji too. いっぱい also means 'full' or 'a lot', usually in kana.",
+      "Reading changes with the number: はい, ばい or ぱい, like the counter 本."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "一杯", r: "いっぱい", m: "one glass, one bowl" },
+      { w: "二杯", r: "にはい", m: "two glasses, two bowls" },
+      { w: "何杯", r: "なんばい", m: "how many glasses" }
+    ]
+  },
+  {
+    k: "箸", meaning: "chopsticks", on: ["チョ"], kun: ["はし"], group: "rs-ordering", strokes: 15, radical: "竹",
+    mnemonic: "Bamboo 竹 on top and a person 者 below: the bamboo sticks a person eats with.",
+    notes: [
+      "Usually said politely as お箸 (おはし). At a konbini you'll hear お箸はご利用ですか? (Do you need chopsticks?).",
+      "割り箸 (わりばし) are the disposable ones you split apart; 菜箸 (さいばし) are long cooking chopsticks.",
+      "Same sound as はし (bridge) but a different pitch."
+    ],
+    lookalikes: ["煮"],
+    examples: [
+      { w: "お箸", r: "おはし", m: "chopsticks" },
+      { w: "割り箸", r: "わりばし", m: "disposable chopsticks" },
+      { w: "菜箸", r: "さいばし", m: "cooking chopsticks" }
+    ]
+  },
+  {
+    k: "喫", meaning: "smoke, consume", on: ["キツ"], kun: [], group: "rs-ordering", strokes: 12, radical: "口",
+    mnemonic: "A mouth 口 beside a carved tally 契: puffing on a pipe while the notches add up.",
+    notes: [
+      "Mostly seen in 喫煙 (きつえん, smoking): 喫煙席 (smoking seats), 喫煙所 (きつえんじょ, smoking area). Its opposite on signs is 禁煙 (きんえん).",
+      "喫茶店 (きっさてん) is an old-style coffee shop; here きつ shortens to きっ.",
+      "Indoor smoking is now banned in most restaurants, so smokers are sent to a 喫煙室 (きつえんしつ, smoking room) or an outdoor 喫煙所."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "喫煙", r: "きつえん", m: "smoking" },
+      { w: "喫茶店", r: "きっさてん", m: "coffee shop" },
+      { w: "喫煙所", r: "きつえんじょ", m: "smoking area" }
+    ]
+  },
+  {
+    k: "個", meaning: "piece, individual", on: ["コ"], kun: [], group: "rs-ordering", strokes: 10, radical: "亻",
+    mnemonic: "A person 亻 standing firm 固 on their own: one individual, one piece.",
+    notes: [
+      "The general counter for small things: 一個, 二個 (にこ), 三個 (さんこ), as in 唐揚げ5個 on a menu.",
+      "個室 (こしつ), a private room, is a big selling point on izakaya signs: 個室あり.",
+      "Shortens to いっ, ろっ, はっ, じゅっ before it: 一個 (いっこ), 八個 (はっこ), 十個 (じゅっこ)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "個室", r: "こしつ", m: "private room" },
+      { w: "一個", r: "いっこ", m: "one (piece)" },
+      { w: "個人", r: "こじん", m: "individual, personal" }
+    ]
+  },
+  {
+    k: "盛", meaning: "heap up, serve", on: ["セイ"], kun: ["も.る", "さか.ん"], group: "rs-ordering", strokes: 11, radical: "皿",
+    mnemonic: "A dish 皿 with a finished 成 mountain of food on top: a heaped-up serving.",
+    notes: [
+      "Bowl and ramen shops sell sizes: 小盛り (こもり), regular, 大盛り (おおもり) and 特盛 (とくもり). 大盛り無料 means a large one at no extra cost.",
+      "盛り合わせ (もりあわせ) is an assorted platter, such as 焼き鳥 or sashimi.",
+      "盛ん (さかん) means thriving, popular."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "大盛り", r: "おおもり", m: "large serving" },
+      { w: "盛り合わせ", r: "もりあわせ", m: "assorted platter" },
+      { w: "特盛", r: "とくもり", m: "extra-large serving" }
+    ]
+  },
+  {
+    k: "放", meaning: "release, let go", on: ["ホウ"], kun: ["はな.す", "はな.つ"], group: "rs-ordering", strokes: 8, radical: "攵",
+    mnemonic: "A direction 方 and a hand with a stick 攵: shooing the animals off every which way, set free.",
+    notes: [
+      "Restaurant key words: 食べ放題 (たべほうだい, all you can eat) and 飲み放題 (のみほうだい, all you can drink), usually with a time limit like 90分.",
+      "放送 (ほうそう) is broadcasting, and the announcements in stations and shops.",
+      "放す (はなす, to let go) sounds the same as 話す (はなす, to speak)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "食べ放題", r: "たべほうだい", m: "all you can eat" },
+      { w: "飲み放題", r: "のみほうだい", m: "all you can drink" },
+      { w: "放送", r: "ほうそう", m: "broadcast, announcement" }
+    ]
+  },
+  {
+    k: "題", meaning: "topic, title", on: ["ダイ"], kun: [], group: "rs-ordering", strokes: 18, radical: "頁",
+    mnemonic: "A head 頁 next to 'just so' 是: the heading at the top that says what it's all about.",
+    notes: [
+      "On restaurant signs it ends 食べ放題 and 飲み放題; ほうだい means 'as much as you like'.",
+      "問題 (もんだい) is a problem or question: 問題ないです means 'no problem'.",
+      "Always read だい. With 18 strokes, the head 頁 on the right takes 9 of them."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "問題", r: "もんだい", m: "problem, question" },
+      { w: "話題", r: "わだい", m: "topic" },
+      { w: "飲み放題", r: "のみほうだい", m: "all you can drink" }
+    ]
+  },
+  {
+    k: "別", meaning: "separate, another", on: ["ベツ"], kun: ["わか.れる"], group: "rs-ordering", strokes: 7, radical: "刂",
+    mnemonic: "A chunk on the left being cut away by the knife 刂: pieces set apart.",
+    notes: [
+      "To split the bill, ask for 別会計 (べつかいけい, separate bills), or say べつべつでお願いします.",
+      "On menus 税別 (ぜいべつ) means tax not included, the opposite of 税込 (ぜいこみ).",
+      "特別 (とくべつ, special) is on limited menus and seasonal offers."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "別会計", r: "べつかいけい", m: "separate bills" },
+      { w: "税別", r: "ぜいべつ", m: "before tax" },
+      { w: "特別", r: "とくべつ", m: "special" }
+    ]
+  },
+  {
+    k: "持", meaning: "hold, have, carry", on: ["ジ"], kun: ["も.つ"], group: "rs-ordering", strokes: 9, radical: "扌",
+    mnemonic: "A hand 扌 holding on to the temple 寺 bell: hold it and don't let go.",
+    notes: [
+      "お持ち帰り (おもちかえり) is takeout: counter staff ask 店内ですか、お持ち帰りですか? (eat in or take away?).",
+      "持って (もって) keeps the small っ: 持っていく (to take along), 持っています (to have).",
+      "Don't confuse it with 待 (wait), which has a 'going' radical in place of the hand 扌, or 特 (special) with a cow 牛."
+    ],
+    lookalikes: ["待", "特"],
+    examples: [
+      { w: "お持ち帰り", r: "おもちかえり", m: "takeout" },
+      { w: "持つ", r: "もつ", m: "to hold, have" },
+      { w: "気持ち", r: "きもち", m: "feeling" }
+    ]
+  },
+  {
+    k: "帰", meaning: "return home", on: ["キ"], kun: ["かえ.る", "かえ.す"], group: "rs-ordering", strokes: 10, radical: "巾",
+    mnemonic: "A blade 刂 propped beside a broom 帚: sweeping up and heading back home.",
+    notes: [
+      "In shops and restaurants: お持ち帰り (おもちかえり), takeout. テイクアウト is also common on signs.",
+      "帰る looks like an -eru ichidan verb but is godan: 帰ります, 帰らない, 帰って.",
+      "日帰り (ひがえり) is a day trip; かえり becomes がえり after another word."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "帰る", r: "かえる", m: "to go home" },
+      { w: "お持ち帰り", r: "おもちかえり", m: "takeout" },
+      { w: "日帰り", r: "ひがえり", m: "day trip" }
+    ]
   }
 ];
 
@@ -4760,7 +5360,33 @@ NH.COMPONENT_NAMES = {
   "斤": "axe (おのづくり)",
   "巾": "cloth (はば)",
   "丁": "block, nail (ちょう)",
-  "牛": "cow (うしへん)"
+  "牛": "cow (うしへん)",
+  // restaurants & food
+  "井": "well (い)",
+  "麦": "wheat (むぎ)",
+  "面": "face, surface (めん)",
+  "三": "three (さん)",
+  "朿": "thorn (in 刺)",
+  "⻞": "food, left side (しょくへん)",
+  "咼": "twisted mouth (in 鍋)",
+  "府": "office, prefecture (ふ)",
+  "肉": "meat (にく)",
+  "卯": "rabbit, the fourth zodiac sign (う)",
+  "果": "fruit (か)",
+  "反": "against (はん)",
+  "采": "pick, gather (in 菜)",
+  "尭": "high (in 焼)",
+  "未": "not yet (み)",
+  "曽": "formerly (in 噌)",
+  "令": "order, command (れい)",
+  "水": "water (みず)",
+  "不": "not (ふ)",
+  "契": "pledge (in 喫)",
+  "固": "hard (こ)",
+  "成": "become (せい)",
+  "皿": "dish (さら)",
+  "方": "direction (ほう)",
+  "帚": "broom (in 帰)"
 };
 
 /* Kanji-and-kana practice words.
@@ -4949,5 +5575,27 @@ NH.KANJI_WORDS = [
   { id: "kw-junbichuu", text: "準備中", kana: "じゅんびちゅう", romaji: "junbichū", meaning: "getting ready (closed)", level: 3, pack: "town", scene: ["ramen", "city"] },
   { id: "kw-yuubinkyoku", text: "郵便局", kana: "ゆうびんきょく", romaji: "yūbinkyoku", meaning: "post office", level: 3, pack: "town", scene: ["city"], note: "Post offices also have a bank counter and an ATM." },
   { id: "kw-shiyakusho", text: "市役所", kana: "しやくしょ", romaji: "shiyakusho", meaning: "city hall", level: 3, pack: "town", scene: ["city", "book"] },
-  { id: "kw-moushikomisho", text: "申込書", kana: "もうしこみしょ", romaji: "mōshikomisho", meaning: "application form", level: 3, pack: "town", scene: ["book"] }
+  { id: "kw-moushikomisho", text: "申込書", kana: "もうしこみしょ", romaji: "mōshikomisho", meaning: "application form", level: 3, pack: "town", scene: ["book"] },
+
+  // ---- Restaurants & food (pack: "food") ----
+  { id: "kw-tamago", text: "卵", kana: "たまご", romaji: "tamago", meaning: "egg", level: 1, pack: "food", scene: ["food", "konbini"], note: "Sushi menus and bento labels often write it 玉子 instead; both are たまご." },
+  { id: "kw-gohan", text: "ご飯", kana: "ごはん", romaji: "gohan", meaning: "cooked rice; meal", level: 1, pack: "food", scene: ["food"], note: "Means both the rice and the whole meal; at set-meal shops ご飯大盛り is a large portion of rice." },
+  { id: "kw-nabe", text: "鍋", kana: "なべ", romaji: "nabe", meaning: "pot; hotpot", level: 1, pack: "food", scene: ["food", "snow"] },
+  { id: "kw-sushi", text: "寿司", kana: "すし", romaji: "sushi", meaning: "sushi", level: 2, pack: "food", scene: ["fish", "food"] },
+  { id: "kw-sashimi", text: "刺身", kana: "さしみ", romaji: "sashimi", meaning: "sashimi, sliced raw fish", level: 2, pack: "food", scene: ["fish"], note: "刺身定食 on a lunch menu is the set meal: sashimi with rice, miso soup and pickles." },
+  { id: "kw-yasai", text: "野菜", kana: "やさい", romaji: "yasai", meaning: "vegetables", level: 2, pack: "food", scene: ["food", "leaf"] },
+  { id: "kw-okashi", text: "お菓子", kana: "おかし", romaji: "okashi", meaning: "sweets, snacks", level: 2, pack: "food", scene: ["konbini", "tea"] },
+  { id: "kw-gyuudon", text: "牛丼", kana: "ぎゅうどん", romaji: "gyūdon", meaning: "beef bowl", level: 2, pack: "food", scene: ["food"], note: "Bowl chains serve it fast and cheap, often around the clock; 大盛り (おおもり) is the large size." },
+  { id: "kw-kudamono", text: "果物", kana: "くだもの", romaji: "kudamono", meaning: "fruit", level: 3, pack: "food", scene: ["food", "konbini"], note: "An irregular reading for the whole word: 果 alone is never くだ." },
+  { id: "kw-gyouza", text: "餃子", kana: "ぎょうざ", romaji: "gyōza", meaning: "gyoza, dumplings", level: 3, pack: "food", scene: ["ramen", "food"], note: "子 is read ざ only in this word; 焼き餃子 are pan-fried and 水餃子 boiled." },
+  { id: "kw-shio", text: "塩", kana: "しお", romaji: "shio", meaning: "salt", level: 1, pack: "food", scene: ["ramen", "food"], note: "塩ラーメン (しおラーメン) is the clear, light ramen; at yakitori places you choose 塩 or たれ (sauce)." },
+  { id: "kw-koori", text: "氷", kana: "こおり", romaji: "kōri", meaning: "ice", level: 1, pack: "food", scene: ["coffee", "tea"], note: "Ask for 氷なし (こおりなし) for a drink with no ice." },
+  { id: "kw-ohashi", text: "お箸", kana: "おはし", romaji: "ohashi", meaning: "chopsticks", level: 1, pack: "food", scene: ["food", "ramen"] },
+  { id: "kw-chuumon", text: "注文", kana: "ちゅうもん", romaji: "chūmon", meaning: "order", level: 2, pack: "food", scene: ["food", "lantern"], note: "Staff ask ご注文はお決まりですか? when they come to take your order." },
+  { id: "kw-oomori", text: "大盛り", kana: "おおもり", romaji: "ōmori", meaning: "large serving", level: 2, pack: "food", scene: ["ramen", "food"], note: "Look for 大盛り無料 (free large size) on ticket machines at ramen and rice-bowl shops." },
+  { id: "kw-karaage", text: "唐揚げ", kana: "からあげ", romaji: "karaage", meaning: "Japanese fried chicken", level: 2, pack: "food", scene: ["food", "lantern"] },
+  { id: "kw-yakitori", text: "焼き鳥", kana: "やきとり", romaji: "yakitori", meaning: "grilled chicken skewers", level: 2, pack: "food", scene: ["lantern", "food"] },
+  { id: "kw-omochikaeri", text: "お持ち帰り", kana: "おもちかえり", romaji: "omochikaeri", meaning: "takeout", level: 2, pack: "food", scene: ["food", "coffee"], note: "Counter staff ask 店内ですか、お持ち帰りですか? (eat in or take away?)." },
+  { id: "kw-misoshiru", text: "味噌汁", kana: "みそしる", romaji: "misoshiru", meaning: "miso soup", level: 3, pack: "food", scene: ["food"] },
+  { id: "kw-tabehoudai", text: "食べ放題", kana: "たべほうだい", romaji: "tabehōdai", meaning: "all you can eat", level: 3, pack: "food", scene: ["food", "lantern"] }
 ];
