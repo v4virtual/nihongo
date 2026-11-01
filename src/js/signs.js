@@ -51,14 +51,14 @@ window.NH = window.NH || {};
   // ── Read tab ─────────────────────────────────────────────
   function tab(body) {
     body.append(
-      h("p.intro", "Real signs from a Japanese clinic, written the way you'll meet them. Tap any word for its reading and meaning; turn furigana off once you can read them."),
+      h("p.intro", "Real signs from stations, shops, offices and clinics, written the way you'll meet them. Tap any word for its reading and meaning; turn furigana off once you can read them."),
       h("div.cta-row.left", UI.btn("Practice reading", () => UI.go("kanji-signquiz"), "primary", "play")),
       h("div.word-tools", UI.furiganaToggle()));
     for (const P of NH.Kanji.PACKS) {
       const list = SIGNS.filter((x) => (x.pack || "n5") === P.id);
       if (!list.length) continue;
-      body.append(h("section.rsec",
-        h("div.ksec-head", h("h2", P.en, h("span.jp", P.jp)), h("p", `${list.length} signs`)),
+      body.append(UI.fold(`signs:${P.id}`, { open: true, cls: "rsec" },
+        [h("span.ksec-head", h("h2", P.en, h("span.jp", P.jp))), h("span.ksec-n", `${list.length} signs`)],
         h("div.sgrid", list.map((x) => {
           const cs = kanjiOf(x);
           return h("a.scard", { href: `#ksign-${x.id}` },

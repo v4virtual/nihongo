@@ -16,10 +16,16 @@ window.NH = window.NH || {};
     ["nature", "自然", "Nature", "n5"], ["qualities", "形", "Size and colour", "n5"], ["things", "物", "Things", "n5"], ["actions", "動", "Actions", "n5"],
     ["c-staff", "科", "Clinics and staff", "clinic"], ["c-desk", "受付", "Reception and paying", "clinic"], ["c-body", "体", "Symptoms and tests", "clinic"],
     ["c-signs", "注意", "Signs and notices", "clinic"], ["c-parking", "駐車", "Parking and fees", "clinic"],
+    ["st-lines", "線", "Lines and platforms", "station"], ["st-tickets", "切符", "Tickets and gates", "station"],
+    ["st-trains", "快速", "Kinds of train", "station"], ["st-moving", "乗換", "On, off and changing", "station"],
+    ["tw-shops", "店", "Shops and prices", "town"], ["tw-money", "銀行", "Money and post", "town"],
+    ["tw-office", "役所", "Offices and forms", "town"], ["tw-places", "町", "Towns and addresses", "town"],
   ];
   const PACKS = [
-    { id: "n5", jp: "基本", en: "Everyday kanji", blurb: "The 80 kanji of JLPT N5: numbers, time, people, places and the verbs you use every day." },
-    { id: "clinic", jp: "病院", en: "Clinic & hospital", blurb: "What you need to find your way through a Japanese clinic: reception, departments, symptoms, warnings and the car park." },
+    { id: "n5", jp: "基本", en: "Everyday kanji", short: "Everyday", blurb: "The JLPT N5 basics (numbers, time, people, places, everyday verbs), plus the kanji for nature and things around you." },
+    { id: "station", jp: "駅", en: "Stations & trains", short: "Stations", blurb: "Platform boards, ticket gates, kinds of train and changing lines: getting around by rail." },
+    { id: "town", jp: "町", en: "Shops & offices", short: "Shops", blurb: "Opening hours, prices and discounts, the post office, the bank and the forms at city hall." },
+    { id: "clinic", jp: "病院", en: "Clinic & hospital", short: "Clinic", blurb: "What you need to find your way through a Japanese clinic: reception, departments, symptoms, warnings and the car park." },
   ];
   const packOf = (x) => GROUPS.find((g) => g[0] === x.group)?.[3] || "n5";
   // New kanji come pack by pack; the learner picks which pack goes first.
@@ -53,7 +59,17 @@ window.NH = window.NH || {};
         e.currentTarget.parentElement.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b === e.currentTarget)));
       } }, label)));
   }
-  Object.assign(NH.UI, { ruby, furiganaToggle });
+  /* A section that folds open and shut and remembers which way it was left
+   * (settings.folds[key]); `force` opens it regardless, e.g. while filtering. */
+  function fold(key, { open = false, force = false, cls = "" } = {}, summary, ...body) {
+    const saved = store.settings.folds?.[key];
+    return h("details.fold", { class: cls, "data-fold": key, open: force || (saved ?? open), ontoggle: (e) => {
+      if (force) return;
+      const folds = { ...(store.settings.folds || {}), [key]: e.currentTarget.open };
+      if (folds[key] !== (store.settings.folds?.[key] ?? open)) store.set("folds", folds);
+    } }, h("summary", summary), body);
+  }
+  Object.assign(NH.UI, { ruby, furiganaToggle, fold });
 
   const kunText = (k) => (k.includes(".") ? k.replace(".", "(") + ")" : k);
   const partName = (el) => NH.COMPONENT_NAMES?.[el] || "";
@@ -70,11 +86,16 @@ window.NH = window.NH || {};
         h("button.chip", { type: "button", "aria-pressed": String(!count), onclick: () => { count = 0; draw(); } }, "All"),
         ...counts.map((n) => h("button.chip", { type: "button", "aria-pressed": String(count === n), "aria-label": `${n} stroke${n === 1 ? "" : "s"}`, onclick: () => { count = n; draw(); } }, String(n))));
       out.replaceChildren(...PACKS.map((P) => {
-        const secs = GROUPS.filter((g) => g[3] === P.id).map(([g, jp, en]) => {
+        const secs = GROUPS.filter((g) => g[3] === P.id).map(([g, jp, en], gi) => {
         const items = KANJI.filter((x) => x.group === g && (!count || x.strokes === count));
         if (!items.length) return null;
-        return h("section.ksec",
-          h("div.ksec-head", h("h3", en, h("span.jp", jp))),
+        const all = KANJI.filter((x) => x.group === g);
+        const started = all.filter((x) => NH.SRS.card("j:" + x.k)).length;
+        // Groups start folded (the first of the everyday set open); a stroke filter opens every match.
+        return fold(`chart:${g}`, { open: P.id === "n5" && gi === 0, force: !!count, cls: "ksec" },
+          [h("span.ksec-head", h("h3", en, h("span.jp", jp))),
+            h("span.ksec-n", count ? `${items.length} with ${count} stroke${count === 1 ? "" : "s"}` : `${started} of ${all.length} started`),
+            h("span.ksec-peek", { "aria-hidden": "true" }, all.slice(0, 12).map((x) => x.k).join(""))],
           h("div.jgrid", items.map((x) => {
             const st = NH.SRS.strength("j:" + x.k);
             return h("a.jcell", { href: `#k-${hex(x.k)}`, class: "s-" + st },
@@ -91,7 +112,7 @@ window.NH = window.NH || {};
     };
     draw();
     body.append(
-      h("p.intro", `${KANJI.length} kanji in two sets, grouped by theme. Filter by stroke count to find one you've seen; on each kanji's page its parts get their own colour.`),
+      h("p.intro", `${KANJI.length} kanji in ${PACKS.length} sets, grouped by theme: tap a group to open it. Filter by stroke count to find one you've seen; on each kanji's page its parts get their own colour.`),
       h("div.stroke-filter", h("span.muted", "Strokes:"), chips),
       out);
   }
@@ -162,7 +183,7 @@ window.NH = window.NH || {};
   // ── words ────────────────────────────────────────────────
   function wordsTab(body) {
     const levels = [[0, "All"], [1, "初級 Beginner"], [2, "中級 Intermediate"], [3, "上級 Advanced"]];
-    const sets = [["", "All words"], ["n5", "基本 Everyday"], ["clinic", "病院 Clinic"]];
+    const sets = [["", "All words"], ...PACKS.map((P) => [P.id, `${P.jp} ${P.short}`])];
     let level = 0, set = "";
     const out = h("div.wlist");
     const chips = h("div.chips", { role: "group", "aria-label": "Difficulty" });

@@ -13,6 +13,10 @@ const RANGES = [[0x3041, 0x3094], [0x30a1, 0x30f4], [0x30fc, 0x30fc]];
 const KANJI = "一二三四五六七八九十百千万円日月火水木金土年時午前後今毎半間人子女男父母友先生名上下中左右外東西南北山川天気雨大小長高白本学校語電車国何見行来出入休食飲書読話聞";
 // The clinic & hospital pack: reception, departments, symptoms, signs and parking.
 const CLINIC = "病院医患者科内歯眼耳鼻皮膚児薬局師看護受付予約番号待合室初再診察券保険証会計様体熱痛血液温検査急救口非常階化粧禁煙注意危性示必面台乗倒遊等決願問当館京都府駐場利用方分料処理庫移動提請求";
+// More everyday kanji (nature, things), then the stations & trains and shops & offices sets.
+const MORE = "花海空石森林草風雪光星春夏秋冬犬猫鳥魚虫牛馬島池晴雲竹田葉物家茶米肉酒紙服傘箱皿机窓門手足目糸玉写真絵画音" +
+  "駅線路鉄道地発着両次終始切符改札精算定期指席自由優快速各停普通特止降換段側戸開閉押" +
+  "店売買品割引税込安値額新無員客営業準備銀現払預郵便送荷役所届類申記印明市区町村住";
 
 async function load(hex) {
   if (cacheDir) return readFile(join(cacheDir, `${hex}.svg`), "utf8");
@@ -47,7 +51,7 @@ function parse(svg) {
 }
 
 const out = {}, parts = {}, types = {};
-const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI, ...CLINIC].map((c) => c.codePointAt(0))];
+const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI, ...CLINIC, ...MORE].map((c) => c.codePointAt(0))];
 for (const cp of cps) {
   const hex = cp.toString(16).padStart(5, "0");
   const { paths, types: t, parts: p } = parse(await load(hex));
