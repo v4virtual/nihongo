@@ -40,18 +40,22 @@ describe("kanji line", () => {
     await page.waitForURL(/#kanji-today$/);
     assert.deepEqual(await page.locator(".tab span:not(.tab-jp)").allTextContents(), ["Today", "Kanji", "Words", "Signs", "Quiz"]);
     assert.match(await page.locator(".today-note").textContent(), /Kanji start once you've started all 46 basic hiragana/);
-    assert.equal(await page.locator(".progress .pchip").count(), 172);
+    assert.equal(await page.locator(".progress .pchip").count(), await page.evaluate(() => NH.KANJI.length));
   }));
 
-  test("the chart lists all 172 in two sets by theme and filters by stroke count", T, () => withPage("kanji", {}, async (page) => {
-    assert.equal(await page.locator(".jcell").count(), 172);
-    assert.deepEqual(await page.locator(".kpack-head h2").evaluateAll((els) => els.map((e) => e.firstChild.textContent)), ["Everyday kanji", "Clinic & hospital"]);
+  test("the chart lists every kanji in four sets by theme and filters by stroke count", T, () => withPage("kanji", {}, async (page) => {
+    const total = await page.evaluate(() => NH.KANJI.length);
+    assert.equal(await page.locator(".jcell").count(), total);
+    assert.deepEqual(await page.locator(".kpack-head h2").evaluateAll((els) => els.map((e) => e.firstChild.textContent)), ["Everyday kanji", "Stations & trains", "Shops & offices", "Clinic & hospital"]);
     assert.equal(await page.locator(".kpack[data-pack=n5] .ksec h3").count(), 8);
+    assert.equal(await page.locator(".kpack[data-pack=station] .ksec h3").count(), 4);
+    assert.equal(await page.locator(".kpack[data-pack=town] .ksec h3").count(), 4);
     assert.equal(await page.locator(".kpack[data-pack=clinic] .ksec h3").count(), 5);
     await page.locator(".stroke-filter .chip[aria-label='1 stroke']").click();
     assert.deepEqual(await page.locator(".jc").allTextContents(), ["一"]);
     await page.locator(".stroke-filter .chip", { hasText: "All" }).click();
-    assert.equal(await page.locator(".jcell").count(), 172);
+    assert.equal(await page.locator(".jcell").count(), total);
+    await page.locator("[data-fold='chart:actions'] > summary").click();
     await page.locator(".jcell", { hasText: "休" }).click();
     await page.waitForURL(/#k-4f11$/);
   }));
@@ -140,6 +144,31 @@ describe("kanji line", () => {
     await writeChar(page);
     await page.waitForFunction(() => document.querySelector(".session-count")?.textContent === "2 of 2", null, { timeout: 5000 });
     assert.ok((await saved(page)).srs.cards["j:一"]);
+  }));
+});
+
+describe("folding groups", () => {
+  test("groups start folded with a peek at their kanji, open on a tap and stay open", T, () => withPage("kanji", {}, async (page) => {
+    const open = () => page.locator("details.ksec[open]").evaluateAll((els) => els.map((e) => e.dataset.fold));
+    assert.deepEqual(await open(), ["chart:numbers"], "only the first group starts open");
+    const nature = page.locator("[data-fold='chart:nature']");
+    assert.match(await nature.locator(".ksec-peek").textContent(), /^山川天気雨/);
+    assert.equal(await nature.locator(".jcell", { hasText: "花" }).isVisible(), false);
+    await nature.locator("summary").click();
+    assert.equal(await nature.locator(".jcell", { hasText: "花" }).isVisible(), true);
+    await page.locator("[data-fold='chart:numbers'] > summary").click();
+    await page.reload();
+    await settle(page);
+    assert.deepEqual(await open(), ["chart:nature"], "remembered after a reload");
+    // A stroke filter opens every group with a match, and doesn't change what's remembered.
+    await page.locator(".stroke-filter .chip[aria-label='4 strokes']").click();
+    assert.ok((await open()).length > 5);
+    assert.deepEqual(JSON.parse(JSON.stringify((await saved(page)).settings.folds)), { "chart:nature": true, "chart:numbers": false });
+  }));
+
+  test("Today's kanji progress folds by set, the set you start with open", T, () => withPage("kanji-today", {}, async (page) => {
+    assert.deepEqual(await page.locator("details.pfold[open]").evaluateAll((els) => els.map((e) => e.dataset.fold)), ["progress:n5"]);
+    assert.equal(await page.locator("details.pfold").count(), 4);
   }));
 });
 

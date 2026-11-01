@@ -119,10 +119,34 @@ describe("palm rejection", () => {
     assert.match(await feedback(page), /Stroke 1 ✓/);
   }));
 
-  test("a large contact patch is treated as a palm", T, () => withPage("w-3042", {}, async (page) => {
+  // iPad Safari reports a fingertip as 40-60px across: that must still write.
+  test("an iPad-sized fingertip writes when no pen is in use", T, () => withPage("w-3042", {}, async (page) => {
     const S = await strokesOnScreen(page);
     await stroke(page, "touch", S[0], 5, { width: 60, height: 70 });
-    assert.ok(!(await accepted(page)), "a palm-sized touch drew a stroke");
+    assert.match(await feedback(page), /Stroke 1 ✓/, "a fingertip was taken for a palm");
+  }));
+
+  test("once a pen has been used, a patch much wider than a fingertip is a palm", T, () => withPage("w-3042", {}, async (page) => {
+    const S = await strokesOnScreen(page);
+    await stroke(page, "pen", S[0], 4);
+    assert.match(await feedback(page), /Stroke 1 ✓/);
+    await page.waitForTimeout(1600); // past the pen's grace period
+    await stroke(page, "touch", S[1], 5, { width: 120, height: 140 });
+    assert.match(await feedback(page), /Stroke 1 ✓/, "a palm-sized touch drew a stroke");
+    await stroke(page, "touch", S[1], 6, { width: 50, height: 50 });
+    assert.match(await feedback(page), /Stroke 2 ✓/, "a fingertip still writes after the pen");
+  }));
+
+  test("real touch input with an iPad-sized contact draws (CDP touch emulation)", T, () => withPage("w-3042", { width: 820, height: 1180 }, async (page) => {
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 5 });
+    const S = await strokesOnScreen(page);
+    const tp = (p) => [{ x: p.x, y: p.y, radiusX: 25, radiusY: 25, force: 1, id: 1 }];
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: tp(S[0][0]) });
+    for (const p of S[0]) await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: tp(p) });
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await page.waitForTimeout(150);
+    assert.match(await feedback(page), /Stroke 1 ✓/);
   }));
 });
 

@@ -8,12 +8,18 @@ const { GOOD } = NH.SRS;
 const set = new Set(NH.KANJI.map((x) => x.k));
 
 describe("kanji data", () => {
-  test("80 everyday kanji and 92 for the clinic, each with stroke data matching its stroke count", () => {
-    assert.equal(NH.KANJI.length, 172);
-    assert.equal(set.size, 172);
+  test("306 kanji in four sets, each with stroke data matching its stroke count", () => {
+    assert.equal(NH.KANJI.length, 306);
+    assert.equal(set.size, 306);
     const inPack = (p) => NH.KANJI.filter((x) => NH.Kanji.packOf(x) === p).length;
-    assert.equal(inPack("n5"), 80);
+    assert.equal(inPack("n5"), 133, "the 80 of JLPT N5, plus 29 for nature and 24 for things");
+    assert.equal(inPack("station"), 41);
+    assert.equal(inPack("town"), 40);
     assert.equal(inPack("clinic"), 92);
+    // The first 80 still come first, so Today's order for them is unchanged.
+    assert.equal(NH.KANJI[79].k, "聞");
+    assert.equal(NH.KANJI.filter((x) => x.group === "nature").length, 34);
+    assert.equal(NH.KANJI.filter((x) => x.group === "things").length, 32);
     for (const x of NH.KANJI) {
       assert.equal(NH.STROKES[x.k]?.length, x.strokes, x.k);
       assert.ok(NH.Kanji.GROUPS.some((g) => g[0] === x.group), `${x.k}: group ${x.group}`);
@@ -152,6 +158,18 @@ describe("kanji in the queue", () => {
     for (const id of newKanji(N)) N.SRS.review(id, GOOD, T0);
     assert.deepEqual(newKanji(N, T0 + 3600e3), [], "today's two are done");
     assert.deepEqual(newKanji(N, T0 + NH.SRS.DAY), ["j:三", "j:四"]);
+  });
+
+  test("every set can come first, and each set's words carry its name", () => {
+    const N = fresh();
+    startHiragana(N);
+    for (const [pack, first] of [["station", ["j:駅", "j:線"]], ["town", ["j:店", "j:売"]]]) {
+      N.store.set("kanjiFirst", pack);
+      assert.deepEqual(newKanji(N), first, pack);
+    }
+    const packs = new Set(N.Kanji.PACKS.map((P) => P.id));
+    for (const w of N.KANJI_WORDS) assert.ok(packs.has(w.pack || "n5"), w.id);
+    for (const P of N.Kanji.PACKS) assert.ok(N.KANJI_WORDS.filter((w) => (w.pack || "n5") === P.id).length >= 20, `${P.id} has words`);
   });
 
   test("the clinic pack can come first", () => {

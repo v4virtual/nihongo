@@ -102,7 +102,7 @@ window.NH = window.NH || {};
     // Kana written well, out of the 71 in each chart's basic and voiced rows.
     const studied = (S) => ["basic", "voiced"].flatMap((k) => S.tables[k].rows.flatMap((r) => r.cells)).filter((c) => c && store.progress(c)?.best >= 60).length;
     const count = (S) => (studied(S) ? `${studied(S)} of 71 kana written well →` : "Start here →");
-    const kanjiCount = () => { const n = (NH.KANJI || []).filter((x) => store.progress(x.k)?.best >= 60).length; return n ? `${n} of ${NH.KANJI.length} kanji written well →` : `${(NH.KANJI || []).length} kanji, with clinic signs →`; };
+    const kanjiCount = () => { const n = (NH.KANJI || []).filter((x) => store.progress(x.k)?.best >= 60).length; return n ? `${n} of ${NH.KANJI.length} kanji written well →` : `${(NH.KANJI || []).length} kanji in ${NH.Kanji?.PACKS.length || 1} sets, with real signs →`; };
     app.replaceChildren(
       h("header.home-head",
         h("h1.brand", h("span.brand-kana", "書く"), h("span.brand-name", "Kaku")),

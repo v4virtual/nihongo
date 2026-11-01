@@ -196,6 +196,30 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: var(--sat)
 .ksec { margin-bottom: 38px; }
 .ksec-head h2, .ksec-head h3 { font-size: calc(20px * var(--ts)); margin: 0; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
 .ksec-head h3 { font-size: calc(18px * var(--ts)); margin-bottom: 10px; }
+/* Folding sections: kanji groups, progress by set, signs by set */
+details.fold > summary {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; cursor: pointer; list-style: none;
+  padding: 12px 34px 12px 14px; margin-bottom: 10px; position: relative;
+  background: var(--night-2); border: 1px solid var(--rule); border-radius: var(--r);
+}
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary::after {
+  content: ""; position: absolute; right: 16px; top: 50%; width: 8px; height: 8px; margin-top: -6px;
+  border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); transition: transform 0.15s;
+}
+details.fold[open] > summary::after { transform: rotate(-135deg); margin-top: -2px; }
+details.fold > summary:hover { border-color: var(--line-j); }
+details.fold > summary:focus-visible { outline: 2px solid var(--line-j); outline-offset: 2px; }
+details.fold > summary h2, details.fold > summary h3 { margin: 0 !important; }
+.ksec-n { color: var(--muted); font-size: calc(13px * var(--ts)); font-weight: 700; }
+.ksec-peek { flex-basis: 100%; font-family: var(--f-kana); font-size: calc(18px * var(--ts)); letter-spacing: 0.12em; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+details.fold[open] .ksec-peek { display: none; }
+details.ksec { margin-bottom: 4px; }
+details.ksec[open] { margin-bottom: 18px; }
+details.pfold > summary { background: none; border: 0; border-top: 1px solid var(--rule); border-radius: 0; padding-left: 0; margin: 0; }
+details.pfold[open] > summary { margin-bottom: 6px; }
+details.pfold h3.muted { margin: 0; }
+details.rsec { margin-bottom: 18px; }
 /* Kanji sets (everyday, clinic) on the chart */
 .kpack { margin-bottom: 34px; }
 .kpack-head { border-top: 3px solid var(--line-j); padding-top: 12px; margin-bottom: 14px; }

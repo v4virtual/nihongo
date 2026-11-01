@@ -91,11 +91,13 @@ window.NH = window.NH || {};
   function kanjiProgress() {
     return h("section.card.progress",
       h("h2", "Kanji by theme"),
-      NH.Kanji.PACKS.map((P) => [h("h3.muted", P.en), h("div.ptable", NH.Kanji.GROUPS.filter((g) => g[3] === P.id).map(([g, , en]) => h("div.prow", h("span.prow-name", en),
+      NH.Kanji.PACKS.map((P) => UI.fold(`progress:${P.id}`, { open: P.id === (store.settings.kanjiFirst || "n5"), cls: "pfold" },
+        [h("h3.muted", P.en), h("span.ksec-n", `${NH.KANJI.filter((x) => NH.Kanji.packOf(x) === P.id && SRS.card("j:" + x.k)).length} of ${NH.KANJI.filter((x) => NH.Kanji.packOf(x) === P.id).length} started`)],
+        h("div.ptable", NH.Kanji.GROUPS.filter((g) => g[3] === P.id).map(([g, , en]) => h("div.prow", h("span.prow-name", en),
         h("span.prow-chips", NH.KANJI.filter((x) => x.group === g).map((x) => {
           const st = SRS.strength("j:" + x.k);
           return h("a.pchip", { href: `#k-${hex(x.k)}`, class: "s-" + st, title: `${x.k} ${x.meaning}`, "aria-label": `${x.k}, ${st === "new" ? "not started" : st === "due" ? "due now" : st}` }, x.k);
-        })))))]));
+        }))))))));
   }
 
   // ── sessions ─────────────────────────────────────────────

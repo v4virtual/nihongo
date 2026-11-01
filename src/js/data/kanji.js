@@ -1147,6 +1147,802 @@ NH.KANJI = [
       { w: "見聞", r: "けんぶん", m: "experience, knowledge" }
     ]
   },
+  /* ========== Everyday, more: nature ========== */
+  {
+    k: "花", meaning: "flower", on: ["カ"], kun: ["はな"], group: "nature", strokes: 7, radical: "艹",
+    mnemonic: "Grass 艹 on top of 化 (change): a green bud that changes into a flower.",
+    notes: [
+      "花見 (はなみ) is picnicking under the cherry blossom in spring; 花火 (はなび) are the fireworks of summer.",
+      "On its own はな, which becomes ばな in compounds: 生け花 (いけばな). The on'yomi か shows up in かふん (pollen) on spring allergy warnings.",
+      "The lower half is 化, the same as in 化粧室 (けしょうしつ, restroom)."
+    ],
+    lookalikes: ["化", "草"],
+    examples: [
+      { w: "花見", r: "はなみ", m: "cherry-blossom viewing" },
+      { w: "花火", r: "はなび", m: "fireworks" },
+      { w: "生け花", r: "いけばな", m: "flower arranging" }
+    ]
+  },
+  {
+    k: "海", meaning: "sea, ocean", on: ["カイ"], kun: ["うみ"], group: "nature", strokes: 9, radical: "氵",
+    mnemonic: "Water 氵 next to 毎 (every): water every way you look, as far as the horizon. That's the sea.",
+    notes: [
+      "Alone it is うみ; in compounds かい: 海外 (かいがい, overseas), as on airport and bank signs for foreign cards.",
+      "海の日 (うみのひ, Marine Day) is a public holiday in July, the start of the beach season.",
+      "The right side is 毎 (every); don't drop the water drops and write 毎."
+    ],
+    lookalikes: ["毎", "池"],
+    examples: [
+      { w: "海外", r: "かいがい", m: "overseas, abroad" },
+      { w: "海の日", r: "うみのひ", m: "Marine Day (holiday)" },
+      { w: "日本海", r: "にほんかい", m: "the Sea of Japan" }
+    ]
+  },
+  {
+    k: "空", meaning: "sky, empty", on: ["クウ"], kun: ["そら", "から", "あ.く"], group: "nature", strokes: 8, radical: "穴",
+    mnemonic: "A hole 穴 dug above a carpenter's tool 工: break through the roof and all you see is open, empty sky.",
+    notes: [
+      "空車 (くうしゃ) glows on taxis and car park signs: vacant, space available. 空き (あき) on a sign means a free room or seat.",
+      "Three common readings: そら (sky), から (empty, as in 空手, からて) and くう in compounds like 空気 (くうき, air). Airport is くうこう.",
+      "The 穴 top also sits on 窓 (window)."
+    ],
+    lookalikes: ["窓"],
+    examples: [
+      { w: "空気", r: "くうき", m: "air" },
+      { w: "空車", r: "くうしゃ", m: "vacant (taxi, car park)" },
+      { w: "空手", r: "からて", m: "karate" }
+    ]
+  },
+  {
+    k: "石", meaning: "stone", on: ["セキ"], kun: ["いし"], group: "nature", strokes: 5, radical: "石",
+    mnemonic: "A slanting cliff edge with a boulder 口 tumbled down to its foot: a stone.",
+    notes: [
+      "Soap is often written 石けん (せっけん) on bottles and dispensers; here 石 is read せっ.",
+      "Common in names: 石川 (いしかわ) prefecture and the surname 石田 (いしだ).",
+      "Don't confuse it with 右 (right), which also has 口 at the bottom but a crossed top."
+    ],
+    lookalikes: ["右"],
+    examples: [
+      { w: "石けん", r: "せっけん", m: "soap" },
+      { w: "小石", r: "こいし", m: "pebble" },
+      { w: "石川", r: "いしかわ", m: "Ishikawa (prefecture)" }
+    ]
+  },
+  {
+    k: "森", meaning: "forest", on: ["シン"], kun: ["もり"], group: "nature", strokes: 12, radical: "木",
+    mnemonic: "Three trees 木 piled up: one more than 林, a thick, deep forest.",
+    notes: [
+      "Everyday word for a wood or forest is もり; しん is mostly in 森林 (しんりん, forest land).",
+      "A common surname and place name: 森 (もり), 大森 (おおもり) in Tokyo.",
+      "Count the trees: 木 is one tree, 林 two (a grove), 森 three (a forest)."
+    ],
+    lookalikes: ["林", "木"],
+    examples: [
+      { w: "森", r: "もり", m: "forest, woods" },
+      { w: "森林", r: "しんりん", m: "forest" },
+      { w: "大森", r: "おおもり", m: "Ōmori (place, surname)" }
+    ]
+  },
+  {
+    k: "林", meaning: "grove, woods", on: ["リン"], kun: ["はやし"], group: "nature", strokes: 8, radical: "木",
+    mnemonic: "Two trees 木 standing side by side: a small grove, not yet a forest.",
+    notes: [
+      "林 (はやし) and 小林 (こばやし) are very common surnames; はやし becomes ばやし after another kanji.",
+      "In compounds it is りん: 森林 (しんりん, forest), 竹林 (ちくりん, bamboo grove).",
+      "The left 木 is narrower and its last stroke becomes a dot."
+    ],
+    lookalikes: ["森", "木"],
+    examples: [
+      { w: "森林", r: "しんりん", m: "forest" },
+      { w: "竹林", r: "ちくりん", m: "bamboo grove" },
+      { w: "小林", r: "こばやし", m: "Kobayashi (surname)" }
+    ]
+  },
+  {
+    k: "草", meaning: "grass, plants", on: ["ソウ"], kun: ["くさ"], group: "nature", strokes: 9, radical: "艹",
+    mnemonic: "Grass 艹 on top of 早 (early): the first green shoots that come up early in spring.",
+    notes: [
+      "Asakusa (あさくさ) in Tokyo is written with 草, so you'll see it on Ginza Line station signs.",
+      "Almost always くさ; そう is in written compounds. 草花 (くさばな) are flowering plants, as in a garden centre.",
+      "Shares the 艹 grass top with 花 and 葉."
+    ],
+    lookalikes: ["花", "葉"],
+    examples: [
+      { w: "草", r: "くさ", m: "grass, weeds" },
+      { w: "草花", r: "くさばな", m: "flowering plants" },
+      { w: "草木", r: "くさき", m: "plants, vegetation" }
+    ]
+  },
+  {
+    k: "風", meaning: "wind, style", on: ["フウ", "フ"], kun: ["かぜ"], group: "nature", strokes: 9, radical: "風",
+    mnemonic: "A billowing sail 几 with a tiny insect 虫 blown about inside it: the wind.",
+    notes: [
+      "台風 (たいふう, typhoon) is the word to watch in August and September: trains stop and shops close early.",
+      "After a noun, ふう means 'style': わふう (Japanese style) on menus. The bath, おふろ, uses the reading ふ.",
+      "かぜ also means 'a cold', but that is written with 風 plus another kanji."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "台風", r: "たいふう", m: "typhoon" },
+      { w: "北風", r: "きたかぜ", m: "north wind" },
+      { w: "風車", r: "ふうしゃ", m: "windmill" }
+    ]
+  },
+  {
+    k: "雪", meaning: "snow", on: ["セツ"], kun: ["ゆき"], group: "nature", strokes: 11, radical: "雨",
+    mnemonic: "Rain 雨 on top and a hand ⺕ underneath sweeping it up: rain cold enough to sweep with a broom is snow.",
+    notes: [
+      "大雪 (おおゆき, heavy snow) warnings can stop trains and buses; the Sapporo snow festival is さっぽろ雪まつり.",
+      "Almost always ゆき; せつ is mostly in written compounds.",
+      "Snow 雪 and cloud 雲 both wear the 雨 rain top."
+    ],
+    lookalikes: ["雲", "雨"],
+    examples: [
+      { w: "大雪", r: "おおゆき", m: "heavy snow" },
+      { w: "初雪", r: "はつゆき", m: "first snow of the year" },
+      { w: "雪だるま", r: "ゆきだるま", m: "snowman" }
+    ]
+  },
+  {
+    k: "光", meaning: "light, shine", on: ["コウ"], kun: ["ひかり", "ひか.る"], group: "nature", strokes: 6, radical: "儿",
+    mnemonic: "Little rays ⺌ shining out above 兀, a figure on two legs: someone holding up a torch and throwing out light.",
+    notes: [
+      "日光 (にっこう) means sunlight, and is also Nikkō, the shrine town north of Tokyo.",
+      "ひかり is the light itself and ひかる is to shine; ひかり is also the name of a Shinkansen service.",
+      "Sightseeing, かんこう, uses 光: look for it on tourist information signs."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "日光", r: "にっこう", m: "sunlight; Nikkō" },
+      { w: "光る", r: "ひかる", m: "to shine" },
+      { w: "月光", r: "げっこう", m: "moonlight" }
+    ]
+  },
+  {
+    k: "星", meaning: "star", on: ["セイ"], kun: ["ほし"], group: "nature", strokes: 9, radical: "日",
+    mnemonic: "A bright sun 日 over 生 (to be born): a new little sun born in the night sky, a star.",
+    notes: [
+      "Review sites and restaurant guides rate in stars: 星5つ (ほしいつつ) is five stars.",
+      "Planets use せい: 火星 (かせい, Mars), 金星 (きんせい, Venus). ほし becomes ぼし in compounds: 一番星 (いちばんぼし).",
+      "The bottom is 生, the same as in 先生."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "星空", r: "ほしぞら", m: "starry sky" },
+      { w: "火星", r: "かせい", m: "Mars" },
+      { w: "一番星", r: "いちばんぼし", m: "the first star of the evening" }
+    ]
+  },
+  {
+    k: "春", meaning: "spring", on: ["シュン"], kun: ["はる"], group: "nature", strokes: 9, radical: "日",
+    mnemonic: "A young plant with three leafy bars and spreading roots, with the sun 日 tucked underneath: spring is when everything grows towards the sun.",
+    notes: [
+      "春休み (はるやすみ) is the spring break between school years in March and April.",
+      "しゅん in compounds: 春分の日 (しゅんぶんのひ), the spring equinox holiday in March.",
+      "The top has three horizontal lines, then the two sweeping strokes."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "春休み", r: "はるやすみ", m: "spring break" },
+      { w: "春分の日", r: "しゅんぶんのひ", m: "Spring Equinox Day" },
+      { w: "春夏秋冬", r: "しゅんかしゅうとう", m: "the four seasons" }
+    ]
+  },
+  {
+    k: "夏", meaning: "summer", on: ["カ", "ゲ"], kun: ["なつ"], group: "nature", strokes: 10, radical: "夂",
+    mnemonic: "A head in a big sunhat over slowly dragging feet 夂: everyone trudges along slowly in the summer heat.",
+    notes: [
+      "夏休み (なつやすみ) is the long summer holiday from late July; なつまつり (summer festivals) fill August.",
+      "か in a few compounds: 初夏 (しょか, early summer). 真夏 (まなつ) is the height of summer.",
+      "Both 夏 and 冬 have the 夂 'dragging feet' part, but 冬 is much shorter."
+    ],
+    lookalikes: ["冬"],
+    examples: [
+      { w: "夏休み", r: "なつやすみ", m: "summer holidays" },
+      { w: "真夏", r: "まなつ", m: "midsummer" },
+      { w: "初夏", r: "しょか", m: "early summer" }
+    ]
+  },
+  {
+    k: "秋", meaning: "autumn", on: ["シュウ"], kun: ["あき"], group: "nature", strokes: 9, radical: "禾",
+    mnemonic: "Ripe grain 禾 next to fire 火: autumn is when the rice is harvested and the stubble burned in the fields.",
+    notes: [
+      "秋分の日 (しゅうぶんのひ) is the autumn equinox holiday in September; autumn is the season for red leaves (こうよう).",
+      "Alone it is あき; しゅう in compounds. 秋田 (あきた) is a prefecture, home of the Akita dog.",
+      "The grain 禾 on the left also starts 科, as in 内科."
+    ],
+    lookalikes: ["科"],
+    examples: [
+      { w: "秋田", r: "あきた", m: "Akita (prefecture)" },
+      { w: "秋分の日", r: "しゅうぶんのひ", m: "Autumn Equinox Day" },
+      { w: "春夏秋冬", r: "しゅんかしゅうとう", m: "the four seasons" }
+    ]
+  },
+  {
+    k: "冬", meaning: "winter", on: ["トウ"], kun: ["ふゆ"], group: "nature", strokes: 5, radical: "冫",
+    mnemonic: "Feet 夂 trudging carefully over two drops of ice 冫: walking on a frozen winter path.",
+    notes: [
+      "冬休み (ふゆやすみ) is the winter break around New Year; shops may show 冬期休業 (とうききゅうぎょう, closed for winter).",
+      "Alone it is ふゆ; とう in compounds such as 冬期 (とうき, winter season).",
+      "Don't confuse it with 各 (each), which has 口 under the same top instead of two ice drops."
+    ],
+    lookalikes: ["夏", "各"],
+    examples: [
+      { w: "冬休み", r: "ふゆやすみ", m: "winter break" },
+      { w: "真冬", r: "まふゆ", m: "midwinter" },
+      { w: "冬期", r: "とうき", m: "winter season" }
+    ]
+  },
+  {
+    k: "犬", meaning: "dog", on: ["ケン"], kun: ["いぬ"], group: "nature", strokes: 4, radical: "犬",
+    mnemonic: "A big 大 figure with one extra dot 丶 up by its ear: the dog trotting along beside its owner.",
+    notes: [
+      "Park and street signs often remind owners to pick up after their 犬 (いぬ).",
+      "いぬ alone, but けん in compounds: 番犬 (ばんけん, guard dog). 子犬 (こいぬ) is a puppy.",
+      "The dot goes top right; without it you have 大 (big)."
+    ],
+    lookalikes: ["大"],
+    examples: [
+      { w: "子犬", r: "こいぬ", m: "puppy" },
+      { w: "番犬", r: "ばんけん", m: "guard dog" },
+      { w: "秋田犬", r: "あきたいぬ", m: "Akita dog" }
+    ]
+  },
+  {
+    k: "猫", meaning: "cat", on: ["ビョウ"], kun: ["ねこ"], group: "nature", strokes: 11, radical: "犭",
+    mnemonic: "An animal ⺨ next to 苗, grass 艹 over a rice field 田: the cat crouching in the field, waiting for mice.",
+    notes: [
+      "Look for 猫カフェ (ねこカフェ) signs, and the waving まねきねこ cat in shop windows, inviting customers in.",
+      "Almost always ねこ; びょう is rare. 子猫 (こねこ) is a kitten.",
+      "The left side is ⺨, the animal radical, not 氵 (water)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "子猫", r: "こねこ", m: "kitten" },
+      { w: "猫カフェ", r: "ねこカフェ", m: "cat café" },
+      { w: "白猫", r: "しろねこ", m: "white cat" }
+    ]
+  },
+  {
+    k: "鳥", meaning: "bird, chicken", on: ["チョウ"], kun: ["とり"], group: "nature", strokes: 11, radical: "鳥",
+    mnemonic: "A bird side-on: a beady eye at the top, the body in the middle, and four tail feathers 灬 fanned out at the bottom.",
+    notes: [
+      "とり also means chicken: やきとり (grilled chicken skewers) is written on izakaya lanterns and menus.",
+      "ちょう in compounds: 白鳥 (はくちょう, swan), 一石二鳥 (いっせきにちょう, two birds with one stone).",
+      "島 (island) has the same top but a mountain 山 instead of the tail feathers."
+    ],
+    lookalikes: ["島", "馬"],
+    examples: [
+      { w: "小鳥", r: "ことり", m: "little bird" },
+      { w: "白鳥", r: "はくちょう", m: "swan" },
+      { w: "一石二鳥", r: "いっせきにちょう", m: "two birds with one stone" }
+    ]
+  },
+  {
+    k: "魚", meaning: "fish", on: ["ギョ"], kun: ["さかな", "うお"], group: "nature", strokes: 11, radical: "魚",
+    mnemonic: "A fish standing on its tail: the pointed head at the top, a scaly body 田 in the middle, and the tail fin 灬 splashing at the bottom.",
+    notes: [
+      "さかな is the everyday word; うお appears in 魚市場 (うおいちば, fish market).",
+      "ぎょ in compounds: 金魚 (きんぎょ, goldfish), the prize at summer festival stalls. さかな becomes ざかな: 生魚 (なまざかな).",
+      "The bottom four dots 灬 are the same as in 鳥 and 馬."
+    ],
+    lookalikes: ["鳥"],
+    examples: [
+      { w: "金魚", r: "きんぎょ", m: "goldfish" },
+      { w: "生魚", r: "なまざかな", m: "raw fish" },
+      { w: "魚市場", r: "うおいちば", m: "fish market" }
+    ]
+  },
+  {
+    k: "虫", meaning: "insect, bug", on: ["チュウ"], kun: ["むし"], group: "nature", strokes: 6, radical: "虫",
+    mnemonic: "中 (middle) with a little tail curling out at the bottom: a bug wriggling through the middle of things.",
+    notes: [
+      "虫歯 (むしば) is a cavity, the word you'll hear at the dentist. Summer shelves are full of 虫よけ (むしよけ, insect repellent).",
+      "Almost always むし; ちゅう is in written compounds.",
+      "It is 中 with a base line and a dot added: don't stop at 中."
+    ],
+    lookalikes: ["中"],
+    examples: [
+      { w: "虫歯", r: "むしば", m: "tooth decay, cavity" },
+      { w: "虫よけ", r: "むしよけ", m: "insect repellent" },
+      { w: "虫めがね", r: "むしめがね", m: "magnifying glass" }
+    ]
+  },
+  {
+    k: "牛", meaning: "cow, beef", on: ["ギュウ"], kun: ["うし"], group: "nature", strokes: 4, radical: "牛",
+    mnemonic: "A cow's face seen from the front: one horn poking up at the top left and a long line down its nose.",
+    notes: [
+      "On supermarket labels 牛肉 (ぎゅうにく) is beef; ぎゅうどん (beef bowl) shops are everywhere.",
+      "The animal is うし; the food is ぎゅう: 牛タン (ぎゅうタン, beef tongue).",
+      "Don't confuse it with 午 (noon, as in 午前): 牛 has its vertical stroke poking through the top."
+    ],
+    lookalikes: ["午"],
+    examples: [
+      { w: "牛肉", r: "ぎゅうにく", m: "beef" },
+      { w: "牛タン", r: "ぎゅうタン", m: "beef tongue" },
+      { w: "子牛", r: "こうし", m: "calf" }
+    ]
+  },
+  {
+    k: "馬", meaning: "horse", on: ["バ"], kun: ["うま"], group: "nature", strokes: 10, radical: "馬",
+    mnemonic: "A horse side-on: its mane flying in the lines at the top, and four hooves 灬 drumming along the bottom.",
+    notes: [
+      "ば in compounds: 馬車 (ばしゃ, carriage), 乗馬 (じょうば, horse riding). Horse racing, けいば, also uses 馬.",
+      "Alone it is うま; 子馬 (こうま) is a foal. 竹馬 (たけうま) are stilts.",
+      "Same 灬 bottom as 鳥 and 魚, but the top has a mane of horizontal lines."
+    ],
+    lookalikes: ["鳥"],
+    examples: [
+      { w: "馬車", r: "ばしゃ", m: "horse-drawn carriage" },
+      { w: "乗馬", r: "じょうば", m: "horse riding" },
+      { w: "子馬", r: "こうま", m: "foal" }
+    ]
+  },
+  {
+    k: "島", meaning: "island", on: ["トウ"], kun: ["しま"], group: "nature", strokes: 10, radical: "山",
+    mnemonic: "A bird 鳥, its tail feathers swapped for a mountain 山: a seabird perched on a rocky peak sticking out of the sea, an island.",
+    notes: [
+      "Hundreds of place names use it; しま often turns into じま after another kanji: 小島 (こじま).",
+      "とう in compounds: 半島 (はんとう, peninsula). Japan calls itself a 島国 (しまぐに, island nation).",
+      "The top is 鳥 without its four dots; the 山 slips in underneath."
+    ],
+    lookalikes: ["鳥"],
+    examples: [
+      { w: "島国", r: "しまぐに", m: "island nation" },
+      { w: "半島", r: "はんとう", m: "peninsula" },
+      { w: "小島", r: "こじま", m: "small island" }
+    ]
+  },
+  {
+    k: "池", meaning: "pond", on: ["チ"], kun: ["いけ"], group: "nature", strokes: 6, radical: "氵",
+    mnemonic: "Water 氵 beside 也, a coiled snake shape: a snake curled up at the edge of a still pond.",
+    notes: [
+      "電池 (でんち, battery) is the word you'll actually see most: on shop shelves and on 電池切れ (でんちぎれ) warnings.",
+      "Alone it is いけ; Ikebukuro (いけぶくろ) station in Tokyo starts with 池.",
+      "Don't confuse it with 地 (ground), which has 土 instead of the water drops."
+    ],
+    lookalikes: ["地"],
+    examples: [
+      { w: "電池", r: "でんち", m: "battery" },
+      { w: "池", r: "いけ", m: "pond" },
+      { w: "電池切れ", r: "でんちぎれ", m: "dead battery" }
+    ]
+  },
+  {
+    k: "晴", meaning: "clear up, sunny", on: ["セイ"], kun: ["は.れる", "は.れ"], group: "nature", strokes: 12, radical: "日",
+    mnemonic: "The sun 日 beside 青 (blue): the sun is out and the sky is blue. The weather has cleared up.",
+    notes: [
+      "晴れ (はれ, sunny) is the first word on every weather forecast; 晴れのち雨 means sunny, rain later.",
+      "Kun はれ in daily speech, せい in compounds: 快晴 (かいせい, perfectly clear), 晴天 (せいてん, fine weather).",
+      "The right side is the same as in 精 (in 精算), which has 米 on the left instead of 日."
+    ],
+    lookalikes: ["精"],
+    examples: [
+      { w: "晴れ", r: "はれ", m: "sunny, fine weather" },
+      { w: "快晴", r: "かいせい", m: "clear, cloudless weather" },
+      { w: "晴天", r: "せいてん", m: "fine weather, clear sky" }
+    ]
+  },
+  {
+    k: "雲", meaning: "cloud", on: ["ウン"], kun: ["くも"], group: "nature", strokes: 12, radical: "雨",
+    mnemonic: "Rain 雨 sitting on top of 云, wisps of vapour curling upwards: the cloud the rain falls from.",
+    notes: [
+      "Weather apps show 雨雲 (あまぐも, rain cloud) radar maps. The 'cloudy' forecast word くもり uses a different kanji.",
+      "くも becomes ぐも in compounds: 入道雲 (にゅうどうぐも), the towering summer thunderhead. うん in 雲海 (うんかい, sea of clouds).",
+      "Same 雨 top as 雪 (snow); 雲 has 云 underneath."
+    ],
+    lookalikes: ["雪", "雨"],
+    examples: [
+      { w: "雨雲", r: "あまぐも", m: "rain cloud" },
+      { w: "入道雲", r: "にゅうどうぐも", m: "thunderhead (summer cloud)" },
+      { w: "雲海", r: "うんかい", m: "sea of clouds" }
+    ]
+  },
+  {
+    k: "竹", meaning: "bamboo", on: ["チク"], kun: ["たけ"], group: "nature", strokes: 6, radical: "竹",
+    mnemonic: "Two bamboo stalks side by side, each with leaves drooping from a joint: a little bamboo grove.",
+    notes: [
+      "Spring bamboo shoots, たけのこ, are a seasonal food, often written 竹の子.",
+      "たけ alone, ちく in compounds: 竹林 (ちくりん, bamboo grove).",
+      "Squeezed on top of other kanji it becomes the 'bamboo hat' shape, as in 等 and the 符 of 切符."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "竹の子", r: "たけのこ", m: "bamboo shoot" },
+      { w: "竹林", r: "ちくりん", m: "bamboo grove" },
+      { w: "竹馬", r: "たけうま", m: "stilts" }
+    ]
+  },
+  {
+    k: "田", meaning: "rice field", on: ["デン"], kun: ["た"], group: "nature", strokes: 5, radical: "田",
+    mnemonic: "A rice field seen from above, split into four paddies by raised paths.",
+    notes: [
+      "Very common in surnames and places: 田中 (たなか), 山田 (やまだ), 秋田 (あきた). た often becomes だ.",
+      "The everyday word for a paddy is 田んぼ (たんぼ); でん is in compounds like 水田 (すいでん).",
+      "Don't confuse it with 由 (in 自由) or 申, where the middle line pokes out."
+    ],
+    lookalikes: ["由", "申"],
+    examples: [
+      { w: "田んぼ", r: "たんぼ", m: "rice paddy" },
+      { w: "田中", r: "たなか", m: "Tanaka (surname)" },
+      { w: "水田", r: "すいでん", m: "paddy field" }
+    ]
+  },
+  {
+    k: "葉", meaning: "leaf", on: ["ヨウ"], kun: ["は"], group: "nature", strokes: 12, radical: "艹",
+    mnemonic: "Grass 艹 on top of 枼, a tree 木 with layers of new growth on its branches: a tree covered in leaves.",
+    notes: [
+      "The word ことば (word, language) is written with 葉, and so is 千葉 (ちば), the prefecture next to Tokyo.",
+      "は becomes ば in compounds; the everyday word for a leaf is 葉っぱ (はっぱ). よう is in written words like こうよう (autumn leaves).",
+      "Shares the 艹 grass top with 草 and 花."
+    ],
+    lookalikes: ["草"],
+    examples: [
+      { w: "葉っぱ", r: "はっぱ", m: "leaf" },
+      { w: "千葉", r: "ちば", m: "Chiba (prefecture)" },
+      { w: "葉書", r: "はがき", m: "postcard" }
+    ]
+  },
+  /* ========== Everyday, more: things ========== */
+  {
+    k: "物", meaning: "thing, object", on: ["ブツ", "モツ"], kun: ["もの"], group: "things", strokes: 8, radical: "牛",
+    mnemonic: "A cow 牛 next to 勿, a flag with streamers flapping: a market stall with cows, flags and all sorts of things for sale.",
+    notes: [
+      "Menus and vending machines say 飲み物 (のみもの, drinks); food courts list 食べ物 (たべもの, food).",
+      "Read もの in native words, ぶつ in 動物 (どうぶつ, animal) and もつ in 荷物 (にもつ, luggage).",
+      "The cow on the left is squashed thin, just as in 特 (special)."
+    ],
+    lookalikes: ["特"],
+    examples: [
+      { w: "食べ物", r: "たべもの", m: "food" },
+      { w: "買い物", r: "かいもの", m: "shopping" },
+      { w: "荷物", r: "にもつ", m: "luggage, bags" }
+    ]
+  },
+  {
+    k: "家", meaning: "house, home, family", on: ["カ", "ケ"], kun: ["いえ", "うち", "や"], group: "things", strokes: 10, radical: "宀",
+    mnemonic: "A roof 宀 over a pig 豕: in old farmhouses the family pig lived under the same roof, so roof plus pig means home.",
+    notes: [
+      "いえ is the building; うち is warmer and means 'my home, my family': うちに来ませんか.",
+      "Your landlord is the 大家さん (おおやさん). Electronics shops advertise 家電 (かでん, home appliances).",
+      "As a suffix it marks a profession (画家, がか, painter) or a family: 田中家 (たなかけ), the Tanaka family."
+    ],
+    lookalikes: ["室"],
+    examples: [
+      { w: "家", r: "いえ", m: "house, home" },
+      { w: "大家さん", r: "おおやさん", m: "landlord" },
+      { w: "家電", r: "かでん", m: "home appliances" }
+    ]
+  },
+  {
+    k: "茶", meaning: "tea", on: ["チャ", "サ"], kun: [], group: "things", strokes: 9, radical: "艹",
+    mnemonic: "Grass 艹 on top, a person 人 under a little roof and a tree 木 below: someone sheltering under a tea bush, picking its leaves.",
+    notes: [
+      "Vending machines and konbini fridges are full of お茶 (おちゃ), usually unsweetened green tea.",
+      "Read さ in 茶道 (さどう), the tea ceremony; nearly everywhere else it is ちゃ.",
+      "Don't confuse with 草 (grass), which shares the grass top 艹."
+    ],
+    lookalikes: ["草"],
+    examples: [
+      { w: "お茶", r: "おちゃ", m: "tea, green tea" },
+      { w: "茶道", r: "さどう", m: "the tea ceremony" },
+      { w: "茶わん", r: "ちゃわん", m: "rice bowl, tea bowl" }
+    ]
+  },
+  {
+    k: "米", meaning: "rice", on: ["ベイ", "マイ"], kun: ["こめ"], group: "things", strokes: 6, radical: "米",
+    mnemonic: "A rice stalk crossed by a line, with grains bursting out in four directions: the ripe head of the rice plant.",
+    notes: [
+      "Uncooked rice is (お)米 (おこめ); once cooked it becomes ごはん.",
+      "In autumn supermarkets put 新米 (しんまい), the new harvest, on the rice bags. 新米 also means a newcomer at work.",
+      "In the news it stands for America: 日米 (にちべい, Japan-US). Don't confuse it with 来 (come)."
+    ],
+    lookalikes: ["来", "木"],
+    examples: [
+      { w: "お米", r: "おこめ", m: "(uncooked) rice" },
+      { w: "新米", r: "しんまい", m: "new-crop rice; newcomer" },
+      { w: "米国", r: "べいこく", m: "the USA" }
+    ]
+  },
+  {
+    k: "肉", meaning: "meat", on: ["ニク"], kun: [], group: "things", strokes: 6, radical: "肉",
+    mnemonic: "A cut of meat hanging in a frame, with the marbling showing as two little 人 inside.",
+    notes: [
+      "Supermarket labels: 牛肉 (ぎゅうにく, beef); pork and chicken are ぶたにく and とりにく.",
+      "Used for 'meat' in general, but on menus 肉 alone often means beef.",
+      "Don't confuse with 内 (inside), which has only one 人 inside the frame."
+    ],
+    lookalikes: ["内"],
+    examples: [
+      { w: "肉", r: "にく", m: "meat" },
+      { w: "牛肉", r: "ぎゅうにく", m: "beef" },
+      { w: "肉売り場", r: "にくうりば", m: "meat counter (in a shop)" }
+    ]
+  },
+  {
+    k: "酒", meaning: "alcohol, sake", on: ["シュ"], kun: ["さけ"], group: "things", strokes: 10, radical: "酉",
+    mnemonic: "Water 氵 next to 酉, a jar with a narrow neck: liquid sealed in a jar until it ferments into sake.",
+    notes: [
+      "お酒 (おさけ) means any alcohol; the rice drink itself is 日本酒 (にほんしゅ).",
+      "Becomes ざけ in compounds: 地酒 (じざけ) is local sake, a favourite souvenir.",
+      "Konbini tills ask you to tap a button confirming you are 20 or over when you buy お酒."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "お酒", r: "おさけ", m: "alcohol, sake" },
+      { w: "日本酒", r: "にほんしゅ", m: "sake (rice wine)" },
+      { w: "地酒", r: "じざけ", m: "local sake" }
+    ]
+  },
+  {
+    k: "紙", meaning: "paper", on: ["シ"], kun: ["かみ"], group: "things", strokes: 10, radical: "糸",
+    mnemonic: "Thread 糸 beside 氏, a family name: fibres pressed flat into a sheet so a family could write its name.",
+    notes: [
+      "Becomes がみ in compounds: 手紙 (てがみ) is a letter.",
+      "Offices and city halls hand you a 申込用紙 (もうしこみようし, application form) to fill in.",
+      "Recycling rules sort out 紙 (paper) from plastic and cans, so look for it on bins."
+    ],
+    lookalikes: ["絵"],
+    examples: [
+      { w: "紙", r: "かみ", m: "paper" },
+      { w: "手紙", r: "てがみ", m: "letter" },
+      { w: "用紙", r: "ようし", m: "form, sheet of paper" }
+    ]
+  },
+  {
+    k: "服", meaning: "clothes", on: ["フク"], kun: [], group: "things", strokes: 8, radical: "月",
+    mnemonic: "A body 月 (the flesh form of moon) beside a kneeling figure with a hand on its back: someone being helped into their clothes.",
+    notes: [
+      "服 (ふく) is everyday clothing; department store floor guides list men's and women's wear as しんしふく and ふじんふく.",
+      "On medicine packets 服用 (ふくよう) means taking a dose: 食後に服用 (しょくごにふくよう), take after meals.",
+      "Sound change in 一服 (いっぷく), a short break."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "服", r: "ふく", m: "clothes" },
+      { w: "服用", r: "ふくよう", m: "taking (medicine)" },
+      { w: "子ども服", r: "こどもふく", m: "children's clothing" }
+    ]
+  },
+  {
+    k: "傘", meaning: "umbrella", on: ["サン"], kun: ["かさ"], group: "things", strokes: 12, radical: "人",
+    mnemonic: "An umbrella seen from below: the big roof 人 spread over four little 人 huddled round the handle, out of the rain.",
+    notes: [
+      "The moment it rains, every konbini sells clear ビニール傘 (ビニールがさ, plastic umbrellas).",
+      "Becomes がさ in compounds: 日傘 (ひがさ) is the parasol many people carry in summer.",
+      "Shops often ask you to leave a wet 傘 in the stand at the door or put it in a plastic bag."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "傘", r: "かさ", m: "umbrella" },
+      { w: "日傘", r: "ひがさ", m: "parasol" },
+      { w: "ビニール傘", r: "ビニールがさ", m: "clear plastic umbrella" }
+    ]
+  },
+  {
+    k: "箱", meaning: "box", on: [], kun: ["はこ"], group: "things", strokes: 15, radical: "竹",
+    mnemonic: "Bamboo 竹 on top of 相, a tree 木 and an eye 目 side by side: you eye up the wood and bamboo and build a box.",
+    notes: [
+      "Becomes ばこ in compounds: ゴミ箱 (ごみばこ) is a rubbish bin, though public ones are rare in Japan.",
+      "The on reading そう is almost never met; everyday words use はこ.",
+      "Has the bamboo top of 等 and 符, like many kanji for things once made of bamboo."
+    ],
+    lookalikes: ["等"],
+    examples: [
+      { w: "箱", r: "はこ", m: "box" },
+      { w: "ゴミ箱", r: "ゴミばこ", m: "rubbish bin" },
+      { w: "本箱", r: "ほんばこ", m: "bookcase" }
+    ]
+  },
+  {
+    k: "皿", meaning: "plate, dish", on: [], kun: ["さら"], group: "things", strokes: 5, radical: "皿",
+    mnemonic: "A dish seen from the side: a wide flat base with little walls standing on it.",
+    notes: [
+      "At conveyor-belt sushi, plates are colour-coded by price and counted 一皿 (ひとさら), 二皿 (ふたさら).",
+      "Becomes ざら in compounds: 小皿 (こざら) is the small dish for soy sauce.",
+      "It is the bottom of 血 (blood), which adds one stroke on top, and of 温 (warm)."
+    ],
+    lookalikes: ["血"],
+    examples: [
+      { w: "お皿", r: "おさら", m: "plate, dish" },
+      { w: "小皿", r: "こざら", m: "small plate" },
+      { w: "大皿", r: "おおざら", m: "large serving plate" }
+    ]
+  },
+  {
+    k: "机", meaning: "desk", on: ["キ"], kun: ["つくえ"], group: "things", strokes: 6, radical: "木",
+    mnemonic: "Wood 木 beside 几, a little table on legs: a wooden table you sit at to work, a desk.",
+    notes: [
+      "Everyday word for a desk at school or in the office; a dining table is テーブル.",
+      "The on reading き is rare: 机上 (きじょう) means 'on paper, in theory'.",
+      "Don't confuse with 札 (note, ticket), which has a hook in place of 几."
+    ],
+    lookalikes: ["札"],
+    examples: [
+      { w: "机", r: "つくえ", m: "desk" },
+      { w: "長机", r: "ながづくえ", m: "long table" },
+      { w: "机上", r: "きじょう", m: "on the desk; in theory" }
+    ]
+  },
+  {
+    k: "窓", meaning: "window", on: ["ソウ"], kun: ["まど"], group: "things", strokes: 11, radical: "穴",
+    mnemonic: "A hole 穴 at the top with a heart below it: the hole in the wall your heart looks out of, a window.",
+    notes: [
+      "At banks, post offices and city halls the service counter is the 窓口 (まどぐち). JR ticket offices are みどりの窓口.",
+      "Booking a seat? Choose 窓側 (まどがわ, window) or 通路側 (つうろがわ, aisle).",
+      "Shares the hole top with 空 (sky)."
+    ],
+    lookalikes: ["空"],
+    examples: [
+      { w: "窓", r: "まど", m: "window" },
+      { w: "窓口", r: "まどぐち", m: "service counter" },
+      { w: "窓側", r: "まどがわ", m: "window side (seat)" }
+    ]
+  },
+  {
+    k: "門", meaning: "gate", on: ["モン"], kun: [], group: "things", strokes: 8, radical: "門",
+    mnemonic: "A pair of swinging doors hung side by side between two posts: a gate.",
+    notes: [
+      "Temples, schools and big houses have a 門 (もん) at the entrance; a school gate is 校門 (こうもん).",
+      "入門 (にゅうもん), 'entering the gate', is used on textbook titles to mean 'introduction'.",
+      "It frames 間, 問, 聞, 開 and 閉: look at what is inside the gate to tell them apart."
+    ],
+    lookalikes: ["問", "間"],
+    examples: [
+      { w: "門", r: "もん", m: "gate" },
+      { w: "校門", r: "こうもん", m: "school gate" },
+      { w: "入門", r: "にゅうもん", m: "introduction, beginners' guide" }
+    ]
+  },
+  {
+    k: "手", meaning: "hand", on: ["シュ"], kun: ["て"], group: "things", strokes: 4, radical: "手",
+    mnemonic: "An open hand: three lines for the fingers crossed by the hooked line of the wrist and arm.",
+    notes: [
+      "Post offices and konbini sell 切手 (きって, stamps), literally 'cut hand'.",
+      "Irregular readings: 上手 (じょうず, good at) and 下手 (へた, bad at).",
+      "Right and left hand are 右手 (みぎて) and 左手 (ひだりて)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "手", r: "て", m: "hand" },
+      { w: "切手", r: "きって", m: "postage stamp" },
+      { w: "上手", r: "じょうず", m: "skilful, good at" }
+    ]
+  },
+  {
+    k: "足", meaning: "foot, leg, enough", on: ["ソク"], kun: ["あし", "た.りる", "た.す"], group: "things", strokes: 7, radical: "足",
+    mnemonic: "A kneecap 口 on top of 龰, a foot taking a step: the leg from the knee down to the toes.",
+    notes: [
+      "あし covers both foot and leg.",
+      "足りる (たりる) is 'to be enough': お金が足りない (not enough money). 足す (たす) is 'to add'.",
+      "Counter for pairs of shoes and socks: 一足 (いっそく), 三足 (さんぞく)."
+    ],
+    lookalikes: ["定"],
+    examples: [
+      { w: "足", r: "あし", m: "foot, leg" },
+      { w: "足りる", r: "たりる", m: "to be enough" },
+      { w: "一足", r: "いっそく", m: "one pair (of shoes)" }
+    ]
+  },
+  {
+    k: "目", meaning: "eye", on: ["モク"], kun: ["め"], group: "things", strokes: 5, radical: "目",
+    mnemonic: "An eye turned on its side: the tall frame is the eyelids and the two lines inside are the pupil.",
+    notes: [
+      "After numbers め makes ordinals: 二つ目の駅 (ふたつめのえき, the second station), 二番目 (にばんめ).",
+      "Read もく in compounds such as 目次 (もくじ, table of contents).",
+      "Don't confuse with 日 (one line inside) or 自 (an extra stroke on top)."
+    ],
+    lookalikes: ["日", "自"],
+    examples: [
+      { w: "目", r: "め", m: "eye" },
+      { w: "二番目", r: "にばんめ", m: "second, number two" },
+      { w: "目次", r: "もくじ", m: "table of contents" }
+    ]
+  },
+  {
+    k: "糸", meaning: "thread", on: ["シ"], kun: ["いと"], group: "things", strokes: 6, radical: "糸",
+    mnemonic: "A twisted skein of silk: two loops wound tight at the top, tied off, with loose strands spreading at the bottom.",
+    notes: [
+      "On its own you meet it in sewing kits at 100-yen shops.",
+      "On the left of a kanji it marks threads, cloth and tying: 紙, 絵, 線, 約.",
+      "Sticky natto 'pulls threads': 糸を引く (いとをひく)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "糸", r: "いと", m: "thread" },
+      { w: "糸口", r: "いとぐち", m: "clue, starting point" },
+      { w: "糸電話", r: "いとでんわ", m: "string telephone" }
+    ]
+  },
+  {
+    k: "玉", meaning: "ball, jewel", on: ["ギョク"], kun: ["たま"], group: "things", strokes: 5, radical: "玉",
+    mnemonic: "A king 王 with a dot 丶 tucked beside him: the jewel he never lets go of.",
+    notes: [
+      "Coins are 玉 (だま): 十円玉 (じゅうえんだま), 百円玉, 五百円玉.",
+      "Children get お年玉 (おとしだま), gift money, at New Year. On menus egg is often written 玉子 (たまご).",
+      "Without the dot it is 王 (king)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "百円玉", r: "ひゃくえんだま", m: "100-yen coin" },
+      { w: "お年玉", r: "おとしだま", m: "New Year gift money" },
+      { w: "目玉", r: "めだま", m: "eyeball; highlight" }
+    ]
+  },
+  {
+    k: "写", meaning: "copy, photograph", on: ["シャ"], kun: ["うつ.す", "うつ.る"], group: "things", strokes: 5, radical: "冖",
+    mnemonic: "A cover 冖 laid over 与, a hand giving something: lay a thin sheet over the original and trace a copy.",
+    notes: [
+      "写真 (しゃしん) is a photo; museums and temples post 写真禁止 (しゃしんきんし): no photos.",
+      "写す (うつす) is to copy or take a picture of; 写る (うつる) is to come out in a photo."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "写真", r: "しゃしん", m: "photograph" },
+      { w: "写す", r: "うつす", m: "to copy; to photograph" },
+      { w: "写る", r: "うつる", m: "to appear (in a photo)" }
+    ]
+  },
+  {
+    k: "真", meaning: "true, real", on: ["シン"], kun: ["ま"], group: "things", strokes: 10, radical: "目",
+    mnemonic: "A 十 on top of 具, a tool on its stand: measure the tool ten times over and you get its true size.",
+    notes: [
+      "As the prefix ま it means right, pure, exactly: 真ん中 (まんなか, the very middle), 真夏 (まなつ, midsummer).",
+      "It often doubles the next sound: 真っ白 (まっしろ, pure white), 真っ先 (まっさき, the very first).",
+      "In 写真 (しゃしん, photo) it is read しん."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "写真", r: "しゃしん", m: "photograph" },
+      { w: "真ん中", r: "まんなか", m: "the very middle" },
+      { w: "真っ白", r: "まっしろ", m: "pure white" }
+    ]
+  },
+  {
+    k: "絵", meaning: "picture, painting", on: ["エ", "カイ"], kun: [], group: "things", strokes: 12, radical: "糸",
+    mnemonic: "Thread 糸 next to 会, people meeting: coloured threads coming together to make a picture.",
+    notes: [
+      "え is the reading almost everywhere: 絵本 (えほん, picture book). The word emoji is え (picture) + もじ (character).",
+      "Read かい in 絵画 (かいが), fine-art painting, the word on museum signs.",
+      "Has the thread side of 紙 (paper) and 線 (line)."
+    ],
+    lookalikes: ["紙"],
+    examples: [
+      { w: "絵", r: "え", m: "picture, drawing" },
+      { w: "絵本", r: "えほん", m: "picture book" },
+      { w: "絵画", r: "かいが", m: "painting, fine art" }
+    ]
+  },
+  {
+    k: "画", meaning: "picture, stroke", on: ["ガ", "カク"], kun: [], group: "things", strokes: 8, radical: "田",
+    mnemonic: "A line 一 on top, a field 由 in the middle and an open box 凵 round it: marking out a field's borders, the first picture ever drawn.",
+    notes: [
+      "Ticket machines and touch screens say 画面にタッチしてください (がめんにタッチしてください): touch the screen.",
+      "Read かく for strokes and plans: kanji dictionaries count strokes as 8画 (はっかく), and 計画 (けいかく) is a plan.",
+      "Don't confuse with 面 (face, surface), another boxed shape with a line on top."
+    ],
+    lookalikes: ["面"],
+    examples: [
+      { w: "画面", r: "がめん", m: "screen" },
+      { w: "計画", r: "けいかく", m: "plan" },
+      { w: "画家", r: "がか", m: "painter, artist" }
+    ]
+  },
+  {
+    k: "音", meaning: "sound", on: ["オン"], kun: ["おと", "ね"], group: "things", strokes: 9, radical: "音",
+    mnemonic: "立, a person standing, over 日, the sun: someone standing and singing at sunrise, a sound carried on the morning air.",
+    notes: [
+      "おと is a sound or noise from things; a voice is こえ instead.",
+      "Read ね in 本音 (ほんね), your real feelings, and おん in 発音 (はつおん, pronunciation).",
+      "It sits on top of 意 (mind), which adds a heart underneath."
+    ],
+    lookalikes: ["意"],
+    examples: [
+      { w: "発音", r: "はつおん", m: "pronunciation" },
+      { w: "足音", r: "あしおと", m: "footsteps" },
+      { w: "本音", r: "ほんね", m: "true feelings" }
+    ]
+  },
   /* ========== Clinic & hospital pack: departments and staff ========== */
   {
     k: "病", meaning: "illness, sick", on: ["ビョウ"], kun: ["やまい", "や.む"], group: "c-staff", strokes: 10, radical: "疒",
@@ -2523,6 +3319,1223 @@ NH.KANJI = [
       { w: "求める", r: "もとめる", m: "to seek, request" },
       { w: "求人", r: "きゅうじん", m: "job vacancy" }
     ]
+  },
+  /* ========== Stations & trains ========== */
+  {
+    k: "駅", meaning: "station", on: ["エキ"], kun: [], group: "st-lines", strokes: 14, radical: "馬",
+    mnemonic: "A horse 馬 tied up beside a measuring rod 尺: the old post town where riders swapped horses, today's station.",
+    notes: [
+      "On every platform sign: the big name in the middle is this 駅, with the previous and next stations to either side.",
+      "Always えき, often after a name: 東京駅 (とうきょうえき). 駅員 (えきいん) are the station staff.",
+      "The horse 馬 on the left is the same as in 駐 (parking), as in 駐車場."
+    ],
+    lookalikes: ["駐"],
+    examples: [
+      { w: "駅前", r: "えきまえ", m: "in front of the station" },
+      { w: "駅員", r: "えきいん", m: "station staff" },
+      { w: "東京駅", r: "とうきょうえき", m: "Tokyo Station" }
+    ]
+  },
+  {
+    k: "線", meaning: "line, track", on: ["セン"], kun: [], group: "st-lines", strokes: 15, radical: "糸",
+    mnemonic: "A thread 糸 running out of a spring 泉 and stretching far away: one long coloured line on the train map.",
+    notes: [
+      "Every railway line is a 線: 山手線 (やまのてせん). Signs pair the name with the line's colour and letter.",
+      "Platforms are numbered 番線 (ばんせん): 3番線 is track 3. The board says which 番線 your train leaves from.",
+      "Announcements ask you to wait behind the 白線 (はくせん), the white (or yellow) line at the platform edge."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "番線", r: "ばんせん", m: "track (number), platform" },
+      { w: "山手線", r: "やまのてせん", m: "the Yamanote Line" },
+      { w: "白線", r: "はくせん", m: "white line" }
+    ]
+  },
+  {
+    k: "路", meaning: "road, route", on: ["ロ"], kun: [], group: "st-lines", strokes: 13, radical: "足",
+    mnemonic: "Feet 足 setting off, each 各 its own way: every foot finds its own road.",
+    notes: [
+      "線路 (せんろ) is the railway track itself: never go down onto it, press the platform's emergency button instead.",
+      "通路 (つうろ) is an aisle or passageway; on seat maps 通路側 (つうろがわ) is the aisle seat.",
+      "Almost always read ろ in compounds: 道路 (どうろ), road. 路線バス (ろせんバス) is the local route bus."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "線路", r: "せんろ", m: "railway track" },
+      { w: "通路", r: "つうろ", m: "aisle, passage" },
+      { w: "道路", r: "どうろ", m: "road" }
+    ]
+  },
+  {
+    k: "鉄", meaning: "iron, railway", on: ["テツ"], kun: [], group: "st-lines", strokes: 13, radical: "金",
+    mnemonic: "Metal 金 that someone lost 失 along the line: the iron rails every railway is built on.",
+    notes: [
+      "On signs it usually stands for 'railway': 地下鉄 (ちかてつ) is the subway and 鉄道 (てつどう) the railway.",
+      "Railway fans are 鉄道ファン, jokingly 鉄ちゃん (てっちゃん).",
+      "The metal 金 on the left is the same as in 銀 (silver), as in 銀行 (ぎんこう, bank)."
+    ],
+    lookalikes: ["銀"],
+    examples: [
+      { w: "地下鉄", r: "ちかてつ", m: "subway, underground" },
+      { w: "鉄道", r: "てつどう", m: "railway" },
+      { w: "鉄", r: "てつ", m: "iron" }
+    ]
+  },
+  {
+    k: "道", meaning: "road, way", on: ["ドウ"], kun: ["みち"], group: "st-lines", strokes: 12, radical: "辶",
+    mnemonic: "A head 首 moving along the walking road ⻌: the way you follow with your head up.",
+    notes: [
+      "みち on its own: 道を聞く (みちをきく) is asking the way, and station staff are used to it.",
+      "どう in compounds: 鉄道 (てつどう, railway), 水道 (すいどう, tap water) and 北海道 (ほっかいどう).",
+      "The walking road ⻌ also sits under 通 and 速, two other station kanji."
+    ],
+    lookalikes: ["通", "速"],
+    examples: [
+      { w: "道", r: "みち", m: "road, way" },
+      { w: "鉄道", r: "てつどう", m: "railway" },
+      { w: "北海道", r: "ほっかいどう", m: "Hokkaido" }
+    ]
+  },
+  {
+    k: "地", meaning: "ground, place", on: ["チ", "ジ"], kun: [], group: "st-lines", strokes: 6, radical: "土",
+    mnemonic: "A curling 也 lying flat on the soil 土: the ground beneath your feet.",
+    notes: [
+      "地下 (ちか) means underground: 地下鉄 (subway) and the basement floors on lift panels, 地下一階 (B1).",
+      "Read じ in a few words such as 地面 (じめん, the ground surface).",
+      "Don't confuse it with 池 (いけ, pond): same right side, but water on the left instead of soil."
+    ],
+    lookalikes: ["池"],
+    examples: [
+      { w: "地下", r: "ちか", m: "underground, basement" },
+      { w: "地下鉄", r: "ちかてつ", m: "subway" },
+      { w: "土地", r: "とち", m: "land" }
+    ]
+  },
+  {
+    k: "発", meaning: "depart, emit", on: ["ハツ"], kun: [], group: "st-lines", strokes: 9, radical: "癶",
+    mnemonic: "Two feet 癶 spread wide at the top, kicking off: the moment the train sets off.",
+    notes: [
+      "On departure boards 10:05発 means 'leaves at 10:05', and 東京発 means 'starting from Tokyo'.",
+      "Sound changes: はっ in 発車 (はっしゃ, a train leaving) and ぱつ in 出発 (しゅっぱつ, departure).",
+      "始発 (しはつ) is the first train of the day; the jingle before the doors close is the 発車メロディ."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "出発", r: "しゅっぱつ", m: "departure" },
+      { w: "発車", r: "はっしゃ", m: "(train) departing" },
+      { w: "始発", r: "しはつ", m: "first train of the day" }
+    ]
+  },
+  {
+    k: "着", meaning: "arrive, wear", on: ["チャク"], kun: ["つ.く", "き.る"], group: "st-lines", strokes: 12, radical: "目",
+    mnemonic: "A woolly sheep-horn top pulled down over an eye 目: you put on your coat and arrive.",
+    notes: [
+      "On arrival boards 12:30着 means 'arrives 12:30'; timetables often show 発 and 着 side by side.",
+      "Two everyday verbs: 着く (つく, to arrive), as in 駅に着く, and 着る (きる, to wear clothes).",
+      "終着駅 (しゅうちゃくえき) is the end of the line. ちゃく also appears in 先着 (せんちゃく), first come first served."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "着く", r: "つく", m: "to arrive" },
+      { w: "着る", r: "きる", m: "to wear" },
+      { w: "終着駅", r: "しゅうちゃくえき", m: "terminus, last station" }
+    ]
+  },
+  {
+    k: "両", meaning: "both, (train) car", on: ["リョウ"], kun: [], group: "st-lines", strokes: 6, radical: "一",
+    mnemonic: "A yoke 一 laid across a frame 冂 with two little mountains 山 inside: two loads balanced, one on each side.",
+    notes: [
+      "The counter for railway cars: platform signs say a train has 10両 (じゅうりょう), ten cars.",
+      "車両 (しゃりょう) is a railway car; 両方 (りょうほう) means both.",
+      "Always りょう. 両手 (りょうて) is both hands."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "両方", r: "りょうほう", m: "both" },
+      { w: "車両", r: "しゃりょう", m: "railway car" },
+      { w: "両手", r: "りょうて", m: "both hands" }
+    ]
+  },
+  {
+    k: "次", meaning: "next", on: ["ジ"], kun: ["つぎ"], group: "st-lines", strokes: 6, radical: "欠",
+    mnemonic: "A cold 冫 shiver next to a yawning person 欠: one yawn after another, the next one always coming.",
+    notes: [
+      "The train display and announcement start 次は (つぎは): 'next stop'. 次の駅 (つぎのえき) is the next station.",
+      "On departure boards 次発 (じはつ) is the train after the first one listed.",
+      "Read じ in compounds: 目次 (もくじ, table of contents)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "次", r: "つぎ", m: "next" },
+      { w: "次発", r: "じはつ", m: "the following train" },
+      { w: "目次", r: "もくじ", m: "table of contents" }
+    ]
+  },
+  {
+    k: "終", meaning: "end, finish", on: ["シュウ"], kun: ["お.わる", "お.える"], group: "st-lines", strokes: 11, radical: "糸",
+    mnemonic: "The thread 糸 runs out in winter 冬: the end of the spool at the end of the year.",
+    notes: [
+      "終電 (しゅうでん) is the last train of the night, usually around midnight; timetables mark it so you can check.",
+      "終わる (おわる) is 'to end' by itself; 終える (おえる) is 'to finish' something.",
+      "Platforms post 終日禁煙 (しゅうじつきんえん): no smoking all day. Winter 冬 sits on the right."
+    ],
+    lookalikes: ["冬"],
+    examples: [
+      { w: "終わる", r: "おわる", m: "to end" },
+      { w: "終電", r: "しゅうでん", m: "last train" },
+      { w: "終日", r: "しゅうじつ", m: "all day" }
+    ]
+  },
+  {
+    k: "始", meaning: "begin, start", on: ["シ"], kun: ["はじ.める", "はじ.まる"], group: "st-lines", strokes: 8, radical: "女",
+    mnemonic: "A woman 女 steps up onto the platform 台 to open the show: things begin.",
+    notes: [
+      "始発 (しはつ) is the first train of the morning; 当駅始発 (とうえきしはつ) on a board means the train starts here, so it is easier to get a seat.",
+      "始まる (はじまる): something begins by itself; 始める (はじめる): you start something.",
+      "Don't mix it up with 初 (はじ.め): 初 is the first time, 始 is starting something."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "始まる", r: "はじまる", m: "to begin" },
+      { w: "始める", r: "はじめる", m: "to start (something)" },
+      { w: "始発", r: "しはつ", m: "first train" }
+    ]
+  },
+  {
+    k: "切", meaning: "cut", on: ["セツ"], kun: ["き.る", "き.れる"], group: "st-tickets", strokes: 4, radical: "刀",
+    mnemonic: "Seven 七 quick slashes with a sword 刀: cut clean through.",
+    notes: [
+      "切符 (きっぷ) is a ticket: き turns into きっ. Gate staff used to clip each paper ticket by hand.",
+      "切れる (きれる) is to run out or expire, like a ticket's valid time or a card's charge.",
+      "せつ in 大切 (たいせつ, precious, important)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "切符", r: "きっぷ", m: "ticket" },
+      { w: "切る", r: "きる", m: "to cut" },
+      { w: "大切", r: "たいせつ", m: "important, precious" }
+    ]
+  },
+  {
+    k: "符", meaning: "token, mark", on: ["フ"], kun: [], group: "st-tickets", strokes: 11, radical: "竹",
+    mnemonic: "Bamboo 竹 slips handed over 付 at the gate: an ancient tally, today's ticket.",
+    notes: [
+      "You meet it almost only in 切符 (きっぷ), the paper ticket from the machine. In 切符, ふ becomes ぷ.",
+      "切符売り場 (きっぷうりば) is where the ticket machines are; IC cards can be charged there too.",
+      "The lower part is 付 (つ.ける, attach), as in 受付 (うけつけ)."
+    ],
+    lookalikes: ["付"],
+    examples: [
+      { w: "切符", r: "きっぷ", m: "ticket" },
+      { w: "切符売り場", r: "きっぷうりば", m: "ticket machines, ticket office" },
+      { w: "音符", r: "おんぷ", m: "musical note" }
+    ]
+  },
+  {
+    k: "改", meaning: "change, inspect", on: ["カイ"], kun: ["あらた.める"], group: "st-tickets", strokes: 7, radical: "攵",
+    mnemonic: "Oneself 己 struck with a stick 攵: knocking yourself into shape, a change for the better.",
+    notes: [
+      "改札 (かいさつ) is the ticket gate: signs point to 北改札, 南改札 and so on. Meet friends 'at the gate', 改札で.",
+      "改札口 (かいさつぐち) is the same place; 口 becomes ぐち.",
+      "改めて (あらためて) means 'again, afresh', a polite word in emails and speeches."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "改札", r: "かいさつ", m: "ticket gate" },
+      { w: "改札口", r: "かいさつぐち", m: "ticket gate (exit)" },
+      { w: "改める", r: "あらためる", m: "to change, revise" }
+    ]
+  },
+  {
+    k: "札", meaning: "note, tag", on: ["サツ"], kun: ["ふだ"], group: "st-tickets", strokes: 5, radical: "木",
+    mnemonic: "A wooden 木 board hanging from a hook 乙: a tag on a peg, or a bill you hand over.",
+    notes: [
+      "Banknotes are お札 (おさつ): 千円札 (せんえんさつ). Ticket machines take 千円札 and up.",
+      "ふだ for tags: 名札 (なふだ, name badge), 番号札 (ばんごうふだ, number ticket).",
+      "In 改札 (かいさつ, ticket gate) it once meant checking the tickets."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "千円札", r: "せんえんさつ", m: "1,000-yen note" },
+      { w: "名札", r: "なふだ", m: "name badge" },
+      { w: "改札", r: "かいさつ", m: "ticket gate" }
+    ]
+  },
+  {
+    k: "精", meaning: "refined, precise", on: ["セイ"], kun: [], group: "st-tickets", strokes: 14, radical: "米",
+    mnemonic: "Rice 米 polished until it gleams pure blue-white 青: refined down to the last grain.",
+    notes: [
+      "精算 (せいさん) is settling the fare: if your ticket or IC card is short, use the 精算 machine before the gates.",
+      "精算所 (せいさんじょ) is the fare adjustment window, usually next to the gates.",
+      "The right side 青 is the same as in 晴 (はれ, sunny)."
+    ],
+    lookalikes: ["晴"],
+    examples: [
+      { w: "精算", r: "せいさん", m: "fare adjustment" },
+      { w: "精算所", r: "せいさんじょ", m: "fare adjustment office" },
+      { w: "精米", r: "せいまい", m: "polished rice" }
+    ]
+  },
+  {
+    k: "算", meaning: "calculate", on: ["サン"], kun: [], group: "st-tickets", strokes: 14, radical: "竹",
+    mnemonic: "Bamboo 竹 rods laid over a counting tray held up in two hands: an abacus adding it all up.",
+    notes: [
+      "At stations it comes in 精算 (せいさん), paying the difference at the gate.",
+      "計算 (けいさん) is calculation; 予算 (よさん) is a budget.",
+      "Always さん; watch the bamboo top, the same as in 符 and 等."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "精算", r: "せいさん", m: "fare adjustment" },
+      { w: "計算", r: "けいさん", m: "calculation" },
+      { w: "予算", r: "よさん", m: "budget" }
+    ]
+  },
+  {
+    k: "定", meaning: "fixed, decide", on: ["テイ", "ジョウ"], kun: [], group: "st-tickets", strokes: 8, radical: "宀",
+    mnemonic: "A foot 疋 planted firmly under a roof 宀: settled in place, fixed.",
+    notes: [
+      "定期券 (ていきけん) is a commuter pass for a fixed route, often loaded onto an IC card; many employers pay for it.",
+      "指定席 (していせき) is a reserved seat. Shops post 定休日 (ていきゅうび), their regular day off.",
+      "Usually てい, as in 予定 (よてい, plan); じょう only in a few words such as じょうぎ (ruler)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "予定", r: "よてい", m: "plan, schedule" },
+      { w: "定期券", r: "ていきけん", m: "commuter pass" },
+      { w: "定休日", r: "ていきゅうび", m: "regular closing day" }
+    ]
+  },
+  {
+    k: "期", meaning: "period, term", on: ["キ"], kun: [], group: "st-tickets", strokes: 12, radical: "月",
+    mnemonic: "A basket 其 set out under the moon 月: counting moons to mark out each period.",
+    notes: [
+      "定期 (ていき) on its own usually means your commuter pass; a pass holder is a 定期入れ (ていきいれ).",
+      "期間 (きかん) is a period of time, as on sale posters and pass validity.",
+      "Sound change in 学期 (がっき, school term)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "定期", r: "ていき", m: "commuter pass (short)" },
+      { w: "期間", r: "きかん", m: "period, term" },
+      { w: "学期", r: "がっき", m: "school term" }
+    ]
+  },
+  {
+    k: "指", meaning: "finger, point", on: ["シ"], kun: ["ゆび", "さ.す"], group: "st-tickets", strokes: 9, radical: "扌",
+    mnemonic: "A hand 扌 reaching for something tasty 旨: you point at it with your finger.",
+    notes: [
+      "指定席 (していせき) is a reserved seat; 自由席 (じゆうせき) cars are first come, first seated.",
+      "ゆび is a finger; 指す (さす) is to point. Station staff point and call out at each check.",
+      "Same hand 扌 on the left as in 押 (push) and 換 (exchange)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "指", r: "ゆび", m: "finger" },
+      { w: "指定席", r: "していせき", m: "reserved seat" },
+      { w: "指す", r: "さす", m: "to point" }
+    ]
+  },
+  {
+    k: "席", meaning: "seat", on: ["セキ"], kun: [], group: "st-tickets", strokes: 10, radical: "巾",
+    mnemonic: "A cloth mat spread out under a shelter 广: your seat for the journey.",
+    notes: [
+      "Train seat types: 指定席 (reserved), 自由席 (unreserved) and 優先席 (ゆうせんせき, priority seats).",
+      "空席 (くうせき) is a free seat; ticket screens show ○ for seats still available.",
+      "Always せき. In restaurants: 禁煙席 (きんえんせき), a non-smoking seat."
+    ],
+    lookalikes: ["庫"],
+    examples: [
+      { w: "席", r: "せき", m: "seat" },
+      { w: "空席", r: "くうせき", m: "vacant seat" },
+      { w: "優先席", r: "ゆうせんせき", m: "priority seat" }
+    ]
+  },
+  {
+    k: "自", meaning: "self", on: ["ジ", "シ"], kun: ["みずか.ら"], group: "st-tickets", strokes: 6, radical: "自",
+    mnemonic: "An eye 目 with a little nose tip on top: pointing at your own nose to say 'me, myself'.",
+    notes: [
+      "自動 (じどう) is automatic: 自動改札 (じどうかいさつ) gates and 自動ドア doors.",
+      "自由席 (じゆうせき) is the unreserved car. 自分 (じぶん) means oneself.",
+      "Lookalikes: 目 (eye) has no tick on top, 白 (white) has only one line inside."
+    ],
+    lookalikes: ["目", "白"],
+    examples: [
+      { w: "自分", r: "じぶん", m: "oneself" },
+      { w: "自動", r: "じどう", m: "automatic" },
+      { w: "自由", r: "じゆう", m: "freedom, free" }
+    ]
+  },
+  {
+    k: "由", meaning: "reason, via", on: ["ユウ", "ユ"], kun: [], group: "st-tickets", strokes: 5, radical: "田",
+    mnemonic: "A field 日 with a sprout 丨 poking out the top: that's where it came from, the reason.",
+    notes: [
+      "自由 (じゆう, free): 自由席 (unreserved seats) and 自由通路 (じゆうつうろ), the free walkway through a station.",
+      "Usually ゆう: 理由 (りゆう, reason). ゆ appears in けいゆ ('via'), seen on destination boards.",
+      "Lookalikes: 田 (rice field) has no stroke sticking out, 申 sticks out top and bottom."
+    ],
+    lookalikes: ["田", "申"],
+    examples: [
+      { w: "自由", r: "じゆう", m: "freedom, free" },
+      { w: "自由席", r: "じゆうせき", m: "unreserved seat" },
+      { w: "理由", r: "りゆう", m: "reason" }
+    ]
+  },
+  {
+    k: "優", meaning: "gentle, superior", on: ["ユウ"], kun: ["やさ.しい"], group: "st-tickets", strokes: 17, radical: "亻",
+    mnemonic: "A person 亻 standing beside someone's sorrow 憂: noticing it and giving way, gentle and kind.",
+    notes: [
+      "優先席 (ゆうせんせき) are priority seats near the doors for older people, pregnant women, people with disabilities and small children.",
+      "優しい (やさしい) means kind; 'easy' is also やさしい but uses a different kanji.",
+      "With 17 strokes it is the biggest kanji in this set: take the right side slowly."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "優先席", r: "ゆうせんせき", m: "priority seat" },
+      { w: "優しい", r: "やさしい", m: "kind, gentle" },
+      { w: "優先", r: "ゆうせん", m: "priority" }
+    ]
+  },
+  {
+    k: "快", meaning: "pleasant, rapid", on: ["カイ"], kun: ["こころよ.い"], group: "st-trains", strokes: 7, radical: "忄",
+    mnemonic: "A heart 忄 that cuts loose 夬 from its worries: light, quick and pleasant.",
+    notes: [
+      "快速 (かいそく) is a rapid train: it skips the small stations that 各停 and 普通 trains stop at. Usually no extra fare.",
+      "快晴 (かいせい) is a perfectly clear sky in weather forecasts.",
+      "Don't confuse it with 決 (き.める, decide): same right side, but water on the left instead of a heart."
+    ],
+    lookalikes: ["決"],
+    examples: [
+      { w: "快速", r: "かいそく", m: "rapid train" },
+      { w: "快晴", r: "かいせい", m: "clear, fine weather" },
+      { w: "快い", r: "こころよい", m: "pleasant" }
+    ]
+  },
+  {
+    k: "速", meaning: "fast", on: ["ソク"], kun: ["はや.い"], group: "st-trains", strokes: 10, radical: "辶",
+    mnemonic: "A bundle 束 strapped on, legs racing down the road ⻌: tie it up and go, fast.",
+    notes: [
+      "快速 (かいそく) is the rapid train on departure boards.",
+      "速い (はやい) is fast in speed; 'early' is also はやい but written differently.",
+      "高速 (こうそく) means high-speed: 高速道路 (expressway) and 高速バス (long-distance bus)."
+    ],
+    lookalikes: ["通"],
+    examples: [
+      { w: "速い", r: "はやい", m: "fast" },
+      { w: "快速", r: "かいそく", m: "rapid train" },
+      { w: "高速", r: "こうそく", m: "high speed; expressway" }
+    ]
+  },
+  {
+    k: "各", meaning: "each, every", on: ["カク"], kun: [], group: "st-trains", strokes: 6, radical: "口",
+    mnemonic: "A foot 夂 stopping at every doorway 口: calling at each and every house.",
+    notes: [
+      "各駅停車 (かくえきていしゃ) is the local train that stops at every station; boards shorten it to 各停 (かくてい).",
+      "各地 (かくち) means 'all over', as in weather forecasts. 各自 (かくじ) is each person.",
+      "Don't confuse it with 名 (name): the top of 各 is a foot 夂 with a long sweep, while 名 has the shape for evening on top."
+    ],
+    lookalikes: ["名"],
+    examples: [
+      { w: "各駅停車", r: "かくえきていしゃ", m: "local train" },
+      { w: "各停", r: "かくてい", m: "local train (short)" },
+      { w: "各地", r: "かくち", m: "each region, all over" }
+    ]
+  },
+  {
+    k: "停", meaning: "stop, halt", on: ["テイ"], kun: [], group: "st-trains", strokes: 11, radical: "亻",
+    mnemonic: "A person 亻 resting at a roadside pavilion 亭: a stop on the journey.",
+    notes: [
+      "バス停 (バスてい) is a bus stop. 停車 (ていしゃ) is a train or bus stopping: 各駅に停車します.",
+      "停電 (ていでん) is a power cut, and lines may stop running during one.",
+      "Part of 各停 (かくてい), the local train on departure boards."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "バス停", r: "バスてい", m: "bus stop" },
+      { w: "停車", r: "ていしゃ", m: "(train) stopping" },
+      { w: "停電", r: "ていでん", m: "power cut" }
+    ]
+  },
+  {
+    k: "普", meaning: "ordinary, general", on: ["フ"], kun: [], group: "st-trains", strokes: 12, radical: "日",
+    mnemonic: "Two people standing side by side 並 under the sun 日: the sun shines on everyone alike.",
+    notes: [
+      "普通 (ふつう) means normal; on boards it is the local train that stops at every station.",
+      "普通車 (ふつうしゃ) is a standard car, as opposed to the Green Car on JR trains.",
+      "普段 (ふだん) means usually, everyday."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "普通", r: "ふつう", m: "normal; local train" },
+      { w: "普通車", r: "ふつうしゃ", m: "standard car" },
+      { w: "普段", r: "ふだん", m: "usually" }
+    ]
+  },
+  {
+    k: "通", meaning: "pass, commute", on: ["ツウ"], kun: ["とお.る", "とお.り", "かよ.う"], group: "st-trains", strokes: 10, radical: "辶",
+    mnemonic: "A tube 甬 sliding along the road ⻌: something that passes all the way through.",
+    notes: [
+      "普通 (ふつう) on boards is the local train. On seat maps 通路側 (つうろがわ) is the aisle, 窓側 (まどがわ) the window.",
+      "通る (とおる) is to go through; 通う (かよう) is to commute or go regularly, as to school.",
+      "通り (とおり) is a street: after a name it becomes どおり, as in 駅前通り (えきまえどおり)."
+    ],
+    lookalikes: ["道", "速"],
+    examples: [
+      { w: "通る", r: "とおる", m: "to pass through" },
+      { w: "通り", r: "とおり", m: "street, avenue" },
+      { w: "通路", r: "つうろ", m: "aisle, passage" }
+    ]
+  },
+  {
+    k: "特", meaning: "special", on: ["トク"], kun: [], group: "st-trains", strokes: 10, radical: "牛",
+    mnemonic: "A cow 牛 led into the temple 寺: a special offering.",
+    notes: [
+      "特急 (とっきゅう) is a limited express: the fastest regular train on most lines, and on JR it needs a 特急券 (とっきゅうけん) on top of the fare.",
+      "とく becomes とっ in 特急. 特に (とくに) means especially.",
+      "Don't confuse it with 待 (wait): the same 寺 on the right, but a cow on the left."
+    ],
+    lookalikes: ["待"],
+    examples: [
+      { w: "特急", r: "とっきゅう", m: "limited express" },
+      { w: "特急券", r: "とっきゅうけん", m: "limited express ticket" },
+      { w: "特に", r: "とくに", m: "especially" }
+    ]
+  },
+  {
+    k: "止", meaning: "stop", on: ["シ"], kun: ["と.まる", "と.める"], group: "st-trains", strokes: 4, radical: "止",
+    mnemonic: "A foot planted firmly with one toe 卜 raised: stop right there.",
+    notes: [
+      "止まれ (とまれ), STOP, is on the red triangle signs at junctions and painted on the road.",
+      "禁止 (きんし) means prohibited: 駐車禁止 (ちゅうしゃきんし), no parking. 中止 (ちゅうし) means cancelled.",
+      "Don't confuse it with 上 (up): 止 has an extra short stroke on the left."
+    ],
+    lookalikes: ["上"],
+    examples: [
+      { w: "止まる", r: "とまる", m: "to stop" },
+      { w: "禁止", r: "きんし", m: "prohibited" },
+      { w: "中止", r: "ちゅうし", m: "cancellation" }
+    ]
+  },
+  {
+    k: "降", meaning: "get off, fall", on: ["コウ"], kun: ["お.りる", "ふ.る"], group: "st-moving", strokes: 10, radical: "阝",
+    mnemonic: "Feet stepping down 夅 a hillside ⻖: coming down, getting off.",
+    notes: [
+      "降りる (おりる) is to get off: 次の駅で降ります. Announcements ask you to let people off first: 降りる方が先.",
+      "降る (ふる) is for rain and snow: 雨が降る (あめがふる).",
+      "乗降口 (じょうこうぐち) is a train or bus door. The hill ⻖ on the left is the same as in 階 and 院."
+    ],
+    lookalikes: ["階"],
+    examples: [
+      { w: "降りる", r: "おりる", m: "to get off" },
+      { w: "降る", r: "ふる", m: "to fall (rain, snow)" },
+      { w: "乗降口", r: "じょうこうぐち", m: "door (for getting on and off)" }
+    ]
+  },
+  {
+    k: "換", meaning: "exchange, change", on: ["カン"], kun: ["か.える", "か.わる"], group: "st-moving", strokes: 12, radical: "扌",
+    mnemonic: "A hand 扌 swapping one grand 奐 parcel for another: an exchange.",
+    notes: [
+      "乗り換え (のりかえ) is changing trains: signs list each line to change to, with its colour.",
+      "Signs often drop the kana and write 乗換 (のりかえ); 乗り換え and 乗換え are all the same word.",
+      "かん in 換気 (かんき, ventilation): notices sometimes say the windows are open for 換気."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "乗り換え", r: "のりかえ", m: "transfer, change (trains)" },
+      { w: "換える", r: "かえる", m: "to exchange" },
+      { w: "換気", r: "かんき", m: "ventilation" }
+    ]
+  },
+  {
+    k: "段", meaning: "step, stairs", on: ["ダン"], kun: [], group: "st-moving", strokes: 9, radical: "殳",
+    mnemonic: "A hand with a stick 殳 chipping steps into a cliff on the left: one step after another.",
+    notes: [
+      "階段 (かいだん) is stairs: station signs show 階段 next to the escalator and lift signs.",
+      "値段 (ねだん) is a price, a word you hear in every shop. 普段 (ふだん) means usually.",
+      "Painted on many station stairs: 足もと注意, mind your step."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "階段", r: "かいだん", m: "stairs" },
+      { w: "値段", r: "ねだん", m: "price" },
+      { w: "普段", r: "ふだん", m: "usually" }
+    ]
+  },
+  {
+    k: "側", meaning: "side", on: ["ソク"], kun: ["がわ", "かわ"], group: "st-moving", strokes: 11, radical: "亻",
+    mnemonic: "A person 亻 standing beside the rules 則: keeping to the proper side.",
+    notes: [
+      "Announcements: 左側のドアが開きます (ひだりがわのドアがひらきます), the doors on the left will open.",
+      "Seats: 窓側 (まどがわ) is the window and 通路側 (つうろがわ) the aisle. 内側 (うちがわ) is inside the line.",
+      "Usually がわ after another word; そく appears in harder words."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "左側", r: "ひだりがわ", m: "left side" },
+      { w: "窓側", r: "まどがわ", m: "window side" },
+      { w: "内側", r: "うちがわ", m: "inside" }
+    ]
+  },
+  {
+    k: "戸", meaning: "door", on: ["コ"], kun: ["と"], group: "st-moving", strokes: 4, radical: "戸",
+    mnemonic: "A single door hanging under a lintel: one half of a swinging gate.",
+    notes: [
+      "On trains you mostly read ドア, but 戸 (と) is the classic word for a door, especially a sliding one.",
+      "Becomes ど in 雨戸 (あまど), the storm shutters on Japanese houses. 戸口 (とぐち) is a doorway.",
+      "It is the left part of 所 (ところ, place)."
+    ],
+    lookalikes: ["所"],
+    examples: [
+      { w: "戸", r: "と", m: "door" },
+      { w: "雨戸", r: "あまど", m: "storm shutter" },
+      { w: "戸口", r: "とぐち", m: "doorway" }
+    ]
+  },
+  {
+    k: "開", meaning: "open", on: ["カイ"], kun: ["あ.く", "あ.ける", "ひら.く"], group: "st-moving", strokes: 12, radical: "門",
+    mnemonic: "Two hands 开 lifting the bar from a gate 門: open up.",
+    notes: [
+      "Lift buttons show 開 (open) and 閉 (close). 開 has two posts 开 inside the gate.",
+      "Train announcements say ドアが開きます, read ひらきます or あきます.",
+      "開店 (かいてん) is a shop's opening time; museums show 開館 (かいかん) hours."
+    ],
+    lookalikes: ["閉", "間"],
+    examples: [
+      { w: "開く", r: "あく", m: "to open (by itself)" },
+      { w: "開ける", r: "あける", m: "to open (something)" },
+      { w: "開店", r: "かいてん", m: "shop opening" }
+    ]
+  },
+  {
+    k: "閉", meaning: "close, shut", on: ["ヘイ"], kun: ["し.まる", "し.める", "と.じる"], group: "st-moving", strokes: 11, radical: "門",
+    mnemonic: "A bar 才 jammed across the gate 門: shut tight.",
+    notes: [
+      "ドアが閉まります (しまります): 'the doors are closing', just before the train leaves. Don't rush in.",
+      "Lift button 閉 closes the doors; 開 opens them. Look at what is inside the gate.",
+      "閉店 (へいてん) is closing time; 閉じる (とじる) is for closing a book, an app or your eyes."
+    ],
+    lookalikes: ["開", "間"],
+    examples: [
+      { w: "閉まる", r: "しまる", m: "to close (by itself)" },
+      { w: "閉める", r: "しめる", m: "to close (something)" },
+      { w: "閉店", r: "へいてん", m: "shop closing" }
+    ]
+  },
+  {
+    k: "押", meaning: "push, press", on: ["オウ"], kun: ["お.す", "お.さえる"], group: "st-moving", strokes: 8, radical: "扌",
+    mnemonic: "A hand 扌 pressing down hard on a shell 甲: push.",
+    notes: [
+      "押 on a door means PUSH; 引 means PULL.",
+      "On some local trains and buses you press the button to open the door yourself: 押しボタン (おしボタン).",
+      "押し入れ (おしいれ) is the big sliding cupboard where futons are kept."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "押す", r: "おす", m: "to push, press" },
+      { w: "押しボタン", r: "おしボタン", m: "push button" },
+      { w: "押し入れ", r: "おしいれ", m: "futon cupboard" }
+    ]
+  },
+  /* ========== Shops & offices ========== */
+  {
+    k: "店", meaning: "shop, store", on: ["テン"], kun: ["みせ"], group: "tw-shops", strokes: 8, radical: "广",
+    mnemonic: "A lean-to roof 广 over a little stall 占 with goods laid out on the counter: a shop.",
+    notes: [
+      "Alone it is みせ; in compounds it is てん: 店員 (てんいん, shop staff), 本店 (ほんてん, main branch), 売店 (ばいてん, kiosk).",
+      "Signs say 店内 (てんない, inside the shop), as in 店内禁煙 (no smoking inside).",
+      "Chains add the branch after the name and 店: 東口店 (ひがしぐちてん) is the east-exit branch."
+    ],
+    lookalikes: ["庫"],
+    examples: [
+      { w: "店", r: "みせ", m: "shop, store" },
+      { w: "店員", r: "てんいん", m: "shop assistant" },
+      { w: "売店", r: "ばいてん", m: "kiosk, stall" }
+    ]
+  },
+  {
+    k: "売", meaning: "sell", on: ["バイ"], kun: ["う.る", "う.れる"], group: "tw-shops", strokes: 7, radical: "士",
+    mnemonic: "A samurai 士 standing behind a covered counter on two little legs, calling out his prices: selling.",
+    notes: [
+      "売り切れ (うりきれ) means sold out: vending machines light up a red sign under the empty drink.",
+      "Store directories list each 売り場 (うりば, sales floor): 食品売り場 is the food floor.",
+      "Same sound バイ as 買 (buy), its opposite; 売買 (ばいばい) is buying and selling."
+    ],
+    lookalikes: ["買", "読"],
+    examples: [
+      { w: "売る", r: "うる", m: "to sell" },
+      { w: "売り場", r: "うりば", m: "sales floor, counter" },
+      { w: "売り切れ", r: "うりきれ", m: "sold out" }
+    ]
+  },
+  {
+    k: "買", meaning: "buy", on: ["バイ"], kun: ["か.う"], group: "tw-shops", strokes: 12, radical: "貝",
+    mnemonic: "A net 罒 held over a pile of shells 貝, the money of old times: scoop up your coins and buy.",
+    notes: [
+      "買い物 (かいもの) is shopping; 買い物に行く (かいものにいく) is to go shopping.",
+      "The polite form is 買います (かいます) and the past is 買った (かった).",
+      "Don't mix it up with 売 (sell): 買 has the net 罒 on top and the shell 貝 below."
+    ],
+    lookalikes: ["売", "員"],
+    examples: [
+      { w: "買う", r: "かう", m: "to buy" },
+      { w: "買い物", r: "かいもの", m: "shopping" },
+      { w: "売買", r: "ばいばい", m: "buying and selling" }
+    ]
+  },
+  {
+    k: "品", meaning: "goods, item", on: ["ヒン"], kun: ["しな"], group: "tw-shops", strokes: 9, radical: "口",
+    mnemonic: "Three boxes 口 stacked on a shop shelf: goods ready to sell.",
+    notes: [
+      "食品 (しょくひん, food products) labels the food floor of supermarkets and department stores.",
+      "品切れ (しなぎれ) means out of stock; 切れ turns into ぎれ here.",
+      "After ん, ひん often becomes ぴん: 新品 (しんぴん, brand new)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "食品", r: "しょくひん", m: "food (products)" },
+      { w: "品切れ", r: "しなぎれ", m: "out of stock" },
+      { w: "新品", r: "しんぴん", m: "brand-new item" }
+    ]
+  },
+  {
+    k: "割", meaning: "divide, discount", on: ["カツ"], kun: ["わ.る", "わり", "わ.れる"], group: "tw-shops", strokes: 12, radical: "刂",
+    mnemonic: "A knife 刂 slicing away the harmful part 害: cut it up, and cut the price too.",
+    notes: [
+      "割 counts tenths on sale signs: 3割引 (さんわりびき) is 30% off, 半額 is half price.",
+      "Shops and cinemas offer 学割 (がくわり, student discount); bring your student card.",
+      "Parcels marked 割れ物注意 (われものちゅうい) are fragile."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "割引", r: "わりびき", m: "discount" },
+      { w: "学割", r: "がくわり", m: "student discount" },
+      { w: "割れ物", r: "われもの", m: "fragile item" }
+    ]
+  },
+  {
+    k: "引", meaning: "pull", on: ["イン"], kun: ["ひ.く"], group: "tw-shops", strokes: 4, radical: "弓",
+    mnemonic: "A bow 弓 with its string 丨 drawn back beside it: pull.",
+    notes: [
+      "On doors 引 means PULL and 押 means PUSH.",
+      "In 割引 (わりびき, discount) ひき becomes びき.",
+      "ATM screens say お引き出し (おひきだし) for taking cash out."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "引く", r: "ひく", m: "to pull" },
+      { w: "割引", r: "わりびき", m: "discount" },
+      { w: "引き出し", r: "ひきだし", m: "withdrawal; drawer" }
+    ]
+  },
+  {
+    k: "税", meaning: "tax", on: ["ゼイ"], kun: [], group: "tw-shops", strokes: 12, radical: "禾",
+    mnemonic: "A sheaf of grain 禾 handed over by a person with arms raised 兌: long ago, tax was paid in rice.",
+    notes: [
+      "Price tags show 税込 (ぜいこみ, tax included) and often a smaller price without tax (ぜいぬき).",
+      "Consumption tax is 10%, or 8% for most food and drink you take away.",
+      "No kun'yomi: it is always ぜい."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "税込", r: "ぜいこみ", m: "tax included" },
+      { w: "税金", r: "ぜいきん", m: "tax" },
+      { w: "国税", r: "こくぜい", m: "national tax" }
+    ]
+  },
+  {
+    k: "込", meaning: "crowded, included", on: [], kun: ["こ.む", "こ.める"], group: "tw-shops", strokes: 5, radical: "辶",
+    mnemonic: "Something entering 入 rides the moving road 辶 and gets packed in tight: crowded, included.",
+    notes: [
+      "Made in Japan, so it has no on'yomi; it is always こ or こみ.",
+      "On price tags 税込 (ぜいこみ) means tax included.",
+      "申し込み (もうしこみ) is an application; forms are often headed 申込書 (もうしこみしょ)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "込む", r: "こむ", m: "to be crowded" },
+      { w: "税込", r: "ぜいこみ", m: "tax included" },
+      { w: "申し込み", r: "もうしこみ", m: "application" }
+    ]
+  },
+  {
+    k: "安", meaning: "cheap, peaceful", on: ["アン"], kun: ["やす.い"], group: "tw-shops", strokes: 6, radical: "宀",
+    mnemonic: "A woman 女 sitting safe under a roof 宀: calm and at peace, and spending very little.",
+    notes: [
+      "安い (やすい) is cheap; the opposite is 高い (たかい, expensive).",
+      "Sale signs shout 安売り (やすうり, bargain sale).",
+      "In other words it means calm or safe, as in あんしん (peace of mind)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "安い", r: "やすい", m: "cheap" },
+      { w: "安売り", r: "やすうり", m: "bargain sale" },
+      { w: "安物", r: "やすもの", m: "cheap stuff" }
+    ]
+  },
+  {
+    k: "値", meaning: "price, value", on: ["チ"], kun: ["ね"], group: "tw-shops", strokes: 10, radical: "亻",
+    mnemonic: "A person 亻 looking straight 直 at the tag: what is it really worth?",
+    notes: [
+      "値段 (ねだん) is the everyday word for price: この値段は税込ですか?",
+      "Supermarket stickers say 値引 (ねびき, marked down), often with a yen amount.",
+      "値上げ (ねあげ) is a price rise; news and shop notices announce them."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "値段", r: "ねだん", m: "price" },
+      { w: "値引き", r: "ねびき", m: "price reduction" },
+      { w: "値上げ", r: "ねあげ", m: "price rise" }
+    ]
+  },
+  {
+    k: "額", meaning: "amount, frame", on: ["ガク"], kun: ["ひたい"], group: "tw-shops", strokes: 18, radical: "頁",
+    mnemonic: "A guest 客 standing head 頁 to head with the shopkeeper over the bill: the amount right in front of his face.",
+    notes: [
+      "半額 (はんがく, half price) stickers appear on supermarket food late in the evening.",
+      "金額 (きんがく) is the amount of money on receipts and forms.",
+      "Alone, がく is also a picture frame, and ひたい is the forehead."
+    ],
+    lookalikes: ["類", "預"],
+    examples: [
+      { w: "半額", r: "はんがく", m: "half price" },
+      { w: "金額", r: "きんがく", m: "amount of money" },
+      { w: "定額", r: "ていがく", m: "fixed amount, flat rate" }
+    ]
+  },
+  {
+    k: "新", meaning: "new", on: ["シン"], kun: ["あたら.しい", "あら.た"], group: "tw-shops", strokes: 13, radical: "斤",
+    mnemonic: "An axe 斤 chopping a fresh plank from a tree 木: newly cut, brand new.",
+    notes: [
+      "Packaging shouts 新発売 (しんはつばい, new on sale) or just 新.",
+      "新聞 (しんぶん) is a newspaper; konbini sell them by the door.",
+      "After ん, ひん becomes ぴん: 新品 (しんぴん, brand-new item)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "新しい", r: "あたらしい", m: "new" },
+      { w: "新聞", r: "しんぶん", m: "newspaper" },
+      { w: "新発売", r: "しんはつばい", m: "newly on sale" }
+    ]
+  },
+  {
+    k: "無", meaning: "none, without", on: ["ム", "ブ"], kun: ["な.い"], group: "tw-shops", strokes: 12, radical: "灬",
+    mnemonic: "A row of wooden posts burning over the fire 灬 until nothing at all is left.",
+    notes: [
+      "無料 (むりょう, free of charge) is everywhere: 無料Wi-Fi, 送料無料 (free shipping).",
+      "Shop signs say 年中無休 (ねんじゅうむきゅう): open every day of the year.",
+      "Usually む; ぶ in ぶじ (safe and sound). The verb ない is normally written in kana."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "無料", r: "むりょう", m: "free (of charge)" },
+      { w: "無休", r: "むきゅう", m: "no days off, open daily" },
+      { w: "無理", r: "むり", m: "impossible, too much" }
+    ]
+  },
+  {
+    k: "員", meaning: "member, staff", on: ["イン"], kun: [], group: "tw-shops", strokes: 10, radical: "口",
+    mnemonic: "A mouth 口 above a shell 貝: the clerk who counts the money and calls out the total.",
+    notes: [
+      "A suffix for people in a role: 店員 (てんいん, shop staff), 駅員 (えきいん, station staff), 会員 (かいいん, member).",
+      "Tills ask for your 会員カード (かいいんカード, membership or points card).",
+      "Don't confuse it with 買 (buy), which has a net on top instead of 口."
+    ],
+    lookalikes: ["買"],
+    examples: [
+      { w: "店員", r: "てんいん", m: "shop assistant" },
+      { w: "会員", r: "かいいん", m: "member" },
+      { w: "駅員", r: "えきいん", m: "station staff" }
+    ]
+  },
+  {
+    k: "客", meaning: "guest, customer", on: ["キャク"], kun: [], group: "tw-shops", strokes: 9, radical: "宀",
+    mnemonic: "Each 各 person who comes in under your roof 宀 is a guest.",
+    notes: [
+      "Shops and signs say お客様 (おきゃくさま), the very polite word for customers.",
+      "Notices for passengers and visitors use it too: 乗客 (じょうきゃく, passenger).",
+      "Watch 客 vs 各 (each): 客 adds the roof 宀 on top."
+    ],
+    lookalikes: ["各", "額"],
+    examples: [
+      { w: "お客様", r: "おきゃくさま", m: "customer (polite)" },
+      { w: "客室", r: "きゃくしつ", m: "guest room" },
+      { w: "乗客", r: "じょうきゃく", m: "passenger" }
+    ]
+  },
+  {
+    k: "営", meaning: "run (a business)", on: ["エイ"], kun: ["いとな.む"], group: "tw-shops", strokes: 12, radical: "口",
+    mnemonic: "Two rooms 呂 under a roof with lights flickering on top: the shop is lit up and running.",
+    notes: [
+      "営業中 (えいぎょうちゅう) on a door sign means open for business.",
+      "営業時間 (えいぎょうじかん) lists business hours on doors and websites.",
+      "Same top as 常 (usual); the bottom tells them apart."
+    ],
+    lookalikes: ["常"],
+    examples: [
+      { w: "営業", r: "えいぎょう", m: "business, being open" },
+      { w: "営業中", r: "えいぎょうちゅう", m: "open (for business)" },
+      { w: "営業時間", r: "えいぎょうじかん", m: "business hours" }
+    ]
+  },
+  {
+    k: "業", meaning: "business, work", on: ["ギョウ"], kun: ["わざ"], group: "tw-shops", strokes: 13, radical: "木",
+    mnemonic: "A wooden frame on a tree 木 trunk with rows of pegs 业 sticking up: a craftsman's rack, ready for work.",
+    notes: [
+      "Door signs: 営業中 (えいぎょうちゅう, open) and 本日休業 (ほんじつきゅうぎょう, closed today).",
+      "業者 (ぎょうしゃ) is a trader or contractor, such as a removal firm.",
+      "Usually ぎょう; the kun'yomi わざ is rare."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "営業中", r: "えいぎょうちゅう", m: "open (for business)" },
+      { w: "休業", r: "きゅうぎょう", m: "closed (for business)" },
+      { w: "業者", r: "ぎょうしゃ", m: "trader, contractor" }
+    ]
+  },
+  {
+    k: "準", meaning: "standard, semi-", on: ["ジュン"], kun: [], group: "tw-shops", strokes: 13, radical: "氵",
+    mnemonic: "Water 氵 lying flat as a falcon 隼 flies level over a ten 十: the water level, the standard everything is set to.",
+    notes: [
+      "準備中 (じゅんびちゅう) on a restaurant door means not open yet, often between lunch and dinner.",
+      "On private railways 準急 (じゅんきゅう) is a semi-express, stopping more than an express.",
+      "Almost always ジュン; the kun'yomi are rare."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "準備", r: "じゅんび", m: "preparation" },
+      { w: "準備中", r: "じゅんびちゅう", m: "getting ready (closed)" },
+      { w: "準急", r: "じゅんきゅう", m: "semi-express train" }
+    ]
+  },
+  {
+    k: "備", meaning: "prepare, equip", on: ["ビ"], kun: ["そな.える"], group: "tw-shops", strokes: 12, radical: "亻",
+    mnemonic: "A person 亻 standing beside a quiver packed with arrows: fully equipped and ready.",
+    notes: [
+      "準備中 (じゅんびちゅう) on a shop door means preparing, not open yet.",
+      "備える (そなえる) is to prepare, especially for earthquakes and other disasters.",
+      "予備 (よび) is a spare: 予備の電池 is a spare battery."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "準備", r: "じゅんび", m: "preparation" },
+      { w: "予備", r: "よび", m: "spare, reserve" },
+      { w: "備える", r: "そなえる", m: "to prepare (for)" }
+    ]
+  },
+  {
+    k: "銀", meaning: "silver", on: ["ギン"], kun: [], group: "tw-money", strokes: 14, radical: "金",
+    mnemonic: "Metal 金 beside a stubborn glaring eye 艮: the pale metal that won't go rusty, silver.",
+    notes: [
+      "銀行 (ぎんこう) is a bank. Counters usually close at 3 p.m.; ATMs stay open later.",
+      "Tokyo's ぎんざ district is named after an old silver mint.",
+      "Same right side 艮 as 眼 (eye); the left side tells them apart."
+    ],
+    lookalikes: ["眼"],
+    examples: [
+      { w: "銀行", r: "ぎんこう", m: "bank" },
+      { w: "銀", r: "ぎん", m: "silver" },
+      { w: "銀行員", r: "ぎんこういん", m: "bank clerk" }
+    ]
+  },
+  {
+    k: "現", meaning: "present, actual", on: ["ゲン"], kun: ["あらわ.れる", "あらわ.す"], group: "tw-money", strokes: 11, radical: "王",
+    mnemonic: "A jewel 王 that you see 見 with your own eyes: it's real, and it's right here now.",
+    notes: [
+      "現金 (げんきん) is cash. Small shops and restaurants may post 現金のみ (cash only).",
+      "現れる (あらわれる) is to appear, to show up.",
+      "Left side 王 as in 理; right side 見 (see)."
+    ],
+    lookalikes: ["理", "見"],
+    examples: [
+      { w: "現金", r: "げんきん", m: "cash" },
+      { w: "現れる", r: "あらわれる", m: "to appear" },
+      { w: "現地", r: "げんち", m: "on site, local" }
+    ]
+  },
+  {
+    k: "払", meaning: "pay", on: [], kun: ["はら.う"], group: "tw-money", strokes: 5, radical: "扌",
+    mnemonic: "A hand 扌 sliding your own private 厶 coin across the counter: paying up.",
+    notes: [
+      "はらう after another word often becomes ばらい: 前払い (まえばらい, pay first), 後払い (あとばらい, pay later).",
+      "Bills can be paid at the konbini till; the slip is a 払込 (はらいこみ) form.",
+      "Its on'yomi ふつ is rare; learn it as はらう."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "払う", r: "はらう", m: "to pay" },
+      { w: "前払い", r: "まえばらい", m: "payment in advance" },
+      { w: "払い込み", r: "はらいこみ", m: "payment (into an account)" }
+    ]
+  },
+  {
+    k: "預", meaning: "deposit, leave with", on: ["ヨ"], kun: ["あず.ける", "あず.かる"], group: "tw-money", strokes: 13, radical: "頁",
+    mnemonic: "Thinking ahead 予 with your head 頁: you leave your valuables with someone in advance.",
+    notes: [
+      "預ける (あずける) is to leave something with someone; 預かる (あずかる) is to take care of it.",
+      "Cashiers say 千円お預かりします (せんえんおあずかりします) as they take your note.",
+      "ATM screens say お預け入れ (おあずけいれ) for putting money in."
+    ],
+    lookalikes: ["額"],
+    examples: [
+      { w: "預ける", r: "あずける", m: "to leave with, deposit" },
+      { w: "預金", r: "よきん", m: "savings, deposit" },
+      { w: "預かる", r: "あずかる", m: "to look after, keep" }
+    ]
+  },
+  {
+    k: "郵", meaning: "mail, post", on: ["ユウ"], kun: [], group: "tw-money", strokes: 11, radical: "阝",
+    mnemonic: "Something hanging down 垂 beside the town flag 阝: the post station at the edge of town.",
+    notes: [
+      "郵便局 (ゆうびんきょく) is the post office: look for the red sign shaped like a T with a bar on top.",
+      "郵便番号 (ゆうびんばんごう) is the seven-digit postal code at the top of an address.",
+      "Used almost only with 便 and 送: 郵送 (ゆうそう) is sending by post."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "郵便", r: "ゆうびん", m: "mail, post" },
+      { w: "郵便局", r: "ゆうびんきょく", m: "post office" },
+      { w: "郵送", r: "ゆうそう", m: "sending by post" }
+    ]
+  },
+  {
+    k: "便", meaning: "convenient, mail", on: ["ベン", "ビン"], kun: ["たよ.り"], group: "tw-money", strokes: 9, radical: "亻",
+    mnemonic: "A person 亻 who changes 更 things round to make life easier: convenient.",
+    notes: [
+      "べん means convenient: 便利 (べんり). びん means a delivery or flight: 郵便 (ゆうびん).",
+      "Airport boards give flight numbers with 便: 123便 (ひゃくにじゅうさんびん) is flight 123.",
+      "便り (たより) is news or a letter from someone."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "便利", r: "べんり", m: "convenient" },
+      { w: "郵便", r: "ゆうびん", m: "mail, post" },
+      { w: "便", r: "びん", m: "flight; delivery" }
+    ]
+  },
+  {
+    k: "送", meaning: "send", on: ["ソウ"], kun: ["おく.る"], group: "tw-money", strokes: 9, radical: "辶",
+    mnemonic: "Two hands lifting a parcel 关 onto the moving road 辶: sending it on its way.",
+    notes: [
+      "送料 (そうりょう) is postage or the delivery fee; 送料無料 means free shipping.",
+      "送る (おくる) is to send, and also to see someone off or give them a lift.",
+      "送り先 (おくりさき) is the address it goes to."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "送る", r: "おくる", m: "to send" },
+      { w: "送料", r: "そうりょう", m: "postage, delivery fee" },
+      { w: "送料無料", r: "そうりょうむりょう", m: "free shipping" }
+    ]
+  },
+  {
+    k: "荷", meaning: "load, luggage", on: ["カ"], kun: ["に"], group: "tw-money", strokes: 10, radical: "艹",
+    mnemonic: "What 何 is under all that grass 艹? A bundle of hay strapped to someone's back: a load.",
+    notes: [
+      "荷物 (にもつ) is luggage or a parcel; couriers and the post office use it for packages.",
+      "In shops 入荷 (にゅうか) means new stock has arrived; online orders show 出荷 (しゅっか, shipped).",
+      "Looks like 何 (what) with grass 艹 on top."
+    ],
+    lookalikes: ["何", "花"],
+    examples: [
+      { w: "荷物", r: "にもつ", m: "luggage, parcel" },
+      { w: "入荷", r: "にゅうか", m: "arrival of stock" },
+      { w: "出荷", r: "しゅっか", m: "shipping, dispatch" }
+    ]
+  },
+  {
+    k: "役", meaning: "role, duty", on: ["ヤク"], kun: [], group: "tw-office", strokes: 7, radical: "彳",
+    mnemonic: "A man on the road 彳 with a weapon in his hand 殳: out on patrol, doing his duty.",
+    notes: [
+      "市役所 (しやくしょ) is city hall and 区役所 (くやくしょ) a ward office: where you register your address.",
+      "やくにたつ means to be useful; 役 is a role or part in a play too.",
+      "役員 (やくいん) is a company officer or board member."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "市役所", r: "しやくしょ", m: "city hall" },
+      { w: "区役所", r: "くやくしょ", m: "ward office" },
+      { w: "役員", r: "やくいん", m: "officer, board member" }
+    ]
+  },
+  {
+    k: "所", meaning: "place", on: ["ショ"], kun: ["ところ"], group: "tw-office", strokes: 8, radical: "戸",
+    mnemonic: "A door 戸 and an axe 斤: the woodcutter's hut, his own place.",
+    notes: [
+      "住所 (じゅうしょ, address) is the first thing every form asks for.",
+      "場所 (ばしょ) is the everyday word for a place or location.",
+      "Reading quirk: 台所 (だいどころ, kitchen) uses どころ."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "住所", r: "じゅうしょ", m: "address" },
+      { w: "場所", r: "ばしょ", m: "place, location" },
+      { w: "台所", r: "だいどころ", m: "kitchen" }
+    ]
+  },
+  {
+    k: "届", meaning: "deliver, notify", on: [], kun: ["とど.ける", "とど.く"], group: "tw-office", strokes: 8, radical: "尸",
+    mnemonic: "A body bending 尸 over a counter to push a form 由 through the slot: the paper has been delivered.",
+    notes: [
+      "届く (とどく) is for things arriving: 荷物が届いた (the parcel came).",
+      "City hall forms ending in 届 (とどけ) are notices you file, like the one due within 14 days of moving in.",
+      "Its on'yomi is almost never used; read it とど."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "届く", r: "とどく", m: "to arrive, reach" },
+      { w: "届ける", r: "とどける", m: "to deliver; to report" },
+      { w: "届け出", r: "とどけで", m: "notification (to an office)" }
+    ]
+  },
+  {
+    k: "類", meaning: "kind, sort", on: ["ルイ"], kun: [], group: "tw-office", strokes: 18, radical: "頁",
+    mnemonic: "Rice 米, a dog 犬 and a head 頁 all in one character: somebody sorting things into kinds.",
+    notes: [
+      "書類 (しょるい) is paperwork: offices ask you to bring the right documents.",
+      "Rubbish rules explain the 分類 (ぶんるい, sorting) of burnable, plastic and cans.",
+      "Same right side 頁 as 額 and 預."
+    ],
+    lookalikes: ["額"],
+    examples: [
+      { w: "書類", r: "しょるい", m: "documents" },
+      { w: "分類", r: "ぶんるい", m: "classification, sorting" },
+      { w: "人類", r: "じんるい", m: "humankind" }
+    ]
+  },
+  {
+    k: "申", meaning: "say (humble), apply", on: ["シン"], kun: ["もう.す"], group: "tw-office", strokes: 5, radical: "田",
+    mnemonic: "A bolt of lightning 丨 striking straight down through the sun 日: a word sent up humbly to the heavens.",
+    notes: [
+      "申込書 (もうしこみしょ) is an application form; 申請 (しんせい) is an official application at an office.",
+      "申す (もうす) is the humble 'say': 田中と申します (たなかともうします) means I'm Tanaka.",
+      "Don't confuse it with 由 or 田: only 申 has its line poking out at both top and bottom."
+    ],
+    lookalikes: ["由", "田"],
+    examples: [
+      { w: "申す", r: "もうす", m: "to say (humble)" },
+      { w: "申込書", r: "もうしこみしょ", m: "application form" },
+      { w: "申請", r: "しんせい", m: "(official) application" }
+    ]
+  },
+  {
+    k: "記", meaning: "write down, record", on: ["キ"], kun: ["しる.す"], group: "tw-office", strokes: 10, radical: "言",
+    mnemonic: "Words 言 that you write down for yourself 己: a record.",
+    notes: [
+      "Forms say ご記入ください (ごきにゅうください): please fill this in.",
+      "日記 (にっき, diary) has a small っ: にち + き becomes にっき.",
+      "記号 (きごう) is a symbol or mark, such as the ones on a map."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "記入", r: "きにゅう", m: "filling in (a form)" },
+      { w: "日記", r: "にっき", m: "diary" },
+      { w: "記号", r: "きごう", m: "symbol, mark" }
+    ]
+  },
+  {
+    k: "印", meaning: "seal, mark", on: ["イン"], kun: ["しるし"], group: "tw-office", strokes: 6, radical: "卩",
+    mnemonic: "A hand pressing down hard beside a kneeling figure 卩: pushing a seal onto paper.",
+    notes: [
+      "Forms print 印 in a circle where your seal (はんこ) goes; many offices now accept a signature.",
+      "印紙 (いんし) are revenue stamps, sold at post offices and some konbini.",
+      "As a word it is しるし (mark); after another word it becomes じるし: 目印 (めじるし, landmark)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "印", r: "しるし", m: "mark, sign" },
+      { w: "目印", r: "めじるし", m: "landmark, marker" },
+      { w: "印紙", r: "いんし", m: "revenue stamp" }
+    ]
+  },
+  {
+    k: "明", meaning: "bright, clear", on: ["メイ", "ミョウ"], kun: ["あか.るい", "あ.ける", "あき.らか"], group: "tw-office", strokes: 8, radical: "日",
+    mnemonic: "The sun 日 and the moon 月 side by side: as bright as it gets.",
+    notes: [
+      "City hall issues all kinds of 証明書 (しょうめいしょ, certificates), often from a machine or the konbini.",
+      "明日 (tomorrow) is usually read あした; みょうにち is the formal reading.",
+      "明るい (あかるい) is bright or cheerful."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "明るい", r: "あかるい", m: "bright" },
+      { w: "明日", r: "あした", m: "tomorrow" },
+      { w: "証明書", r: "しょうめいしょ", m: "certificate" }
+    ]
+  },
+  {
+    k: "市", meaning: "city, market", on: ["シ"], kun: ["いち"], group: "tw-places", strokes: 5, radical: "巾",
+    mnemonic: "A lid 亠 over a hanging cloth 巾: the banner over a market stall, and the city that grew up round it.",
+    notes: [
+      "Addresses add 市 (し) after the city name: 京都市 (きょうとし).",
+      "市役所 (しやくしょ) is city hall, where you register as a resident.",
+      "市場 is いちば (a market) in everyday use; しじょう is the market in economics."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "市役所", r: "しやくしょ", m: "city hall" },
+      { w: "市場", r: "いちば", m: "market" },
+      { w: "市内", r: "しない", m: "within the city" }
+    ]
+  },
+  {
+    k: "区", meaning: "ward, district", on: ["ク"], kun: [], group: "tw-places", strokes: 4, radical: "匸",
+    mnemonic: "A box open on one side 匸 with an X 乂 marked inside: one section of the map.",
+    notes: [
+      "Tokyo has 23 区 (wards); big cities like Osaka are split into 区 too.",
+      "In a ward you register at the 区役所 (くやくしょ, ward office) instead of city hall.",
+      "Train fares and passes use 区間 (くかん, a section of the line)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "区役所", r: "くやくしょ", m: "ward office" },
+      { w: "区間", r: "くかん", m: "section (of a route)" },
+      { w: "区内", r: "くない", m: "within the ward" }
+    ]
+  },
+  {
+    k: "町", meaning: "town, neighbourhood", on: ["チョウ"], kun: ["まち"], group: "tw-places", strokes: 7, radical: "田",
+    mnemonic: "Rice fields 田 with a nail 丁 marking the path between them: a little town growing among the paddies.",
+    notes: [
+      "In place names 町 can be ちょう or まち; you have to learn each one.",
+      "町内会 (ちょうないかい) is the neighbourhood association that posts rubbish rules and festival notices.",
+      "下町 (したまち) is the old downtown, full of small shops."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "町", r: "まち", m: "town" },
+      { w: "下町", r: "したまち", m: "old downtown" },
+      { w: "町内会", r: "ちょうないかい", m: "neighbourhood association" }
+    ]
+  },
+  {
+    k: "村", meaning: "village", on: ["ソン"], kun: ["むら"], group: "tw-places", strokes: 7, radical: "木",
+    mnemonic: "Trees 木 planted an inch 寸 apart in neat rows: the orchards of a village.",
+    notes: [
+      "Forms ask for your 市区町村 (しくちょうそん): your city, ward, town or village.",
+      "In place names 村 can be むら or そん.",
+      "Same tree 木 on the left as 林 (woods)."
+    ],
+    lookalikes: ["林"],
+    examples: [
+      { w: "村", r: "むら", m: "village" },
+      { w: "市区町村", r: "しくちょうそん", m: "municipality" },
+      { w: "村長", r: "そんちょう", m: "village mayor" }
+    ]
+  },
+  {
+    k: "住", meaning: "live, reside", on: ["ジュウ"], kun: ["す.む"], group: "tw-places", strokes: 7, radical: "亻",
+    mnemonic: "A person 亻 who is master 主 of the house: the one who lives here.",
+    notes: [
+      "住所 (じゅうしょ) is your address; every form has a box for it.",
+      "住む (すむ) is to live: 東京に住んでいます (I live in Tokyo).",
+      "Don't confuse it with 注 (pour, note), which has three drops of water on the left."
+    ],
+    lookalikes: ["注"],
+    examples: [
+      { w: "住所", r: "じゅうしょ", m: "address" },
+      { w: "住む", r: "すむ", m: "to live (somewhere)" },
+      { w: "住まい", r: "すまい", m: "home, residence" }
+    ]
   }
 ];
 
@@ -2673,7 +4686,81 @@ NH.COMPONENT_NAMES = {
   "扌": "hand (てへん)",
   "是": "right, just (ぜ)",
   "青": "blue (あお)",
-  "氺": "water, at the bottom (したみず)"
+  "氺": "water, at the bottom (したみず)",
+  // more everyday, stations & trains, shops & offices
+  "化": "change (か)",
+  "毎": "every (まい)",
+  "穴": "hole (あなかんむり)",
+  "工": "craft (こう)",
+  "早": "early (はやい)",
+  "雨": "rain (あめかんむり)",
+  "兀": "stool, legs",
+  "𡗗": "spring top (three lines and a person)",
+  "冫": "ice (にすい)",
+  "⺨": "animal, left side (けものへん)",
+  "苗": "seedling (なえ)",
+  "鳥": "bird (とり)",
+  "也": "also (なり)",
+  "枼": "leaves on a tree",
+  "勿": "do not (なかれ)",
+  "豕": "pig (いのこ)",
+  "酉": "sake jar (とりへん)",
+  "氏": "clan (うじ)",
+  "相": "mutual (そう)",
+  "龰": "foot, at the bottom",
+  "冖": "cover (わかんむり)",
+  "与": "give (よ)",
+  "具": "tool (ぐ)",
+  "会": "meet (かい)",
+  "由": "reason (ゆう)",
+  "立": "stand (たつ)",
+  "尺": "measure (しゃく)",
+  "泉": "spring water (いずみ)",
+  "足": "foot (あしへん)",
+  "各": "each (かく)",
+  "金": "metal, gold (かねへん)",
+  "失": "lose (しつ)",
+  "首": "neck, head (くび)",
+  "冬": "winter (ふゆ)",
+  "女": "woman (おんなへん)",
+  "台": "stand (だい)",
+  "七": "seven (しち)",
+  "己": "self (おのれ)",
+  "疋": "bolt of cloth (ひき)",
+  "其": "that (そ)",
+  "月": "moon, flesh (つき)",
+  "旨": "tasty, gist (し)",
+  "憂": "grief (ゆう)",
+  "束": "bundle (たば)",
+  "亭": "pavilion (てい)",
+  "並": "line up (なみ)",
+  "夅": "coming down (right of 降)",
+  "奐": "bright, change (right of 換)",
+  "則": "rule (そく)",
+  "开": "two posts (in 開)",
+  "才": "talent (さい)",
+  "甲": "shell, first (こう)",
+  "占": "occupy, divine (せん)",
+  "罒": "net (あみがしら)",
+  "貝": "shell, money (かい)",
+  "害": "harm (がい)",
+  "弓": "bow (ゆみ)",
+  "兌": "exchange (right of 税)",
+  "入": "enter (いる)",
+  "直": "straight (ちょく)",
+  "客": "guest (きゃく)",
+  "見": "see (みる)",
+  "予": "beforehand (よ)",
+  "垂": "hang down (すい)",
+  "更": "again, renew (こう)",
+  "关": "pair of hands, opening (in 送)",
+  "何": "what (なに)",
+  "殳": "weapon (るまた)",
+  "戸": "door (と)",
+  "斤": "axe (おのづくり)",
+  "巾": "cloth (はば)",
+  "丁": "block, nail (ちょう)",
+  "牛": "cow (うしへん)"
 };
 
 /* Kanji-and-kana practice words.
@@ -2788,5 +4875,79 @@ NH.KANJI_WORDS = [
   { id: "kw-hajimete-desu", text: "初めてです", kana: "はじめてです", romaji: "hajimete desu", meaning: "it's my first time (here)", level: 3, pack: "clinic", scene: ["clinic"], note: "Tells reception you need a first-visit questionnaire and a new patient card." },
   { id: "kw-koko-ga-itai", text: "ここが痛いです", kana: "ここがいたいです", romaji: "koko ga itai desu", meaning: "it hurts here", level: 3, pack: "clinic", scene: ["heart"] },
   { id: "kw-netsu-ga-arimasu", text: "熱があります", kana: "ねつがあります", romaji: "netsu ga arimasu", meaning: "I have a fever", level: 3, pack: "clinic", scene: ["clinic"] },
-  { id: "kw-hokenshou-onegai", text: "保険証をお願いします", kana: "ほけんしょうをおねがいします", romaji: "hokenshō o onegai shimasu", meaning: "your insurance card, please", level: 3, pack: "clinic", scene: ["clinic"], note: "What reception says to you. を is said お." }
+  { id: "kw-hokenshou-onegai", text: "保険証をお願いします", kana: "ほけんしょうをおねがいします", romaji: "hokenshō o onegai shimasu", meaning: "your insurance card, please", level: 3, pack: "clinic", scene: ["clinic"], note: "What reception says to you. を is said お." },
+
+  // ---- More everyday: nature and things ----
+  { id: "kw-umi", text: "海", kana: "うみ", romaji: "umi", meaning: "sea", level: 1, scene: ["sea"], note: "Alone it is うみ, but in compounds かい: 海外 (かいがい, overseas)." },
+  { id: "kw-hoshi", text: "星", kana: "ほし", romaji: "hoshi", meaning: "star", level: 1, scene: ["star", "moon"] },
+  { id: "kw-neko", text: "猫", kana: "ねこ", romaji: "neko", meaning: "cat", level: 1, scene: ["cat"], note: "Look for 猫カフェ (ねこカフェ) signs, and the waving まねきねこ in shop windows." },
+  { id: "kw-inu", text: "犬", kana: "いぬ", romaji: "inu", meaning: "dog", level: 1, scene: ["dog"] },
+  { id: "kw-hanami", text: "花見", kana: "はなみ", romaji: "hanami", meaning: "cherry-blossom viewing", level: 2, scene: ["sakura", "flower"], note: "In late March and April people picnic under the cherry trees, often booking a spot early in the morning." },
+  { id: "kw-hare", text: "晴れ", kana: "はれ", romaji: "hare", meaning: "sunny, fine weather", level: 2, scene: ["sun"], note: "The sunny symbol on forecasts. 晴れのち雨 means sunny, then rain later." },
+  { id: "kw-taifuu", text: "台風", kana: "たいふう", romaji: "taifū", meaning: "typhoon", level: 2, scene: ["rain", "sea"], note: "Typhoon season peaks in August and September, when trains may stop; check the news." },
+  { id: "kw-shinrin", text: "森林", kana: "しんりん", romaji: "shinrin", meaning: "forest", level: 2, scene: ["tree", "mountain"] },
+  { id: "kw-happa", text: "葉っぱ", kana: "はっぱ", romaji: "happa", meaning: "leaf", level: 2, scene: ["leaf", "tree"] },
+  { id: "kw-kingyo", text: "金魚", kana: "きんぎょ", romaji: "kingyo", meaning: "goldfish", level: 2, scene: ["fish"] },
+  { id: "kw-shunkashuutou", text: "春夏秋冬", kana: "しゅんかしゅうとう", romaji: "shunkashūtō", meaning: "the four seasons", level: 3, scene: ["sakura", "snow"], note: "Read with on'yomi; on their own the seasons are はる, なつ, あき, ふゆ." },
+  { id: "kw-isseki-nichou", text: "一石二鳥", kana: "いっせきにちょう", romaji: "isseki nichō", meaning: "two birds with one stone", level: 3, scene: ["bird"], note: "Literally 'one stone, two birds': the same idea as the English saying." },
+  { id: "kw-amagumo", text: "雨雲", kana: "あまぐも", romaji: "amagumo", meaning: "rain cloud", level: 3, scene: ["rain"], note: "雨 becomes あま and 雲 becomes ぐも when joined. Weather apps show 雨雲 radar maps." },
+  { id: "kw-ichibanboshi", text: "一番星", kana: "いちばんぼし", romaji: "ichibanboshi", meaning: "the first star of the evening", level: 3, scene: ["star", "moon"] },
+  { id: "kw-ocha", text: "お茶", kana: "おちゃ", romaji: "ocha", meaning: "tea, green tea", level: 1, scene: ["tea", "vending"], note: "In vending machines and konbini, お茶 means unsweetened green tea; it is also a casual 'let's grab a drink'." },
+  { id: "kw-kasa", text: "傘", kana: "かさ", romaji: "kasa", meaning: "umbrella", level: 1, scene: ["umbrella", "rain"] },
+  { id: "kw-mado", text: "窓", kana: "まど", romaji: "mado", meaning: "window", level: 1, scene: ["house"] },
+  { id: "kw-niku", text: "肉", kana: "にく", romaji: "niku", meaning: "meat", level: 1, scene: ["food"], note: "Don't mix it up with 内 (inside), which has one 人 in the frame, not two." },
+  { id: "kw-shashin", text: "写真", kana: "しゃしん", romaji: "shashin", meaning: "photo", level: 2, scene: ["fuji", "sakura"], note: "写真禁止 on a sign at a temple or museum means no photos." },
+  { id: "kw-tegami", text: "手紙", kana: "てがみ", romaji: "tegami", meaning: "letter", level: 2, scene: ["book", "heart"], note: "紙 becomes がみ here: 'hand paper' is a letter, not toilet paper." },
+  { id: "kw-kaimono", text: "買い物", kana: "かいもの", romaji: "kaimono", meaning: "shopping", level: 2, scene: ["konbini", "city"] },
+  { id: "kw-nomimono", text: "飲み物", kana: "のみもの", romaji: "nomimono", meaning: "drink", level: 2, scene: ["vending", "coffee"], note: "Menus list 飲み物 as a separate section; at a set meal the server may ask which drink you want." },
+  { id: "kw-madoguchi", text: "窓口", kana: "まどぐち", romaji: "madoguchi", meaning: "service counter", level: 2, scene: ["city", "train"], note: "The staffed counter at a bank, post office, city hall or station; numbered ones read 1番窓口." },
+  { id: "kw-gamen", text: "画面", kana: "がめん", romaji: "gamen", meaning: "screen", level: 2, scene: ["vending", "iccard"] },
+  { id: "kw-jouzu", text: "上手", kana: "じょうず", romaji: "jōzu", meaning: "good at, skilful", level: 3, scene: ["heart"], note: "Irregular reading. Expect 日本語が上手ですね after your first few words; a modest いいえ is the usual reply." },
+  { id: "kw-nihonshu", text: "日本酒", kana: "にほんしゅ", romaji: "nihonshu", meaning: "sake (rice wine)", level: 3, scene: ["lantern", "food"] },
+  { id: "kw-hyakuendama", text: "百円玉", kana: "ひゃくえんだま", romaji: "hyakuendama", meaning: "100-yen coin", level: 3, scene: ["vending", "konbini"] },
+  { id: "kw-ooya-san", text: "大家さん", kana: "おおやさん", romaji: "ōya-san", meaning: "landlord", level: 3, scene: ["house"] },
+
+  // ---- Stations & trains (pack: "station") ----
+  { id: "kw-eki", text: "駅", kana: "えき", romaji: "eki", meaning: "station", level: 1, pack: "station", scene: ["train", "city"], note: "Station names are said with 駅 after them: 東京駅 (とうきょうえき)." },
+  { id: "kw-tsugi", text: "次", kana: "つぎ", romaji: "tsugi", meaning: "next", level: 1, pack: "station", scene: ["train"] },
+  { id: "kw-seki", text: "席", kana: "せき", romaji: "seki", meaning: "seat", level: 1, pack: "station", scene: ["train"] },
+  { id: "kw-michi", text: "道", kana: "みち", romaji: "michi", meaning: "road, way", level: 1, pack: "station", scene: ["city"], note: "道を聞く (みちをきく) is to ask the way; station staff are used to it." },
+  { id: "kw-chika", text: "地下", kana: "ちか", romaji: "chika", meaning: "underground, basement", level: 1, pack: "station", scene: ["city", "train"] },
+  { id: "kw-ekimae", text: "駅前", kana: "えきまえ", romaji: "ekimae", meaning: "in front of the station", level: 1, pack: "station", scene: ["city"], note: "The busy area outside the station: bus stops, taxis and shops." },
+  { id: "kw-kaisatsu", text: "改札", kana: "かいさつ", romaji: "kaisatsu", meaning: "ticket gate", level: 2, pack: "station", scene: ["iccard", "train"], note: "Touch your IC card on the reader; big stations have several, like 北改札 and 南改札." },
+  { id: "kw-kippu", text: "切符", kana: "きっぷ", romaji: "kippu", meaning: "ticket", level: 2, pack: "station", scene: ["train"], note: "Sound change: きる + ふ becomes きっぷ." },
+  { id: "kw-kaisoku", text: "快速", kana: "かいそく", romaji: "kaisoku", meaning: "rapid train", level: 2, pack: "station", scene: ["train"], note: "Skips small stations, usually without an extra fare." },
+  { id: "kw-tokkyuu", text: "特急", kana: "とっきゅう", romaji: "tokkyū", meaning: "limited express", level: 2, pack: "station", scene: ["train"] },
+  { id: "kw-shuuden", text: "終電", kana: "しゅうでん", romaji: "shūden", meaning: "last train", level: 2, pack: "station", scene: ["train", "moon"], note: "Check the time before a night out: missing it means a taxi or waiting for 始発 (しはつ)." },
+  { id: "kw-kaidan", text: "階段", kana: "かいだん", romaji: "kaidan", meaning: "stairs", level: 2, pack: "station", scene: ["train", "city"] },
+  { id: "kw-norikae", text: "乗り換え", kana: "のりかえ", romaji: "norikae", meaning: "transfer, changing trains", level: 2, pack: "station", scene: ["train"], note: "Signs often write it 乗換 without kana; it is the same word." },
+  { id: "kw-tsugi-no-eki", text: "次の駅", kana: "つぎのえき", romaji: "tsugi no eki", meaning: "the next station", level: 2, pack: "station", scene: ["train"] },
+  { id: "kw-oriru", text: "降りる", kana: "おりる", romaji: "oriru", meaning: "to get off", level: 2, pack: "station", scene: ["train"], note: "Takes を: 電車を降りる. 'Get on' is 乗る (のる), which takes に." },
+  { id: "kw-kakueki-teisha", text: "各駅停車", kana: "かくえきていしゃ", romaji: "kakueki teisha", meaning: "local train (all stops)", level: 3, pack: "station", scene: ["train"], note: "Boards shorten it to 各停 (かくてい); some lines call it 普通 (ふつう)." },
+  { id: "kw-chikatetsu", text: "地下鉄", kana: "ちかてつ", romaji: "chikatetsu", meaning: "subway, underground", level: 3, pack: "station", scene: ["train", "city"] },
+  { id: "kw-yuusenseki", text: "優先席", kana: "ゆうせんせき", romaji: "yūsenseki", meaning: "priority seat", level: 3, pack: "station", scene: ["train"], note: "Offer it to older people, pregnant women and anyone who needs it." },
+  { id: "kw-teikiken", text: "定期券", kana: "ていきけん", romaji: "teikiken", meaning: "commuter pass", level: 3, pack: "station", scene: ["iccard"] },
+  { id: "kw-shiteiseki", text: "指定席", kana: "していせき", romaji: "shiteiseki", meaning: "reserved seat", level: 3, pack: "station", scene: ["train"] },
+
+  // ---- Shops & offices (pack: "town") ----
+  { id: "kw-mise", text: "店", kana: "みせ", romaji: "mise", meaning: "shop, store", level: 1, pack: "town", scene: ["konbini", "city"], note: "In compounds it is てん: 店員 (てんいん, shop staff)." },
+  { id: "kw-machi", text: "町", kana: "まち", romaji: "machi", meaning: "town", level: 1, pack: "town", scene: ["city", "house"] },
+  { id: "kw-mura", text: "村", kana: "むら", romaji: "mura", meaning: "village", level: 1, pack: "town", scene: ["house", "tree"] },
+  { id: "kw-ku", text: "区", kana: "く", romaji: "ku", meaning: "ward (of a city)", level: 1, pack: "town", scene: ["city"], note: "Tokyo is split into 23 wards; addresses there end in 区, not 市." },
+  { id: "kw-shinbun", text: "新聞", kana: "しんぶん", romaji: "shinbun", meaning: "newspaper", level: 1, pack: "town", scene: ["book", "konbini"] },
+  { id: "kw-yasui", text: "安い", kana: "やすい", romaji: "yasui", meaning: "cheap", level: 2, pack: "town", scene: ["konbini", "vending"], note: "The opposite is 高い (たかい, expensive)." },
+  { id: "kw-urikire", text: "売り切れ", kana: "うりきれ", romaji: "urikire", meaning: "sold out", level: 2, pack: "town", scene: ["vending"], note: "Vending machines light up a red 売切 under any drink that has run out." },
+  { id: "kw-zeikomi", text: "税込", kana: "ぜいこみ", romaji: "zeikomi", meaning: "tax included", level: 2, pack: "town", scene: ["konbini"], note: "Price tags often show this price next to a smaller one without tax." },
+  { id: "kw-waribiki", text: "割引", kana: "わりびき", romaji: "waribiki", meaning: "discount", level: 2, pack: "town", scene: ["konbini"], note: "割 counts tenths: 3割引 is 30% off." },
+  { id: "kw-hangaku", text: "半額", kana: "はんがく", romaji: "hangaku", meaning: "half price", level: 2, pack: "town", scene: ["konbini", "food"], note: "Look for 半額 stickers on supermarket food late in the evening." },
+  { id: "kw-ten-in", text: "店員", kana: "てんいん", romaji: "ten'in", meaning: "shop assistant", level: 2, pack: "town", scene: ["konbini"] },
+  { id: "kw-genkin", text: "現金", kana: "げんきん", romaji: "genkin", meaning: "cash", level: 2, pack: "town", scene: ["konbini", "vending"], note: "Some small shops post 現金のみ: cash only." },
+  { id: "kw-ginkou", text: "銀行", kana: "ぎんこう", romaji: "ginkō", meaning: "bank", level: 2, pack: "town", scene: ["city"] },
+  { id: "kw-juusho", text: "住所", kana: "じゅうしょ", romaji: "jūsho", meaning: "address", level: 2, pack: "town", scene: ["house", "book"] },
+  { id: "kw-muryou", text: "無料", kana: "むりょう", romaji: "muryō", meaning: "free (of charge)", level: 2, pack: "town", scene: ["konbini", "city"] },
+  { id: "kw-eigyouchuu", text: "営業中", kana: "えいぎょうちゅう", romaji: "eigyōchū", meaning: "open (for business)", level: 3, pack: "town", scene: ["city", "ramen"], note: "Hung on the door when a shop is open; the other side often says 準備中." },
+  { id: "kw-junbichuu", text: "準備中", kana: "じゅんびちゅう", romaji: "junbichū", meaning: "getting ready (closed)", level: 3, pack: "town", scene: ["ramen", "city"] },
+  { id: "kw-yuubinkyoku", text: "郵便局", kana: "ゆうびんきょく", romaji: "yūbinkyoku", meaning: "post office", level: 3, pack: "town", scene: ["city"], note: "Post offices also have a bank counter and an ATM." },
+  { id: "kw-shiyakusho", text: "市役所", kana: "しやくしょ", romaji: "shiyakusho", meaning: "city hall", level: 3, pack: "town", scene: ["city", "book"] },
+  { id: "kw-moushikomisho", text: "申込書", kana: "もうしこみしょ", romaji: "mōshikomisho", meaning: "application form", level: 3, pack: "town", scene: ["book"] }
 ];

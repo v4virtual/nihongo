@@ -1,8 +1,8 @@
 # Kaku 書く
 
-Learn Japanese by writing it. Kaku covers **hiragana**, **katakana**, the
-first **80 kanji** (JLPT N5) and a **clinic & hospital** set of 92 more, with
-real signs to read: every character has an explain page and a writing
+Learn Japanese by writing it. Kaku covers **hiragana**, **katakana** and
+**306 kanji** in four sets (everyday, stations & trains, shops & offices,
+clinic & hospital), with real signs to read: every character has an explain page and a writing
 practice where each stroke is checked for shape, direction and order. What's
 next is on the [roadmap](ROADMAP.md).
 
@@ -25,8 +25,9 @@ next is on the [roadmap](ROADMAP.md).
   vending machine); katakana signs and menus; and a Katakana → hiragana quiz.
   Today teaches hiragana first by default; Today → Learn switches to katakana
   first or both together.
-- **Kanji**: the 80 kanji of JLPT N5, grouped by theme (numbers, days and
-  time, people, places…) with a stroke-count filter. Each has its meaning,
+- **Kanji**: the 80 kanji of JLPT N5 plus 53 more for nature and everyday
+  things, grouped by theme (numbers, days and time, people, places, nature,
+  things…) in folding groups, with a stroke-count filter. Each has its meaning,
   on and kun readings, radical, a memory hook and example words. Its parts are
   coloured in the stroke-order diagram (休 = 亻 person + 木 tree), and each
   stroke's ending is marked and listed: a sweep (harai), a hook (hane) or a stop
@@ -36,11 +37,15 @@ next is on the [roadmap](ROADMAP.md).
   kana (日本, 食べる, 今日) have furigana you can turn off. Kanji join Today two
   a day once all 46 basic hiragana are started (Today → New kanji: off, 2, 3 or
   5).
+- **Stations & trains** (41 kanji) and **Shops & offices** (40): platform
+  boards, ticket gates, kinds of train and changing lines; opening hours,
+  prices and discounts, the post office, the bank and city hall. Each set has
+  its own words and real signs.
 - **Clinic & hospital**: 92 more kanji for getting through a Japanese clinic:
   departments and staff, reception and paying, symptoms and tests, signs and
-  notices, and the car park. Today can start with them instead of the
-  everyday set. The Signs tab has real clinic signs (a car park notice, a
-  floor guide, the pharmacy window, visiting hours…): tap any word for its
+  notices, and the car park. Today can start with any set instead of the
+  everyday one. The Signs tab has real signs from each set (a clinic car park notice, a
+  platform board, a supermarket sale, city hall…): tap any word for its
   reading, meaning and kanji, hear the sign read aloud, turn furigana off, and
   reveal the translation. Once you've started a line's kanji, it comes up in
   Today as "what does this sign say?" (or straight away under Practice

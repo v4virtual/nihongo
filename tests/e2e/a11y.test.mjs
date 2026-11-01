@@ -41,7 +41,7 @@ describe("axe audit", () => {
     ["session", "accuracy"], ["session", "neon"], ["session", "calligraphy"], ["dictation", "neon"], ["readquiz", "calligraphy"],
     ["katakana", "accuracy"], ["katakana-today", "accuracy"], ["katakana-words", "accuracy"], ["katakana-read", "accuracy"], ["katakana-quiz", "accuracy"],
     ["k-30a2", "accuracy"], ["k-30fc", "accuracy"], ["w-30c4", "calligraphy"], ["word-ramen", "neon"], ["sign-attakai", "accuracy"],
-    ["kanji", "accuracy"], ["kanji-today", "accuracy"], ["kanji-words", "accuracy"], ["kanji-quiz", "accuracy"], ["k-4f11", "accuracy"], ["kanji-read", "accuracy"], ["ksign-parking-ticket", "accuracy"], ["ksign-floor-guide", "accuracy"], ["k-75c5", "accuracy"], ["kanji-signquiz", "calligraphy"], ["kanji-signquiz", "neon"],
+    ["kanji", "accuracy"], ["kanji-today", "accuracy"], ["kanji-words", "accuracy"], ["kanji-quiz", "accuracy"], ["k-4f11", "accuracy"], ["kanji-read", "accuracy"], ["ksign-parking-ticket", "accuracy"], ["ksign-floor-guide", "accuracy"], ["k-75c5", "accuracy"], ["kanji-signquiz", "calligraphy"], ["ksign-platform", "accuracy"], ["ksign-city-hall", "accuracy"], ["kanji-signquiz", "neon"],
     ["w-4f11", "neon"], ["word-kw-taberu", "calligraphy"],
   ];
   for (const [route, style] of screens) {
@@ -50,7 +50,7 @@ describe("axe audit", () => {
       assert.deepEqual(await audit(page), []);
     }));
   }
-  for (const route of ["home", "hiragana", "words", "phrases", "quiz", "k-3042", "k-304c", "today", "read", "sign-tomare", "katakana", "k-30a2", "katakana-read", "kanji", "k-4f11", "kanji-words", "kanji-read", "ksign-parking-ticket", "ksign-floor-guide"]) {
+  for (const route of ["home", "hiragana", "words", "phrases", "quiz", "k-3042", "k-304c", "today", "read", "sign-tomare", "katakana", "k-30a2", "katakana-read", "kanji", "k-4f11", "kanji-words", "kanji-read", "ksign-parking-ticket", "ksign-floor-guide", "ksign-platform", "kanji-today"]) {
     test(`#${route} in the light theme has no violations`, T, () => withPage(route, { scheme: "light" }, async (page) => {
       await page.waitForTimeout(400);
       assert.deepEqual(await audit(page), []);

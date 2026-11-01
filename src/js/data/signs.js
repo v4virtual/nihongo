@@ -144,4 +144,206 @@ NH.SIGNS = [
     ],
     note: "Many clinics see feverish patients in a separate room or at set times, so tell reception (or phone first) before you sit down.",
   },
+  // ---- Stations & trains ----
+  {
+    id: "platform", pack: "station", look: "board", title: "Platform board", level: 3,
+    where: "Hanging over the platform",
+    lines: [
+      { head: true, t: [["2番線", "にばんせん", "platform 2"]] },
+      { t: [["快速", "かいそく", "rapid"], ["東京", "とうきょう", "Tokyo"], ["行", "ゆき", "bound for"]] },
+      { t: [["各駅停車", "かくえきていしゃ", "local (stops at every station)"], ["品川", "しながわ", "Shinagawa"], ["行", "ゆき", "bound for"]] },
+      { t: [["次", "つぎ", "next"], "の", ["発車", "はっしゃ", "departure"], "　10:05"] },
+    ],
+    en: [
+      "Platform 2",
+      "Rapid service for Tokyo",
+      "Local train for Shinagawa, stopping at every station",
+      "Next departure 10:05",
+    ],
+    note: "行 on a destination is read ゆき (or いき): 東京行 is 'for Tokyo'. A 快速 skips small stations; a 各駅停車 (各停) stops at all of them.",
+  },
+  {
+    id: "next-station", pack: "station", look: "board", title: "On the train", level: 3,
+    where: "The screen above the train doors",
+    lines: [
+      { head: true, t: [["次", "つぎ", "next"], "は", ["品川", "しながわ", "Shinagawa"]] },
+      { t: [["出口", "でぐち", "exit"], "は", ["右側", "みぎがわ", "right side"], ["です", "", "is"]] },
+      { t: [["右側", "みぎがわ", "right side"], "の", ["ドア", "", "door"], "が", ["開きます", "ひらきます", "will open"]] },
+    ],
+    en: [
+      "Next: Shinagawa",
+      "The exit is on the right.",
+      "The doors on the right will open.",
+    ],
+    note: "The same lines come over the speaker. 側 is がわ after 右 and 左: 右側 (みぎがわ), 左側 (ひだりがわ).",
+  },
+  {
+    id: "ticket-gates", pack: "station", look: "board", title: "Ticket gates", level: 3,
+    where: "Above the row of ticket gates",
+    lines: [
+      { head: true, t: [["改札口", "かいさつぐち", "ticket gates"]] },
+      { t: [["切符", "きっぷ", "tickets"], "・", ["ICカード", "", "IC card"], "・", ["定期券", "ていきけん", "commuter pass"]] },
+      { t: [["精算", "せいさん", "fare adjustment"], "は", ["左", "ひだり", "left"], "の", ["窓口", "まどぐち", "window, counter"], "へ"] },
+    ],
+    en: [
+      "Ticket gates",
+      "Tickets, IC cards and commuter passes",
+      "For fare adjustment, go to the window on the left.",
+    ],
+    note: "If you've gone past the stop you paid for, pay the difference (精算) at the machine or window before the gates.",
+  },
+  {
+    id: "transfer", pack: "station", look: "notice", title: "Changing trains", level: 3,
+    where: "At the bottom of the platform stairs",
+    lines: [
+      { head: true, t: [["乗り換え", "のりかえ", "changing trains"]] },
+      { t: [["地下鉄", "ちかてつ", "subway"], "は", ["階段", "かいだん", "stairs"], "を", ["下りて", "おりて", "going down"], ["右", "みぎ", "right"], "へ"] },
+      { t: [["東口", "ひがしぐち", "east exit"], "・", ["西口", "にしぐち", "west exit"], "は", ["こちら", "", "this way"]] },
+    ],
+    en: [
+      "Changing trains",
+      "For the subway, go down the stairs and turn right.",
+      "East and west exits this way.",
+    ],
+    note: "Big stations name their exits by direction (東口, 西口, 南口, 北口); meeting someone, always say which one.",
+  },
+  {
+    id: "priority-seat", pack: "station", look: "notice", title: "Priority seat", level: 3,
+    where: "On the window above the seats at the end of each car",
+    lines: [
+      { head: true, t: [["優先席", "ゆうせんせき", "priority seat"]] },
+      { t: [["席", "せき", "seat"], "を", ["おゆずりください", "", "please give up (your seat)"], "。"] },
+    ],
+    en: [
+      "Priority seat",
+      "Please offer your seat to those who need it.",
+    ],
+    note: "For older people, pregnant women, people with injuries or disabilities, and small children. Phones on silent here.",
+  },
+  {
+    id: "doors-closing", pack: "station", look: "warning", title: "Doors closing", level: 3, cards: [[0, 1]],
+    where: "Sticker on the train door, and the announcement before it shuts",
+    lines: [
+      { t: [["ドア", "", "door"], "が", ["閉まります", "しまります", "is closing"]] },
+      { t: [["ご注意ください", "ごちゅういください", "please be careful"]] },
+    ],
+    en: [
+      "The doors are closing.",
+      "Please be careful.",
+    ],
+    note: "Don't run for it: there's another train in a few minutes on most city lines.",
+  },
+  {
+    id: "last-train", pack: "station", look: "notice", title: "Last and first trains", level: 3,
+    where: "Pinned up by the ticket machines",
+    lines: [
+      { head: true, t: [["終電", "しゅうでん", "last train"]] },
+      { t: [["品川", "しながわ", "Shinagawa"], ["行", "ゆき", "bound for"], "　0:15"] },
+      { t: [["始発", "しはつ", "first train"], "　4:50"] },
+    ],
+    en: [
+      "Last train",
+      "For Shinagawa: 0:15",
+      "First train: 4:50",
+    ],
+    note: "Most city trains stop between about 1 and 5 a.m. Miss the 終電 and it's a taxi or a wait for the 始発.",
+  },
+
+  // ---- Shops & offices ----
+  {
+    id: "shop-hours", pack: "town", look: "notice", title: "Opening hours", level: 3,
+    where: "On a shop door",
+    lines: [
+      { head: true, t: [["営業時間", "えいぎょうじかん", "opening hours"]] },
+      { t: [["午前", "ごぜん", "a.m."], ["10時", "じゅうじ", "10 o'clock"], "〜", ["午後", "ごご", "p.m."], ["8時", "はちじ", "8 o'clock"]] },
+      { t: [["定休日", "ていきゅうび", "regular day off"], "：", ["水", "すい", "Wednesday (short for 水曜日)"]] },
+    ],
+    en: [
+      "Opening hours",
+      "10 a.m. to 8 p.m.",
+      "Closed on Wednesdays",
+    ],
+    note: "Days of the week are often cut to one kanji: 月 火 水 木 金 土 日, Monday to Sunday.",
+  },
+  {
+    id: "door-signs", pack: "town", look: "wall", title: "Signs on the door", level: 3,
+    where: "Hanging on shop and restaurant doors",
+    lines: [
+      { t: [["営業中", "えいぎょうちゅう", "open"]] },
+      { t: [["準備中", "じゅんびちゅう", "getting ready (closed)"]] },
+      { t: [["本日休業", "ほんじつきゅうぎょう", "closed today"]] },
+      { t: [["押", "おす", "push"]] },
+      { t: [["引", "ひく", "pull"]] },
+    ],
+    en: [
+      "Open",
+      "Getting ready (not open yet)",
+      "Closed today",
+      "Push",
+      "Pull",
+    ],
+    note: "準備中 often hangs on restaurants between lunch and dinner. 押 and 引 are the verbs 押す and 引く, cut to one kanji.",
+  },
+  {
+    id: "sale", pack: "town", look: "warning", title: "Supermarket sale", level: 3,
+    where: "Price cards on the shelves near closing time",
+    lines: [
+      { head: true, t: [["本日", "ほんじつ", "today"], "の", ["特売", "とくばい", "special sale"]] },
+      { t: [["3割引", "さんわりびき", "30% off"]] },
+      { t: [["半額", "はんがく", "half price"]] },
+      { t: [["税込", "ぜいこみ", "tax included"], ["298円", "にひゃくきゅうじゅうはちえん", "298 yen"]] },
+    ],
+    en: [
+      "Today's special sale",
+      "30% off",
+      "Half price",
+      "298 yen, tax included",
+    ],
+    note: "割 is a tenth: 3割引 is 30% off. Bentō and side dishes get 割引 and 半額 stickers in the evening.",
+  },
+  {
+    id: "checkout", pack: "town", look: "notice", title: "At the till", level: 3,
+    where: "Taped to the counter of a small shop or restaurant",
+    lines: [
+      { head: true, t: [["お会計", "おかいけい", "checkout"]] },
+      { t: [["現金", "げんきん", "cash"], ["のみ", "", "only"]] },
+      { t: [["カード", "", "cards"], "は", ["ご利用", "ごりよう", "use (polite)"], ["いただけません", "", "cannot (polite)"]] },
+    ],
+    en: [
+      "Checkout",
+      "Cash only",
+      "Cards can't be used.",
+    ],
+    note: "Plenty of small places are still cash only; convenience-store and post-office ATMs take foreign cards.",
+  },
+  {
+    id: "post-office", pack: "town", look: "board", title: "Post office", level: 3,
+    where: "The counters inside a post office",
+    lines: [
+      { head: true, t: [["郵便局", "ゆうびんきょく", "post office"]] },
+      { t: [["郵便", "ゆうびん", "mail"], "・", ["お荷物", "おにもつ", "parcels"], "の", ["窓口", "まどぐち", "counter"]] },
+      { t: [["現金", "げんきん", "cash"], "の", ["お引き出し", "おひきだし", "withdrawals"], "・", ["お預け入れ", "おあずけいれ", "deposits"]] },
+    ],
+    en: [
+      "Post office",
+      "Counter for mail and parcels",
+      "Cash withdrawals and deposits",
+    ],
+    note: "Japan Post is also a bank: the ATM corner (ゆうちょ) handles cash, and the 〒 mark means post office.",
+  },
+  {
+    id: "city-hall", pack: "town", look: "board", title: "City hall", level: 3,
+    where: "Just inside the entrance of a city or ward office",
+    lines: [
+      { head: true, t: [["市役所", "しやくしょ", "city hall"]] },
+      { t: [["届出", "とどけで", "notifications (moving in, births…)"], ["窓口", "まどぐち", "counter"], ["1階", "いっかい", "ground floor"]] },
+      { t: [["申込書", "もうしこみしょ", "application form"], "に", ["お名前", "おなまえ", "your name"], "と", ["住所", "じゅうしょ", "address"], "を", ["記入して", "きにゅうして", "filling in"], ["ください", "", "please"], "。"] },
+    ],
+    en: [
+      "City hall",
+      "Notifications counter: ground floor",
+      "Please write your name and address on the application form.",
+    ],
+    note: "Moving to Japan or within it, you register your address at the 届出 counter within 14 days. In Tokyo's wards it's the 区役所.",
+  },
 ];
