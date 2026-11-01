@@ -109,7 +109,7 @@ window.NH = window.NH || {};
               parts.map((p, n) => [n ? h("span.op", "+") : null, h("span.part", { class: `p${n % 4}` }, h("b", p.el), partName(p.el) ? h("small", partName(p.el)) : null)])) : null)),
         NH.Lesson.player(ch),
         h("section.card.mnemonic", h("h2", "Remember it"), h("p", x.mnemonic)),
-        x.notes?.length ? h("section.card", h("h2", "Good to know"), h("ul.notes", x.notes.map((n) => h("li", n)))) : null,
+        h("section.card", h("h2", "Good to know"), h("ul.notes", [...(x.notes || []), endingsNote(ch)].filter(Boolean).map((n) => h("li", n)))),
         x.lookalikes?.length ? h("section.card", h("h2", "Don't mix it up with"), h("div.looks", x.lookalikes.map((c) =>
           h("a.look", { href: `#k-${hex(c)}` }, h("span.kc", c), h("span.kr", NH.KANJI_INFO[c]?.meaning.split(",")[0] || ""))))) : null,
         h("section.card",
@@ -125,6 +125,17 @@ window.NH = window.NH || {};
           prev ? h("a.pg", { href: `#k-${hex(prev)}` }, UI.icon("prev"), h("span", prev)) : h("span"),
           next ? h("a.pg", { href: `#k-${hex(next)}` }, h("span", next), UI.icon("next")) : h("span"))));
     requestAnimationFrame(() => UI.replay(svg));
+  }
+
+  // "Sweeps (harai): strokes 1 and 2. Hooks (hane): stroke 4. The others stop (tome)."
+  function endingsNote(ch) {
+    const st = NH.Geo.strokesOf(ch);
+    const which = (kind) => st.map((s, i) => (s.ending === kind ? i + 1 : 0)).filter(Boolean);
+    const list = (ns) => `stroke${ns.length > 1 ? "s" : ""} ${ns.length > 1 ? `${ns.slice(0, -1).join(", ")} and ${ns.at(-1)}` : ns[0]}`;
+    const harai = which("harai"), hane = which("hane");
+    if (!harai.length && !hane.length) return "Every stroke ends with a firm stop (tome).";
+    const rest = st.length - harai.length - hane.length;
+    return [harai.length ? `Sweeps out (harai): ${list(harai)}.` : "", hane.length ? `Hooks (hane): ${list(hane)}.` : "", rest ? `The other${rest > 1 ? "s stop" : " stops"} (tome).` : ""].filter(Boolean).join(" ");
   }
 
   // ── words ────────────────────────────────────────────────

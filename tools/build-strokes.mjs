@@ -23,7 +23,7 @@ async function load(hex) {
  * parts, e.g. 休 → 亻 (strokes 0, 1) + 木 (2–5). */
 function parse(svg) {
   const body = svg.slice(svg.indexOf("kvg:StrokePaths_"), svg.indexOf("kvg:StrokeNumbers_"));
-  const paths = [], parts = [], stack = [];
+  const paths = [], types = [], parts = [], stack = [];
   for (const m of body.matchAll(/<g\b([^>]*)>|<\/g>|<path\b([^>]*?)\/?>/g)) {
     if (m[0].startsWith("</g")) {
       const g = stack.pop();
@@ -36,20 +36,24 @@ function parse(svg) {
     } else if (m[0].startsWith("<g")) {
       const a = (k) => (m[1].match(new RegExp(`kvg:${k}="([^"]+)"`)) || [])[1];
       stack.push({ el: a("element"), pos: a("position"), radical: !!a("radical"), part: a("part"), from: paths.length });
-    } else paths.push(m[2].match(/\sd="([^"]+)"/)[1]);
+    } else {
+      paths.push(m[2].match(/\sd="([^"]+)"/)[1]);
+      types.push((m[2].match(/kvg:type="([^"]+)"/) || [])[1] || "");
+    }
   }
-  return { paths, parts: parts.map(({ split, ...q }) => q) };
+  return { paths, types, parts: parts.map(({ split, ...q }) => q) };
 }
 
-const out = {}, parts = {};
+const out = {}, parts = {}, types = {};
 const cps = [...RANGES.flatMap(([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i)), ...[...KANJI].map((c) => c.codePointAt(0))];
 for (const cp of cps) {
   const hex = cp.toString(16).padStart(5, "0");
-  const { paths, parts: p } = parse(await load(hex));
+  const { paths, types: t, parts: p } = parse(await load(hex));
   if (!paths.length) throw new Error(`${hex}: no strokes`);
   const ch = String.fromCodePoint(cp);
   out[ch] = paths;
   if (p.length > 1) parts[ch] = p;
+  if (t.some(Boolean)) types[ch] = t;
 }
 
 const body = Object.entries(out)
@@ -66,6 +70,10 @@ await writeFile(
 window.NH = window.NH || {};
 NH.STROKES = {
 ${body}
+};
+// KanjiVG's stroke type per stroke (kanji only; kana have none), e.g. ㇒ a sweep, ㇚ a hook.
+NH.STROKE_TYPES = {
+${Object.entries(types).map(([ch, t]) => `  ${JSON.stringify(ch)}: ${JSON.stringify(t)}`).join(",\n")}
 };
 // Top-level parts of each kanji that has more than one: the element and its stroke indexes.
 NH.PARTS = {

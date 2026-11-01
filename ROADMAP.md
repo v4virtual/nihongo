@@ -31,7 +31,9 @@ release; order within a group is a rough priority.
 - [x] Hints above the square on phones, where the writing hand doesn't cover them
 - [x] Palm rejection for stylus users (iPad + Pencil, S Pen): touches are ignored while a pen is in use
 - [x] Stroke-ending feedback for **hane** (flicks): detected from the stroke data, checked on every stroke, shown on the explain page and played in the demo
-- [ ] Stroke-ending feedback for **tome / harai** (stop vs. sweep): needs hand-checked labels per stroke, since KanjiVG doesn't record them
+- [x] Stroke endings for kanji (**tome / harai / hane**) from KanjiVG's stroke types: sweeps and hooks marked in the stroke order, listed on each kanji's page, described in hints and lessons
+- [ ] Checking the learner's tome vs. harai as they write (pen speed at the lift): needs tuning on real devices before it can judge without nagging
+- [ ] Tome / harai for kana: KanjiVG has no stroke types for kana, so they need hand-checked labels
 - [x] Effects volume control
 - [ ] Sound packs per style
 - [x] Light and dark themes for the app around the writing area (Auto follows the phone; Settings → Theme overrides), with the browser bar and Android status bar matched to what's on screen
@@ -60,7 +62,8 @@ release; order within a group is a rough priority.
 - [x] Component-aware writing: parts from KanjiVG coloured in the stroke order, "亻 done" as each part is finished, and stroke-order mistakes named by part
 - [x] Stroke-count search in the kanji chart
 - [x] Words mixing kanji and kana (furigana toggle), kanji in Today (after the basic hiragana) and a kanji quiz
-- [ ] Hane checks on every kanji hook: the detector finds most (水, 月, 子) but misses a few upward ones (九, 七)
+- [x] Hane checks on kanji hooks from KanjiVG's stroke types: 九's hook is now checked, and 七 (which doesn't flick in Japanese) isn't
+- [ ] Hane checks for hooks that turn sideways or down (子's first stroke, the hook under 冖 in 学): taught and shown, but the flick check can't see them yet
 
 ## v0.6 — Narrated lessons (from early users' feedback)
 

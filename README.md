@@ -27,7 +27,9 @@ next is on the [roadmap](ROADMAP.md).
 - **Kanji**: the 80 kanji of JLPT N5, grouped by theme (numbers, days and
   time, people, places…) with a stroke-count filter. Each has its meaning,
   on and kun readings, radical, a memory hook and example words. Its parts are
-  coloured in the stroke-order diagram (休 = 亻 person + 木 tree); while you
+  coloured in the stroke-order diagram (休 = 亻 person + 木 tree), and each
+  stroke's ending is marked and listed: a sweep (harai), a hook (hane) or a stop
+  (tome), from KanjiVG's stroke types; while you
   write, Kaku says when a part is done and names the parts in stroke-order
   mistakes ("That's part of 木. Finish 亻 first"). Words that mix kanji and
   kana (日本, 食べる, 今日) have furigana you can turn off. Kanji join Today two

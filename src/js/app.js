@@ -246,7 +246,7 @@ window.NH = window.NH || {};
   // Which strokes end in a hane (flick), from the stroke data.
   function haneNotes(ch) {
     return [...ch].flatMap((c) => {
-      const ns = NH.Geo.strokesOf(c).map((st, i) => (st.hane ? i + 1 : 0)).filter(Boolean);
+      const ns = NH.Geo.strokesOf(c).map((st, i) => (st.ending === "hane" ? i + 1 : 0)).filter(Boolean);
       if (!ns.length) return [];
       const which = ns.length === 1 ? `Stroke ${ns[0]}` : `Strokes ${ns.join(" and ")}`;
       return [`${[...ch].length > 1 ? c + ": " : ""}${which} end${ns.length === 1 ? "s" : ""} with a hane (跳ね), a quick flick up and away as you lift the pen. It's marked with a red arrow above.`];
@@ -300,10 +300,14 @@ window.NH = window.NH || {};
         g.append(s("path.so-st", { d: st.d, pathLength: "1", class: i >= baseCount ? "mark" : part >= 0 ? `part p${part % 4}` : "", style: `--i:${n}` }));
         const p = NH.Geo.labelPos(st);
         g.append(s("text.so-n", { x: p.x, y: p.y + 2, "text-anchor": "middle", style: `--i:${n}` }, String(i + 1)));
-        if (st.hane) {
-          const e = st.pts[st.pts.length - 1], q = st.pts[st.pts.length - 4];
-          const ang = (Math.atan2(e.y - q.y, e.x - q.x) * 180) / Math.PI;
-          g.append(s("path.so-hane", { d: "M-3.2,-3.2 L1.6,0 L-3.2,3.2", transform: `translate(${e.x.toFixed(1)} ${e.y.toFixed(1)}) rotate(${ang.toFixed(0)}) translate(4 0)`, style: `--i:${n}` }));
+        // Hooks get an arrow; sweeps (kanji only, from their stroke type) a fading tail.
+        const e = st.pts[st.pts.length - 1], q = st.pts[st.pts.length - 4];
+        const ang = (Math.atan2(e.y - q.y, e.x - q.x) * 180) / Math.PI;
+        const at = `translate(${e.x.toFixed(1)} ${e.y.toFixed(1)}) rotate(${ang.toFixed(0)})`;
+        if (st.ending === "hane") {
+          g.append(s("path.so-hane", { d: "M-3.2,-3.2 L1.6,0 L-3.2,3.2", transform: `${at} translate(4 0)`, style: `--i:${n}` }));
+        } else if (st.ending === "harai") {
+          g.append(s("path.so-harai", { d: "M1.5,0 L9,0", transform: at, style: `--i:${n}` }));
         }
         n++;
       });

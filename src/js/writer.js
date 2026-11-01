@@ -591,7 +591,7 @@ window.NH = window.NH || {};
       for (let i = 0; i < this.strokes.length; i++) {
         if (this.demoToken !== token) return;
         const st = this.strokes[i];
-        const pts = timed(Geo.resample(st.raw, Math.max(12, Math.round(st.len * 0.9))).map((p) => this.toPx(p)), st.len, st.hane);
+        const pts = timed(Geo.resample(st.raw, Math.max(12, Math.round(st.len * 0.9))).map((p) => this.toPx(p)), st.len, st.ending === "hane");
         Audio.drawStart(this.style);
         const t0 = performance.now();
         const dur = pts[pts.length - 1].t - pts[0].t;

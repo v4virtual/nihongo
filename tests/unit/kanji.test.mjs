@@ -97,3 +97,39 @@ describe("kanji in the queue", () => {
     assert.equal(N.SRS.itemText("v:" + w.id), w.text);
   });
 });
+
+describe("how kanji strokes end", () => {
+  const ends = (ch) => [...NH.Geo.strokesOf(ch).map((s) => s.ending)];
+  test("KanjiVG's stroke types give stop, sweep or hook", () => {
+    assert.deepEqual(ends("人"), ["harai", "harai"]);
+    assert.deepEqual(ends("水"), ["hane", "harai", "harai", "harai"]);
+    assert.deepEqual(ends("一"), ["tome"]);
+    assert.deepEqual(ends("七"), ["tome", "tome"], "七 doesn't flick");
+  });
+
+  test("九's hook is checked now; hooks the check can't see are taught, not graded", () => {
+    assert.equal(NH.Geo.strokesOf("九")[1].hane, true);
+    const ko = NH.Geo.strokesOf("子")[0];
+    assert.equal(ko.ending, "hane");
+    assert.equal(ko.hane, false, "子's first hook turns down-left, which the flick check can't see");
+    for (const k of NH.KANJI) NH.Geo.strokesOf(k.k).forEach((s, i) => {
+      if (s.hane) assert.ok(NH.Geo.hasHook(s.raw), `${k.k} stroke ${i + 1} is graded but its own model fails the check`);
+    });
+  });
+
+  test("every stroke type in the data is understood", () => {
+    for (const [ch, types] of Object.entries(NH.STROKE_TYPES)) types.forEach((t, i) => {
+      if (t && !t.includes("/")) assert.ok(NH.Geo.endingOf(t), `${ch} stroke ${i + 1}: unknown type ${t}`);
+    });
+  });
+
+  test("descriptions say when a stroke sweeps out", () => {
+    assert.match(NH.Geo.describe(NH.Geo.strokesOf("人")[0]), /ends with a sweep \(harai\)$/);
+    assert.match(NH.Geo.describe(NH.Geo.strokesOf("九")[1]), /ends with a flick \(hane\)$/);
+  });
+
+  test("kana are unchanged: no stroke types, hooks found from their shape", () => {
+    assert.equal(NH.Geo.strokesOf("い")[0].hane, true);
+    assert.equal(NH.Geo.strokesOf("あ")[0].ending, null);
+  });
+});

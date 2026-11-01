@@ -290,6 +290,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: var(--sat)
 .so.play .so-st { stroke-dashoffset: 1; animation: so-draw 0.7s ease-in-out forwards; animation-delay: calc(var(--i) * 0.8s + 0.2s); }
 .so.play .so-n { opacity: 0; animation: so-num 0.2s forwards; animation-delay: calc(var(--i) * 0.8s + 0.1s); }
 .so-hane { fill: none; stroke: var(--shu); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.so-harai { fill: none; stroke: var(--shu); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1.6 1.8; opacity: 0.85; }
+.so.play .so-harai { opacity: 0; animation: so-num 0.2s forwards; animation-delay: calc(var(--i) * 0.8s + 0.75s); }
 .so.play .so-hane { opacity: 0; animation: so-num 0.2s forwards; animation-delay: calc(var(--i) * 0.8s + 0.8s); }
 @keyframes so-draw { to { stroke-dashoffset: 0; } }
 @keyframes so-num { to { opacity: 1; } }
@@ -1391,6 +1393,90 @@ NH.STROKES = {
   "読": ["M22.38,14.75c2.25,1.63,5.81,6.71,6.37,9.25","M10.37,33.08c1.61,0.48,3.62,0.35,5.27,0.14c5.96-0.76,13.52-1.42,20.1-2.38c1.5-0.22,3.09-0.43,4.6-0.16","M16.23,46.31c1.17,0.37,2.73,0.18,3.93-0.01c3.99-0.62,8.33-1.2,11.58-1.97c1.35-0.32,3.26-0.58,4.65-0.58","M16.73,58.58c1.02,0.35,2.46,0.15,3.53,0.04c3.8-0.4,9.57-1.17,12.55-1.77c1.45-0.29,2.94-0.48,4.22-0.14","M15.64,70.4c0.71,0.61,1.08,1.37,1.12,2.29c0.79,3.76,1.71,9.85,2.52,15.05c0.16,1.05,0.32,2.06,0.48,3","M17.75,72.05c6.09-0.91,11.59-1.7,17.42-2.67c1.7-0.28,2.73,1.3,2.49,2.58c-0.85,4.46-1.61,6.91-2.88,12.78","M20.47,88.3c4.06-0.46,7.76-1.19,12.79-1.92c0.92-0.13,1.88-0.26,2.9-0.39","M46.37,26.71c2.31,0.59,4.67,0.42,7,0.15c9.97-1.14,21.82-2.23,29.77-3.06c2.36-0.25,4.38-0.21,6.71,0.14","M65.76,13.25c1.06,1.06,1.59,2.08,1.59,3.25c0,8.5-0.07,17.03-0.19,20.46","M52.53,38.58c2.22,0.42,4.15,0.3,5.98,0.08C64,38,71.21,37.1,78,36.47c1.61-0.15,3.63-0.29,5.23,0.04","M46.14,48.1c-0.11,3.93-1.7,12-2.6,14.35","M47,49.96c11.42-1.27,28-3.71,41.35-4.28c9.15-0.39,0.43,7.14-0.74,8.35","M59.49,59.25c0.5,1.52,0.71,3.09,0.29,4.83c-2.76,11.61-6.54,22.94-15.26,30.61","M71.64,56.26c1.11,1.24,1.65,2.67,1.69,4.37c0.11,4.62-0.13,16.99-0.13,24.62c0,9.5,0.8,10.52,11.3,10.52c11,0,11.38-1.02,11.38-7.31"],
   "話": ["M24.99,14c2.36,1.5,6.1,6.17,6.7,8.5","M11.37,32.83c1.41,0.42,3.07,0.29,4.51,0.17c8.29-0.7,16.95-1.9,23.59-2.81c1.28-0.17,3.22,0.11,3.87,0.23","M17.78,47.06c1.05,0.32,2.15,0.35,3.23,0.29c4.11-0.23,10.69-1.59,14.43-1.97c1.31-0.13,2.68-0.13,4.04-0.13","M18.58,59.33c1.2,0.36,2.8,0.13,4.04,0.08c3.71-0.16,8.38-0.79,12.92-1.36c1.43-0.18,2.85-0.34,4.3-0.08","M17.4,71.9c0.81,0.68,1.33,1.82,1.49,2.87c0.73,4.61,1.4,8.31,2.2,13.18c0.22,1.33,0.43,2.62,0.63,3.8","M19.64,73.54c6.67-1.14,13.31-2.75,19.46-3.66c1.85-0.27,2.96,1.26,2.7,2.51c-0.89,4.19-2.46,8.16-4.05,14.07","M22.49,89.55c4.76-0.55,8.86-1.17,14.02-1.72c0.93-0.1,1.91,0.04,2.97-0.09","M81.75,13.75c-0.12,1.25-0.79,2.39-1.66,3.06c-4.84,3.69-15.34,9.94-29.34,14.94","M45.39,45.8c1.55,0.34,4.36,0.62,6.73,0.34C62.8,44.9,76.37,43.07,91,42.23c2.28-0.13,4.49-0.01,6.75,0.29","M68.87,27.19c1.4,1.4,1.85,3.06,1.85,4.88c0,1.44-0.21,28.18-0.21,35.16","M52.07,67.83c0.93,1.17,1.22,1.76,1.35,2.34c1.38,6.2,2.13,12.33,3.08,20.33c0.13,1.14,0.27,2.31,0.42,3.53","M54.62,69.29c12.9-1.37,25.41-2.73,32.68-3.31c2.94-0.24,3.79,2.4,3.37,3.8c-1.47,4.87-3.03,11.64-5.04,18.35","M56.64,91.74c7.5-0.57,16.99-1.13,27.14-1.93c1.37-0.11,2.75-0.22,4.13-0.34"],
   "聞": ["M16.14,17.97c0.94,0.94,1.51,2.16,1.51,3.25c0,0.77-0.03,48.45-0.18,66.29c-0.03,3.16-0.05,5.37-0.07,6.21","M19.01,19.6c6.86-1.22,18.49-3.1,21.08-3.39c1.9-0.21,3.03,0.79,3,2.46c-0.04,1.84-0.59,10.46-1.44,20.02c-0.09,1.04-0.15,2-0.15,2.69","M18.81,30.43c6.94-1.05,15.82-2.55,22.41-2.9","M17.86,42.57C26.25,41.25,33,40,40.42,39.4","M66.21,14.22c0.66,0.66,1.17,1.78,1.17,2.93c0,0.56,0.12,13.19,0.17,19.1c0.02,1.71,0.03,2.83,0.03,2.91","M68.51,16.1c6.89-1.1,19.28-3.26,21.17-3.36c1.96-0.1,3.57,1.38,3.57,2.98c0,18.78-0.26,60.28-0.26,73.89c0,11.13-6.37,2.13-8.21,0.25","M68.59,25.94c5.16-0.69,18.16-2.44,23-2.71","M69.13,36.75c6.37-0.75,15.12-2,22.15-2.53","M33.5,51.24c1.71,0.31,4.02,0.25,5.71,0.06c9.6-1.05,20.21-3.05,30.66-4.05c2.83-0.27,4.57-0.1,6,0.05","M42.71,53c0.89,0.89,1.3,2.26,1.3,3.51S44,79.31,44,83.84","M45.13,61.43c4.49-0.43,13.74-2.05,19.78-2.36","M44.81,71.67c5.72-0.67,12.31-1.92,20.12-2.95","M32.51,85.14c0.99,0.86,2.2,1.23,3.25,0.92c4.87-1.43,28.2-7.83,34.76-9.39","M64.84,49.66c0.62,0.63,1.05,1.71,1.05,2.99c0,0.66,0.12,27.55,0.15,39.1c0.01,1.88,0.01,3.36,0.01,4.25"]
+};
+// KanjiVG's stroke type per stroke (kanji only; kana have none), e.g. ㇒ a sweep, ㇚ a hook.
+NH.STROKE_TYPES = {
+  "マ": ["㇇","㇔"],
+  "一": ["㇐"],
+  "二": ["㇐","㇐"],
+  "三": ["㇐","㇐","㇐"],
+  "四": ["㇑","㇕a","㇒","㇟a","㇐a"],
+  "五": ["㇐","㇑a","㇕c","㇐"],
+  "六": ["㇑a","㇐","㇒","㇔/㇏"],
+  "七": ["㇐","㇄"],
+  "八": ["㇒","㇏"],
+  "九": ["㇒","㇈"],
+  "十": ["㇐","㇑"],
+  "百": ["㇐","㇔","㇑","㇕a","㇐a","㇐a"],
+  "千": ["㇒","㇐","㇑"],
+  "万": ["㇐","㇆","㇒"],
+  "円": ["㇑","㇆a","㇑a","㇐a"],
+  "日": ["㇑","㇕a","㇐a","㇐a"],
+  "月": ["㇓","㇆a","㇐a","㇐a"],
+  "火": ["㇔","㇒","㇒","㇏"],
+  "水": ["㇚","㇇","㇒","㇏"],
+  "木": ["㇐","㇑","㇒","㇏"],
+  "金": ["㇒","㇏","㇐","㇐","㇑a","㇔","㇒","㇐"],
+  "土": ["㇐","㇑a","㇐"],
+  "年": ["㇒","㇐","㇐","㇑a","㇐","㇑"],
+  "時": ["㇑","㇕a","㇐a","㇐a","㇐","㇑a","㇐","㇐","㇚","㇔"],
+  "午": ["㇒","㇐","㇐","㇑"],
+  "前": ["㇔","㇒","㇐","㇑","㇆a","㇐a","㇐a","㇑","㇚"],
+  "後": ["㇒","㇒","㇑","㇜","㇜","㇔","㇒","㇇","㇏"],
+  "今": ["㇒","㇏","㇐","㇇"],
+  "毎": ["㇒","㇐","㇛","㇆a","㇑a","㇐"],
+  "半": ["㇔","㇒","㇐","㇐","㇑"],
+  "間": ["㇑","㇕a","㇐a","㇐a","㇑","㇆a","㇐a","㇐a","㇑","㇕a","㇐a","㇐a"],
+  "人": ["㇒","㇏"],
+  "子": ["㇖","㇁","㇐"],
+  "女": ["㇛","㇒","㇐"],
+  "男": ["㇑","㇕a","㇑a","㇐a","㇐a","㇆","㇒"],
+  "父": ["㇒","㇔","㇒","㇏"],
+  "母": ["㇗","㇆a","㇔","㇔","㇐"],
+  "友": ["㇐","㇒","㇇","㇏"],
+  "先": ["㇒","㇐","㇑a","㇐","㇒","㇟"],
+  "生": ["㇒","㇐","㇑a","㇐","㇐"],
+  "名": ["㇒","㇇","㇔","㇑","㇕b","㇐b"],
+  "上": ["㇑a","㇐b/㇔","㇐"],
+  "下": ["㇐","㇑","㇔"],
+  "中": ["㇑","㇕b","㇐b","㇑"],
+  "左": ["㇐","㇒","㇐","㇑a","㇐"],
+  "右": ["㇒","㇐","㇑","㇕b","㇐b"],
+  "外": ["㇒","㇇","㇔","㇑","㇔"],
+  "東": ["㇐","㇑","㇕a","㇐a","㇐a","㇑","㇒","㇏"],
+  "西": ["㇐","㇑","㇕a","㇒","㇟a","㇐a"],
+  "南": ["㇐","㇑a","㇑","㇆a","㇔","㇒","㇐","㇐","㇑"],
+  "北": ["㇐c","㇑a","㇀","㇒","㇟"],
+  "山": ["㇑a","㇄a","㇑"],
+  "川": ["㇒","㇑","㇑"],
+  "天": ["㇐","㇐","㇒","㇏"],
+  "気": ["㇒","㇐","㇐","㇈a","㇒","㇔/㇒"],
+  "雨": ["㇐","㇑","㇆a","㇑","㇔","㇔","㇔","㇔"],
+  "大": ["㇐","㇒","㇏"],
+  "小": ["㇚","㇒","㇔"],
+  "長": ["㇑a","㇐b","㇐b","㇐b","㇐","㇙","㇒","㇏"],
+  "高": ["㇑a","㇐","㇑","㇕b","㇐b","㇑","㇆a","㇑","㇕b","㇐b"],
+  "白": ["㇒","㇑","㇕a","㇐a","㇐a"],
+  "本": ["㇐","㇑","㇒","㇏","㇐"],
+  "学": ["㇔","㇔","㇒","㇔","㇖b","㇖","㇁","㇐"],
+  "校": ["㇐","㇑","㇒","㇔/㇏","㇑a","㇐","㇒","㇔","㇒","㇏"],
+  "語": ["㇔","㇐","㇐","㇐","㇑","㇕b","㇐b","㇐","㇑a","㇕c","㇐","㇑","㇕b","㇐b"],
+  "電": ["㇐","㇔/㇑","㇖b/㇆","㇑","㇔","㇔","㇔","㇔","㇑","㇕a","㇐a","㇐a","㇟"],
+  "車": ["㇐","㇑","㇕a","㇐a","㇐a","㇐","㇑"],
+  "国": ["㇑","㇕a","㇐","㇑a","㇐","㇐","㇔","㇐a"],
+  "何": ["㇒","㇑","㇐","㇑","㇕b","㇐b","㇚"],
+  "見": ["㇑","㇕a","㇐a","㇐a","㇐a","㇒","㇟"],
+  "行": ["㇒","㇒","㇑","㇐","㇐","㇚"],
+  "来": ["㇐","㇔","㇒","㇐","㇑","㇒","㇏"],
+  "出": ["㇑a","㇄a","㇑","㇄a","㇑"],
+  "入": ["㇒","㇏"],
+  "休": ["㇒","㇑","㇐","㇑","㇒","㇏"],
+  "食": ["㇒","㇏","㇑a","㇕","㇐a","㇐a","㇙","㇒","㇏"],
+  "飲": ["㇒","㇔/㇏","㇑a","㇕","㇐a","㇐a","㇙","㇔/㇏","㇒","㇖a","㇒","㇏"],
+  "書": ["㇕c","㇐","㇐","㇐","㇐","㇑a","㇑","㇕a","㇐a","㇐a"],
+  "読": ["㇔","㇐","㇐","㇐","㇑","㇕b","㇐b","㇐","㇑a","㇐","㇔","㇖b","㇒","㇟"],
+  "話": ["㇔","㇐","㇐","㇐","㇑","㇕b","㇐b","㇒","㇐","㇑a","㇑","㇕b","㇐b"],
+  "聞": ["㇑","㇕a","㇐a","㇐a","㇑","㇆a","㇐a","㇐a","㇐","㇑a","㇐a","㇐a","㇀","㇑"]
 };
 // Top-level parts of each kanji that has more than one: the element and its stroke indexes.
 NH.PARTS = {
@@ -6244,16 +6330,34 @@ window.NH = window.NH || {};
     return out;
   }
 
+  /* How a kanji stroke ends, from KanjiVG's stroke type: a stop (tome), a
+   * sweep (harai) or a hook (hane). Types are Chinese stroke names, so a few
+   * Japanese conventions are spelled out: ㇙, rising off a vertical, counts
+   * as a hook. Types like "㇔/㇏" (either) have no single ending. */
+  const ENDING = {
+    "㇐": "tome", "㇑": "tome", "㇔": "tome", "㇕": "tome", "㇄": "tome", "㇗": "tome", "㇜": "tome", "㇛": "tome",
+    "㇒": "harai", "㇏": "harai", "㇇": "harai", "㇓": "harai", "㇀": "harai",
+    "㇚": "hane", "㇆": "hane", "㇟": "hane", "㇈": "hane", "㇖": "hane", "㇁": "hane", "㇙": "hane",
+  };
+  const endingOf = (type) => (!type || type.includes("/") ? null : ENDING[type[0]] || null);
+
   const cache = new Map();
-  // Reference strokes for a character: [{ d, pts (resampled), len }]
+  // Reference strokes for a character: [{ d, pts (resampled), len, hane, ending }]
   function strokesOf(ch) {
     if (cache.has(ch)) return cache.get(ch);
     const paths = (NH.STROKES && NH.STROKES[ch]) || [];
-    const strokes = paths.map((d) => {
+    // Kanji have stroke types; kana don't, so their hooks are found in the shape.
+    const types = /[\u3400-\u9fff]/.test(ch) ? NH.STROKE_TYPES?.[ch] : null;
+    const strokes = paths.map((d, i) => {
       const raw = flatten(d);
       const len = length(raw);
       // A hane is a short upward flick at the end of a long stroke (い, け, は, り…).
-      return { d, raw, pts: resample(raw), len, hane: len >= 40 && endTurn(raw, 55) };
+      // `hane` is checked when you write; a kanji hook that turns sideways or
+      // down (子's first stroke) is taught (`ending`) but not checked, because
+      // the flick test can't see it even in the model stroke.
+      const ending = types ? endingOf(types[i]) : len >= 40 && endTurn(raw, 55) ? "hane" : null;
+      const hane = ending === "hane" && (!types || hasHook(raw));
+      return { d, raw, pts: resample(raw), len, hane, ending };
     });
     cache.set(ch, strokes);
     return strokes;
@@ -6389,10 +6493,11 @@ window.NH = window.NH || {};
       const d1 = dirOf(a, mid), d2 = dirOf(mid, z);
       shape = d1 === d2 ? `a curve going ${d1}` : `curves ${d1}, then ${d2}`;
     }
-    return `starts at ${place(a)}, ${shape}${st.hane ? ", and ends with a flick (hane)" : ""}`;
+    const end = st.ending === "hane" ? ", and ends with a flick (hane)" : st.ending === "harai" ? ", and ends with a sweep (harai)" : "";
+    return `starts at ${place(a)}, ${shape}${end}`;
   }
 
-  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, describe, TOL };
+  NH.Geo = { BOX, N, flatten, resample, smooth, length, dist, strokesOf, grade, judge, labelPos, hasHook, describe, endingOf, TOL };
 })();
 
 /* js/srs.js */
@@ -8141,7 +8246,7 @@ window.NH = window.NH || {};
       for (let i = 0; i < this.strokes.length; i++) {
         if (this.demoToken !== token) return;
         const st = this.strokes[i];
-        const pts = timed(Geo.resample(st.raw, Math.max(12, Math.round(st.len * 0.9))).map((p) => this.toPx(p)), st.len, st.hane);
+        const pts = timed(Geo.resample(st.raw, Math.max(12, Math.round(st.len * 0.9))).map((p) => this.toPx(p)), st.len, st.ending === "hane");
         Audio.drawStart(this.style);
         const t0 = performance.now();
         const dur = pts[pts.length - 1].t - pts[0].t;
@@ -9153,7 +9258,7 @@ window.NH = window.NH || {};
               parts.map((p, n) => [n ? h("span.op", "+") : null, h("span.part", { class: `p${n % 4}` }, h("b", p.el), partName(p.el) ? h("small", partName(p.el)) : null)])) : null)),
         NH.Lesson.player(ch),
         h("section.card.mnemonic", h("h2", "Remember it"), h("p", x.mnemonic)),
-        x.notes?.length ? h("section.card", h("h2", "Good to know"), h("ul.notes", x.notes.map((n) => h("li", n)))) : null,
+        h("section.card", h("h2", "Good to know"), h("ul.notes", [...(x.notes || []), endingsNote(ch)].filter(Boolean).map((n) => h("li", n)))),
         x.lookalikes?.length ? h("section.card", h("h2", "Don't mix it up with"), h("div.looks", x.lookalikes.map((c) =>
           h("a.look", { href: `#k-${hex(c)}` }, h("span.kc", c), h("span.kr", NH.KANJI_INFO[c]?.meaning.split(",")[0] || ""))))) : null,
         h("section.card",
@@ -9169,6 +9274,17 @@ window.NH = window.NH || {};
           prev ? h("a.pg", { href: `#k-${hex(prev)}` }, UI.icon("prev"), h("span", prev)) : h("span"),
           next ? h("a.pg", { href: `#k-${hex(next)}` }, h("span", next), UI.icon("next")) : h("span"))));
     requestAnimationFrame(() => UI.replay(svg));
+  }
+
+  // "Sweeps (harai): strokes 1 and 2. Hooks (hane): stroke 4. The others stop (tome)."
+  function endingsNote(ch) {
+    const st = NH.Geo.strokesOf(ch);
+    const which = (kind) => st.map((s, i) => (s.ending === kind ? i + 1 : 0)).filter(Boolean);
+    const list = (ns) => `stroke${ns.length > 1 ? "s" : ""} ${ns.length > 1 ? `${ns.slice(0, -1).join(", ")} and ${ns.at(-1)}` : ns[0]}`;
+    const harai = which("harai"), hane = which("hane");
+    if (!harai.length && !hane.length) return "Every stroke ends with a firm stop (tome).";
+    const rest = st.length - harai.length - hane.length;
+    return [harai.length ? `Sweeps out (harai): ${list(harai)}.` : "", hane.length ? `Hooks (hane): ${list(hane)}.` : "", rest ? `The other${rest > 1 ? "s stop" : " stops"} (tome).` : ""].filter(Boolean).join(" ");
   }
 
   // ── words ────────────────────────────────────────────────
@@ -9826,7 +9942,7 @@ window.NH = window.NH || {};
   // Which strokes end in a hane (flick), from the stroke data.
   function haneNotes(ch) {
     return [...ch].flatMap((c) => {
-      const ns = NH.Geo.strokesOf(c).map((st, i) => (st.hane ? i + 1 : 0)).filter(Boolean);
+      const ns = NH.Geo.strokesOf(c).map((st, i) => (st.ending === "hane" ? i + 1 : 0)).filter(Boolean);
       if (!ns.length) return [];
       const which = ns.length === 1 ? `Stroke ${ns[0]}` : `Strokes ${ns.join(" and ")}`;
       return [`${[...ch].length > 1 ? c + ": " : ""}${which} end${ns.length === 1 ? "s" : ""} with a hane (跳ね), a quick flick up and away as you lift the pen. It's marked with a red arrow above.`];
@@ -9880,10 +9996,14 @@ window.NH = window.NH || {};
         g.append(s("path.so-st", { d: st.d, pathLength: "1", class: i >= baseCount ? "mark" : part >= 0 ? `part p${part % 4}` : "", style: `--i:${n}` }));
         const p = NH.Geo.labelPos(st);
         g.append(s("text.so-n", { x: p.x, y: p.y + 2, "text-anchor": "middle", style: `--i:${n}` }, String(i + 1)));
-        if (st.hane) {
-          const e = st.pts[st.pts.length - 1], q = st.pts[st.pts.length - 4];
-          const ang = (Math.atan2(e.y - q.y, e.x - q.x) * 180) / Math.PI;
-          g.append(s("path.so-hane", { d: "M-3.2,-3.2 L1.6,0 L-3.2,3.2", transform: `translate(${e.x.toFixed(1)} ${e.y.toFixed(1)}) rotate(${ang.toFixed(0)}) translate(4 0)`, style: `--i:${n}` }));
+        // Hooks get an arrow; sweeps (kanji only, from their stroke type) a fading tail.
+        const e = st.pts[st.pts.length - 1], q = st.pts[st.pts.length - 4];
+        const ang = (Math.atan2(e.y - q.y, e.x - q.x) * 180) / Math.PI;
+        const at = `translate(${e.x.toFixed(1)} ${e.y.toFixed(1)}) rotate(${ang.toFixed(0)})`;
+        if (st.ending === "hane") {
+          g.append(s("path.so-hane", { d: "M-3.2,-3.2 L1.6,0 L-3.2,3.2", transform: `${at} translate(4 0)`, style: `--i:${n}` }));
+        } else if (st.ending === "harai") {
+          g.append(s("path.so-harai", { d: "M1.5,0 L9,0", transform: at, style: `--i:${n}` }));
         }
         n++;
       });
