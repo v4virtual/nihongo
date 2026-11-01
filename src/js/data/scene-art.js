@@ -147,6 +147,22 @@ window.NH.SCENE_ART = {
     vb: "0 0 100 160",
     svg: `<path class="fl" d="M14 8 H86 V152 H14 Z"/><path class="ln" d="M14 8 H86 V152 H14 Z"/><path class="ln" d="M20 14 H80 V86 H20 Z M20 38 H80 M20 62 H80"/><path class="ln" d="M26 18 h6 v16 h-6 Z M38 18 h6 v16 h-6 Z M50 18 h6 v16 h-6 Z M62 18 h6 v16 h-6 Z M26 42 h6 v16 h-6 Z M38 42 h6 v16 h-6 Z M50 42 h6 v16 h-6 Z M62 42 h6 v16 h-6 Z M26 66 h6 v16 h-6 Z M38 66 h6 v16 h-6 Z M50 66 h6 v16 h-6 Z M62 66 h6 v16 h-6 Z"/><path class="ac" d="M26 18 h6 v16 h-6 Z M50 42 h6 v16 h-6 Z M62 66 h6 v16 h-6 Z"/><path class="ln" d="M24 94 H76 M24 98 H76"/><circle class="ac" cx="29" cy="96" r="1.6"/><circle class="ac" cx="41" cy="96" r="1.6"/><circle class="ac" cx="53" cy="96" r="1.6"/><circle class="ac" cx="65" cy="96" r="1.6"/><rect class="ln" x="62" y="106" width="16" height="12" rx="1.5"/><path class="ln" d="M68 110 v4 M24 108 h28 v8 h-28 Z"/><path class="ln" d="M22 130 H78 V144 H22 Z"/><path class="ln" d="M4 152 H96"/>`
   },
+  clinic: {
+    vb: "0 0 160 120",
+    svg: `<path class="fl" d="M30 40 H130 V106 H30 Z"/><path class="ln" d="M30 40 H130 V106 H30 Z M24 40 H136"/><rect class="fl" x="66" y="12" width="28" height="28" rx="4"/><rect class="ln" x="66" y="12" width="28" height="28" rx="4"/><path class="ac" d="M77 16 h6 v7 h7 v6 h-7 v7 h-6 v-7 h-7 v-6 h7 Z"/><path class="ln" d="M40 50 h14 v10 h-14 Z M62 50 h14 v10 h-14 Z M84 50 h14 v10 h-14 Z M106 50 h14 v10 h-14 Z M40 68 h14 v10 h-14 Z M106 68 h14 v10 h-14 Z"/><path class="ln" d="M66 106 V84 H94 V106 M80 84 V106 M62 84 H98"/><circle class="ln" cx="146" cy="88" r="8"/><path class="ln" d="M146 96 V106 M4 106 H156"/>`
+  },
+  pill: {
+    vb: "0 0 140 120",
+    svg: `<g transform="rotate(-30 62 52)"><path class="fl" d="M32 40 H62 V64 H32 A12 12 0 0 1 32 40 Z"/><path class="ac" d="M62 40 H92 A12 12 0 0 1 92 64 H62 Z"/><path class="ln" d="M32 40 H92 A12 12 0 0 1 92 64 H32 A12 12 0 0 1 32 40 Z M62 40 V64"/></g><path class="fl" d="M84 58 H126 V108 H84 Z"/><path class="ln" d="M84 58 H126 V108 H84 Z M84 66 H126"/><path class="ac" d="M102 76 h6 v6 h6 v6 h-6 v6 h-6 v-6 h-6 v-6 h6 Z"/><circle class="ln" cx="30" cy="96" r="7"/><path class="ln" d="M25 101 L35 91"/><circle class="ln" cx="54" cy="102" r="6"/><path class="ln" d="M4 110 H136"/>`
+  },
+  parking: {
+    vb: "0 0 160 120",
+    svg: `<rect class="ac" x="16" y="12" width="40" height="40" rx="6"/><path class="ln" d="M30 44 V20 H40 a7 7 0 0 1 0 14 H30"/><rect class="ln" x="16" y="12" width="40" height="40" rx="6"/><path class="ln" d="M36 52 V104"/><path class="fl" d="M66 94 V80 L78 64 H120 L134 80 H146 V94 Z"/><path class="ln" d="M66 94 V80 L78 64 H120 L134 80 H146 V94 Z M80 70 H98 V80 H73 M102 70 H118 L126 80 H102 Z"/><circle class="fl" cx="84" cy="96" r="8"/><circle class="ln" cx="84" cy="96" r="8"/><circle class="fl" cx="128" cy="96" r="8"/><circle class="ln" cx="128" cy="96" r="8"/><path class="ln" d="M4 104 H156 M60 112 h20 M100 112 h20"/>`
+  },
+  tooth: {
+    vb: "0 0 120 120",
+    svg: `<path class="fl" d="M60 30 C50 22 30 22 28 40 C26 56 34 66 36 80 C38 94 42 104 48 104 C54 104 54 86 60 86 C66 86 66 104 72 104 C78 104 82 94 84 80 C86 66 94 56 92 40 C90 22 70 22 60 30 Z"/><path class="ln" d="M60 30 C50 22 30 22 28 40 C26 56 34 66 36 80 C38 94 42 104 48 104 C54 104 54 86 60 86 C66 86 66 104 72 104 C78 104 82 94 84 80 C86 66 94 56 92 40 C90 22 70 22 60 30 Z"/><path class="ln" d="M40 40 C42 34 48 32 52 34"/><path class="ac" d="M100 14 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 Z M18 76 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 Z"/>`
+  },
   seigaiha: {
     vb: "0 0 40 20",
     svg: `<path class="ln" d="M4.1 10.6A18.5 18.5 0 0 1 35.9 10.6M8.9 12.3A13.5 13.5 0 0 1 31.1 12.3M13.1 15.1A8.5 8.5 0 0 1 26.9 15.1M16.6 19.2A3.5 3.5 0 0 1 23.4 19.2M14.2 -1.9A18.5 18.5 0 0 1 15.9 0.6M6.2 -2A13.5 13.5 0 0 1 11.1 2.3M-2 1.7A8.5 8.5 0 0 1 6.9 5.1M-2 7.1A3.5 3.5 0 0 1 3.4 9.2M24.1 0.6A18.5 18.5 0 0 1 25.8 -1.9M28.9 2.3A13.5 13.5 0 0 1 33.8 -2M33.1 5.1A8.5 8.5 0 0 1 42 1.7M36.6 9.2A3.5 3.5 0 0 1 42 7.1M-1.9 11.6A18.5 18.5 0 0 1 15.9 20.6M-2 16.6A13.5 13.5 0 0 1 10.9 22M-2 21.7A8.5 8.5 0 0 1 2.8 22M24.1 20.6A18.5 18.5 0 0 1 41.9 11.6M29.1 22A13.5 13.5 0 0 1 42 16.6M37.2 22A8.5 8.5 0 0 1 42 21.7"/>`

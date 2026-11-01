@@ -102,7 +102,7 @@ window.NH = window.NH || {};
     // Kana written well, out of the 71 in each chart's basic and voiced rows.
     const studied = (S) => ["basic", "voiced"].flatMap((k) => S.tables[k].rows.flatMap((r) => r.cells)).filter((c) => c && store.progress(c)?.best >= 60).length;
     const count = (S) => (studied(S) ? `${studied(S)} of 71 kana written well →` : "Start here →");
-    const kanjiCount = () => { const n = (NH.KANJI || []).filter((x) => store.progress(x.k)?.best >= 60).length; return n ? `${n} of ${NH.KANJI.length} kanji written well →` : `First ${(NH.KANJI || []).length} kanji →`; };
+    const kanjiCount = () => { const n = (NH.KANJI || []).filter((x) => store.progress(x.k)?.best >= 60).length; return n ? `${n} of ${NH.KANJI.length} kanji written well →` : `${(NH.KANJI || []).length} kanji, with clinic signs →`; };
     app.replaceChildren(
       h("header.home-head",
         h("h1.brand", h("span.brand-kana", "書く"), h("span.brand-name", "Kaku")),
@@ -132,8 +132,8 @@ window.NH = window.NH || {};
     const S = NH.SCRIPTS[scriptId];
     document.body.classList.add("scr-hub");
     // Phrases are everyday hiragana; katakana has loanwords instead.
-    const tabs = [["today", "今日", "Today"], S.id === "kanji" ? ["symbols", "漢字", "Kanji"] : ["symbols", "文字", "Kana"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], ["read", "読む", "Read"], ["quiz", "試験", "Quiz"]]
-      .filter(([id]) => (S.id === "hiragana" || id !== "phrases") && (S.id !== "kanji" || id !== "read"));
+    const tabs = [["today", "今日", "Today"], S.id === "kanji" ? ["symbols", "漢字", "Kanji"] : ["symbols", "文字", "Kana"], ["words", "言葉", "Words"], ["phrases", "文", "Phrases"], S.id === "kanji" ? ["read", "看板", "Signs"] : ["read", "読む", "Read"], ["quiz", "試験", "Quiz"]]
+      .filter(([id]) => S.id === "hiragana" || id !== "phrases");
     const body = h("main.hub-body");
     app.replaceChildren(
       h("header.bar",

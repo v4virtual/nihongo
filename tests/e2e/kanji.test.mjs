@@ -38,18 +38,20 @@ describe("kanji line", () => {
   test("the kanji sign opens it, with its own tabs", T, () => withPage("home", {}, async (page) => {
     await page.locator(".eki", { has: page.locator(".eki-name", { hasText: "漢字" }) }).click();
     await page.waitForURL(/#kanji-today$/);
-    assert.deepEqual(await page.locator(".tab span:not(.tab-jp)").allTextContents(), ["Today", "Kanji", "Words", "Quiz"]);
+    assert.deepEqual(await page.locator(".tab span:not(.tab-jp)").allTextContents(), ["Today", "Kanji", "Words", "Signs", "Quiz"]);
     assert.match(await page.locator(".today-note").textContent(), /Kanji start once you've started all 46 basic hiragana/);
-    assert.equal(await page.locator(".progress .pchip").count(), 80);
+    assert.equal(await page.locator(".progress .pchip").count(), 172);
   }));
 
-  test("the chart lists all 80 by theme and filters by stroke count", T, () => withPage("kanji", {}, async (page) => {
-    assert.equal(await page.locator(".jcell").count(), 80);
-    assert.equal(await page.locator(".ksec h2").count(), 8);
+  test("the chart lists all 172 in two sets by theme and filters by stroke count", T, () => withPage("kanji", {}, async (page) => {
+    assert.equal(await page.locator(".jcell").count(), 172);
+    assert.deepEqual(await page.locator(".kpack-head h2").evaluateAll((els) => els.map((e) => e.firstChild.textContent)), ["Everyday kanji", "Clinic & hospital"]);
+    assert.equal(await page.locator(".kpack[data-pack=n5] .ksec h3").count(), 8);
+    assert.equal(await page.locator(".kpack[data-pack=clinic] .ksec h3").count(), 5);
     await page.locator(".stroke-filter .chip[aria-label='1 stroke']").click();
     assert.deepEqual(await page.locator(".jc").allTextContents(), ["一"]);
     await page.locator(".stroke-filter .chip", { hasText: "All" }).click();
-    assert.equal(await page.locator(".jcell").count(), 80);
+    assert.equal(await page.locator(".jcell").count(), 172);
     await page.locator(".jcell", { hasText: "休" }).click();
     await page.waitForURL(/#k-4f11$/);
   }));
@@ -128,7 +130,7 @@ describe("kanji line", () => {
   test("once the hiragana are started, Today introduces kanji two a day", T, () => withPage("kanji-today", { init: hiraganaStarted }, async (page) => {
     assert.equal(await page.locator(".today-note").count(), 0);
     assert.deepEqual(await page.locator(".today-preview span").allTextContents(), ["一", "二"]);
-    assert.equal(await page.locator(".today-limit [aria-checked=true]").textContent(), "2 a day");
+    assert.equal(await page.locator(".today-limit [aria-checked=true]").first().textContent(), "2 a day");
     await page.getByRole("button", { name: "Start", exact: true }).click();
     await page.waitForURL(/#kanji-session$/);
     assert.equal(await page.locator(".task-label").textContent(), "New kanji");
@@ -141,6 +143,44 @@ describe("kanji line", () => {
   }));
 });
 
+describe("clinic & hospital pack", () => {
+  test("the clinic pack can come first in Today", T, () => withPage("kanji-today", { init: hiraganaStarted }, async (page) => {
+    await page.getByRole("radio", { name: "Clinic & hospital" }).click();
+    await settle(page);
+    assert.deepEqual(await page.locator(".today-preview span").allTextContents(), ["病", "院"]);
+    assert.equal((await saved(page)).settings.kanjiFirst, "clinic");
+  }));
+
+  test("the words tab filters to clinic words", T, () => withPage("kanji-words", {}, async (page) => {
+    await page.locator(".chip", { hasText: "病院 Clinic" }).click();
+    const words = await page.locator(".wcard .wm b").allTextContents();
+    assert.ok(words.includes("hospital") && words.includes("pharmacy"), words.join(", "));
+    assert.ok(!words.includes("mountain"));
+  }));
+
+  test("a real sign: tap a word for its meaning, hear it, hide furigana, read the translation", T, () => withPage("kanji-read", {}, async (page) => {
+    assert.ok(await page.locator(".scard").count() >= 8);
+    await page.locator(".scard", { hasText: "Car park notice" }).click();
+    await page.waitForURL(/#ksign-parking-ticket$/);
+    assert.equal(await page.locator(".ksign rt").first().textContent(), "ちゅうしゃじょう");
+    await page.locator(".ksign .kw", { hasText: "駐車場" }).first().click();
+    assert.match(await page.locator(".sgloss").textContent(), /car park/);
+    assert.deepEqual(await page.locator(".sg-kanji .kc").allTextContents(), ["駐", "車", "場"]);
+    assert.equal(await page.locator(".sg-write").getAttribute("href"), "#word-kw-chuushajou");
+    assert.deepEqual(await page.evaluate(() => window.__said), ["ちゅうしゃじょう"]);
+    // Listen reads each word by its reading: 方 here is かた.
+    await page.locator(".btn", { hasText: "Listen" }).click();
+    assert.match(await page.evaluate(() => window.__said.at(-1)), /^ちゅうしゃじょうをごりようのかたへ。/);
+    await page.locator(".furigana-toggle .chip", { hasText: "Off" }).click();
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.furigana), "off");
+    assert.equal(await page.locator(".read-answer").isHidden(), true);
+    await page.locator(".btn", { hasText: "Show translation" }).click();
+    assert.match(await page.locator(".read-answer").textContent(), /400 yen per 30 minutes/);
+    await page.locator(".sg-kanji a.look", { hasText: "駐" }).click();
+    await page.waitForURL(/#k-99d0$/);
+  }));
+});
+
 describe("stroke endings on kanji pages", () => {
   test("sweeps and hooks are marked and listed; stops fill in the rest", T, () => withPage("k-4e5d", {}, async (page) => {
     assert.equal(await page.locator(".hero-card .so-harai").count(), 1);
@@ -150,5 +190,13 @@ describe("stroke endings on kanji pages", () => {
     assert.equal(await page.locator(".notes li").last().textContent(), "Sweeps out (harai): strokes 2, 3 and 4. Hooks (hane): stroke 1.");
     await page.goto(base + "#k-4e00");
     assert.equal(await page.locator(".notes li").last().textContent(), "Every stroke ends with a firm stop (tome).");
+  }));
+});
+
+describe("sideways hooks while writing", () => {
+  test("writing 学 with its hooks gets no hook tip", T, () => withPage("w-5b66", {}, async (page) => {
+    await writeChar(page);
+    await page.locator(".result:not([hidden])").waitFor({ timeout: 5000 });
+    assert.doesNotMatch(await page.locator(".feedback").textContent(), /hane/);
   }));
 });

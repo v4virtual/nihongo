@@ -41,7 +41,8 @@ test("the bundled fonts cover every character the app shows", async () => {
 test("every bundled font file exists and is cached for offline use", () => {
   const css = readFileSync(src("css/fonts.css"), "utf8");
   const fonts = [...css.matchAll(/url\("\.\.\/([^"]+)"\)/g)].map((m) => m[1]);
-  assert.equal(fonts.length, 8);
+  // 8 faces (4 families), each in one or more character chunks.
+  assert.ok(fonts.length >= 8 && fonts.length % 8 === 0, `${fonts.length} font files`);
   for (const f of fonts) {
     assert.ok(existsSync(src(f)), f);
     assert.ok(sw.includes(`"${f}"`), `sw.js does not cache ${f}`);

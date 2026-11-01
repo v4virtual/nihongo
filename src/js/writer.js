@@ -385,7 +385,7 @@ window.NH = window.NH || {};
       if (res.status === "ok") {
         // A hane stroke written without its flick still counts, with a tip and a small deduction.
         const ref = this.strokes[expected];
-        const hane = ref.hane ? (Geo.hasHook(box) ? "ok" : "missing") : null;
+        const hane = ref.hane ? (Geo.hookOk(box, ref) ? "ok" : "missing") : null;
         const acc = hane === "missing" ? Math.max(0, res.grade.accuracy - 8) : res.grade.accuracy;
         this.accept(expected, box, pxPts, acc, hane);
       }

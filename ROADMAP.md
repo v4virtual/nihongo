@@ -63,13 +63,23 @@ release; order within a group is a rough priority.
 - [x] Stroke-count search in the kanji chart
 - [x] Words mixing kanji and kana (furigana toggle), kanji in Today (after the basic hiragana) and a kanji quiz
 - [x] Hane checks on kanji hooks from KanjiVG's stroke types: 九's hook is now checked, and 七 (which doesn't flick in Japanese) isn't
-- [ ] Hane checks for hooks that turn sideways or down (子's first stroke, the hook under 冖 in 学): taught and shown, but the flick check can't see them yet
+- [x] Hane checks for hooks that turn sideways or down, in the model hook's own direction (the hook under 冖 in 学, and in 飲 and 読): 89 of the 101 kanji hooks are now checked
+- [ ] The last 12 kanji hooks (子's first stroke, 長, 四, 西, 学's 6th, 食, 飲's 7th, and in the clinic pack 眼, 膚, 階, 遊, 館): KanjiVG draws them as a broad curve rather than a distinct hook, so a check can't tell them from the same stroke without one; they're taught but not checked
 
 ## v0.6 — Narrated lessons (from early users' feedback)
 
 - [x] A narrated, animated lesson on every explain page: origin, memory hook, each stroke drawn and described, an example word; captions, play/pause and step-by-step seeking
 - [x] Explain on the writing screen: the character's lesson in a sheet, on request (replaces the first try, narration that talked during writing, after early users' feedback)
 - [ ] Recorded narration by a native speaker, for a consistent voice on every device
+
+## v0.7 — Clinic & hospital kanji (from a learner's visit to a Japanese clinic)
+
+- [x] A second kanji set of 92 for reading your way through a clinic: departments and staff (病院, 内科, 薬局, 看護師), reception and paying (受付, 予約, 保険証, 会計), symptoms and tests (熱, 痛い, 血液検査), signs and notices (注意, 危険, 非常口, 化粧室) and parking (駐車場, 駐車券, 料金), each with strokes, readings, parts, a memory hook and a narrated lesson
+- [x] Pick which set Today introduces first: Everyday kanji or Clinic & hospital
+- [x] 53 clinic words and phrases with furigana (診察券, 耳鼻科, 予約しています, ここが痛いです)
+- [x] Signs tab: eight real clinic signs (the car park notice and the request to parents that started this, reception, a floor guide, the pharmacy window, wall signs, visiting hours, a fever notice). Tap any word for its reading, meaning and kanji, hear it read by its readings, turn furigana off, and reveal the translation with a note on how things work
+- [ ] More sets built the same way: station and train signs, shops and offices (city hall, post office, bank)
+- [ ] Signs in Today's review: "what does this sign say?" once you've started its kanji
 
 ## Platform
 
@@ -78,7 +88,7 @@ release; order within a group is a rough priority.
 - [x] iPhone/iPad app with Capacitor: universal iOS project with native speech, haptics and speech recognition, built for the simulator on every CI run
 - [ ] TestFlight and App Store: needs an Apple Developer account, then signing from CI (certificate, provisioning profile, App Store Connect key as secrets)
 - [ ] Play Store listing (needs an .aab, store assets and a privacy note covering the microphone)
-- [x] Bundle the fonts in the app and the APK: subsets of the four fonts with just the characters Kaku uses (about 0.9 MB), so even a first launch offline looks right
+- [x] Bundle the fonts in the app and the APK: subsets of the four fonts with just the characters Kaku uses (about 1.2 MB), so even a first launch offline looks right
 - [x] Account-free backup: save progress as a file or copy it as text, restore it on another device by merging (the most recent review of each item wins) or replacing
 - [ ] Optional automatic sync across devices
 - [ ] Offline neural TTS for consistent voices across devices. Candidates to evaluate:

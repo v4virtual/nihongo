@@ -1,4 +1,5 @@
-/* Kaku — the first 80 kanji (JLPT N5): meanings, readings, parts, memory hooks, example words. */
+/* Kaku's kanji: the first 80 (JLPT N5), then the clinic & hospital pack. Meanings,
+ * readings, parts, memory hooks and example words. */
 window.NH = window.NH || {};
 
 NH.KANJI = [
@@ -1145,6 +1146,1383 @@ NH.KANJI = [
       { w: "聞こえる", r: "きこえる", m: "to be audible" },
       { w: "見聞", r: "けんぶん", m: "experience, knowledge" }
     ]
+  },
+  /* ========== Clinic & hospital pack: departments and staff ========== */
+  {
+    k: "病", meaning: "illness, sick", on: ["ビョウ"], kun: ["やまい", "や.む"], group: "c-staff", strokes: 10, radical: "疒",
+    mnemonic: "Under the sickbed roof 疒, with drops of sweat down its side, 丙 sits huddled in a little box with legs: too ill to get up.",
+    notes: [
+      "病院 (びょういん) is a hospital; a small local clinic usually calls itself a 医院 (いいん) or クリニック.",
+      "Almost always びょう in compounds; やまい is a literary word for illness, and 病む (やむ) means to fall ill.",
+      "The same 疒 roof sits on 痛 (pain), but 痛 has a different filling underneath."
+    ],
+    lookalikes: ["痛"],
+    examples: [
+      { w: "病院", r: "びょういん", m: "hospital" },
+      { w: "病気", r: "びょうき", m: "illness" },
+      { w: "病名", r: "びょうめい", m: "name of an illness, diagnosis" }
+    ]
+  },
+  {
+    k: "院", meaning: "institution, hospital", on: ["イン"], kun: [], group: "c-staff", strokes: 10, radical: "阝",
+    mnemonic: "Hill-steps on the left lead up to 完, a finished building under a roof: a big, completed institution on the hill, such as a hospital.",
+    notes: [
+      "On signs: 入院 (にゅういん, admission to hospital) and 院内 (いんない, inside the hospital), as in 院内禁煙 (no smoking anywhere on the premises).",
+      "Ends the names of institutions: 大学院 (だいがくいん, graduate school), 医院 (いいん, doctor's clinic).",
+      "The left side is the three-stroke 'hill' radical, not the kanji 耳 (ear)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "病院", r: "びょういん", m: "hospital" },
+      { w: "入院", r: "にゅういん", m: "being admitted to hospital" },
+      { w: "院内", r: "いんない", m: "inside the hospital" }
+    ]
+  },
+  {
+    k: "医", meaning: "medicine, doctor", on: ["イ"], kun: [], group: "c-staff", strokes: 7, radical: "匸",
+    mnemonic: "An arrow 矢 locked away in a box 匸 that opens to the right: the doctor has pulled the arrow out of you and put it away safely.",
+    notes: [
+      "医者 (いしゃ) is the everyday word for a doctor; 医師 (いし) is the formal one on staff boards, forms and name badges.",
+      "Read い in almost every word; the kun readings are rare.",
+      "The box is open on the right; draw its top and the arrow 矢 first, and the bottom line last."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "医者", r: "いしゃ", m: "doctor" },
+      { w: "医師", r: "いし", m: "physician (formal)" },
+      { w: "医院", r: "いいん", m: "doctor's clinic" }
+    ]
+  },
+  {
+    k: "患", meaning: "patient, suffer", on: ["カン"], kun: ["わずら.う"], group: "c-staff", strokes: 11, radical: "心",
+    mnemonic: "A skewer 串 driven straight down into the heart 心: a sufferer who feels every jab.",
+    notes: [
+      "On almost every hospital sign it appears as 患者 (かんじゃ, patient); staff often say 患者さん or 患者様 (かんじゃさま).",
+      "急患 (きゅうかん) is an emergency patient; 外来患者 (がいらいかんじゃ) are outpatients. 患う (わずらう, to suffer from an illness) is mostly written.",
+      "The top is 串: two boxes on one stick, not a single 中."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "患者", r: "かんじゃ", m: "patient" },
+      { w: "急患", r: "きゅうかん", m: "emergency patient" },
+      { w: "外来患者", r: "がいらいかんじゃ", m: "outpatient" }
+    ]
+  },
+  {
+    k: "者", meaning: "person, someone", on: ["シャ"], kun: ["もの"], group: "c-staff", strokes: 8, radical: "耂",
+    mnemonic: "An old man 耂 with his walking stick, leaning over the sun 日: someone, a person sitting out in the daylight.",
+    notes: [
+      "Usually a suffix meaning 'a person who...': 患者 (かんじゃ, patient), 医者 (いしゃ, doctor), 利用者 (りようしゃ, user).",
+      "On its own it is read もの, a humble word for a person: 受付の者 (うけつけのもの) 'someone from reception'.",
+      "都 (capital) is 者 with an extra 'town' side on the right."
+    ],
+    lookalikes: ["都"],
+    examples: [
+      { w: "患者", r: "かんじゃ", m: "patient" },
+      { w: "医者", r: "いしゃ", m: "doctor" },
+      { w: "利用者", r: "りようしゃ", m: "user" }
+    ]
+  },
+  {
+    k: "科", meaning: "department, course", on: ["カ"], kun: [], group: "c-staff", strokes: 9, radical: "禾",
+    mnemonic: "Grain 禾 scooped out with a measuring ladle 斗 and sorted into separate sacks: each sack is a department.",
+    notes: [
+      "On hospital floor guides 科 ends the department names: 内科 (ないか), 外科 (げか), 眼科 (がんか), 皮膚科 (ひふか).",
+      "外科 is read げか, not がいか.",
+      "Don't confuse with 料 (fee), which has the same ladle 斗 but a different grain plant on the left."
+    ],
+    lookalikes: ["料"],
+    examples: [
+      { w: "内科", r: "ないか", m: "internal medicine" },
+      { w: "外科", r: "げか", m: "surgery (department)" },
+      { w: "小児科", r: "しょうにか", m: "paediatrics" }
+    ]
+  },
+  {
+    k: "内", meaning: "inside, internal", on: ["ナイ"], kun: ["うち"], group: "c-staff", strokes: 4, radical: "入",
+    mnemonic: "A person 人 stepping in under a doorframe 冂: now they are inside.",
+    notes: [
+      "内科 (ないか) is internal medicine, the department to try first for colds, fevers and stomach trouble.",
+      "院内 (いんない) and 室内 (しつない) on notices mean 'inside the hospital' and 'indoors'. On its own it is read うち (inside, within).",
+      "円 (yen) has the same frame, but with a short line and a floor inside instead of a person."
+    ],
+    lookalikes: ["円"],
+    examples: [
+      { w: "内科", r: "ないか", m: "internal medicine" },
+      { w: "院内", r: "いんない", m: "inside the hospital" },
+      { w: "室内", r: "しつない", m: "indoors, inside the room" }
+    ]
+  },
+  {
+    k: "歯", meaning: "tooth, teeth", on: ["シ"], kun: ["は"], group: "c-staff", strokes: 12, radical: "歯",
+    mnemonic: "Stop 止 on top, and below it an open mouth packed with rows of teeth: stop, and open wide for the dentist.",
+    notes: [
+      "歯科 (しか) on signs means dentistry; a dental clinic is a 歯科医院 (しかいいん), but people just say 歯医者 (はいしゃ).",
+      "On its own read は, which becomes ば in some compounds: 前歯 (まえば, front teeth), 入れ歯 (いれば, dentures)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "歯医者", r: "はいしゃ", m: "dentist" },
+      { w: "歯科", r: "しか", m: "dentistry" },
+      { w: "前歯", r: "まえば", m: "front teeth" }
+    ]
+  },
+  {
+    k: "眼", meaning: "eye, eyeball", on: ["ガン"], kun: ["め", "まなこ"], group: "c-staff", strokes: 11, radical: "目",
+    mnemonic: "An eye 目 beside 艮, a figure who turns round to stare back: the eyeball itself, under close examination.",
+    notes: [
+      "On signs, mostly 眼科 (がんか, eye clinic, ophthalmology); an eye doctor is a 眼科医 (がんかい).",
+      "The everyday kanji for 'eye' is 目 (め); 眼 is the medical, technical eye.",
+      "まなこ is old-fashioned, but survives in 血眼 (ちまなこ, bloodshot eyes; frantically)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "眼科", r: "がんか", m: "ophthalmology, eye clinic" },
+      { w: "眼科医", r: "がんかい", m: "eye doctor" },
+      { w: "血眼", r: "ちまなこ", m: "bloodshot eyes; frantically" }
+    ]
+  },
+  {
+    k: "耳", meaning: "ear", on: ["ジ"], kun: ["みみ"], group: "c-staff", strokes: 6, radical: "耳",
+    mnemonic: "An ear seen from the side: the tall outer rim, with lines across it for the folds inside.",
+    notes: [
+      "耳鼻科 (じびか) is the ear, nose and throat clinic.",
+      "On its own read みみ; じ appears in medical words such as 耳鼻科 and 内耳 (ないじ, inner ear).",
+      "It is the ear inside the gate in 聞 (hear)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "耳", r: "みみ", m: "ear" },
+      { w: "耳鼻科", r: "じびか", m: "ear, nose and throat clinic" },
+      { w: "耳たぶ", r: "みみたぶ", m: "earlobe" }
+    ]
+  },
+  {
+    k: "鼻", meaning: "nose", on: ["ビ"], kun: ["はな"], group: "c-staff", strokes: 14, radical: "鼻",
+    mnemonic: "自 is a nose pointing at itself, and 畀 below is a pair of hands holding a tissue under it.",
+    notes: [
+      "On its own read はな; in compounds び: 耳鼻科 (じびか, ear, nose and throat clinic).",
+      "鼻血 (はなぢ, nosebleed): ち becomes ぢ after はな.",
+      "Japanese people point at their own nose, not their chest, to mean 'me'."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "耳鼻科", r: "じびか", m: "ear, nose and throat clinic" },
+      { w: "鼻水", r: "はなみず", m: "runny nose" },
+      { w: "鼻血", r: "はなぢ", m: "nosebleed" }
+    ]
+  },
+  {
+    k: "皮", meaning: "skin, hide", on: ["ヒ"], kun: ["かわ"], group: "c-staff", strokes: 5, radical: "皮",
+    mnemonic: "A hand peeling back a hide stretched on a frame: the hook at the top left is the corner it has just lifted.",
+    notes: [
+      "Mostly seen in 皮膚科 (ひふか, dermatology), the clinic for rashes and skin trouble.",
+      "On its own かわ is skin, peel or leather; human skin is usually 皮膚 (ひふ).",
+      "Same sound as 川 (かわ, river), a different word."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "皮膚", r: "ひふ", m: "skin" },
+      { w: "皮膚科", r: "ひふか", m: "dermatology" },
+      { w: "皮下", r: "ひか", m: "under the skin" }
+    ]
+  },
+  {
+    k: "膚", meaning: "skin", on: ["フ"], kun: ["はだ"], group: "c-staff", strokes: 15, radical: "月",
+    mnemonic: "A tiger's head 虍 over a stomach 胃: smooth skin stretched over the belly, just where a tiger's claws would scratch.",
+    notes: [
+      "Practically only met in 皮膚 (ひふ, skin) and 皮膚科 (ひふか, dermatology).",
+      "The kun reading はだ is normally written with a different kanji, so expect 膚 only as ふ in 皮膚.",
+      "15 strokes: write the tiger top 虍 first, then 胃 tucked underneath."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "皮膚", r: "ひふ", m: "skin" },
+      { w: "皮膚科", r: "ひふか", m: "dermatology" },
+      { w: "皮膚病", r: "ひふびょう", m: "skin disease" }
+    ]
+  },
+  {
+    k: "児", meaning: "child", on: ["ジ", "ニ"], kun: [], group: "c-staff", strokes: 7, radical: "儿",
+    mnemonic: "A big head 旧 on short little legs 儿: a toddler, all head and wobble.",
+    notes: [
+      "小児科 (しょうにか) is the children's clinic (paediatrics); note the unusual reading に.",
+      "Otherwise read じ: 男児 (だんじ, boy) and 女児 (じょじ, girl), common in news and on forms."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "小児科", r: "しょうにか", m: "paediatrics" },
+      { w: "男児", r: "だんじ", m: "boy" },
+      { w: "女児", r: "じょじ", m: "girl" }
+    ]
+  },
+  {
+    k: "薬", meaning: "medicine, drug", on: ["ヤク"], kun: ["くすり"], group: "c-staff", strokes: 16, radical: "艹",
+    mnemonic: "Grass 艹 on top of 楽 (comfort): herbs that make you feel comfortable again.",
+    notes: [
+      "After a clinic visit you usually take the prescription to a 薬局 (やっきょく, pharmacy) to collect your medicine.",
+      "On its own くすり, which becomes ぐすり in compounds: 飲み薬 (のみぐすり, oral medicine).",
+      "やく + きょく contracts to やっきょく."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "薬局", r: "やっきょく", m: "pharmacy" },
+      { w: "飲み薬", r: "のみぐすり", m: "oral medicine" },
+      { w: "薬用", r: "やくよう", m: "medicinal" }
+    ]
+  },
+  {
+    k: "局", meaning: "bureau, office", on: ["キョク"], kun: [], group: "c-staff", strokes: 7, radical: "尸",
+    mnemonic: "A body bent over a desk 尸 wrapped around 句, a sentence in a box: a clerk in a bureau writing reports.",
+    notes: [
+      "In a hospital it is mostly 薬局 (やっきょく, pharmacy).",
+      "Also used for offices and broadcasters: テレビ局 (テレビきょく, TV station), 局長 (きょくちょう, director)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "薬局", r: "やっきょく", m: "pharmacy" },
+      { w: "局長", r: "きょくちょう", m: "bureau director" },
+      { w: "当局", r: "とうきょく", m: "the authorities" }
+    ]
+  },
+  {
+    k: "師", meaning: "expert, master", on: ["シ"], kun: [], group: "c-staff", strokes: 10, radical: "巾",
+    mnemonic: "A pile of shields on the left and a banner on a pole on the right: the master who leads the troop and teaches them the craft.",
+    notes: [
+      "Ends the titles of licensed professionals: 医師 (いし, physician), 看護師 (かんごし, nurse).",
+      "Staff boards and name badges use these formal titles rather than everyday words like 医者.",
+      "In a hospital, 師長 (しちょう) is the head nurse of a ward."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "医師", r: "いし", m: "physician" },
+      { w: "看護師", r: "かんごし", m: "nurse" },
+      { w: "看護師長", r: "かんごしちょう", m: "head nurse" }
+    ]
+  },
+  {
+    k: "看", meaning: "watch over", on: ["カン"], kun: ["み.る"], group: "c-staff", strokes: 9, radical: "目",
+    mnemonic: "A hand 手 held flat over an eye 目, shading it to keep watch: someone watching over a patient.",
+    notes: [
+      "Nearly always paired with 護 in 看護 (かんご, nursing) and 看護師 (かんごし, nurse).",
+      "看病 (かんびょう) is caring for a sick family member, and 看る (みる) is to look after someone.",
+      "The hand on top is squashed: its last stroke sweeps down to the left over the eye."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "看護", r: "かんご", m: "nursing" },
+      { w: "看護師", r: "かんごし", m: "nurse" },
+      { w: "看病", r: "かんびょう", m: "caring for the sick" }
+    ]
+  },
+  {
+    k: "護", meaning: "protect", on: ["ゴ"], kun: [], group: "c-staff", strokes: 20, radical: "言",
+    mnemonic: "Words 言 beside 蒦, a hand holding a bird under the grass: speaking softly while keeping the bird safe.",
+    notes: [
+      "看護 (かんご, nursing): signs say 看護師 (かんごし) for nurses and ナースステーション for the nurses' station.",
+      "救護 (きゅうご) is first aid; a 救護室 (きゅうごしつ) is a first-aid room at events.",
+      "20 strokes: keep 言 narrow so the busy right side fits."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "看護師", r: "かんごし", m: "nurse" },
+      { w: "保護", r: "ほご", m: "protection" },
+      { w: "救護", r: "きゅうご", m: "first aid, relief" }
+    ]
+  },
+
+  /* ========== Clinic & hospital pack: reception and paying ========== */
+  {
+    k: "受", meaning: "receive", on: ["ジュ"], kun: ["う.ける"], group: "c-desk", strokes: 8, radical: "又",
+    mnemonic: "A clawed hand reaching down from above, a cover, and a hand 又 below: one hand passes something across, the other receives it.",
+    notes: [
+      "受付 (うけつけ) is the reception desk, usually the first sign you look for at a clinic.",
+      "受診 (じゅしん) means seeing a doctor; forms ask for the 受診日 (じゅしんび, date of visit).",
+      "The verb is 受ける (うける, to receive, to undergo), as in 検査を受ける (to have a test)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "受付", r: "うけつけ", m: "reception" },
+      { w: "受診", r: "じゅしん", m: "seeing a doctor" },
+      { w: "受ける", r: "うける", m: "to receive, to undergo" }
+    ]
+  },
+  {
+    k: "付", meaning: "attach", on: ["フ"], kun: ["つ.ける", "つ.く"], group: "c-desk", strokes: 5, radical: "亻",
+    mnemonic: "A person 亻 with a hand 寸 reaching out to stick something on: pinning on a name tag.",
+    notes: [
+      "In 受付 (うけつけ) the つける reading becomes つけ, and the okurigana is dropped on signs.",
+      "Becomes づけ after another word: 日付 (ひづけ, date) on forms."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "受付", r: "うけつけ", m: "reception" },
+      { w: "日付", r: "ひづけ", m: "date" },
+      { w: "付ける", r: "つける", m: "to attach, to put on" }
+    ]
+  },
+  {
+    k: "予", meaning: "beforehand", on: ["ヨ"], kun: [], group: "c-desk", strokes: 4, radical: "亅",
+    mnemonic: "マ hooked on top of 了 (finished): plan it beforehand and it's done before you start.",
+    notes: [
+      "予約 (よやく) is an appointment or booking; 予約の方 (よやくのかた) signs mark the line for people with appointments.",
+      "Read よ in nearly every word: 予後 (よご) is a doctor's word for prognosis.",
+      "The top looks like katakana マ; the bottom is one vertical with a hook."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "予約", r: "よやく", m: "appointment, booking" },
+      { w: "予診", r: "よしん", m: "preliminary check before seeing the doctor" },
+      { w: "予後", r: "よご", m: "prognosis" }
+    ]
+  },
+  {
+    k: "約", meaning: "promise, approximately", on: ["ヤク"], kun: [], group: "c-desk", strokes: 9, radical: "糸",
+    mnemonic: "A thread 糸 tied round 勺, a ladle scooping a little: a knot to remind you of a promise.",
+    notes: [
+      "予約 (よやく) is an appointment; 先約 (せんやく) is an earlier engagement.",
+      "Before a number it means 'about': 待ち時間 約30分 (まちじかん やくさんじゅっぷん, waiting time about 30 minutes)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "予約", r: "よやく", m: "appointment, booking" },
+      { w: "先約", r: "せんやく", m: "prior engagement" },
+      { w: "約一時間", r: "やくいちじかん", m: "about an hour" }
+    ]
+  },
+  {
+    k: "番", meaning: "number, turn", on: ["バン"], kun: [], group: "c-desk", strokes: 12, radical: "田",
+    mnemonic: "Seeds 釆 scattered by hand over a rice field 田: the plots are sown one by one, each taking its turn.",
+    notes: [
+      "番号 (ばんごう) is a number in a series; clinics hand you a 受付番号 (うけつけばんごう) and call it out or show it on a screen.",
+      "After a number it means 'No.': 3番の方 (さんばんのかた, number three, please).",
+      "一番 (いちばん) is 'number one', and so 'most'."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "番号", r: "ばんごう", m: "number" },
+      { w: "一番", r: "いちばん", m: "number one; most" },
+      { w: "当番", r: "とうばん", m: "(person) on duty" }
+    ]
+  },
+  {
+    k: "号", meaning: "number, sign", on: ["ゴウ"], kun: [], group: "c-desk", strokes: 5, radical: "口",
+    mnemonic: "A mouth 口 opened wide over a bent line: calling out a number at the top of your voice.",
+    notes: [
+      "After a number it marks a room or item: 302号室 (さんびゃくにごうしつ, room 302).",
+      "Forms ask for your 電話番号 (でんわばんごう, phone number).",
+      "番 is your place in line and 号 the number itself; together they make 番号 (ばんごう)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "番号", r: "ばんごう", m: "number" },
+      { w: "電話番号", r: "でんわばんごう", m: "phone number" },
+      { w: "号室", r: "ごうしつ", m: "room number" }
+    ]
+  },
+  {
+    k: "待", meaning: "wait", on: ["タイ"], kun: ["ま.つ"], group: "c-desk", strokes: 9, radical: "彳",
+    mnemonic: "Footsteps 彳 stop outside a temple 寺 and stay there: waiting your turn.",
+    notes: [
+      "待合室 (まちあいしつ) is the waiting room; the sign drops the okurigana of 待ち合い.",
+      "お待ちください (おまちください, please wait) is the phrase you hear at reception.",
+      "Don't confuse with 時 (time), which has the sun on the left instead of footsteps."
+    ],
+    lookalikes: ["時"],
+    examples: [
+      { w: "待合室", r: "まちあいしつ", m: "waiting room" },
+      { w: "待つ", r: "まつ", m: "to wait" },
+      { w: "待ち時間", r: "まちじかん", m: "waiting time" }
+    ]
+  },
+  {
+    k: "合", meaning: "fit, join", on: ["ゴウ", "ガッ"], kun: ["あ.う", "あ.わせる"], group: "c-desk", strokes: 6, radical: "口",
+    mnemonic: "A lid closing down over a mouth 口: the two fit together perfectly.",
+    notes: [
+      "In a clinic: 待合室 (まちあいしつ, waiting room) and 合計 (ごうけい, total) on the bill.",
+      "Read あい in 場合 (ばあい, case): ...の場合 (in the case of...) on forms. Shortens to がっ in 合体 (がったい, merging).",
+      "会 and 今 have the same roof on top; 合 has a line and a mouth underneath."
+    ],
+    lookalikes: ["会", "今"],
+    examples: [
+      { w: "待合室", r: "まちあいしつ", m: "waiting room" },
+      { w: "合計", r: "ごうけい", m: "total" },
+      { w: "場合", r: "ばあい", m: "case, situation" }
+    ]
+  },
+  {
+    k: "室", meaning: "room", on: ["シツ"], kun: [], group: "c-desk", strokes: 9, radical: "宀",
+    mnemonic: "Under a roof 宀 stands 至, an arrow that has reached its target: the place you arrive at under the roof is a room.",
+    notes: [
+      "Ends room names on hospital doors: 診察室 (しんさつしつ, consultation room), 待合室 (まちあいしつ, waiting room), 化粧室 (けしょうしつ, toilets).",
+      "Room numbers use 号室: 302号室 (さんびゃくにごうしつ)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "待合室", r: "まちあいしつ", m: "waiting room" },
+      { w: "診察室", r: "しんさつしつ", m: "consultation room" },
+      { w: "室内", r: "しつない", m: "indoors" }
+    ]
+  },
+  {
+    k: "初", meaning: "first, beginning", on: ["ショ"], kun: ["はじ.め", "はじ.めて", "はつ"], group: "c-desk", strokes: 7, radical: "刀",
+    mnemonic: "Clothing 衤 and a knife 刀: the first step in making a garment is the first cut of the cloth.",
+    notes: [
+      "初診 (しょしん) is your first visit to a clinic; there is often a separate 初診受付 desk and an extra 初診料 (しょしんりょう) fee.",
+      "初めて (はじめて) is 'for the first time'. はつ is a prefix: 初日の出 (はつひので, first sunrise of the year).",
+      "The left is the clothing radical 衤, with one more stroke than the shrine radical."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "初診", r: "しょしん", m: "first visit (to a clinic)" },
+      { w: "初めて", r: "はじめて", m: "for the first time" },
+      { w: "初日", r: "しょにち", m: "first day" }
+    ]
+  },
+  {
+    k: "再", meaning: "again", on: ["サイ", "サ"], kun: ["ふたた.び"], group: "c-desk", strokes: 6, radical: "冂",
+    mnemonic: "A lid 一 laid on 冉, a frame with two crossbars: the same shelf built a second time, one layer on top of the other.",
+    notes: [
+      "再診 (さいしん) is a follow-up visit; returning patients use the 再来受付 (さいらいうけつけ) desk or machine.",
+      "Read さ in 再来年 (さらいねん, the year after next).",
+      "ふたたび (again) is formal written Japanese."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "再診", r: "さいしん", m: "follow-up visit" },
+      { w: "再来", r: "さいらい", m: "return visit" },
+      { w: "再来年", r: "さらいねん", m: "the year after next" }
+    ]
+  },
+  {
+    k: "診", meaning: "examine (a patient)", on: ["シン"], kun: ["み.る"], group: "c-desk", strokes: 12, radical: "言",
+    mnemonic: "Words 言 on the left, and on the right a person with three strands of long hair: the doctor asks questions and looks you over from head to toe.",
+    notes: [
+      "休診 (きゅうしん) on a clinic door means closed for consultations, as in 本日休診 (ほんじつきゅうしん, closed today).",
+      "A doctor 'sees' a patient with 診る (みる), not 見る.",
+      "受診 (じゅしん) is going to see a doctor; 初診 and 再診 are first and follow-up visits."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "診察", r: "しんさつ", m: "medical examination" },
+      { w: "休診", r: "きゅうしん", m: "closed (no consultations)" },
+      { w: "受診", r: "じゅしん", m: "seeing a doctor" }
+    ]
+  },
+  {
+    k: "察", meaning: "observe, judge", on: ["サツ"], kun: [], group: "c-desk", strokes: 14, radical: "宀",
+    mnemonic: "Under a roof 宀, a festival 祭 offering is laid out for close inspection: everything is carefully observed.",
+    notes: [
+      "In a clinic: 診察 (しんさつ, examination), 診察室 (しんさつしつ, consultation room), 診察券 (しんさつけん, patient card).",
+      "察する (さっする) means to sense or guess what someone feels."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "診察", r: "しんさつ", m: "medical examination" },
+      { w: "診察室", r: "しんさつしつ", m: "consultation room" },
+      { w: "察する", r: "さっする", m: "to sense, to guess" }
+    ]
+  },
+  {
+    k: "券", meaning: "ticket", on: ["ケン"], kun: [], group: "c-desk", strokes: 8, radical: "刀",
+    mnemonic: "Two hands rolling up a strip of paper, with a knife 刀 underneath: a ticket cut off the roll.",
+    notes: [
+      "診察券 (しんさつけん) is the patient card a clinic gives you; show it at the 受付 every visit.",
+      "食券 (しょっけん) is a meal ticket from a vending machine: しょく shortens to しょっ.",
+      "The bottom is 刀 (knife), with a hook, not a plain line."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "診察券", r: "しんさつけん", m: "patient card" },
+      { w: "乗車券", r: "じょうしゃけん", m: "train ticket" },
+      { w: "食券", r: "しょっけん", m: "meal ticket" }
+    ]
+  },
+  {
+    k: "保", meaning: "protect, keep", on: ["ホ"], kun: ["たも.つ"], group: "c-desk", strokes: 9, radical: "亻",
+    mnemonic: "A person 亻 beside 呆, a baby wrapped in a blanket: someone holding a child and keeping it safe.",
+    notes: [
+      "Reception asks for your 保険証 (ほけんしょう, health insurance card): 保険証をお願いします (ほけんしょうをおねがいします).",
+      "保つ (たもつ) is to keep or maintain.",
+      "Don't confuse with 体 (body): 保 has a mouth 口 on top of the tree 木."
+    ],
+    lookalikes: ["体"],
+    examples: [
+      { w: "保険", r: "ほけん", m: "insurance" },
+      { w: "保険証", r: "ほけんしょう", m: "health insurance card" },
+      { w: "保護", r: "ほご", m: "protection" }
+    ]
+  },
+  {
+    k: "険", meaning: "steep, risky", on: ["ケン"], kun: ["けわ.しい"], group: "c-desk", strokes: 11, radical: "阝",
+    mnemonic: "Hill-steps on the left and a steep peaked roof on the right: a steep, risky climb you'd want insurance for.",
+    notes: [
+      "保険 (ほけん, insurance) at the desk; 危険 (きけん, danger) on warning signs.",
+      "険しい (けわしい) means steep or stern.",
+      "Same right side as 検 (examine), which has 木 on the left; 険 has the hill."
+    ],
+    lookalikes: ["検"],
+    examples: [
+      { w: "保険", r: "ほけん", m: "insurance" },
+      { w: "危険", r: "きけん", m: "danger" },
+      { w: "保険料", r: "ほけんりょう", m: "insurance premium" }
+    ]
+  },
+  {
+    k: "証", meaning: "proof, certificate", on: ["ショウ"], kun: [], group: "c-desk", strokes: 12, radical: "言",
+    mnemonic: "Words 言 that are correct 正: a statement you can prove, written down on a certificate.",
+    notes: [
+      "Ends the names of ID cards: 保険証 (ほけんしょう, insurance card), 学生証 (がくせいしょう, student ID).",
+      "Read しょう; the kun reading is literary and rarely seen."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "保険証", r: "ほけんしょう", m: "health insurance card" },
+      { w: "学生証", r: "がくせいしょう", m: "student ID card" },
+      { w: "証人", r: "しょうにん", m: "witness" }
+    ]
+  },
+  {
+    k: "会", meaning: "meet, meeting", on: ["カイ"], kun: ["あ.う"], group: "c-desk", strokes: 6, radical: "人",
+    mnemonic: "People 人 gathered under one roof over 云, clouds of talk: a meeting.",
+    notes: [
+      "In a hospital, 会計 (かいけい) is the cashier where you pay, and 面会 (めんかい) is visiting a patient: 面会時間 (めんかいじかん, visiting hours).",
+      "会う (あう) is to meet a person.",
+      "合 and 今 have the same roof; 会 has 云 underneath."
+    ],
+    lookalikes: ["合", "今"],
+    examples: [
+      { w: "会計", r: "かいけい", m: "payment, cashier" },
+      { w: "面会", r: "めんかい", m: "visiting (a patient)" },
+      { w: "会う", r: "あう", m: "to meet" }
+    ]
+  },
+  {
+    k: "計", meaning: "measure, total", on: ["ケイ"], kun: ["はか.る"], group: "c-desk", strokes: 9, radical: "言",
+    mnemonic: "Words 言 and ten 十: counting out loud up to ten and adding everything up.",
+    notes: [
+      "会計 (かいけい) is the payment counter; you go there last, after seeing the doctor.",
+      "-計 can mean a measuring device: 体温計 (たいおんけい, thermometer). 時計 (とけい, clock) has an irregular reading.",
+      "計る (はかる) is to measure, especially time."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "会計", r: "かいけい", m: "payment, cashier" },
+      { w: "体温計", r: "たいおんけい", m: "thermometer" },
+      { w: "時計", r: "とけい", m: "clock, watch" }
+    ]
+  },
+  {
+    k: "様", meaning: "Mr., Ms. (polite), manner", on: ["ヨウ"], kun: ["さま"], group: "c-desk", strokes: 14, radical: "木",
+    mnemonic: "A tree 木 beside a sheep standing over water: a calm, elegant scene, and the polite way to address someone.",
+    notes: [
+      "A polite suffix after names: reception calls you スミス様 (スミスさま), and signs say 患者様 (かんじゃさま) and お子様 (おこさま, children).",
+      "Read よう in 様子 (ようす, condition): 様子を見ましょう (ようすをみましょう, let's wait and see)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "患者様", r: "かんじゃさま", m: "patient (polite)" },
+      { w: "お子様", r: "おこさま", m: "child (polite)" },
+      { w: "様子", r: "ようす", m: "condition, state" }
+    ]
+  },
+
+  /* ========== Clinic & hospital pack: symptoms and tests ========== */
+  {
+    k: "体", meaning: "body", on: ["タイ"], kun: ["からだ"], group: "c-body", strokes: 7, radical: "亻",
+    mnemonic: "A person 亻 beside 本, a tree with its roots marked: your body is what you are rooted in.",
+    notes: [
+      "Forms and nurses ask for your 体温 (たいおん, body temperature).",
+      "On its own read からだ: 体がだるい (からだがだるい, I feel sluggish).",
+      "Don't confuse with 休 (rest), which has 木 without the extra line at the bottom."
+    ],
+    lookalikes: ["休", "保"],
+    examples: [
+      { w: "体温", r: "たいおん", m: "body temperature" },
+      { w: "体内", r: "たいない", m: "inside the body" },
+      { w: "大体", r: "だいたい", m: "roughly, mostly" }
+    ]
+  },
+  {
+    k: "熱", meaning: "fever, heat", on: ["ネツ"], kun: ["あつ.い"], group: "c-body", strokes: 15, radical: "灬",
+    mnemonic: "埶, a gardener planting a seedling, with fire 灬 underneath: working in the blazing sun until you burn up with fever.",
+    notes: [
+      "熱 (ねつ) on its own is a fever: 熱があります (ねつがあります, I have a fever). 高熱 (こうねつ) is a high fever.",
+      "熱い (あつい) is hot to the touch; hot weather is a different あつい with another kanji."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "熱", r: "ねつ", m: "fever, heat" },
+      { w: "高熱", r: "こうねつ", m: "high fever" },
+      { w: "熱い", r: "あつい", m: "hot (to the touch)" }
+    ]
+  },
+  {
+    k: "痛", meaning: "pain, hurt", on: ["ツウ"], kun: ["いた.い", "いた.む"], group: "c-body", strokes: 12, radical: "疒",
+    mnemonic: "Under the sickbed roof 疒, 甬, a bucket going up and down a well: pain that throbs up and down.",
+    notes: [
+      "痛い (いたい) is 'it hurts'; doctors ask どこが痛いですか (where does it hurt?).",
+      "In compounds read つう: 歯痛 (しつう, toothache).",
+      "Same 疒 roof as 病 (illness)."
+    ],
+    lookalikes: ["病"],
+    examples: [
+      { w: "痛い", r: "いたい", m: "painful, it hurts" },
+      { w: "痛み", r: "いたみ", m: "pain" },
+      { w: "歯痛", r: "しつう", m: "toothache" }
+    ]
+  },
+  {
+    k: "血", meaning: "blood", on: ["ケツ"], kun: ["ち"], group: "c-body", strokes: 6, radical: "血",
+    mnemonic: "A dish 皿 with a single drop on top: blood collected in a bowl.",
+    notes: [
+      "On its own read ち; in compounds けつ: 血液 (けつえき, blood).",
+      "Sound changes: 出血 (しゅっけつ, bleeding) and 鼻血 (はなぢ, nosebleed).",
+      "Don't confuse with 皿 (dish): 血 has an extra drop on top."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "血液", r: "けつえき", m: "blood" },
+      { w: "出血", r: "しゅっけつ", m: "bleeding" },
+      { w: "鼻血", r: "はなぢ", m: "nosebleed" }
+    ]
+  },
+  {
+    k: "液", meaning: "liquid, fluid", on: ["エキ"], kun: [], group: "c-body", strokes: 11, radical: "氵",
+    mnemonic: "Water 氵 beside night 夜: dew that gathers in the night, a liquid.",
+    notes: [
+      "血液 (けつえき) is the medical word for blood; 血液検査 (けつえきけんさ) is a blood test.",
+      "Only reading えき: 液体 (えきたい, liquid)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "血液", r: "けつえき", m: "blood" },
+      { w: "液体", r: "えきたい", m: "liquid" },
+      { w: "血液検査", r: "けつえきけんさ", m: "blood test" }
+    ]
+  },
+  {
+    k: "温", meaning: "warm", on: ["オン"], kun: ["あたた.かい", "あたた.める"], group: "c-body", strokes: 12, radical: "氵",
+    mnemonic: "Water 氵 next to 昷, a bowl warming in the sun: warm water.",
+    notes: [
+      "体温 (たいおん, body temperature): you may be asked to check it with a 体温計 (たいおんけい) at the entrance.",
+      "温かい (あたたかい) is warm, for food, drinks and feelings; warm weather usually uses a different kanji.",
+      "気温 (きおん) is the air temperature in weather reports."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "体温", r: "たいおん", m: "body temperature" },
+      { w: "気温", r: "きおん", m: "air temperature" },
+      { w: "温かい", r: "あたたかい", m: "warm" }
+    ]
+  },
+  {
+    k: "検", meaning: "examine, inspect", on: ["ケン"], kun: [], group: "c-body", strokes: 12, radical: "木",
+    mnemonic: "A tree 木 beside a peaked roof gathering things together: inspectors checking every log one by one.",
+    notes: [
+      "検査 (けんさ) is a test or examination; 検診 (けんしん) is a health check-up.",
+      "検温 (けんおん) on entrance signs asks you to take your temperature.",
+      "Same right side as 険 (in 保険); 検 has 木 on the left."
+    ],
+    lookalikes: ["険"],
+    examples: [
+      { w: "検査", r: "けんさ", m: "test, examination" },
+      { w: "検診", r: "けんしん", m: "health check-up" },
+      { w: "検温", r: "けんおん", m: "taking one's temperature" }
+    ]
+  },
+  {
+    k: "査", meaning: "investigate", on: ["サ"], kun: [], group: "c-body", strokes: 9, radical: "木",
+    mnemonic: "A tree 木 standing on 且, a stand of stacked boards: inspecting the timber pile carefully.",
+    notes: [
+      "Mostly seen in 検査 (けんさ, test) and 検査室 (けんさしつ, testing room, lab).",
+      "査証 (さしょう) is the formal word for a visa."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "検査", r: "けんさ", m: "test, examination" },
+      { w: "検査室", r: "けんさしつ", m: "testing room, lab" },
+      { w: "査証", r: "さしょう", m: "visa" }
+    ]
+  },
+  {
+    k: "急", meaning: "hurry, emergency", on: ["キュウ"], kun: ["いそ.ぐ"], group: "c-body", strokes: 9, radical: "心",
+    mnemonic: "A hand grabbing from above and a heart 心 below: your heart racing as someone pulls you along. Hurry!",
+    notes: [
+      "On hospital signs: 救急 (きゅうきゅう, emergency) and 救急外来 (きゅうきゅうがいらい, emergency outpatients).",
+      "急病 (きゅうびょう) is a sudden illness; 急に (きゅうに) means suddenly.",
+      "急ぐ (いそぐ) is to hurry."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "救急", r: "きゅうきゅう", m: "emergency (care)" },
+      { w: "急病", r: "きゅうびょう", m: "sudden illness" },
+      { w: "急ぐ", r: "いそぐ", m: "to hurry" }
+    ]
+  },
+  {
+    k: "救", meaning: "rescue, save", on: ["キュウ"], kun: ["すく.う"], group: "c-body", strokes: 11, radical: "攵",
+    mnemonic: "求 (a request) and a hand with a stick 攵: answering a cry for help and setting off at once to the rescue.",
+    notes: [
+      "救急車 (きゅうきゅうしゃ) is an ambulance; in Japan, dial 119 for an ambulance or the fire brigade.",
+      "Hospitals mark the 救急入口 (きゅうきゅういりぐち, emergency entrance).",
+      "救う (すくう) is to save or rescue."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "救急車", r: "きゅうきゅうしゃ", m: "ambulance" },
+      { w: "救護", r: "きゅうご", m: "first aid, relief" },
+      { w: "救う", r: "すくう", m: "to save, to rescue" }
+    ]
+  },
+
+  /* ========== Clinic & hospital pack: signs and notices ========== */
+  {
+    k: "口", meaning: "mouth, opening", on: ["コウ"], kun: ["くち"], group: "c-signs", strokes: 3, radical: "口",
+    mnemonic: "An open mouth drawn as a square: say 'ah' for the doctor and this is the shape you make.",
+    notes: [
+      "On signs it means a way in or out: 入口 (いりぐち, entrance), 出口 (でぐち, exit), 非常口 (ひじょうぐち, emergency exit).",
+      "くち becomes ぐち when it follows another word, as in 出口 and 入口. こう is the on reading, as in 人口 (じんこう, population).",
+      "Don't confuse it with 日, which has a line across the middle."
+    ],
+    lookalikes: ["日"],
+    examples: [
+      { w: "入口", r: "いりぐち", m: "entrance" },
+      { w: "出口", r: "でぐち", m: "exit" },
+      { w: "非常口", r: "ひじょうぐち", m: "emergency exit" }
+    ]
+  },
+  {
+    k: "非", meaning: "non-, un-", on: ["ヒ"], kun: [], group: "c-signs", strokes: 8, radical: "非",
+    mnemonic: "Two wings back to back, each beating the opposite way: they refuse to agree, so the answer is 'not'.",
+    notes: [
+      "A negative prefix like 'non-' or 'un-'. In hospitals you meet it in 非常口 (ひじょうぐち, emergency exit), marked with the green running figure.",
+      "非常に (ひじょうに) means 'very, extremely', common in formal speech and writing.",
+      "Like 北, it is two halves back to back; 非 has three short strokes on each side."
+    ],
+    lookalikes: ["北"],
+    examples: [
+      { w: "非常口", r: "ひじょうぐち", m: "emergency exit" },
+      { w: "非常ベル", r: "ひじょうベル", m: "emergency alarm bell" },
+      { w: "非常に", r: "ひじょうに", m: "very, extremely" }
+    ]
+  },
+  {
+    k: "常", meaning: "usual, always", on: ["ジョウ"], kun: ["つね"], group: "c-signs", strokes: 11, radical: "巾",
+    mnemonic: "Under the 尚 eaves a towel hangs 吊 from the same hook it has always hung from: the usual way of things.",
+    notes: [
+      "On signs it nearly always comes in 非常 (ひじょう, emergency): 非常口 (emergency exit), 非常時 (ひじょうじ, in an emergency).",
+      "日常 (にちじょう) is daily life; 常に (つねに, always) is a written-style word.",
+      "It is 尚 on top with a hanging cloth at the bottom; that cloth is the radical."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "非常時", r: "ひじょうじ", m: "(time of) emergency" },
+      { w: "日常", r: "にちじょう", m: "everyday life" },
+      { w: "常に", r: "つねに", m: "always, constantly" }
+    ]
+  },
+  {
+    k: "階", meaning: "floor, storey", on: ["カイ"], kun: [], group: "c-signs", strokes: 12, radical: "阝",
+    mnemonic: "Everyone 皆 climbing a hillside ⻖ step by step: a staircase going up, floor by floor.",
+    notes: [
+      "Floor numbers on lift panels and hospital directories: 一階 (いっかい) is the ground floor, 二階 (にかい) the floor above.",
+      "Sound changes: 三階 is usually さんがい and 何階 is なんがい (which floor?).",
+      "The hill side ⻖ on the left is the same as in 院 (hospital)."
+    ],
+    lookalikes: ["院"],
+    examples: [
+      { w: "一階", r: "いっかい", m: "first (ground) floor" },
+      { w: "二階", r: "にかい", m: "second floor (one up)" },
+      { w: "何階", r: "なんがい", m: "which floor?" }
+    ]
+  },
+  {
+    k: "化", meaning: "change, -ize", on: ["カ", "ケ"], kun: ["ば.ける"], group: "c-signs", strokes: 4, radical: "匕",
+    mnemonic: "A person 亻 standing next to someone flipped upside down 匕: people changing shape before your eyes.",
+    notes: [
+      "On signs it's mostly in 化粧室 (けしょうしつ), a polite word for the toilets.",
+      "Read け in 化粧 (けしょう, make-up); elsewhere か, as in 化学 (かがく, chemistry).",
+      "お化け (おばけ) is a ghost: something that has changed its shape."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "化粧室", r: "けしょうしつ", m: "restroom, toilets" },
+      { w: "化粧", r: "けしょう", m: "make-up" },
+      { w: "化学", r: "かがく", m: "chemistry" }
+    ]
+  },
+  {
+    k: "粧", meaning: "make-up, adorn", on: ["ショウ"], kun: [], group: "c-signs", strokes: 12, radical: "米",
+    mnemonic: "Rice 米 powder dabbed on the face in an old country house 庄: putting on make-up the traditional way.",
+    notes: [
+      "Almost only seen in 化粧 (けしょう, make-up) and 化粧室 (けしょうしつ), the polite toilet sign in hospitals, stations and shops.",
+      "化粧室 and トイレ are the same place; 化粧室 just sounds more refined.",
+      "料 also starts with 米; look at the right side to tell them apart."
+    ],
+    lookalikes: ["料"],
+    examples: [
+      { w: "化粧室", r: "けしょうしつ", m: "restroom, toilets" },
+      { w: "化粧", r: "けしょう", m: "make-up" },
+      { w: "化粧水", r: "けしょうすい", m: "skin toner, lotion" }
+    ]
+  },
+  {
+    k: "禁", meaning: "prohibition, ban", on: ["キン"], kun: [], group: "c-signs", strokes: 13, radical: "示",
+    mnemonic: "A sacred altar 示 hidden behind a grove of trees 林: a holy spot where you are forbidden to go.",
+    notes: [
+      "The 'no' of Japanese signs: 禁煙 (きんえん, no smoking) is on almost every hospital door, and 院内禁煙 means no smoking anywhere on the premises.",
+      "Signs ending in きんし mean 'prohibited'; the first kanji of that word is 禁.",
+      "The altar 示 at the bottom is a full five-stroke 示, not squeezed."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "禁煙", r: "きんえん", m: "no smoking" },
+      { w: "院内禁煙", r: "いんないきんえん", m: "no smoking on the premises" },
+      { w: "禁じる", r: "きんじる", m: "to forbid" }
+    ]
+  },
+  {
+    k: "煙", meaning: "smoke", on: ["エン"], kun: ["けむり", "けむ.い"], group: "c-signs", strokes: 13, radical: "火",
+    mnemonic: "Fire 火 on the left and a chimney stack 垔 on the right, puffing out clouds of smoke.",
+    notes: [
+      "On signs it's in 禁煙 (きんえん, no smoking). Hospitals are usually 禁煙 inside and out.",
+      "The noun is けむり (smoke); 煙い (けむい) means smoky, stinging your eyes.",
+      "えん is the on reading in compounds; on its own the word is always けむり."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "禁煙", r: "きんえん", m: "no smoking" },
+      { w: "煙", r: "けむり", m: "smoke" },
+      { w: "煙い", r: "けむい", m: "smoky" }
+    ]
+  },
+  {
+    k: "注", meaning: "pour, attention", on: ["チュウ"], kun: ["そそ.ぐ"], group: "c-signs", strokes: 8, radical: "氵",
+    mnemonic: "Water 氵 poured carefully for the master 主: pay close attention or you'll spill it.",
+    notes: [
+      "注意 (ちゅうい, caution) is the warning word on yellow signs.",
+      "In a clinic you'll hear ちゅうしゃ (injection); its first kanji is 注, as in pouring medicine in.",
+      "Don't mix it up with 駐 (parking): also ちゅう with 主 on the right, but with a horse instead of water."
+    ],
+    lookalikes: ["駐"],
+    examples: [
+      { w: "注意", r: "ちゅうい", m: "caution, care" },
+      { w: "注意書き", r: "ちゅういがき", m: "cautionary note, warning label" },
+      { w: "注ぐ", r: "そそぐ", m: "to pour" }
+    ]
+  },
+  {
+    k: "意", meaning: "mind, intention", on: ["イ"], kun: [], group: "c-signs", strokes: 13, radical: "心",
+    mnemonic: "A sound 音 rising up out of the heart 心: what your mind really means to say.",
+    notes: [
+      "On signs it's in 注意 (ちゅうい, caution). 意見 (いけん) is an opinion and 用意 (ようい) is getting ready.",
+      "医 and 意 are both read い; in a clinic, 医 is the doctor one.",
+      "It is 音 (sound) stacked on 心 (heart): thirteen strokes, but only two parts."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "注意", r: "ちゅうい", m: "caution, care" },
+      { w: "意見", r: "いけん", m: "opinion" },
+      { w: "用意", r: "ようい", m: "preparation" }
+    ]
+  },
+  {
+    k: "危", meaning: "danger", on: ["キ"], kun: ["あぶ.ない"], group: "c-signs", strokes: 6, radical: "卩",
+    mnemonic: "A figure perched at the top, peering over a cliff edge 厄 where someone crouches below: dangerous!",
+    notes: [
+      "危険 (きけん, danger) is the big red word on warning signs.",
+      "危ない (あぶない) is the everyday shout for 'Look out!' or 'That's dangerous'.",
+      "危険性 (きけんせい) means risk, as in the risk of side effects a doctor explains."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "危ない", r: "あぶない", m: "dangerous; look out!" },
+      { w: "危険", r: "きけん", m: "danger" },
+      { w: "危険性", r: "きけんせい", m: "risk" }
+    ]
+  },
+  {
+    k: "性", meaning: "sex, nature", on: ["セイ"], kun: [], group: "c-signs", strokes: 8, radical: "忄",
+    mnemonic: "A heart 忄 standing next to life 生: the nature you are born with.",
+    notes: [
+      "On forms the 'sex' box is せいべつ: tick 男性 (だんせい, male) or 女性 (じょせい, female).",
+      "As a suffix it means '-type' or '-ness': 急性 (きゅうせい, acute), 危険性 (きけんせい, risk).",
+      "It is 生 (life) with the standing heart 忄 on the left."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "女性", r: "じょせい", m: "woman, female" },
+      { w: "男性", r: "だんせい", m: "man, male" },
+      { w: "急性", r: "きゅうせい", m: "acute (illness)" }
+    ]
+  },
+  {
+    k: "示", meaning: "show, indicate", on: ["ジ", "シ"], kun: ["しめ.す"], group: "c-signs", strokes: 5, radical: "示",
+    mnemonic: "An altar table with offerings dripping down its sides: the place where the gods show their will.",
+    notes: [
+      "Reception signs say 保険証をご提示ください (ほけんしょうをごていじください): please show your insurance card.",
+      "Usually じ in compounds, as in 提示 (ていじ); 示す (しめす) is the verb 'to show, point out'.",
+      "It is the bottom half of 禁 (prohibition)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "提示", r: "ていじ", m: "showing, presenting (a card)" },
+      { w: "示す", r: "しめす", m: "to show, indicate" },
+      { w: "示し合わせる", r: "しめしあわせる", m: "to arrange beforehand" }
+    ]
+  },
+  {
+    k: "必", meaning: "certain, without fail", on: ["ヒツ"], kun: ["かなら.ず"], group: "c-signs", strokes: 5, radical: "心",
+    mnemonic: "A heart 心 with a spear 丿 driven right through it: once it's hit, the outcome is certain.",
+    notes: [
+      "必ず (かならず) means 'without fail', as in reminders to bring your 保険証 every visit.",
+      "Forms mark required boxes with ひっす (must fill in); its first kanji is 必.",
+      "It looks like 心 (heart) with a slash through it, but the stroke order is different, so learn it on its own."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "必ず", r: "かならず", m: "without fail, always" },
+      { w: "必見", r: "ひっけん", m: "must-see" },
+      { w: "必読", r: "ひつどく", m: "must-read" }
+    ]
+  },
+  {
+    k: "面", meaning: "face, surface", on: ["メン"], kun: ["おもて"], group: "c-signs", strokes: 9, radical: "面",
+    mnemonic: "A face in a frame with an eye peering out of the middle: a mask hanging on the wall.",
+    notes: [
+      "In hospitals: 面会 (めんかい, visiting a patient). Ward signs list 面会時間 (めんかいじかん, visiting hours).",
+      "It also means a side or direction: 東京方面 (とうきょうほうめん, toward Tokyo) on road and station signs.",
+      "めん in almost every compound; おもて (surface, front) is rarer."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "面会", r: "めんかい", m: "visit (to a patient)" },
+      { w: "面会時間", r: "めんかいじかん", m: "visiting hours" },
+      { w: "方面", r: "ほうめん", m: "direction, area" }
+    ]
+  },
+  {
+    k: "台", meaning: "stand, platform", on: ["ダイ", "タイ"], kun: [], group: "c-signs", strokes: 5, radical: "口",
+    mnemonic: "A nose 厶 perched above a mouth 口: a statue's head sitting on its stand.",
+    notes: [
+      "A raised stand or table: 診察台 (しんさつだい) is the examination couch.",
+      "Also the counter for machines and vehicles: 車一台 (くるまいちだい, one car).",
+      "Read たい in a few words, such as たいふう (typhoon)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "診察台", r: "しんさつだい", m: "examination table" },
+      { w: "一台", r: "いちだい", m: "one (car, machine)" },
+      { w: "台車", r: "だいしゃ", m: "hand cart, trolley" }
+    ]
+  },
+  {
+    k: "乗", meaning: "ride, board", on: ["ジョウ"], kun: ["の.る", "の.せる"], group: "c-signs", strokes: 9, radical: "丿",
+    mnemonic: "A thousand 千 people piled on top of a tree 木: everybody climb aboard and ride.",
+    notes: [
+      "乗り場 (のりば) is the boarding point for taxis and buses at the hospital entrance.",
+      "乗る (のる) takes に: タクシーに乗る (to take a taxi). 乗せる (のせる) is to give someone a ride.",
+      "じょう in compounds such as 乗車 (じょうしゃ, boarding a vehicle)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "乗る", r: "のる", m: "to ride, get on" },
+      { w: "乗り場", r: "のりば", m: "boarding point, stand" },
+      { w: "乗車", r: "じょうしゃ", m: "boarding (a vehicle)" }
+    ]
+  },
+  {
+    k: "倒", meaning: "fall, collapse", on: ["トウ"], kun: ["たお.れる", "たお.す"], group: "c-signs", strokes: 10, radical: "亻",
+    mnemonic: "A person 亻 who has finally arrived 到 and collapses on the spot, exhausted.",
+    notes: [
+      "Warning signs reading てんとう注意 mean 'mind you don't fall'; the とう is 倒.",
+      "倒れる (たおれる) is to fall over or collapse, also of a person fainting; 倒す (たおす) is to knock something over.",
+      "面倒 (めんどう, bother, hassle) is a very common everyday word."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "倒れる", r: "たおれる", m: "to fall down, collapse" },
+      { w: "倒す", r: "たおす", m: "to knock over" },
+      { w: "面倒", r: "めんどう", m: "trouble, bother" }
+    ]
+  },
+  {
+    k: "遊", meaning: "play", on: ["ユウ"], kun: ["あそ.ぶ"], group: "c-signs", strokes: 12, radical: "辶",
+    mnemonic: "A child under a fluttering flag 斿 dashing along the road ⻌: off to play.",
+    notes: [
+      "Waiting rooms may have a 遊び場 (あそびば, play area) for children.",
+      "Signs say 危ないので遊ばないでください: it's dangerous, please don't play here.",
+      "The road ⻌ is written last, sweeping under the rest."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "遊ぶ", r: "あそぶ", m: "to play" },
+      { w: "遊び場", r: "あそびば", m: "play area" },
+      { w: "外遊び", r: "そとあそび", m: "playing outdoors" }
+    ]
+  },
+  {
+    k: "等", meaning: "etc., equal, class", on: ["トウ"], kun: ["など", "ひと.しい"], group: "c-signs", strokes: 12, radical: "竹",
+    mnemonic: "Bamboo 竹 tablets lined up at the temple 寺, all cut to equal length.",
+    notes: [
+      "On notices it means 'and so on' at the end of a list, read など or とう.",
+      "Ranks and classes: 一等 (いっとう, first class, first prize), 上等 (じょうとう, top quality).",
+      "待 has the same 寺 on the right; 等 has bamboo on top instead."
+    ],
+    lookalikes: ["待"],
+    examples: [
+      { w: "一等", r: "いっとう", m: "first class, first prize" },
+      { w: "上等", r: "じょうとう", m: "superior, excellent" },
+      { w: "等しい", r: "ひとしい", m: "equal" }
+    ]
+  },
+  {
+    k: "決", meaning: "decide", on: ["ケツ"], kun: ["き.める", "き.まる"], group: "c-signs", strokes: 7, radical: "氵",
+    mnemonic: "Water 氵 bursting through a broken dam 夬: once it breaks, the matter is decided.",
+    notes: [
+      "決める (きめる) is to decide something; 決まる (きまる) is for it to be decided, as in 予約が決まる (the appointment is fixed).",
+      "決まり (きまり) is a rule. 決して (けっして) + a negative means 'never'.",
+      "The left side is water 氵, with three strokes."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "決める", r: "きめる", m: "to decide" },
+      { w: "決まり", r: "きまり", m: "rule" },
+      { w: "決して", r: "けっして", m: "never (with a negative)" }
+    ]
+  },
+  {
+    k: "願", meaning: "request, wish", on: ["ガン"], kun: ["ねが.う"], group: "c-signs", strokes: 19, radical: "頁",
+    mnemonic: "A head 頁 bowed low at the spring 原 where the water rises, making a wish.",
+    notes: [
+      "お願いします (おねがいします, please) ends countless signs: 保険証の提示をお願いします (please show your insurance card).",
+      "願う (ねがう) is to wish or hope; がん appears in 願書 (がんしょ, application form).",
+      "Nineteen strokes: write the left half 原 completely before the head 頁."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "お願いします", r: "おねがいします", m: "please" },
+      { w: "願う", r: "ねがう", m: "to wish, hope" },
+      { w: "願書", r: "がんしょ", m: "application form" }
+    ]
+  },
+  {
+    k: "問", meaning: "question, ask", on: ["モン"], kun: ["と.う", "と.い"], group: "c-signs", strokes: 11, radical: "口",
+    mnemonic: "A mouth 口 at the gate 門, calling out a question to whoever is inside.",
+    notes: [
+      "問診 (もんしん) is the doctor's questioning; the questionnaire you fill in first is the もんしんひょう.",
+      "問い合わせ (といあわせ, enquiry): signs say お問い合わせは受付へ (enquiries at reception).",
+      "間 (sun in the gate) and 聞 (ear in the gate) look alike; 問 has a mouth."
+    ],
+    lookalikes: ["間", "聞"],
+    examples: [
+      { w: "問診", r: "もんしん", m: "medical interview" },
+      { w: "問い合わせ", r: "といあわせ", m: "enquiry" },
+      { w: "問う", r: "とう", m: "to ask, question" }
+    ]
+  },
+  {
+    k: "当", meaning: "hit, this, right", on: ["トウ"], kun: ["あ.たる", "あ.てる"], group: "c-signs", strokes: 6, radical: "彐",
+    mnemonic: "Three little sparks ⺌ falling into a waiting hand ⺕: caught, a direct hit.",
+    notes: [
+      "Formal 'this' or 'our' on signs: 当院 (とういん, this hospital/clinic). 当日 (とうじつ) is 'on the day', as in same-day appointments.",
+      "本当 (ほんとう, true, really) is the everyday word.",
+      "当たり (あたり) on a lottery or game means 'a win'; 当てる (あてる) is to hit or guess right."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "当院", r: "とういん", m: "this hospital, our clinic" },
+      { w: "当日", r: "とうじつ", m: "the day itself, same day" },
+      { w: "本当", r: "ほんとう", m: "truth; really" }
+    ]
+  },
+  {
+    k: "館", meaning: "building, hall", on: ["カン"], kun: [], group: "c-signs", strokes: 16, radical: "飠",
+    mnemonic: "Food 飠 served at an official's 官 residence: a grand hall where guests are fed.",
+    notes: [
+      "Big hospitals have several buildings: 本館 (ほんかん) is the main one; others are named 東館, 西館 and so on.",
+      "館内 (かんない) means inside the building, as in 館内禁煙 (no smoking inside).",
+      "The left side is 食 squeezed narrow, as in 飲."
+    ],
+    lookalikes: ["飲"],
+    examples: [
+      { w: "本館", r: "ほんかん", m: "main building" },
+      { w: "館内", r: "かんない", m: "inside the building" },
+      { w: "会館", r: "かいかん", m: "hall, assembly hall" }
+    ]
+  },
+  {
+    k: "京", meaning: "capital", on: ["キョウ"], kun: [], group: "c-signs", strokes: 8, radical: "亠",
+    mnemonic: "A lid 亠 over a window 口 on tall legs 小: the watchtower at the gate of the capital.",
+    notes: [
+      "Seen most in 東京 (とうきょう) and 京都 (きょうと).",
+      "上京 (じょうきょう) is moving up to Tokyo from the regions.",
+      "高 also has a lid 亠 and a 口, but 京 stands on 小."
+    ],
+    lookalikes: ["高"],
+    examples: [
+      { w: "東京", r: "とうきょう", m: "Tokyo" },
+      { w: "京都", r: "きょうと", m: "Kyoto" },
+      { w: "上京", r: "じょうきょう", m: "moving to Tokyo" }
+    ]
+  },
+  {
+    k: "都", meaning: "capital, metropolis", on: ["ト", "ツ"], kun: ["みやこ"], group: "c-signs", strokes: 11, radical: "阝",
+    mnemonic: "People 者 crowding inside the city wall ⻏: a busy metropolis.",
+    notes: [
+      "東京都 (とうきょうと) is the Tokyo Metropolis, so Tokyo public hospitals carry 都 in their names.",
+      "Read つ in 都合 (つごう, convenience): ご都合のよい日 is 'a day that suits you' when booking.",
+      "The ⻏ here sits on the right; the same shape on the left, as in 院 and 階, is a different radical."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "京都", r: "きょうと", m: "Kyoto" },
+      { w: "東京都", r: "とうきょうと", m: "Tokyo Metropolis" },
+      { w: "都合", r: "つごう", m: "convenience, circumstances" }
+    ]
+  },
+  {
+    k: "府", meaning: "urban prefecture, office", on: ["フ"], kun: [], group: "c-signs", strokes: 8, radical: "广",
+    mnemonic: "Under a big roof 广, officials attach 付 stamps to papers: a government office.",
+    notes: [
+      "Only two prefectures are 府: Kyoto (京都府, きょうとふ) and Osaka.",
+      "On forms the address line may be labelled とどうふけん (prefecture); the ふ is 府.",
+      "It is 付 under the 广 roof."
+    ],
+    lookalikes: ["付"],
+    examples: [
+      { w: "京都府", r: "きょうとふ", m: "Kyoto Prefecture" },
+      { w: "府内", r: "ふない", m: "within the prefecture" },
+      { w: "府中", r: "ふちゅう", m: "Fuchu (city name)" }
+    ]
+  },
+
+  /* ========== Clinic & hospital pack: parking and fees ========== */
+  {
+    k: "駐", meaning: "park, stay", on: ["チュウ"], kun: [], group: "c-parking", strokes: 15, radical: "馬",
+    mnemonic: "A horse 馬 tied up beside its master 主: parked and staying put.",
+    notes: [
+      "駐車場 (ちゅうしゃじょう, car park) is the word next to the big P sign at every hospital.",
+      "Keep your 駐車券 (ちゅうしゃけん, parking ticket): many hospitals validate it at reception or the 会計 desk.",
+      "注 (pour) also has 主 on the right and reads ちゅう; 駐 has a horse on the left."
+    ],
+    lookalikes: ["注"],
+    examples: [
+      { w: "駐車場", r: "ちゅうしゃじょう", m: "car park" },
+      { w: "駐車券", r: "ちゅうしゃけん", m: "parking ticket" },
+      { w: "駐車", r: "ちゅうしゃ", m: "parking" }
+    ]
+  },
+  {
+    k: "場", meaning: "place", on: ["ジョウ"], kun: ["ば"], group: "c-parking", strokes: 12, radical: "土",
+    mnemonic: "Open earth 土 with the sun 昜 rising over it: a place where people gather.",
+    notes: [
+      "じょう after on readings, ば after kun ones: 駐車場 (ちゅうしゃじょう, car park) but 乗り場 (のりば, boarding point).",
+      "場合 (ばあい, case): notices say 非常の場合 (in an emergency).",
+      "The earth 土 on the left is written with the last stroke rising to the right."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "駐車場", r: "ちゅうしゃじょう", m: "car park" },
+      { w: "乗り場", r: "のりば", m: "boarding point, stand" },
+      { w: "場合", r: "ばあい", m: "case, occasion" }
+    ]
+  },
+  {
+    k: "利", meaning: "benefit, use", on: ["リ"], kun: ["き.く"], group: "c-parking", strokes: 7, radical: "刂",
+    mnemonic: "A blade 刂 cutting ripe grain 禾: the harvest is your profit.",
+    notes: [
+      "利用 (りよう, use) is everywhere on notices: ご利用ください (please use), 駐車場をご利用の方 (car park users).",
+      "利く (きく) means to work or be effective, but in everyday writing it is often in kana.",
+      "科 also has grain 禾 on the left; 利 has a knife 刂, 科 a measure."
+    ],
+    lookalikes: ["科"],
+    examples: [
+      { w: "利用", r: "りよう", m: "use" },
+      { w: "利用者", r: "りようしゃ", m: "user" },
+      { w: "金利", r: "きんり", m: "interest rate" }
+    ]
+  },
+  {
+    k: "用", meaning: "use, business", on: ["ヨウ"], kun: ["もち.いる"], group: "c-parking", strokes: 5, radical: "用",
+    mnemonic: "A wooden frame with a crossbar and a post through the middle: a handy tool, ready to use.",
+    notes: [
+      "~用 (よう) means 'for ~': 患者用 (かんじゃよう, for patients), 子ども用 (for children).",
+      "利用 (りよう) is to use a service; 用意 (ようい) is to get ready.",
+      "用 on its own (よう) is an errand or business: 何の用? (What do you need?)"
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "利用", r: "りよう", m: "use" },
+      { w: "用意", r: "ようい", m: "preparation" },
+      { w: "患者用", r: "かんじゃよう", m: "for patients" }
+    ]
+  },
+  {
+    k: "方", meaning: "direction, person", on: ["ホウ"], kun: ["かた"], group: "c-parking", strokes: 4, radical: "方",
+    mnemonic: "A signpost with a lid 亠 on top and a bent arm pointing out: go this direction.",
+    notes: [
+      "~方 (かた) is a polite 'person': reception signs say 初めての方 (first-time patients) and 患者の方 (patients).",
+      "After a verb stem it means 'how to': 書き方 (かきかた, how to fill it in). ほう is direction: 方面 (ほうめん).",
+      "万 (ten thousand) is similar but has no dot on top."
+    ],
+    lookalikes: ["万"],
+    examples: [
+      { w: "書き方", r: "かきかた", m: "how to write, fill in" },
+      { w: "方面", r: "ほうめん", m: "direction, area" },
+      { w: "あの方", r: "あのかた", m: "that person (polite)" }
+    ]
+  },
+  {
+    k: "分", meaning: "minute, part", on: ["フン", "ブン"], kun: ["わ.かる", "わ.ける"], group: "c-parking", strokes: 4, radical: "刀",
+    mnemonic: "A knife 刀 slicing something into two halves 八: divide it up.",
+    notes: [
+      "Minutes: 五分 (ごふん), but 一分 (いっぷん), 三分 (さんぷん), 十分 (じゅっぷん). Car parks charge per 30分.",
+      "On medicine bags: 三日分 (みっかぶん, three days' supply).",
+      "分かる (わかる) is to understand; 分ける (わける) is to divide."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "五分", r: "ごふん", m: "five minutes" },
+      { w: "三日分", r: "みっかぶん", m: "three days' supply" },
+      { w: "分かる", r: "わかる", m: "to understand" }
+    ]
+  },
+  {
+    k: "料", meaning: "fee, materials", on: ["リョウ"], kun: [], group: "c-parking", strokes: 10, radical: "斗",
+    mnemonic: "Rice 米 scooped out with a measuring ladle 斗: weigh it up, then pay the fee.",
+    notes: [
+      "料金 (りょうきん, fee): car park signs show 駐車料金 (ちゅうしゃりょうきん, parking charges).",
+      "Signs saying むりょう mean free of charge; the りょう is 料. 料理 (りょうり) is cooking.",
+      "粧 also starts with 米; 料 has the ladle 斗 on the right."
+    ],
+    lookalikes: ["粧"],
+    examples: [
+      { w: "料金", r: "りょうきん", m: "fee, charge" },
+      { w: "駐車料金", r: "ちゅうしゃりょうきん", m: "parking fee" },
+      { w: "料理", r: "りょうり", m: "cooking, dish" }
+    ]
+  },
+  {
+    k: "処", meaning: "deal with, prescribe", on: ["ショ"], kun: [], group: "c-parking", strokes: 5, radical: "几",
+    mnemonic: "Feet 夂 walking up to a little bench 几, sitting down to deal with the matter.",
+    notes: [
+      "処方 (しょほう) is a prescription; you take the 処方せん (しょほうせん, prescription slip) to a pharmacy.",
+      "処理 (しょり, processing, handling) appears on payment and parking notices.",
+      "Only five strokes, but it is a high-frequency kanji on pharmacy signs."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "処方", r: "しょほう", m: "prescription" },
+      { w: "処方せん", r: "しょほうせん", m: "prescription slip" },
+      { w: "処理", r: "しょり", m: "processing, handling" }
+    ]
+  },
+  {
+    k: "理", meaning: "reason, logic", on: ["リ"], kun: [], group: "c-parking", strokes: 11, radical: "王",
+    mnemonic: "A jewel 王 polished along the neat lines of a village 里 field: everything arranged by reason.",
+    notes: [
+      "Common words: 処理 (しょり, processing), 料理 (りょうり, cooking), 理科 (りか, science).",
+      "Always read り in everyday words.",
+      "The left side 王 is the jewel radical, and the last stroke rises to the right."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "処理", r: "しょり", m: "processing, handling" },
+      { w: "料理", r: "りょうり", m: "cooking, dish" },
+      { w: "理科", r: "りか", m: "science (school subject)" }
+    ]
+  },
+  {
+    k: "庫", meaning: "storehouse, garage", on: ["コ"], kun: [], group: "c-parking", strokes: 10, radical: "广",
+    mnemonic: "A car 車 kept under a big roof 广: a garage or storehouse.",
+    notes: [
+      "車庫 (しゃこ) is a garage; signs reading 車庫前 mean 'garage entrance', so don't park there.",
+      "金庫 (きんこ) is a safe and 書庫 (しょこ) an archive or stack room.",
+      "府 has the same 广 roof, with 付 inside instead of 車."
+    ],
+    lookalikes: ["府"],
+    examples: [
+      { w: "車庫", r: "しゃこ", m: "garage" },
+      { w: "金庫", r: "きんこ", m: "safe, strongbox" },
+      { w: "書庫", r: "しょこ", m: "archive, stack room" }
+    ]
+  },
+  {
+    k: "移", meaning: "move, shift", on: ["イ"], kun: ["うつ.る", "うつ.す"], group: "c-parking", strokes: 11, radical: "禾",
+    mnemonic: "Rice plants 禾 dug up again and again 多 and moved to a new field.",
+    notes: [
+      "移動 (いどう, moving): an announcement may say お車の移動をお願いします (please move your car).",
+      "移る (うつる) is to move, and also for a cold to spread to someone: かぜがうつる.",
+      "利 also has grain 禾 on the left; 移 has 多 (many) on the right."
+    ],
+    lookalikes: ["利"],
+    examples: [
+      { w: "移動", r: "いどう", m: "moving, transfer" },
+      { w: "移る", r: "うつる", m: "to move; to spread (illness)" },
+      { w: "移す", r: "うつす", m: "to move (something)" }
+    ]
+  },
+  {
+    k: "動", meaning: "move", on: ["ドウ"], kun: ["うご.く", "うご.かす"], group: "c-parking", strokes: 11, radical: "力",
+    mnemonic: "Something heavy 重 shifted by sheer strength 力: it moves.",
+    notes: [
+      "動かないでください (please keep still) is what you hear during an X-ray or a blood test.",
+      "移動 (いどう) is moving from place to place; 電動 (でんどう) means electric-powered, as in 電動車いす (electric wheelchair).",
+      "うごく is to move by itself; うごかす is to move something."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "動く", r: "うごく", m: "to move" },
+      { w: "移動", r: "いどう", m: "moving, transfer" },
+      { w: "電動", r: "でんどう", m: "electric-powered" }
+    ]
+  },
+  {
+    k: "提", meaning: "present, submit", on: ["テイ"], kun: ["さ.げる"], group: "c-parking", strokes: 12, radical: "扌",
+    mnemonic: "A hand 扌 holding something up just so 是: presenting it at the desk.",
+    notes: [
+      "提示 (ていじ, showing): 駐車券をご提示ください means please show your parking ticket.",
+      "提出 (ていしゅつ) is handing in a form or document.",
+      "提げる (さげる) is to carry something hanging from your hand, like a bag."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "提示", r: "ていじ", m: "showing, presenting" },
+      { w: "提出", r: "ていしゅつ", m: "submission, handing in" },
+      { w: "前提", r: "ぜんてい", m: "premise, assumption" }
+    ]
+  },
+  {
+    k: "請", meaning: "request, ask for", on: ["セイ"], kun: ["う.ける"], group: "c-parking", strokes: 15, radical: "言",
+    mnemonic: "Words 言 spoken with clear blue 青 sincerity: politely asking for what you are owed.",
+    notes: [
+      "請求 (せいきゅう, billing): the bill from the 会計 desk is the 請求書 (せいきゅうしょ).",
+      "う.ける appears mainly in 下請け (したうけ, subcontractor).",
+      "The left side is 言 (words) and the right is 青 (blue)."
+    ],
+    lookalikes: [],
+    examples: [
+      { w: "請求", r: "せいきゅう", m: "billing, claim" },
+      { w: "請求書", r: "せいきゅうしょ", m: "bill, invoice" },
+      { w: "下請け", r: "したうけ", m: "subcontractor" }
+    ]
+  },
+  {
+    k: "求", meaning: "seek, request", on: ["キュウ"], kun: ["もと.める"], group: "c-parking", strokes: 7, radical: "氺",
+    mnemonic: "A hand reaching down into the water 氺, with one drop 丶 flicked off the side: searching for what you want.",
+    notes: [
+      "請求 (せいきゅう, billing) and 請求書 (せいきゅうしょ, bill) on payment notices.",
+      "求める (もとめる) is to seek or ask for; 求人 (きゅうじん) is a job vacancy.",
+      "水 (water) is similar; 求 adds a line on top and a dot at the upper right."
+    ],
+    lookalikes: ["水"],
+    examples: [
+      { w: "請求", r: "せいきゅう", m: "billing, claim" },
+      { w: "求める", r: "もとめる", m: "to seek, request" },
+      { w: "求人", r: "きゅうじん", m: "job vacancy" }
+    ]
   }
 ];
 
@@ -1194,7 +2572,108 @@ NH.COMPONENT_NAMES = {
   "聿": "brush (ふでづくり)",
   "売": "sell (うる)",
   "舌": "tongue (した)",
-  "耳": "ear (みみ)"
+  "耳": "ear (みみ)",
+  // clinic & hospital pack
+  "疒": "sickness (やまいだれ)",
+  "丙": "third, C grade (へい)",
+  "⻖": "hill, left side (こざとへん)",
+  "完": "complete (かん)",
+  "匸": "hiding box (かくしがまえ)",
+  "矢": "arrow (や)",
+  "串": "skewer (くし)",
+  "心": "heart (こころ)",
+  "耂": "old man (おいかんむり)",
+  "禾": "grain (のぎへん)",
+  "斗": "ladle, measure (と)",
+  "冂": "down box (けいがまえ)",
+  "人": "person (ひと)",
+  "艮": "stopping (こん)",
+  "自": "self, nose (じ)",
+  "畀": "give (bottom of 鼻)",
+  "虍": "tiger (とらかんむり)",
+  "胃": "stomach (い)",
+  "旧": "old (きゅう)",
+  "艹": "grass (くさかんむり)",
+  "楽": "music, ease (らく)",
+  "尸": "body, flag (しかばね)",
+  "句": "phrase (く)",
+  "手": "hand (て)",
+  "蒦": "grasp (right of 護)",
+  "寸": "inch, hand (すん)",
+  "マ": "ma shape",
+  "了": "finish (りょう)",
+  "糸": "thread (いとへん)",
+  "勺": "ladle (しゃく)",
+  "釆": "separate, sow (のごめ)",
+  "彳": "going person (ぎょうにんべん)",
+  "宀": "roof (うかんむり)",
+  "至": "reach (し)",
+  "衤": "clothing (ころもへん)",
+  "刀": "sword (かたな)",
+  "冉": "hanging (ぜん)",
+  "祭": "festival (まつり)",
+  "𠔉": "rolled hands (top of 券)",
+  "呆": "stunned (ほう)",
+  "㑒": "all, together (right of 険)",
+  "正": "correct (せい)",
+  "云": "say, cloud (うん)",
+  "本": "book, root (ほん)",
+  "埶": "plant (top of 熱)",
+  "灬": "fire, four dots (れっか)",
+  "甬": "tube (よう)",
+  "氵": "water (さんずい)",
+  "夜": "night (よる)",
+  "昷": "warm (right of 温)",
+  "且": "moreover (しょ)",
+  "求": "request (きゅう)",
+  "攵": "strike (のぶん)",
+  "尚": "esteem (しょう)",
+  "吊": "hang (bottom of 常)",
+  "皆": "everyone (みな)",
+  "匕": "spoon (さじ)",
+  "米": "rice (こめへん)",
+  "庄": "village (しょう)",
+  "林": "woods (はやし)",
+  "示": "show (しめす)",
+  "火": "fire (ひへん)",
+  "垔": "block (right of 煙)",
+  "主": "master (しゅ)",
+  "音": "sound (おと)",
+  "𠂊": "crouching person (top of 危)",
+  "厄": "misfortune (やく)",
+  "忄": "heart, left side (りっしんべん)",
+  "生": "life (せい)",
+  "厶": "private (む)",
+  "千": "thousand (せん)",
+  "到": "arrive (とう)",
+  "斿": "flag (left of 遊)",
+  "⻌": "road, walking (しんにょう)",
+  "竹": "bamboo (たけかんむり)",
+  "夬": "cut (right of 決)",
+  "原": "origin, plain (げん)",
+  "頁": "page, head (おおがい)",
+  "⺌": "small, on top (つ shape)",
+  "⺕": "hand, snout (けいがしら)",
+  "官": "official (かん)",
+  "者": "person (しゃ)",
+  "⻏": "village, right side (おおざと)",
+  "广": "dotted cliff (まだれ)",
+  "付": "attach (ふ)",
+  "馬": "horse (うまへん)",
+  "土": "earth (つちへん)",
+  "昜": "rising sun (right of 場)",
+  "刂": "knife (りっとう)",
+  "夂": "walking legs (ふゆがしら)",
+  "几": "table (き)",
+  "王": "king, jewel (おうへん)",
+  "里": "village (さと)",
+  "車": "car (くるま)",
+  "多": "many (た)",
+  "重": "heavy (じゅう)",
+  "扌": "hand (てへん)",
+  "是": "right, just (ぜ)",
+  "青": "blue (あお)",
+  "氺": "water, at the bottom (したみず)"
 };
 
 /* Kanji-and-kana practice words.
@@ -1255,5 +2734,59 @@ NH.KANJI_WORDS = [
   { id: "kw-shougakkou", text: "小学校", kana: "しょうがっこう", romaji: "shōgakkō", meaning: "elementary school", level: 3, scene: ["book", "house"] },
   { id: "kw-koukousei", text: "高校生", kana: "こうこうせい", romaji: "kōkōsei", meaning: "high-school student", level: 3, scene: ["book"] },
   { id: "kw-gozen-juuji", text: "午前十時", kana: "ごぜんじゅうじ", romaji: "gozen jūji", meaning: "10 a.m.", level: 3, scene: ["sun"], note: "午前 (a.m.) and 午後 (p.m.) go before the time, not after." },
-  { id: "kw-amanogawa", text: "天の川", kana: "あまのがわ", romaji: "Amanogawa", meaning: "the Milky Way", level: 3, scene: ["star"], note: "天 is read あま here. The Milky Way is at the heart of Tanabata (七夕), the star festival on 7 July." }
+  { id: "kw-amanogawa", text: "天の川", kana: "あまのがわ", romaji: "Amanogawa", meaning: "the Milky Way", level: 3, scene: ["star"], note: "天 is read あま here. The Milky Way is at the heart of Tanabata (七夕), the star festival on 7 July." },
+  // ---- Clinic & hospital pack (pack: "clinic") ----
+  { id: "kw-kusuri", text: "薬", kana: "くすり", romaji: "kusuri", meaning: "medicine", level: 1, pack: "clinic", scene: ["pill"], note: "You 'drink' medicine in Japanese: 薬を飲む (くすりをのむ), even tablets." },
+  { id: "kw-netsu", text: "熱", kana: "ねつ", romaji: "netsu", meaning: "fever; heat", level: 1, pack: "clinic", scene: ["clinic"], note: "熱があります (ねつがあります): I have a fever. Clinics often ask feverish patients to tell reception first." },
+  { id: "kw-chi", text: "血", kana: "ち", romaji: "chi", meaning: "blood", level: 1, pack: "clinic", scene: ["heart"] },
+  { id: "kw-kuchi", text: "口", kana: "くち", romaji: "kuchi", meaning: "mouth; opening", level: 1, pack: "clinic", scene: ["tooth"], note: "As the second part of a word it often turns into ぐち: 入口 (いりぐち), 出口 (でぐち)." },
+  { id: "kw-ha", text: "歯", kana: "は", romaji: "ha", meaning: "tooth", level: 1, pack: "clinic", scene: ["tooth"] },
+  { id: "kw-mimi", text: "耳", kana: "みみ", romaji: "mimi", meaning: "ear", level: 1, pack: "clinic", scene: ["clinic"] },
+  { id: "kw-hana", text: "鼻", kana: "はな", romaji: "hana", meaning: "nose", level: 1, pack: "clinic", scene: ["clinic"], note: "Same sound as 花 (はな, flower); the kanji tells them apart." },
+  { id: "kw-karada", text: "体", kana: "からだ", romaji: "karada", meaning: "body", level: 1, pack: "clinic", scene: ["heart"], note: "お体に気をつけて: take care of yourself." },
+  { id: "kw-iriguchi", text: "入口", kana: "いりぐち", romaji: "iriguchi", meaning: "entrance", level: 1, pack: "clinic", scene: ["clinic", "house"] },
+  { id: "kw-deguchi", text: "出口", kana: "でぐち", romaji: "deguchi", meaning: "exit", level: 1, pack: "clinic", scene: ["clinic", "train"] },
+  { id: "kw-byouin", text: "病院", kana: "びょういん", romaji: "byōin", meaning: "hospital", level: 2, pack: "clinic", scene: ["clinic"], note: "Watch the long vowel: びょういん (hospital) vs びよういん (美容院, hair salon)." },
+  { id: "kw-uketsuke", text: "受付", kana: "うけつけ", romaji: "uketsuke", meaning: "reception (desk)", level: 2, pack: "clinic", scene: ["clinic"], note: "The first stop in any Japanese clinic: hand over your insurance card and patient card here." },
+  { id: "kw-kaikei", text: "会計", kana: "かいけい", romaji: "kaikei", meaning: "paying; the cashier", level: 2, pack: "clinic", scene: ["clinic"], note: "In clinics you pay at the 会計 window after the doctor, once your name or number is called." },
+  { id: "kw-yoyaku", text: "予約", kana: "よやく", romaji: "yoyaku", meaning: "appointment, booking", level: 2, pack: "clinic", scene: ["clinic"], note: "予約しています (よやくしています): I have an appointment." },
+  { id: "kw-bangou", text: "番号", kana: "ばんごう", romaji: "bangō", meaning: "number", level: 2, pack: "clinic", scene: ["clinic"], note: "Many hospitals call you by the number on your ticket (番号札, ばんごうふだ) instead of your name." },
+  { id: "kw-naika", text: "内科", kana: "ないか", romaji: "naika", meaning: "internal medicine", level: 2, pack: "clinic", scene: ["clinic"], note: "The place to go for colds, fevers and stomach trouble: Japan's general practice." },
+  { id: "kw-geka", text: "外科", kana: "げか", romaji: "geka", meaning: "surgery (department)", level: 2, pack: "clinic", scene: ["clinic"], note: "外 is read げ here, not がい. Also the place for cuts and injuries." },
+  { id: "kw-shika", text: "歯科", kana: "しか", romaji: "shika", meaning: "dentistry, dentist", level: 2, pack: "clinic", scene: ["tooth"], note: "Dental clinics often call themselves 歯医者 (はいしゃ) in speech." },
+  { id: "kw-ganka", text: "眼科", kana: "がんか", romaji: "ganka", meaning: "eye clinic", level: 2, pack: "clinic", scene: ["clinic"] },
+  { id: "kw-yakkyoku", text: "薬局", kana: "やっきょく", romaji: "yakkyoku", meaning: "pharmacy", level: 2, pack: "clinic", scene: ["pill"], note: "Clinics usually give you a prescription to take to a separate 薬局 nearby; look for 処方せん受付 on the door." },
+  { id: "kw-isha", text: "医者", kana: "いしゃ", romaji: "isha", meaning: "doctor", level: 2, pack: "clinic", scene: ["clinic"], note: "Address the doctor as 先生 (せんせい). Signs and forms say 医師 (いし)." },
+  { id: "kw-kanja", text: "患者", kana: "かんじゃ", romaji: "kanja", meaning: "patient", level: 2, pack: "clinic", scene: ["clinic"], note: "Signs say 患者様 (かんじゃさま): the polite さま." },
+  { id: "kw-shoshin", text: "初診", kana: "しょしん", romaji: "shoshin", meaning: "first visit", level: 2, pack: "clinic", scene: ["clinic"], note: "On a first visit you fill in a questionnaire (問診票, もんしんひょう) about your symptoms." },
+  { id: "kw-saishin", text: "再診", kana: "さいしん", romaji: "saishin", meaning: "follow-up visit", level: 2, pack: "clinic", scene: ["clinic"] },
+  { id: "kw-shinsatsu", text: "診察", kana: "しんさつ", romaji: "shinsatsu", meaning: "medical examination", level: 2, pack: "clinic", scene: ["clinic"], note: "The doctor's room is the 診察室 (しんさつしつ)." },
+  { id: "kw-kensa", text: "検査", kana: "けんさ", romaji: "kensa", meaning: "test, check-up", level: 2, pack: "clinic", scene: ["clinic"] },
+  { id: "kw-ketsueki", text: "血液", kana: "けつえき", romaji: "ketsueki", meaning: "blood (medical)", level: 2, pack: "clinic", scene: ["heart"], note: "血液検査 (けつえきけんさ) is a blood test; 血液型 (けつえきがた) is blood type." },
+  { id: "kw-taion", text: "体温", kana: "たいおん", romaji: "taion", meaning: "body temperature", level: 2, pack: "clinic", scene: ["clinic"], note: "Japan measures in Celsius: 37.5 degrees and up usually counts as a fever." },
+  { id: "kw-itai", text: "痛い", kana: "いたい", romaji: "itai", meaning: "it hurts; painful", level: 2, pack: "clinic", scene: ["heart"], note: "Point and say ここが痛いです (ここがいたいです): it hurts here." },
+  { id: "kw-chuui", text: "注意", kana: "ちゅうい", romaji: "chūi", meaning: "caution, care", level: 2, pack: "clinic", scene: ["clinic"], note: "Printed at the top of warnings, often in a red or yellow box." },
+  { id: "kw-kiken", text: "危険", kana: "きけん", romaji: "kiken", meaning: "danger", level: 2, pack: "clinic", scene: ["clinic"], note: "The adjective is 危ない (あぶない), which children's signs spell in hiragana." },
+  { id: "kw-kinen", text: "禁煙", kana: "きんえん", romaji: "kin'en", meaning: "no smoking", level: 2, pack: "clinic", scene: ["clinic"], note: "Hospitals post 院内禁煙 (いんないきんえん): no smoking anywhere inside." },
+  { id: "kw-menkai", text: "面会", kana: "めんかい", romaji: "menkai", meaning: "visiting (a patient)", level: 2, pack: "clinic", scene: ["clinic"], note: "Visitors sign in at 面会受付 and keep to 面会時間 (visiting hours)." },
+  { id: "kw-ryoukin", text: "料金", kana: "りょうきん", romaji: "ryōkin", meaning: "fee, charge", level: 2, pack: "clinic", scene: ["parking"] },
+  { id: "kw-nikai", text: "二階", kana: "にかい", romaji: "nikai", meaning: "second floor", level: 2, pack: "clinic", scene: ["clinic"], note: "Floors count from the ground: 一階 (いっかい) is the ground floor. Boards often write 1階 or 1F." },
+  { id: "kw-machiaishitsu", text: "待合室", kana: "まちあいしつ", romaji: "machiaishitsu", meaning: "waiting room", level: 3, pack: "clinic", scene: ["clinic"] },
+  { id: "kw-shinsatsuken", text: "診察券", kana: "しんさつけん", romaji: "shinsatsuken", meaning: "patient card", level: 3, pack: "clinic", scene: ["clinic"], note: "Each clinic gives you its own card on the first visit; bring it every time after." },
+  { id: "kw-hokenshou", text: "保険証", kana: "ほけんしょう", romaji: "hokenshō", meaning: "health insurance card", level: 3, pack: "clinic", scene: ["clinic"], note: "Reception asks for it on a first visit and at the start of each month. Now often a My Number card (マイナ保険証)." },
+  { id: "kw-jibika", text: "耳鼻科", kana: "じびか", romaji: "jibika", meaning: "ear, nose and throat clinic", level: 3, pack: "clinic", scene: ["clinic"], note: "Ear 耳 + nose 鼻 + department 科. The full name is 耳鼻咽喉科 (じびいんこうか)." },
+  { id: "kw-shounika", text: "小児科", kana: "しょうにか", romaji: "shōnika", meaning: "paediatrics", level: 3, pack: "clinic", scene: ["clinic"] },
+  { id: "kw-hifuka", text: "皮膚科", kana: "ひふか", romaji: "hifuka", meaning: "dermatology (skin)", level: 3, pack: "clinic", scene: ["clinic"] },
+  { id: "kw-kyuukyuusha", text: "救急車", kana: "きゅうきゅうしゃ", romaji: "kyūkyūsha", meaning: "ambulance", level: 3, pack: "clinic", scene: ["clinic"], note: "Call 119 for an ambulance or the fire brigade. Say 救急です (きゅうきゅうです) when they answer." },
+  { id: "kw-hijouguchi", text: "非常口", kana: "ひじょうぐち", romaji: "hijōguchi", meaning: "emergency exit", level: 3, pack: "clinic", scene: ["clinic"], note: "The green running-figure sign. 口 turns into ぐち after 非常." },
+  { id: "kw-keshoushitsu", text: "化粧室", kana: "けしょうしつ", romaji: "keshōshitsu", meaning: "restroom", level: 3, pack: "clinic", scene: ["clinic"], note: "A polite sign word for toilets, literally 'make-up room'. Speech uses トイレ or お手洗い." },
+  { id: "kw-kangoshi", text: "看護師", kana: "かんごし", romaji: "kangoshi", meaning: "nurse", level: 3, pack: "clinic", scene: ["clinic"] },
+  { id: "kw-chuushajou", text: "駐車場", kana: "ちゅうしゃじょう", romaji: "chūshajō", meaning: "car park", level: 3, pack: "clinic", scene: ["parking"], note: "Look for the big P. 場 is じょう here, though alone it is ば (place)." },
+  { id: "kw-chuushaken", text: "駐車券", kana: "ちゅうしゃけん", romaji: "chūshaken", meaning: "parking ticket", level: 3, pack: "clinic", scene: ["parking"], note: "Hospital car parks are often free or cheap if you get the ticket stamped (処理) at the 会計 desk." },
+  { id: "kw-sangai", text: "三階", kana: "さんがい", romaji: "sangai", meaning: "third floor", level: 3, pack: "clinic", scene: ["clinic"], note: "Irregular: 三階 is さんがい, with が. 何階 (なんがい) asks which floor." },
+  { id: "kw-yoyaku-shiteimasu", text: "予約しています", kana: "よやくしています", romaji: "yoyaku shite imasu", meaning: "I have an appointment", level: 3, pack: "clinic", scene: ["clinic"], note: "Say it at reception, then your name." },
+  { id: "kw-hajimete-desu", text: "初めてです", kana: "はじめてです", romaji: "hajimete desu", meaning: "it's my first time (here)", level: 3, pack: "clinic", scene: ["clinic"], note: "Tells reception you need a first-visit questionnaire and a new patient card." },
+  { id: "kw-koko-ga-itai", text: "ここが痛いです", kana: "ここがいたいです", romaji: "koko ga itai desu", meaning: "it hurts here", level: 3, pack: "clinic", scene: ["heart"] },
+  { id: "kw-netsu-ga-arimasu", text: "熱があります", kana: "ねつがあります", romaji: "netsu ga arimasu", meaning: "I have a fever", level: 3, pack: "clinic", scene: ["clinic"] },
+  { id: "kw-hokenshou-onegai", text: "保険証をお願いします", kana: "ほけんしょうをおねがいします", romaji: "hokenshō o onegai shimasu", meaning: "your insurance card, please", level: 3, pack: "clinic", scene: ["clinic"], note: "What reception says to you. を is said お." }
 ];
