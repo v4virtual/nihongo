@@ -2,7 +2,9 @@
  * Each line is a list of tokens: a plain string (kana, punctuation) or
  * [text, reading, meaning] for a word you can tap. The reading is hiragana and
  * sits over the kanji as furigana; it is "" for words already in kana.
- * `en` holds one translation per line. */
+ * `en` holds one translation per line. Each line is a review card in Today
+ * ("what does this say?"); `cards` groups lines that only make sense
+ * together, by line index. */
 window.NH = window.NH || {};
 
 NH.SIGNS = [
@@ -26,7 +28,7 @@ NH.SIGNS = [
     note: "Hospital and clinic car parks are often free or cheap for patients, but only once the 会計 desk has processed (処理) your ticket. 下さい and ください are the same word; signs use both.",
   },
   {
-    id: "questionnaire-desk", pack: "clinic", look: "notice", title: "A request to parents", level: 3,
+    id: "questionnaire-desk", pack: "clinic", look: "notice", title: "A request to parents", level: 3, cards: [[0], [1], [2, 3, 4]],
     where: "Taped to the stand where you fill in the first-visit questionnaire",
     lines: [
       { head: true, t: [["保護者", "ほごしゃ", "parents, guardians"], "の", ["みなさま", "", "everyone (polite)"], "へ", ["お願い", "おねがい", "a request"]] },
@@ -130,7 +132,7 @@ NH.SIGNS = [
     note: "午後 (p.m.) goes before the time and covers both times here. 〜 means 'to' between two times.",
   },
   {
-    id: "fever", pack: "clinic", look: "warning", title: "If you have a fever", level: 3,
+    id: "fever", pack: "clinic", look: "warning", title: "If you have a fever", level: 3, cards: [[0, 1]],
     where: "On the clinic's front door",
     lines: [
       { t: [["熱", "ねつ", "fever"], "が", ["ある", "", "have"], ["方", "かた", "people (polite)"], "は、"] },

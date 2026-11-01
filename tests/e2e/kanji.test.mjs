@@ -181,6 +181,31 @@ describe("clinic & hospital pack", () => {
   }));
 });
 
+describe("signs in review", () => {
+  test("practice: pick what a line of a sign says", T, () => withPage("kanji-read", {}, async (page) => {
+    await page.locator(".btn", { hasText: "Practice reading" }).click();
+    await page.waitForURL(/#kanji-signquiz$/);
+    assert.equal(await page.locator(".task-label").textContent(), "What does this sign say?");
+    assert.equal(await page.locator(".sign-task .ksign").count(), 1);
+    assert.equal(await page.locator(".sign-opts .qopt").count(), 4);
+    await page.locator(".sign-opts .qopt").first().click();
+    assert.equal(await page.locator(".sign-opts .qopt.right").count(), 1);
+    assert.match(await page.locator(".feedback").textContent(), / → /);
+    assert.equal((await page.evaluate(() => window.__said)).length, 1, "the line is read aloud");
+  }));
+
+  test("a sign line due in Today comes back as a sign task", T, () => withPage("kanji-today", { init: `if (!sessionStorage.getItem("seeded")) { sessionStorage.setItem("seeded", "1");
+    const now = Date.now(), cards = { "s:fever.0": { s: 2, d: 5, reps: 1, lapses: 0, last: now - 5 * 864e5, due: now - 864e5 } };
+    localStorage.setItem("kaku.v1", JSON.stringify({ settings: { sound: false, dailyNew: 0, dailyKanji: 0 }, progress: {}, srs: { cards } })); }` }, async (page) => {
+    assert.match(await page.locator(".today-preview").textContent(), /熱がある方…/);
+    await page.getByRole("button", { name: "Start", exact: true }).click();
+    await page.waitForURL(/#kanji-session$/);
+    assert.match(await page.locator(".sign-task .ksign").textContent(), /受付/);
+    await page.locator(".sign-opts .qopt", { hasText: "If you have a fever, please tell reception." }).click();
+    await page.waitForFunction(() => JSON.parse(localStorage.getItem("kaku.v1")).srs.cards["s:fever.0"].reps === 2, null, { timeout: 5000 });
+  }));
+});
+
 describe("stroke endings on kanji pages", () => {
   test("sweeps and hooks are marked and listed; stops fill in the rest", T, () => withPage("k-4e5d", {}, async (page) => {
     assert.equal(await page.locator(".hero-card .so-harai").count(), 1);

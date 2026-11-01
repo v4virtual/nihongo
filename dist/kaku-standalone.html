@@ -883,6 +883,9 @@ input[type="range"] { accent-color: var(--line-h); }
 
 .read-task { justify-items: center; }
 .read-task .qopts { width: 100%; }
+.qopts.sign-opts { grid-template-columns: 1fr; gap: 8px; }
+.qopts.sign-opts .qopt { min-height: 52px; font: 600 calc(15px * var(--ts))/1.35 var(--f-ui); text-align: left; padding: 10px 14px; }
+.sign-task .ksign { max-width: 520px; }
 .stage .sign-romaji { color: var(--panel-fg, #111); background: var(--panel-bg, #fff); padding: 2px 12px; border-radius: 8px; }
 
 /* ── Say it ─────────────────────────────────────────────── */
@@ -7909,7 +7912,9 @@ NH.KANJI_WORDS = [
  * Each line is a list of tokens: a plain string (kana, punctuation) or
  * [text, reading, meaning] for a word you can tap. The reading is hiragana and
  * sits over the kanji as furigana; it is "" for words already in kana.
- * `en` holds one translation per line. */
+ * `en` holds one translation per line. Each line is a review card in Today
+ * ("what does this say?"); `cards` groups lines that only make sense
+ * together, by line index. */
 window.NH = window.NH || {};
 
 NH.SIGNS = [
@@ -7933,7 +7938,7 @@ NH.SIGNS = [
     note: "Hospital and clinic car parks are often free or cheap for patients, but only once the 会計 desk has processed (処理) your ticket. 下さい and ください are the same word; signs use both.",
   },
   {
-    id: "questionnaire-desk", pack: "clinic", look: "notice", title: "A request to parents", level: 3,
+    id: "questionnaire-desk", pack: "clinic", look: "notice", title: "A request to parents", level: 3, cards: [[0], [1], [2, 3, 4]],
     where: "Taped to the stand where you fill in the first-visit questionnaire",
     lines: [
       { head: true, t: [["保護者", "ほごしゃ", "parents, guardians"], "の", ["みなさま", "", "everyone (polite)"], "へ", ["お願い", "おねがい", "a request"]] },
@@ -8037,7 +8042,7 @@ NH.SIGNS = [
     note: "午後 (p.m.) goes before the time and covers both times here. 〜 means 'to' between two times.",
   },
   {
-    id: "fever", pack: "clinic", look: "warning", title: "If you have a fever", level: 3,
+    id: "fever", pack: "clinic", look: "warning", title: "If you have a fever", level: 3, cards: [[0, 1]],
     where: "On the clinic's front door",
     lines: [
       { t: [["熱", "ねつ", "fever"], "が", ["ある", "", "have"], ["方", "かた", "people (polite)"], "は、"] },
@@ -8554,7 +8559,7 @@ window.NH = window.NH || {};
  *
  * Card ids: "k:か" (a kana or combo), "w:mizu" (word), "p:ohayou" (phrase),
  * "r:<id>" (reading item), "j:日" (kanji), "v:kw-nihon" (word written with
- * kanji). Times are in days (ms / DAY). */
+ * kanji), "s:parking-ticket.1" (a line of a sign with kanji). Times are in days (ms / DAY). */
 window.NH = window.NH || {};
 
 (function () {
@@ -8659,6 +8664,7 @@ window.NH = window.NH || {};
     if (id[0] === "p") return NH.PHRASES.find((w) => w.id === key)?.kana;
     if (id[0] === "r") return (NH.READING || []).find((r) => r.id === key)?.kana.replace(/\s/g, "");
     if (id[0] === "v") return (NH.KANJI_WORDS || []).find((w) => w.id === key)?.text;
+    if (id[0] === "s") return NH.Signs?.cardOf(id)?.text;
     return key;
   }
 
@@ -8696,6 +8702,7 @@ window.NH = window.NH || {};
       ...(NH.READING || []).map((r) => "r:" + r.id),
       ...NH.PHRASES.map((w) => "p:" + w.id),
       ...(NH.KANJI_WORDS || []).map((w) => "v:" + w.id),
+      ...(NH.Signs?.cardIds() || []),
     ].filter((id) => !dk.cards[id] && ready(id))
       .sort((a, b) => levelOf(a) - levelOf(b));
     for (const id of others) { if (otherLeft-- <= 0) break; fresh.push(id); }
@@ -8703,6 +8710,7 @@ window.NH = window.NH || {};
   }
   function levelOf(id) {
     const key = id.slice(2);
+    if (id[0] === "s") return NH.Signs?.cardOf(id)?.sign.level || 3;
     const list = { w: NH.WORDS, p: NH.PHRASES, r: NH.READING, v: NH.KANJI_WORDS }[id[0]] || [];
     const item = list.find((w) => w.id === key);
     return item?.level || 2;
@@ -10513,7 +10521,8 @@ window.NH = window.NH || {};
     const prefix = S.id === "hiragana" ? "" : `${S.id}-`;
     const isKanji = S.id === "kanji";
     const total = due.length + fresh.length;
-    const preview = [...due, ...fresh].slice(0, 12).map((id) => SRS.itemText(id));
+    // A sign line is long: show its start.
+    const preview = [...due, ...fresh].slice(0, 12).map((id) => { const t = SRS.itemText(id); return id[0] === "s" && [...t].length > 6 ? [...t].slice(0, 5).join("") + "…" : t; });
     const limit = store.settings.dailyNew ?? 5;
     const limits = h("div.chips", { role: "radiogroup", "aria-label": "New kana per day" }, [3, 5, 10].map((n) =>
       h("button.chip", { type: "button", role: "radio", "aria-checked": String(n === limit), onclick: () => { store.set("dailyNew", n); UI.go(here); } }, `${n} a day`)));
@@ -10608,6 +10617,7 @@ window.NH = window.NH || {};
   function reviewType(id) {
     const n = SRS.card(id)?.reps || 0;
     if (id[0] === "r") return "read";
+    if (id[0] === "s") return "sign";
     if (id === "k:ー") return "write"; // a mark has no sound of its own to hear or name
     if (id[0] === "k") return ["write", "recognize", "hear"][n % 3];
     return ["write", "recognize"][n % 2];
@@ -10674,7 +10684,8 @@ window.NH = window.NH || {};
     }
 
     // ── task types ──
-    const RENDER = { intro, write: (t, done) => writeTask(t, done, "memory"), hear: (t, done) => writeTask(t, done, "memory", true), recognize, read: (t, done) => NH.ReadTask(t, { panel, cellWrap, later, finish: finishTask, style }, done) };
+    const RENDER = { intro, write: (t, done) => writeTask(t, done, "memory"), hear: (t, done) => writeTask(t, done, "memory", true), recognize, read: (t, done) => NH.ReadTask(t, { panel, cellWrap, later, finish: finishTask, style }, done),
+      sign: (t, done) => NH.Signs.task(t, { panel, cellWrap, later, finish: finishTask, style }, done) };
 
     function prompt(label, main, sub, speakText) {
       return h("div.task-prompt",
@@ -10686,6 +10697,7 @@ window.NH = window.NH || {};
 
     function intro(t, done) {
       if (t.id[0] === "r") return RENDER.read(t, done);
+      if (t.id[0] === "s") return RENDER.sign(t, done);
       const d = describe(t.id);
       const svg = UI.strokeOrderSvg(d.text);
       panel.append(
@@ -11489,6 +11501,24 @@ window.NH = window.NH || {};
   const kanjiOf = (sign) => [...new Set(sign.lines.flatMap((l) => l.t.flatMap((t) => [...(typeof t === "string" ? t : t[0])])).filter((c) => IS_KANJI.test(c)))];
   const started = (cs) => cs.filter((c) => NH.SRS.card("j:" + c)).length;
 
+  /* Review cards: one per line, or per group of lines in `sign.cards`.
+   * Id "s:parking-ticket.2" is the third card of that sign. */
+  const groupsOf = (sign) => sign.cards || sign.lines.map((_, i) => [i]);
+  const cardIds = () => SIGNS.flatMap((sg) => groupsOf(sg).map((_, n) => `s:${sg.id}.${n}`));
+  function cardOf(id) {
+    const m = /^s:([a-z0-9-]+)\.(\d+)$/.exec(id);
+    const sign = m && byId(m[1]);
+    const group = sign && groupsOf(sign)[+m[2]];
+    if (!group) return null;
+    const lines = group.map((i) => sign.lines[i]);
+    return {
+      sign, lines,
+      text: lines.map((l) => l.t.map((t) => (typeof t === "string" ? t : t[0])).join("")).join(""),
+      en: group.map((i) => sign.en[i]).join(" "),
+      say: lines.map(lineSpeech).join("。"),
+    };
+  }
+
   // The sign, line by line; words are buttons when `onWord` is given.
   function render(sign, { onWord, mini = false } = {}) {
     const lines = mini ? sign.lines.slice(0, 2) : sign.lines;
@@ -11506,6 +11536,7 @@ window.NH = window.NH || {};
   function tab(body) {
     body.append(
       h("p.intro", "Real signs from a Japanese clinic, written the way you'll meet them. Tap any word for its reading and meaning; turn furigana off once you can read them."),
+      h("div.cta-row.left", UI.btn("Practice reading", () => UI.go("kanji-signquiz"), "primary", "play")),
       h("div.word-tools", UI.furiganaToggle()));
     for (const P of NH.Kanji.PACKS) {
       const list = SIGNS.filter((x) => (x.pack || "n5") === P.id);
@@ -11588,7 +11619,45 @@ window.NH = window.NH || {};
           next ? h("a.pg", { href: `#ksign-${next.id}`, "aria-label": `Next: ${next.title}` }, h("span", next.title), UI.icon("next")) : h("span"))));
   }
 
-  NH.Signs = { tab, view, render, lineSpeech, speech, kanjiOf, byId };
+  // ── practice and Today: "what does this sign say?" ───────
+  NH.Routes.push({ match: /^kanji-signquiz$/, render: () => {
+    // Lines whose kanji you've started come first; the rest fill up to ten.
+    const ids = cardIds();
+    const ready = NH.shuffle(ids.filter((id) => NH.SRS.ready(id)));
+    const rest = NH.shuffle(ids.filter((id) => !NH.SRS.ready(id)));
+    const tasks = [...ready, ...rest].slice(0, 10).map((id) => ({ id, type: "sign" }));
+    NH.Today.runSession(tasks, { title: "看板 Signs", back: "kanji-read", practiceOnly: true });
+  } });
+
+  // A session task: pick what a line of a sign means. Other lines of the same
+  // sign make the best wrong answers, then lines from other signs.
+  function task(t, { panel, cellWrap, finish, style }, done) {
+    const c = cardOf(t.id);
+    const others = cardIds().filter((id) => id !== t.id).map(cardOf);
+    const near = NH.shuffle(others.filter((o) => o.sign === c.sign)), far = NH.shuffle(others.filter((o) => o.sign !== c.sign));
+    const wrong = [...new Set([...near.slice(0, 2), ...far].map((o) => o.en))].filter((e) => e !== c.en).slice(0, 3);
+    const options = NH.shuffle([c.en, ...wrong]);
+    const fig = render({ ...c.sign, lines: c.lines });
+    const fb = h("p.feedback", { "aria-live": "polite" });
+    const shownAt = performance.now();
+    panel.append(h("div.task-prompt", h("span.task-label", "What does this sign say?")), fb);
+    const opts = h("div.qopts.latin.sign-opts", options.map((o) => h("button.qopt", { type: "button", onclick: (e) => choose(o, e.currentTarget) }, o)));
+    cellWrap.append(h("div.task-card.read-task.sign-task", fig, opts));
+    function choose(o, el) {
+      if (opts.dataset.answered) return;
+      opts.dataset.answered = "1";
+      const ok = o === c.en;
+      opts.querySelectorAll("button").forEach((b) => { b.disabled = true; if (b.textContent === c.en) b.classList.add("right"); else if (b === el) b.classList.add("wrong"); });
+      ok ? NH.Audio.accept(style, 3, 5) : NH.Audio.reject(style);
+      fb.className = ok ? "feedback ok" : "feedback no";
+      fb.textContent = `${c.text} → ${c.en}`;
+      UI.announce(fb.textContent);
+      UI.say(c.say, { quiet: true });
+      finish(NH.SRS.gradeChoice(ok, performance.now() - shownAt), done);
+    }
+  }
+
+  NH.Signs = { tab, view, render, lineSpeech, speech, kanjiOf, byId, cardIds, cardOf, task };
 })();
 
 /* js/backup.js */

@@ -102,6 +102,43 @@ describe("signs to read", () => {
   });
 });
 
+describe("signs in Today", () => {
+  const fresh = () => load(ALL_DATA);
+  const seen = { s: 9, d: 5, reps: 1, last: T0, due: T0 + 9 * NH.SRS.DAY };
+
+  test("each line is a card, and lines that only make sense together share one", () => {
+    const ids = NH.Signs.cardIds();
+    assert.equal(ids.length, NH.SIGNS.reduce((n, sg) => n + (sg.cards || sg.lines).length, 0));
+    assert.deepEqual([...ids.filter((id) => id.startsWith("s:questionnaire-desk."))], ["s:questionnaire-desk.0", "s:questionnaire-desk.1", "s:questionnaire-desk.2"]);
+    for (const id of ids) {
+      const c = NH.Signs.cardOf(id);
+      assert.ok(c.text && c.en && c.say, id);
+    }
+    const fever = NH.Signs.cardOf("s:fever.0");
+    assert.equal(fever.text, "熱がある方は、受付におしらせください。");
+    assert.equal(fever.en, "If you have a fever, please tell reception.");
+    // Every sign is used whole: each line in exactly one card.
+    for (const sg of NH.SIGNS) assert.deepEqual([...(sg.cards || sg.lines.map((_, i) => [i])).flat()].sort((a, b) => a - b), [...sg.lines.map((_, i) => i)], sg.id);
+  });
+
+  test("a sign line waits until its kanji and kana are started, then joins Today", () => {
+    const N = fresh();
+    // Nothing else can be ready, so the queue shows what the signs do.
+    N.WORDS.length = 0; N.PHRASES.length = 0; N.READING.length = 0; N.KANJI_WORDS.length = 0;
+    const cards = N.store.srs().cards;
+    for (const c of "があるはにおしらせください") cards["k:" + c] = { ...seen };
+    for (const c of "たか") cards["k:" + c] = { ...seen };
+    N.store.set("dailyKanji", 0);
+    assert.equal(N.SRS.ready("s:fever.0"), false, "熱, 方, 受 and 付 not started yet");
+    for (const c of "熱方受") cards["j:" + c] = { ...seen };
+    assert.equal(N.SRS.ready("s:fever.0"), false, "付 still missing");
+    cards["j:付"] = { ...seen };
+    assert.equal(N.SRS.ready("s:fever.0"), true);
+    assert.equal(N.SRS.itemText("s:fever.0"), "熱がある方は、受付におしらせください。");
+    assert.ok(N.SRS.today(T0).fresh.includes("s:fever.0"));
+  });
+});
+
 describe("kanji in the queue", () => {
   const fresh = () => load(ALL_DATA);
   const startHiragana = (N) => { for (const c of N.SRS.kanaOrder("hiragana").slice(0, 46)) N.store.srs().cards["k:" + c] = { s: 5, d: 5, reps: 1, last: T0, due: T0 + 9 * NH.SRS.DAY }; };
